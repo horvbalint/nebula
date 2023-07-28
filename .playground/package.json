@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "@nuxt/devtools": "^0.7.1"
+  }
+}

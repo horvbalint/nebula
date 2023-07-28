@@ -53,7 +53,7 @@ thead {
   left: 0;
   height: 44px;
 }
-.ut-table th {
+.neb-table th {
   flex: 1;
   padding: $space-xss $space-m;
   text-align: left;

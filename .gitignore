@@ -16,8 +16,4 @@ dist
 # Local History
 .history
 
-# VSCode
-.vscode/
-
 modules/runtime
-.playground

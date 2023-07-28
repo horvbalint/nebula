@@ -1,29 +1,22 @@
-<script>
-export default {
-  props: {
-    text: {
-      type: String,
-    },
-    path: {
-      type: String,
-    },
-  },
-  data() {
-    return {
-
-    }
-  },
-}
+<script lang="ts" setup>
+defineProps<{
+  text?: string
+  path?: string
+}>()
 </script>
 
 <template>
-  <NuxtLink :to="path" class="navigation-item" active-class="active">
-    <slot>{{ text }}</slot>
+  <NuxtLink :to="path" class="neb-header-nav-item" active-class="active">
+    <slot>
+      <p class="slot-text">
+        {{ text }}
+      </p>
+    </slot>
   </NuxtLink>
 </template>
 
 <style lang="scss" scoped>
-.navigation-item {
+.neb-header-nav-item {
   padding: 0 $space-xss;
   font-size: $text-sm;
   border-radius: $radius-default;
@@ -48,10 +41,14 @@ export default {
     background: $neutral-color-50;
     box-shadow: $primary-focus-shadow;
   }
+
+  .slot-text {
+    white-space: nowrap;
+  }
 }
 
 @media only screen and (max-width: $tablet) {
-  .navigation-item {
+  .neb-header-nav-item {
     width: 100%;
   }
 }

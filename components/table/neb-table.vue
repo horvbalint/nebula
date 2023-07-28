@@ -41,13 +41,13 @@ export default defineNuxtComponent({
 </script>
 
 <template>
-  <div class="ut-table-component">
+  <div class="neb-table-component">
     <header class="table-header">
       <h2>Ebek listája</h2>
     </header>
 
-    <table class="ut-table">
-      <ut-table-header :columns="columns" @sort="sortColumn($event.sortKey, $event.sortDir)" />
+    <table class="neb-table">
+      <neb-table-header :columns="columns" @sort="sortColumn($event.sortKey, $event.sortDir)" />
 
       <tr v-for="(row, index) in sortedData" :key="index">
         <td v-for="(cell, key) in row" :key="key">
@@ -63,7 +63,7 @@ export default defineNuxtComponent({
 </template>
 
 <style lang="scss" scoped>
-.ut-table-component {
+.neb-table-component {
   border: 1px solid $neutral-color-200;
   border-radius: $radius-default;
   box-shadow: $shadow-sm;
@@ -94,7 +94,7 @@ export default defineNuxtComponent({
   bottom: 0;
   left: 0;
 }
-.ut-table {
+.neb-table {
   width: 100%;
 
   td {

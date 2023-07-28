@@ -28,11 +28,11 @@ export default defineNuxtComponent({
 </script>
 
 <template>
-  <div class="ut-content-header" :class="{ 'has-separator': hasSeparator }">
+  <div class="neb-content-header" :class="{ 'has-separator': hasSeparator }">
     <slot name="top" />
 
     <div
-      class="ut-content-wrapper"
+      class="neb-content-wrapper"
       :class="{
         page: type === 'page',
         section: type === 'section',
@@ -53,7 +53,7 @@ export default defineNuxtComponent({
 </template>
 
 <style lang="scss" scoped>
-.ut-content-header {
+.neb-content-header {
   display: flex;
   flex-direction: column;
   gap: $space-m;
@@ -63,7 +63,7 @@ export default defineNuxtComponent({
     border-bottom: 1px solid $neutral-color-200;
   }
 }
-.ut-content-wrapper {
+.neb-content-wrapper {
   width: 100%;
   display: flex;
   flex-wrap: wrap;

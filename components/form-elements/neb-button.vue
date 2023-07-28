@@ -1,28 +1,15 @@
-<script lang="ts">
-export default {
-  props: {
-    type: {
-      type: String,
-      default: 'primary',
-      validator(value: string) {
-        return ['primary', 'secondary', 'secondary-neutral', 'tertiary', 'tertiary-neutral', 'link', 'link-neutral'].includes(value)
-      },
-    },
-    loading: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  data() {
-    return {
-
-    }
-  },
-}
+<script lang="ts" setup>
+withDefaults(defineProps<{
+  loading?: boolean
+  type?: 'primary' | 'secondary' | 'secondary-neutral' | 'tertiary' | 'tertiary-neutral' | 'link' | 'link-neutral'
+}>(), {
+  loading: false,
+  type: 'primary',
+})
 </script>
 
 <template>
-  <button class="ut-button" :class="type">
+  <button class="neb-button" :class="type">
     <slot v-if="!loading" />
 
     <icon v-else name="eos-icons:loading" />
@@ -30,7 +17,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-.ut-button {
+.neb-button {
   height: 40px;
   padding: $space-xss $space-s;
   border-radius: $radius-default;
@@ -52,7 +39,7 @@ export default {
   }
 }
 
-.ut-button.primary {
+.neb-button.primary {
   background: $primary-color-600;
   color: #fff;
 
@@ -69,7 +56,7 @@ export default {
 }
 
 //SECONDARY STYLES
-.ut-button.secondary {
+.neb-button.secondary {
   background: $primary-color-50;
   border: 1px solid $primary-color-200;
   color: $primary-color-700;
@@ -89,7 +76,7 @@ export default {
   }
 }
 
-.ut-button.secondary-neutral {
+.neb-button.secondary-neutral {
   background: #fff;
   border: 1px solid $neutral-color-300;
   color: $neutral-color-700;
@@ -111,7 +98,7 @@ export default {
 }
 
 //TERTIARY STYLES
-.ut-button.tertiary {
+.neb-button.tertiary {
   color: $primary-color-700;
   background: none;
   box-shadow: none;
@@ -129,7 +116,7 @@ export default {
   }
 }
 
-.ut-button.tertiary-neutral {
+.neb-button.tertiary-neutral {
   color: $neutral-color-600;
   background: none;
   box-shadow: none;
@@ -148,7 +135,7 @@ export default {
 }
 
 //LINK STYLES
-.ut-button.link {
+.neb-button.link {
   font-size: $text-xs;
   color: $primary-color-700;
   background: none;
@@ -166,7 +153,7 @@ export default {
   }
 }
 
-.ut-button.link-neutral {
+.neb-button.link-neutral {
   font-size: $text-xs;
   color: $neutral-color-600;
   background: none;

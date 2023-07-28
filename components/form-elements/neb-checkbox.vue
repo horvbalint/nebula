@@ -1,54 +1,45 @@
-<script lang="ts">
-export default {
-  props: {
-    value: { type: String },
-    modelValue: {
-      default: false,
-      type: [Boolean, Array],
-    },
-    trueValue: { default: true },
-    falseValue: { default: false },
-  },
-  emits: ['update:modelValue'],
-  data() {
-    return {
+<script lang="ts" setup generic="T">
+const props = defineProps<{
+  modelValue: boolean | T[]
+  value?: T
+  label?: string
+}>()
 
-    }
-  },
-  computed: {
-    isChecked() {
-      if (Array.isArray(this.modelValue))
-        return this.modelValue.includes(this.value)
+const emit = defineEmits<{
+  'update:modelValue': [value: typeof props.modelValue]
+}>()
 
-      return this.modelValue === this.trueValue
-    },
-  },
-  methods: {
-    handleChange(event: Event) {
-      const checkbox = event.target! as HTMLInputElement
-      const isInputChecked = checkbox.checked
+const isChecked = computed(() => {
+  if (Array.isArray(props.modelValue))
+    return props.modelValue.includes(props.value!)
 
-      if (Array.isArray(this.$props.modelValue)) {
-        const newValue = [...this.$props.modelValue]
+  return props.modelValue === true
+})
 
-        if (isInputChecked)
-          newValue.push(this.$props.value)
-        else
-          newValue.splice(newValue.indexOf(this.$props.value), 1)
+function handleChange(event: Event) {
+  const checkbox = event.target! as HTMLInputElement
+  const isInputChecked = checkbox.checked
 
-        this.$emit('update:modelValue', newValue)
-      }
-      else {
-        this.$emit('update:modelValue', isInputChecked ? this.$props.trueValue : this.$props.falseValue)
-      }
-    },
-  },
+  if (Array.isArray(props.modelValue)) {
+    const newValue = [...props.modelValue]
+
+    if (isInputChecked)
+      newValue.push(props.value!)
+    else
+      newValue.splice(newValue.indexOf(props.value!), 1)
+
+    emit('update:modelValue', newValue)
+  }
+  else {
+    emit('update:modelValue', isInputChecked)
+  }
 }
 </script>
 
 <template>
   <label class="container">
-    <slot />
+    <slot>{{ label }}</slot>
+
     <input
       type="checkbox"
       :checked="isChecked"
