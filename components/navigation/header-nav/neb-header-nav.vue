@@ -1,17 +1,30 @@
 <script lang="ts" setup>
-interface Menu {
-  text: string
+interface Route {
+  name: string
   path: string
 }
 
-defineProps<{
-  menus: Menu[]
-}>()
+const props = withDefaults(defineProps<{
+  fromRouter?: boolean
+  routes?: Route[]
+}>(), {
+  fromRouter: true,
+})
+
 defineEmits<{
   logout: []
 }>()
-const router = useRouter()
-console.log(router)
+
+const computedRoutes = computed(() => {
+  if (!props.fromRouter) {
+    if (!props.routes)
+      throw new Error('neb-header-nav: If the "fromRouter" props is set to false, you must provide the "routes" prop.')
+
+    return props.routes
+  }
+
+  return generateNavTree()
+})
 
 const mobileMode = ref(false)
 const showMobileMenu = ref(false)
@@ -32,10 +45,10 @@ onMounted(() => {
       <div class="header-content-main">
         <div class="nav-items">
           <neb-header-nav-item
-            v-for="menu in menus"
-            :key="menu.path"
-            :text="menu.text"
-            :path="menu.path"
+            v-for="route in computedRoutes"
+            :key="route.path"
+            :text="route.name"
+            :path="route.path"
           />
         </div>
 
@@ -64,10 +77,10 @@ onMounted(() => {
 
           <div class="nav-items">
             <neb-header-nav-item
-              v-for="menu in menus"
-              :key="menu.path"
-              :text="menu.text"
-              :path="menu.path"
+              v-for="route in computedRoutes"
+              :key="route.path"
+              :text="route.name"
+              :path="route.path"
             />
           </div>
         </div>
