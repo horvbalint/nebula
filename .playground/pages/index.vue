@@ -23,7 +23,7 @@ const popUp2 = ref(false)
   </div>
 
   <neb-pop-up v-model="popUpOpen">
-    <div class="pop-up-body">
+    <div class="pop-up-body-1">
       <neb-button @click="popUp2 = true">Open second</neb-button>
     </div>
   </neb-pop-up>
@@ -45,6 +45,16 @@ h1 {
   flex-direction: column;
   gap: $space-s;
 }
+.pop-up-body-1 {
+  width: 800px;
+  height: 600px;
+  background: red;
+  border-radius: $radius-default;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .pop-up-body {
   width: 600px;
   height: 400px;

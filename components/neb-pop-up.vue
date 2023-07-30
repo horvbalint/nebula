@@ -11,28 +11,36 @@ defineEmits<{
 <template>
   <teleport v-if="modelValue" to="body">
     <div class="neb-pop-up-component">
-      <slot />
-    </div>
+      <div class="content-wrapper">
+        <slot />
+      </div>
 
-    <div class="topper" @click="$emit('update:modelValue', false)" />
+      <div class="topper" @click="$emit('update:modelValue', false)" />
+    </div>
   </teleport>
 </template>
 
 <style lang="scss" scoped>
 .neb-pop-up-component {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 101;
-}
-.topper {
-  display: none;
+  z-index: 100;
+
+  .content-wrapper {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+  }
+
+  .topper {
+    display: none;
+  }
 }
 </style>
 
 <style lang="scss">
-body .topper:last-child {
+body .neb-pop-up-component:last-child .topper {
   display: block;
   position: fixed;
   top: 0;
@@ -40,6 +48,6 @@ body .topper:last-child {
   right: 0;
   bottom: 0;
   background: rgba($neutral-color-200, 0.8);
-  z-index: 100;
+  z-index: 1;
 }
 </style>
