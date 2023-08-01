@@ -12,6 +12,7 @@ export default defineNuxtModule({
     },
   },
   defaults: {
+    whiteColor: '#FFFFFF',
     primaryColor: '#9E77ED',
     secondaryColor: '#9E77ED',
     neutralColor: '#667085',
@@ -27,13 +28,14 @@ export default defineNuxtModule({
     colorsFileLines.push(':root {')
     colorComponentsFileLines.push(':root {')
 
-    createNeutralShades(colorsFileLines, colorComponentsFileLines, 'neutral-color', options.neutralColor)
+    createNeutralShades(colorsFileLines, colorComponentsFileLines, 'white-color', options.whiteColor)
     createColorShades(colorsFileLines, colorComponentsFileLines, 'primary-color', options.primaryColor)
     createColorShades(colorsFileLines, colorComponentsFileLines, 'secondary-color', options.secondaryColor)
     createColorShades(colorsFileLines, colorComponentsFileLines, 'success-color', options.successColor)
     createColorShades(colorsFileLines, colorComponentsFileLines, 'error-color', options.errorColor)
     createColorShades(colorsFileLines, colorComponentsFileLines, 'warning-color', options.warningColor)
     createColorShades(colorsFileLines, colorComponentsFileLines, 'info-color', options.infoColor)
+    createNeutralShades(colorsFileLines, colorComponentsFileLines, 'neutral-color', options.neutralColor)
 
     colorsFileLines.push('}')
     colorComponentsFileLines.push('}')
@@ -76,7 +78,7 @@ function createColorShades(colorsFileLines: string[], colorComponentsFileLines: 
   const saturationDistToMax = MAX_SATURATION - baseColor.saturationl()
 
   colorsFileLines.push(formatColorToCss(name, baseColor))
-  colorComponentsFileLines.push(formatColorComponentToCss(`${name}-components`, baseColor))
+  colorComponentsFileLines.push(formatColorComponentToCss(`${name}-component`, baseColor))
 
   for (const shade of [25, 50, 100, 200, 300, 400]) {
     const percent = 1 - (shade / 500)
@@ -89,10 +91,10 @@ function createColorShades(colorsFileLines: string[], colorComponentsFileLines: 
     })
 
     colorsFileLines.push(formatColorToCss(`${name}-${shade}`, color))
-    colorComponentsFileLines.push(formatColorComponentToCss(`${name}-components-${shade}`, color))
+    colorComponentsFileLines.push(formatColorComponentToCss(`${name}-component-${shade}`, color))
   }
 
-  for (const shade of [500, 600, 700, 800, 900, 950]) {
+  for (const shade of [500, 600, 700, 800, 900, 950, 975]) {
     const percent = (shade - 500) / 500
 
     const color = new Color ({
@@ -102,7 +104,7 @@ function createColorShades(colorsFileLines: string[], colorComponentsFileLines: 
     })
 
     colorsFileLines.push(formatColorToCss(`${name}-${shade}`, color))
-    colorComponentsFileLines.push(formatColorComponentToCss(`${name}-components-${shade}`, color))
+    colorComponentsFileLines.push(formatColorComponentToCss(`${name}-component-${shade}`, color))
   }
 }
 
@@ -116,7 +118,7 @@ function createNeutralShades(colorsFileLines: string[], colorComponentsFileLines
   const lightnessDistToMax = Math.max(MAX_LIGHTNESS - baseColor.lightness(), 0)
 
   colorsFileLines.push(formatColorToCss(name, baseColor))
-  colorComponentsFileLines.push(formatColorComponentToCss(`${name}-components`, baseColor))
+  colorComponentsFileLines.push(formatColorComponentToCss(`${name}-component`, baseColor))
 
   for (const shade of [25, 50, 100, 200, 300, 400]) {
     const percent = 1 - (shade / 500)
@@ -124,15 +126,15 @@ function createNeutralShades(colorsFileLines: string[], colorComponentsFileLines
     const color = baseColor.lightness(baseColor.lightness() + shifted * lightnessDistToMax)
 
     colorsFileLines.push(formatColorToCss(`${name}-${shade}`, color))
-    colorComponentsFileLines.push(formatColorComponentToCss(`${name}-components-${shade}`, color))
+    colorComponentsFileLines.push(formatColorComponentToCss(`${name}-component-${shade}`, color))
   }
 
-  for (const shade of [500, 600, 700, 800, 900, 950]) {
+  for (const shade of [500, 600, 700, 800, 900, 950, 975]) {
     const percent = (shade - 500) / 500
     const color = baseColor.lightness(baseColor.lightness() - percent * lightnessDistToMin)
 
     colorsFileLines.push(formatColorToCss(`${name}-${shade}`, color))
-    colorComponentsFileLines.push(formatColorComponentToCss(`${name}-components-${shade}`, color))
+    colorComponentsFileLines.push(formatColorComponentToCss(`${name}-component-${shade}`, color))
   }
 }
 

@@ -15,7 +15,8 @@ const popUp2 = ref(false)
 <template>
   <h1>Nebula</h1>
 
-  <neb-input required v-model="input" label="Test input" placeholder="Write here..." />
+  <neb-input required v-model="input" label="Test input" placeholder="Write here..."/>
+  {{ input }}
   <neb-checkbox v-model="checkbox" label="Test checkbox" />
 
   <div class="buttons">
@@ -39,6 +40,13 @@ const popUp2 = ref(false)
 h1 {
   color: var(--primary-color);
 }
+
+.dark {
+  & h1 {
+    color: var(--primary-color-100);
+  }
+}
+
 .buttons {
   max-width: 300px;
   display: flex;

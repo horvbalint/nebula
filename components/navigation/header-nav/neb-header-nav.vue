@@ -197,7 +197,6 @@ header {
     }
   }
 }
-
 .slide-enter-active {
   animation: slide-in var(--duration-default);
 }
@@ -214,10 +213,28 @@ header {
 }
 @keyframes fade {
   0% {
-    box-shadow: 15vw 0px 0px 0px rgba(var(--neutral-color-500), 0);
+    box-shadow: 15vw 0px 0px 0px rgba(var(--neutral-color-component-500), 0);
   }
   100% {
     box-shadow: 15vw 0px 0px 0px var(--neutral-color-500);
+  }
+}
+
+.dark-mode {
+  & header {
+    border-color: var(--neutral-color-800);
+  }
+
+  .mobile-mode {
+    .header-content-main {
+      background: var(--neutral-color-975);
+      border-color: var(--neutral-color-800);
+    }
+    .log-out {
+      & span {
+        color: var(--neutral-color-600);
+      }
+    }
   }
 }
 </style>

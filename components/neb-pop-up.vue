@@ -39,7 +39,7 @@ defineEmits<{
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(var(--neutral-color-components-200), 0.8);
+    background: rgba(var(--neutral-color-component-200), 0.8);
     z-index: 1;
     display: none;
   }

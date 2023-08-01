@@ -11,9 +11,11 @@ const props = withDefaults(defineProps<{
   hint?: string
   required?: boolean
   disabled?: boolean
+  lazy?: boolean
 }>(), {
   required: false,
   disabled: false,
+  lazy: false,
 })
 
 const emit = defineEmits<{
@@ -45,12 +47,26 @@ const computedLeadingIcon = computed(() => {
   }
 })
 
-function handleInput(event: Event) {
-  const input = event.target as HTMLInputElement
-  emit('update:modelValue', input.value)
-}
+const computedAttrs = computed(() => {
+  const attrsCopy = {
+    ...attrs,
+    onBlur: checkValidity,
+  } as any
+
+  if (!props.lazy)
+    attrsCopy.onInput = emitValue
+  else
+    attrsCopy.onChange = emitValue
+
+  return attrsCopy
+})
 
 const input = ref(null as null | HTMLInputElement)
+
+function emitValue() {
+  emit('update:modelValue', input.value!.value)
+}
+
 function checkValidity() {
   errors.value = []
 
@@ -79,12 +95,10 @@ function checkValidity() {
 
         <input
           ref="input"
-          v-bind="$attrs"
+          v-bind="computedAttrs"
           :required="$props.required"
           :disabled="$props.disabled"
           :value="$props.modelValue"
-          @input="handleInput($event)"
-          @blur="checkValidity()"
         >
 
         <slot name="trailing">

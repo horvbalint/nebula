@@ -6,9 +6,9 @@
 }
 
 body {
-  background: #fff;
+  background: var(--light-color);
 }
 
 .dark-mode body {
-  background: black;
+  background: var(--neutral-color-975);
 }
