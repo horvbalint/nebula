@@ -15,31 +15,31 @@ defineProps<{
   </NuxtLink>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .neb-header-nav-item {
-  padding: 0 $space-xss;
-  font-size: $text-sm;
-  border-radius: $radius-default;
+  padding: 0 var(--space-xss);
+  font-size: var(--text-sm);
+  border-radius: var(--radius-default);
   height: 40px;
   line-height: 40px;
   font-weight: 600;
-  color: $neutral-color-600;
+  color: var(--neutral-color-600);
   background: inherit;
-  transition: all $duration-default;
+  transition: all var(--duration-default);
   cursor: pointer;
   outline: none;
   text-decoration: none;
 
   &.active {
-    background: $neutral-color-100;
-    color: $neutral-color-900;
+    background: var(--neutral-color-100);
+    color: var(--neutral-color-900);
   }
   &:hover {
-    background: $neutral-color-50;
+    background: var(--neutral-color-50);
   }
   &:focus {
-    background: $neutral-color-50;
-    box-shadow: $primary-focus-shadow;
+    background: var(--neutral-color-50);
+    box-shadow: var(--primary-focus-shadow);
   }
 
   .slot-text {
@@ -47,7 +47,7 @@ defineProps<{
   }
 }
 
-@media only screen and (max-width: $tablet) {
+@media only screen and (max-width: var(--tablet)) {
   .neb-header-nav-item {
     width: 100%;
   }

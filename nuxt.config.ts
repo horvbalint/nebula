@@ -1,5 +1,9 @@
 import { createResolver } from '@nuxt/kit'
 
+import PostCssNested from 'postcss-nested'
+import PostCssCustomMedia from 'postcss-custom-media'
+import PostcssGlobalData from '@csstools/postcss-global-data'
+
 const { resolve } = createResolver(import.meta.url)
 
 export default defineNuxtConfig({
@@ -10,7 +14,8 @@ export default defineNuxtConfig({
     '@nebula': resolve('./'),
   },
   css: [
-    '@nebula/assets/main.scss',
+    '@nebula/assets/main.css',
+    '@nebula/assets/tokens.css',
   ],
   nebula: {
     primaryColor: '#9E77ED',
@@ -18,14 +23,19 @@ export default defineNuxtConfig({
     errorColor: '#F04438',
     warningColor: '#F79009',
     successColor: '#17B26A',
-    scss: true,
   },
   vite: {
     css: {
-      preprocessorOptions: {
-        scss: {
-          additionalData: '@use "@nebula/modules/stylesheets/colors.scss" as *; @use "@nebula/assets/tokens.scss" as *;',
-        },
+      postcss: {
+        plugins: [
+          PostcssGlobalData({
+            files: [
+              './assets/viewports.css',
+            ],
+          }),
+          PostCssNested,
+          PostCssCustomMedia,
+        ],
       },
     },
   },

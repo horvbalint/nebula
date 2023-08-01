@@ -1,0 +1,41 @@
+/* FONT SIZES */
+:root {
+  --title-xxl: 72px;
+  --title-xl: 60px;
+  --title-lg: 48px;
+  --title-md: 36px;
+  --title-sm: 30px;
+  --title-xs: 24px;
+
+  --text-xl: 20px;
+  --text-lg: 18px;
+  --text-md: 16px;
+  --text-sm: 14px;
+  --text-xs: 12px;
+
+  /* SPACING */
+  --space-xxl: 128px;
+  --space-xl:  64px;
+  --space-l:   48px;
+  --space-ml:  32px; /* TODO */
+  --space-m:   24px;
+  --space-s:   16px;
+  --space-xss: 12px;
+  --space-xs:  8px;
+  --space-xxs: 4px;
+
+  /* RADIUS */
+  --radius-default: 8px;
+  --radius-small: 4px;
+
+  /* ELEVATION */
+  --shadow-xs: 0px 1px 2px 0px rgba(var(--neutral-color-components-900), 0.05);
+  --shadow-sm: 0px 1px 2px 0px rgba(var(--neutral-color-components-900), 0.06), 0px 1px 3px 0px rgba(var(--neutral-color-components-900), 0.10);
+  --primary-focus-shadow: 0px 0px 0px 4px var(--primary-color-100), 0px 1px 2px 0px rgba(var(--neutral-color-components-900), 0.05);
+  --error-focus-shadow: 0px 0px 0px 4px var(--error-color-100), 0px 1px 2px 0px rgba(var(--neutral-color-components-900), 0.05);
+  --neutral-focus-shadow: 0px 0px 0px 4px var(--neutral-color-100), 0px 1px 2px 0px rgba(var(--neutral-color-components-900), 0.05);
+
+  /* TIMING */
+  --duration-default: .2s;
+  --duration-fast: .1s;
+}

@@ -109,11 +109,11 @@ onMounted(() => {
   </header>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 header {
   height: 72px;
-  border-bottom: 1px solid $neutral-color-200;
-  padding: $space-m;
+  border-bottom: 1px solid var(--neutral-color-200);
+  padding: var(--space-m);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -124,7 +124,7 @@ header {
   margin: 0 auto;
   display: flex;
   align-items: center;
-  gap: $space-m;
+  gap: var(--space-m);
 }
 .header-content-main {
   width: 100%;
@@ -135,7 +135,7 @@ header {
 .nav-items {
   display: flex;
   align-items: center;
-  gap: $space-xxs;
+  gap: var(--space-xxs);
 }
 .logo {
   width: 120px;
@@ -147,8 +147,8 @@ header {
   gap: 0;
 }
 .mobile-mode {
-  padding: $space-s;
-  padding-left: $space-m;
+  padding: var(--space-s);
+  padding-left: var(--space-m);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -160,7 +160,7 @@ header {
   }
   .close-mobile-menu {
     position: fixed;
-    top: $space-s;
+    top: var(--space-s);
     z-index: 1;
     right: 0;
   }
@@ -174,15 +174,15 @@ header {
     flex-direction: column;
     align-items: flex-start;
     width: 85vw;
-    padding: $space-m;
-    animation: fade $duration-default forwards;
-    border-right: $neutral-color-300;
+    padding: var(--space-m);
+    animation: fade var(--duration-default) forwards;
+    border-right: var(--neutral-color-300);
   }
   .mobile-logo-wrapper {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: $space-m;
+    gap: var(--space-m);
   }
   .nav-items, .secondary-actions {
     flex-direction: column;
@@ -192,17 +192,17 @@ header {
     width: 100%;
     justify-content: flex-start;
 
-    span {
-      color: $neutral-color-600;
+    & span {
+      color: var(--neutral-color-600);
     }
   }
 }
 
 .slide-enter-active {
-  animation: slide-in $duration-default;
+  animation: slide-in var(--duration-default);
 }
 .slide-leave-active {
-  animation: slide-in $duration-default reverse;
+  animation: slide-in var(--duration-default) reverse;
 }
 @keyframes slide-in {
   0% {
@@ -214,10 +214,10 @@ header {
 }
 @keyframes fade {
   0% {
-    box-shadow: 15vw 0px 0px 0px rgba($neutral-color-500, 0);
+    box-shadow: 15vw 0px 0px 0px rgba(var(--neutral-color-500), 0);
   }
   100% {
-    box-shadow: 15vw 0px 0px 0px $neutral-color-500;
+    box-shadow: 15vw 0px 0px 0px var(--neutral-color-500);
   }
 }
 </style>

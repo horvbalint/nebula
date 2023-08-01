@@ -20,7 +20,7 @@ defineEmits<{
   </teleport>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .neb-pop-up-component {
   position: fixed;
   z-index: 100;
@@ -34,20 +34,22 @@ defineEmits<{
   }
 
   .topper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(var(--neutral-color-components-200), 0.8);
+    z-index: 1;
     display: none;
   }
 }
 </style>
 
 <style lang="scss">
-body .neb-pop-up-component:last-child .topper {
-  display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba($neutral-color-200, 0.8);
-  z-index: 1;
+.neb-pop-up-component:last-child {
+  .topper {
+    display: block !important;
+  }
 }
 </style>

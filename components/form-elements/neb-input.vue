@@ -107,64 +107,64 @@ function checkValidity() {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .neb-input-component {
   width: 100%;
 }
 label {
   display: flex;
   flex-direction: column;
-  gap: $space-xs;
-  font-size: $text-sm;
+  gap: var(--space-xs);
+  font-size: var(--text-sm);
   font-weight: 500;
   width: 100%;
 }
 .required-star {
-  color: $error-color-500;
+  color: var(--error-color-500);
 }
 .neb-input {
   background: #fff;
   display: flex;
   align-items: center;
-  gap: $space-xxs;
-  padding: $space-xs $space-xss;
+  gap: var(--space-xxs);
+  padding: var(--space-xs) var(--space-xss);
   height: 40px;
-  border-radius: $radius-default;
-  border: 1px solid $neutral-color-300;
-  transition: all $duration-default;
+  border-radius: var(--radius-default);
+  border: 1px solid var(--neutral-color-300);
+  transition: all var(--duration-default);
 
   &.has-error {
-    border-color: $error-color-300;
+    border-color: var(--error-color-300);
 
     &:focus-within {
-      box-shadow: $error-focus-shadow;
-      border-color: $error-color-300;
+      box-shadow: var(--error-focus-shadow);
+      border-color: var(--error-color-300);
     }
   }
   &:focus-within {
-    border-color: $primary-color-300;
-    box-shadow: $primary-focus-shadow;
+    border-color: var(--primary-color-300);
+    box-shadow: var(--primary-focus-shadow);
   }
-  input {
+  & input {
     flex: 1;
     border: none;
     background: inherit;
     height: 100%;
-    font-size: $text-sm;
+    font-size: var(--text-sm);
     outline: none;
-    color: $neutral-color-900;
+    color: var(--neutral-color-900);
   }
-  input:-webkit-autofill,
-  input:-webkit-autofill:focus {
+  & input:-webkit-autofill,
+  & input:-webkit-autofill:focus {
     -webkit-box-shadow:0 0 0 50px white inset; /* Change the color to your own background color */
   }
   .icon {
-    color: $neutral-color-600;
+    color: var(--neutral-color-600);
   }
 }
 .hint {
-  font-size: $text-xs;
-  color: $neutral-color-600;
+  font-size: var(--text-xs);
+  color: var(--neutral-color-600);
   font-weight: 400;
 }
 .error-list {
@@ -172,11 +172,11 @@ label {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: $space-xxs;
+  gap: var(--space-xxs);
 
-  li {
-    color: $error-color-500;
-    font-size: $text-xs;
+  & li {
+    color: var(--error-color-500);
+    font-size: var(--text-xs);
     font-weight: 400;
   }
 }

@@ -52,15 +52,15 @@ export default defineNuxtComponent({
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .neb-content-header {
   display: flex;
   flex-direction: column;
-  gap: $space-m;
-  padding: $space-m 0;
+  gap: var(--space-m);
+  padding: var(--space-m) 0;
 
   &.has-separator {
-    border-bottom: 1px solid $neutral-color-200;
+    border-bottom: 1px solid var(--neutral-color-200);
   }
 }
 .neb-content-wrapper {
@@ -68,18 +68,18 @@ export default defineNuxtComponent({
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: $space-s;
+  gap: var(--space-s);
   align-items: flex-start;
 
-  &.section {
+  .section {
     .content-text {
       max-width: none;
 
-      h1 {
-        font-size: $text-lg;
+      & h1 {
+        font-size: var(--text-lg);
       }
-      p {
-        font-size: $text-sm;
+      & p {
+        font-size: var(--text-sm);
       }
     }
   }
@@ -88,31 +88,31 @@ export default defineNuxtComponent({
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
-  gap: $space-xs;
+  gap: var(--space-xs);
   max-width: 445px;
 
-  h1 {
-    font-size: $title-sm;
+  & h1 {
+    font-size: var(--title-sm);
     font-weight: 600;
-    color: $neutral-color-900;
+    color: var(--neutral-color-900);
   }
-  p {
-    font-size: $text-md;
+  & p {
+    font-size: var(--text-md);
     font-weight: 400;
-    color: $neutral-color-600;
+    color: var(--neutral-color-600);
   }
 }
 .content-actions {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  gap: $space-xss;
+  gap: var(--space-xss);
 }
 
-@media only screen and (max-width: $tablet) {
+@media only screen and (max-width: var(--tablet)) {
   .content-text {
-    h1 {
-      font-size: $title-xs;
+    & h1 {
+      font-size: var(--title-xs);
     }
   }
 }

@@ -62,11 +62,11 @@ export default defineNuxtComponent({
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .neb-table-component {
-  border: 1px solid $neutral-color-200;
-  border-radius: $radius-default;
-  box-shadow: $shadow-sm;
+  border: 1px solid var(--neutral-color-200);
+  border-radius: var(--radius-default);
+  box-shadow: var(--shadow-sm);
   position: relative;
   height: 100%;
   width: 100%;
@@ -76,17 +76,17 @@ export default defineNuxtComponent({
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: $space-xxs;
+  gap: var(--space-xxs);
   height: 50px;
   background: #fff;
-  padding: $space-s $space-m;
+  padding: var(--space-s) var(--space-m);
   position: sticky;
   top: 0;
   left: 0;
-  border-bottom: 1px solid $neutral-color-200;
+  border-bottom: 1px solid var(--neutral-color-200);
 
-  h2 {
-    font-size: $text-lg;
+  & h2 {
+    font-size: var(--text-lg);
     font-weight: 600;
   }
 }
@@ -97,20 +97,20 @@ export default defineNuxtComponent({
 .neb-table {
   width: 100%;
 
-  td {
-    padding: 20px $space-m;
-    font-size: $text-sm;
+  & td {
+    padding: 20px var(--space-m);
+    font-size: var(--text-sm);
     font-weight: 400;
-    color: $neutral-color-600;
+    color: var(--neutral-color-600);
     text-align: left;
     white-space: nowrap;
   }
-  tr {
-    border-top: 1px solid $neutral-color-200;
-    border-bottom: 1px solid $neutral-color-200;
+  & tr {
+    border-top: 1px solid var(--neutral-color-200);
+    border-bottom: 1px solid var(--neutral-color-200);
 
     &:hover {
-      background: $primary-color-50;
+      background: var(--primary-color-50);
     }
   }
 }

@@ -19,74 +19,127 @@ export default defineNuxtModule({
     errorColor: '#F04438',
     warningColor: '#F79009',
     infoColor: '#667085',
-    scss: false,
   },
-  async setup({ scss, ...options }, nuxt) {
-    const cssFileLines = []
+  async setup(options, nuxt) {
+    const colorsFileLines = []
+    const colorComponentsFileLines = []
 
-    if (!scss)
-      cssFileLines.push(':root {')
+    colorsFileLines.push(':root {')
+    colorComponentsFileLines.push(':root {')
 
-    createColorShades(cssFileLines, 'primary-color', options.primaryColor, scss)
-    createColorShades(cssFileLines, 'secondary-color', options.secondaryColor, scss)
-    createColorShades(cssFileLines, 'neutral-color', options.neutralColor, scss)
-    createColorShades(cssFileLines, 'success-color', options.successColor, scss)
-    createColorShades(cssFileLines, 'error-color', options.errorColor, scss)
-    createColorShades(cssFileLines, 'warning-color', options.warningColor, scss)
-    createColorShades(cssFileLines, 'info-color', options.infoColor, scss)
+    createNeutralShades(colorsFileLines, colorComponentsFileLines, 'neutral-color', options.neutralColor)
+    createColorShades(colorsFileLines, colorComponentsFileLines, 'primary-color', options.primaryColor)
+    createColorShades(colorsFileLines, colorComponentsFileLines, 'secondary-color', options.secondaryColor)
+    createColorShades(colorsFileLines, colorComponentsFileLines, 'success-color', options.successColor)
+    createColorShades(colorsFileLines, colorComponentsFileLines, 'error-color', options.errorColor)
+    createColorShades(colorsFileLines, colorComponentsFileLines, 'warning-color', options.warningColor)
+    createColorShades(colorsFileLines, colorComponentsFileLines, 'info-color', options.infoColor)
 
-    if (!scss)
-      cssFileLines.push('}')
+    colorsFileLines.push('}')
+    colorComponentsFileLines.push('}')
 
     const stylesheetsDirPath = resolve('./stylesheets')
     if (!fs.existsSync(stylesheetsDirPath))
       await fs.promises.mkdir(stylesheetsDirPath)
 
-    const stylesheetExtension = scss ? 'scss' : 'css'
-    const stylesheetPath = resolve(`./stylesheets/colors.${stylesheetExtension}`)
-    await fs.promises.writeFile(stylesheetPath, cssFileLines.join('\n'))
+    const colorsPath = resolve('./stylesheets/colors.css')
+    const colorComponentsPath = resolve('./stylesheets/colorComponents.css')
 
-    if (!scss)
-      nuxt.options.css.push(resolve(stylesheetPath))
+    await fs.promises.writeFile(colorsPath, colorsFileLines.join('\n'))
+    await fs.promises.writeFile(colorComponentsPath, colorComponentsFileLines.join('\n'))
 
-    nuxt.hook('close', async () => await fs.promises.unlink(stylesheetPath))
+    nuxt.options.css.push(resolve(colorsPath))
+    nuxt.options.css.push(resolve(colorComponentsPath))
+
+    nuxt.hook('close', async () => {
+      await Promise.all([
+        fs.promises.unlink(colorsPath),
+        fs.promises.unlink(colorComponentsPath),
+      ])
+    })
   },
 })
 
-function createColorShades(cssFileLines: string[], name: string, color: string, sccs: boolean) {
+function createColorShades(colorsFileLines: string[], colorComponentsFileLines: string[], name: string, color: string) {
+  const MIN_LIGHTNESS = 20
+  const MAX_LIGHTNESS = 98
+
+  const MIN_SATURATION = 20
+  const MAX_SATURATION = 98
+
   const baseColor = new Color(color)
-  const saturationDistToFull = (100 - baseColor.saturationv()) / baseColor.saturationv()
-  const lightnessDistToFull = (100 - baseColor.lightness()) / baseColor.lightness()
 
-  const formatLine = sccs ? formatToScss : formatToCss
+  const lightnessDistToMin = Math.max(baseColor.lightness() - MIN_LIGHTNESS, 0)
+  const lightnessDistToMax = Math.max(MAX_LIGHTNESS - baseColor.lightness(), 0)
 
-  cssFileLines.push(formatLine(name, baseColor))
+  const saturationDistToMin = baseColor.saturationl() - MIN_SATURATION
+  const saturationDistToMax = MAX_SATURATION - baseColor.saturationl()
+
+  colorsFileLines.push(formatColorToCss(name, baseColor))
+  colorComponentsFileLines.push(formatColorComponentToCss(`${name}-components`, baseColor))
 
   for (const shade of [25, 50, 100, 200, 300, 400]) {
-    const fullName = `${name}-${shade}`
-    const perecent = (500 - shade) / 500
-    const value = baseColor
-      .lighten(perecent * lightnessDistToFull)
-      .saturate(perecent * saturationDistToFull)
+    const percent = 1 - (shade / 500)
+    const shifted = 1 - ((1 - percent) ** 2)
 
-    cssFileLines.push(formatLine(fullName, value))
+    const color = new Color ({
+      h: baseColor.hue(),
+      s: baseColor.saturationl() + shifted * saturationDistToMax,
+      l: baseColor.lightness() + shifted * lightnessDistToMax,
+    })
+
+    colorsFileLines.push(formatColorToCss(`${name}-${shade}`, color))
+    colorComponentsFileLines.push(formatColorComponentToCss(`${name}-components-${shade}`, color))
   }
 
   for (const shade of [500, 600, 700, 800, 900, 950]) {
-    const fullName = `${name}-${shade}`
     const percent = (shade - 500) / 500
-    const value = baseColor
-      .darken(percent * 0.8)
-      .saturate(-percent * 0.8)
 
-    cssFileLines.push(formatLine(fullName, value))
+    const color = new Color ({
+      h: baseColor.hue(),
+      s: baseColor.saturationl() - percent * saturationDistToMin,
+      l: baseColor.lightness() - percent * lightnessDistToMin,
+    })
+
+    colorsFileLines.push(formatColorToCss(`${name}-${shade}`, color))
+    colorComponentsFileLines.push(formatColorComponentToCss(`${name}-components-${shade}`, color))
   }
 }
 
-function formatToScss(name: string, color: Color) {
-  return `$${name}: ${color.hex()};`
+function createNeutralShades(colorsFileLines: string[], colorComponentsFileLines: string[], name: string, color: string) {
+  const MIN_LIGHTNESS = 10
+  const MAX_LIGHTNESS = 98
+
+  const baseColor = new Color(color)
+
+  const lightnessDistToMin = Math.max(baseColor.lightness() - MIN_LIGHTNESS, 0)
+  const lightnessDistToMax = Math.max(MAX_LIGHTNESS - baseColor.lightness(), 0)
+
+  colorsFileLines.push(formatColorToCss(name, baseColor))
+  colorComponentsFileLines.push(formatColorComponentToCss(`${name}-components`, baseColor))
+
+  for (const shade of [25, 50, 100, 200, 300, 400]) {
+    const percent = 1 - (shade / 500)
+    const shifted = 1 - ((1 - percent) ** 2)
+    const color = baseColor.lightness(baseColor.lightness() + shifted * lightnessDistToMax)
+
+    colorsFileLines.push(formatColorToCss(`${name}-${shade}`, color))
+    colorComponentsFileLines.push(formatColorComponentToCss(`${name}-components-${shade}`, color))
+  }
+
+  for (const shade of [500, 600, 700, 800, 900, 950]) {
+    const percent = (shade - 500) / 500
+    const color = baseColor.lightness(baseColor.lightness() - percent * lightnessDistToMin)
+
+    colorsFileLines.push(formatColorToCss(`${name}-${shade}`, color))
+    colorComponentsFileLines.push(formatColorComponentToCss(`${name}-components-${shade}`, color))
+  }
 }
 
-function formatToCss(name: string, color: Color) {
+function formatColorToCss(name: string, color: Color) {
   return `--${name}: ${color.hex()};`
+}
+
+function formatColorComponentToCss(name: string, color: Color) {
+  return `--${name}: ${color.red()}, ${color.green()}, ${color.blue()};`
 }

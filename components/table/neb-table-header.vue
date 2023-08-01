@@ -45,9 +45,9 @@ export default defineNuxtComponent({
   </thead>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 thead {
-  border-bottom: 1px solid $neutral-color-200;
+  border-bottom: 1px solid var(--neutral-color-200);
   position: sticky;
   top: 50px;
   left: 0;
@@ -55,11 +55,11 @@ thead {
 }
 .neb-table th {
   flex: 1;
-  padding: $space-xss $space-m;
+  padding: var(--space-xss) var(--space-m);
   text-align: left;
-  background: $neutral-color-50;
-  color: $neutral-color-600;
-  font-size: $text-xs;
+  background: var(--neutral-color-50);
+  color: var(--neutral-color-600);
+  font-size: var(--text-xs);
   font-weight: 500;
   text-align: left;
   white-space: nowrap;

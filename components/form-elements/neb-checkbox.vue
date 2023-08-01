@@ -50,7 +50,7 @@ function handleChange(event: Event) {
   </label>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .container {
   display: flex;
   position: relative;
@@ -59,7 +59,7 @@ function handleChange(event: Event) {
   font-weight: 500;
   align-items: center;
   cursor: pointer;
-  font-size: $text-xs;
+  font-size: var(--text-xs);
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -79,24 +79,24 @@ function handleChange(event: Event) {
   height: 16px;
   width: 16px;
   background-color: #fff;
-  border: 1px solid $neutral-color-300;
-  border-radius: $radius-small;
+  border: 1px solid var(--neutral-color-300);
+  border-radius: var(--radius-small);
 }
 .container:hover input ~ .checkmark {
-  background: $primary-color-100;
-  border-color: $primary-color-600;
-  transition: all $duration-default;
+  background: var(--primary-color-100);
+  border-color: var(--primary-color-600);
+  transition: all var(--duration-default);
 }
 .container:focus-within input ~ .checkmark {
   background: #fff;
-  border-color: $primary-color-300;
-  box-shadow: $primary-focus-shadow;
-  transition: all $duration-default;
+  border-color: var(--primary-color-300);
+  box-shadow: var(--primary-focus-shadow);
+  transition: all var(--duration-default);
 }
 .container input:checked ~ .checkmark {
-  background: $primary-color-50;
-  border-color: $primary-color-600;
-  transition: all $duration-default;
+  background: var(--primary-color-50);
+  border-color: var(--primary-color-600);
+  transition: all var(--duration-default);
 }
 .checkmark:after {
   content: "";
@@ -111,7 +111,7 @@ function handleChange(event: Event) {
   top: 0px;
   width: 4px;
   height: 9px;
-  border: solid $primary-color-600;
+  border: solid var(--primary-color-600);
   border-width: 0 2px 2px 0;
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);

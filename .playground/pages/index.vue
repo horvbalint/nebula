@@ -15,7 +15,7 @@ const popUp2 = ref(false)
 <template>
   <h1>Nebula</h1>
 
-  <neb-input disabled required v-model="input" label="Test input" placeholder="Write here..." />
+  <neb-input required v-model="input" label="Test input" placeholder="Write here..." />
   <neb-checkbox v-model="checkbox" label="Test checkbox" />
 
   <div class="buttons">
@@ -35,31 +35,35 @@ const popUp2 = ref(false)
   </neb-pop-up>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 h1 {
-  color: $primary-color;
+  color: var(--primary-color);
 }
 .buttons {
   max-width: 300px;
   display: flex;
   flex-direction: column;
-  gap: $space-s;
+  gap: var(--space-s);
 }
 .pop-up-body-1 {
   width: 800px;
   height: 600px;
   background: red;
-  border-radius: $radius-default;
+  border-radius: var(--radius-default);
   display: flex;
   align-items: center;
   justify-content: center;
+
+  & button {
+    background: red !important;
+  }
 }
 
 .pop-up-body {
   width: 600px;
   height: 400px;
   background: white;
-  border-radius: $radius-default;
+  border-radius: var(--radius-default);
   display: flex;
   align-items: center;
   justify-content: center;
