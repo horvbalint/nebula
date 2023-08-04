@@ -17,7 +17,7 @@ defineProps<{
 
 <style scoped>
 .neb-header-nav-item {
-  padding: 0 var(--space-xss);
+  padding: 0 var(--space-3);
   font-size: var(--text-sm);
   border-radius: var(--radius-default);
   height: 40px;
@@ -50,6 +50,24 @@ defineProps<{
 @media only screen and (max-width: var(--tablet)) {
   .neb-header-nav-item {
     width: 100%;
+  }
+}
+
+.dark-mode {
+  .neb-header-nav-item {
+    color: var(--neutral-color-100);
+
+    &.active {
+      background: var(--neutral-color-800);
+      color: var(--white-color);
+    }
+    &:hover {
+      background: var(--neutral-color-900);
+    }
+    &:focus {
+      background: var(--neutral-color-900);
+      box-shadow: var(--primary-focus-shadow-dark);
+    }
   }
 }
 </style>

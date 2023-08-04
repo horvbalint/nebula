@@ -55,7 +55,7 @@ thead {
 }
 .neb-table th {
   flex: 1;
-  padding: var(--space-xss) var(--space-m);
+  padding: var(--space-3) var(--space-6);
   text-align: left;
   background: var(--neutral-color-50);
   color: var(--neutral-color-600);

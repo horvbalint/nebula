@@ -76,10 +76,10 @@ export default defineNuxtComponent({
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: var(--space-xxs);
+  gap: var(--space-1);
   height: 50px;
-  background: #fff;
-  padding: var(--space-s) var(--space-m);
+  background: var(--white-color);
+  padding: var(--space-4) var(--space-6);
   position: sticky;
   top: 0;
   left: 0;
@@ -98,7 +98,7 @@ export default defineNuxtComponent({
   width: 100%;
 
   & td {
-    padding: 20px var(--space-m);
+    padding: 20px var(--space-6);
     font-size: var(--text-sm);
     font-weight: 400;
     color: var(--neutral-color-600);

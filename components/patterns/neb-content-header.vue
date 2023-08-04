@@ -56,8 +56,8 @@ export default defineNuxtComponent({
 .neb-content-header {
   display: flex;
   flex-direction: column;
-  gap: var(--space-m);
-  padding: var(--space-m) 0;
+  gap: var(--space-6);
+  padding: var(--space-6) 0;
 
   &.has-separator {
     border-bottom: 1px solid var(--neutral-color-200);
@@ -68,7 +68,7 @@ export default defineNuxtComponent({
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: var(--space-s);
+  gap: var(--space-4);
   align-items: flex-start;
 
   .section {
@@ -88,7 +88,7 @@ export default defineNuxtComponent({
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: var(--space-2);
   max-width: 445px;
 
   & h1 {
@@ -106,7 +106,7 @@ export default defineNuxtComponent({
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  gap: var(--space-xss);
+  gap: var(--space-3);
 }
 
 @media only screen and (max-width: var(--tablet)) {

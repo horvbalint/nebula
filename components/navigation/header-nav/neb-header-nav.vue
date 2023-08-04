@@ -103,7 +103,7 @@ onMounted(() => {
 
     <div v-else class="close-mobile-menu">
       <neb-button type="tertiary-neutral" @click="showMobileMenu = false">
-        <icon name="material-symbols:close-rounded" color="#fff" />
+        <icon name="material-symbols:close-rounded" color="var(--white-color)" />
       </neb-button>
     </div>
   </header>
@@ -113,7 +113,7 @@ onMounted(() => {
 header {
   height: 72px;
   border-bottom: 1px solid var(--neutral-color-200);
-  padding: var(--space-m);
+  padding: var(--space-6);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -124,7 +124,7 @@ header {
   margin: 0 auto;
   display: flex;
   align-items: center;
-  gap: var(--space-m);
+  gap: var(--space-6);
 }
 .header-content-main {
   width: 100%;
@@ -135,7 +135,7 @@ header {
 .nav-items {
   display: flex;
   align-items: center;
-  gap: var(--space-xxs);
+  gap: var(--space-1);
 }
 .logo {
   width: 120px;
@@ -147,8 +147,8 @@ header {
   gap: 0;
 }
 .mobile-mode {
-  padding: var(--space-s);
-  padding-left: var(--space-m);
+  padding: var(--space-4);
+  padding-left: var(--space-6);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -160,13 +160,13 @@ header {
   }
   .close-mobile-menu {
     position: fixed;
-    top: var(--space-s);
+    top: var(--space-4);
     z-index: 1;
     right: 0;
   }
   .header-content-main {
     height: 100vh;
-    background: #fff;
+    background: var(--white-color);
     position: fixed;
     z-index: 1;
     top: 0;
@@ -174,7 +174,7 @@ header {
     flex-direction: column;
     align-items: flex-start;
     width: 85vw;
-    padding: var(--space-m);
+    padding: var(--space-6);
     animation: fade var(--duration-default) forwards;
     border-right: var(--neutral-color-300);
   }
@@ -182,7 +182,7 @@ header {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: var(--space-m);
+    gap: var(--space-6);
   }
   .nav-items, .secondary-actions {
     flex-direction: column;

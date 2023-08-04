@@ -84,7 +84,7 @@ function checkValidity() {
 </script>
 
 <template>
-  <div class="neb-input-component">
+  <div class="neb-input-component" :class="{ disabled: $props.disabled }">
     <label>
       <span>{{ label }} <span v-if="$props.required" class="required-star">*</span></span>
 
@@ -124,11 +124,22 @@ function checkValidity() {
 <style scoped>
 .neb-input-component {
   width: 100%;
+
+  &.disabled .neb-input {
+    background: var(--neutral-color-50);
+
+    .icon {
+      color: var(--neutral-color-400);
+    }
+    & input {
+      color: var(--neutral-color-500);
+    }
+  }
 }
 label {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: var(--space-2);
   font-size: var(--text-sm);
   font-weight: 500;
   width: 100%;
@@ -137,11 +148,11 @@ label {
   color: var(--error-color-500);
 }
 .neb-input {
-  background: #fff;
+  background: var(--white-color);
   display: flex;
   align-items: center;
-  gap: var(--space-xxs);
-  padding: var(--space-xs) var(--space-xss);
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
   height: 40px;
   border-radius: var(--radius-default);
   border: 1px solid var(--neutral-color-300);
@@ -167,10 +178,11 @@ label {
     font-size: var(--text-sm);
     outline: none;
     color: var(--neutral-color-900);
-  }
-  & input:-webkit-autofill,
-  & input:-webkit-autofill:focus {
-    -webkit-box-shadow:0 0 0 50px white inset; /* Change the color to your own background color */
+
+    &:-webkit-autofill,
+    &:-webkit-autofill:focus {
+      -webkit-box-shadow:0 0 0 50px white inset; /* Change the color to your own background color */
+    }
   }
   .icon {
     color: var(--neutral-color-600);
@@ -186,12 +198,66 @@ label {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--space-xxs);
+  gap: var(--space-1);
 
   & li {
     color: var(--error-color-500);
     font-size: var(--text-xs);
     font-weight: 400;
+    margin-left: var(--space-4);
+  }
+}
+
+.dark-mode {
+  .neb-input-component {
+    &.disabled .neb-input {
+      background: var(--neutral-color-900);
+
+      .icon {
+        color: var(--neutral-color-600);
+      }
+      & input {
+        color: var(--neutral-color-500);
+      }
+    }
+  }
+  & label {
+    color: var(--neutral-color-300);
+  }
+  .neb-input {
+    background: var(--neutral-color-975);
+    border: 1px solid var(--neutral-color-600);
+
+    &.has-error {
+      border-color: var(--error-color-700);
+
+      &:focus-within {
+        box-shadow: var(--error-focus-shadow-dark);
+        border-color: var(--error-color-700);
+      }
+    }
+    &:focus-within {
+      border-color: var(--primary-color-700);
+      box-shadow: var(--primary-focus-shadow-dark);
+    }
+    & input {
+      color: var(--neutral-color-300);
+    }
+    & input:-webkit-autofill,
+    & input:-webkit-autofill:focus {
+      -webkit-box-shadow:0 0 0 50px var(--neutral-color-975) inset; /* Change the color to your own background color */
+    }
+    .icon {
+      color: var(--neutral-color-400);
+    }
+  }
+  .hint {
+    color: var(--neutral-color-300);
+  }
+  .error-list {
+    & li {
+      color: var(--error-color-700);
+    }
   }
 }
 </style>

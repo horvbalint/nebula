@@ -43,13 +43,11 @@ defineEmits<{
     z-index: 1;
     display: none;
   }
-}
-</style>
 
-<style lang="scss">
-.neb-pop-up-component:last-child {
-  .topper {
-    display: block !important;
+  &:last-child {
+    .topper {
+      display: block !important;
+    }
   }
 }
 </style>

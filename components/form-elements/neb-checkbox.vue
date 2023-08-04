@@ -78,7 +78,7 @@ function handleChange(event: Event) {
   left: 0;
   height: 16px;
   width: 16px;
-  background-color: #fff;
+  background-color: var(--white-color);
   border: 1px solid var(--neutral-color-300);
   border-radius: var(--radius-small);
 }
@@ -88,7 +88,7 @@ function handleChange(event: Event) {
   transition: all var(--duration-default);
 }
 .container:focus-within input ~ .checkmark {
-  background: #fff;
+  background: var(--white-color);
   border-color: var(--primary-color-300);
   box-shadow: var(--primary-focus-shadow);
   transition: all var(--duration-default);
