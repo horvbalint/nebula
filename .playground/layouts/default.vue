@@ -1,11 +1,7 @@
 <template>
   <neb-header-nav :menus="menus">
     <template #logo>
-      <p>Temp</p>
-    </template>
-
-    <template #mobile-logo>
-      <p>Pillango</p>
+      <p class="logo">Nebula</p>
     </template>
   </neb-header-nav>
 
@@ -47,10 +43,13 @@ const menus = [
 
 <style lang="scss" scoped>
 p {
-  font-size: 30px;
+  color: var(--neutral-color-600);
+  font-size: var(--title-xs);
+  font-weight: 500;
 }
-
-p {
-  font-size: 18px;
+.dark-mode {
+  p {
+    color: var(--neutral-color-200);
+  }
 }
 </style>

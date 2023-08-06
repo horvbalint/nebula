@@ -6,22 +6,34 @@ definePageMeta({
   }
 })
 
-const input = ref('')
+const username = ref('')
+const email = ref('')
+const password = ref('')
 const checkbox = ref(false)
 const popUpOpen = ref(false)
 const popUp2 = ref(false)
 const expand = ref(true)
+const isValid = ref(false)
+const errors = ref(null)
+const hide = ref(false)
 </script>
 
 <template>
   <div class="experiments">
     <div class="form-elements">
-      <neb-input v-model="input" label="Username" placeholder="Write here..."/>
-      <neb-input disabled type="email" required v-model="input" label="Email" placeholder="Write here..."/>
-      <neb-input type="password" required v-model="input" label="Password" placeholder="Write here..."/>
+      <neb-validator v-model="isValid" v-model:errors="errors">
+        <neb-input v-model="username" label="Username" placeholder="Write here..."/>
+        <neb-input lazy type="email" required v-model="email" label="Email" placeholder="Write here..."/>
+        <neb-input v-if="!hide" type="password" required v-model="password" label="Password" placeholder="Write here..."/>
+      </neb-validator>
 
       <br>
-      <neb-button>Login</neb-button>
+      <neb-button @click="password = 'wef'">Change text</neb-button>
+      <neb-button @click="hide = !hide">Toggle input</neb-button>
+
+      <br>
+      <neb-button :disabled="!isValid" @click="console.log('Logged in')">Login</neb-button>
+      <neb-button @click="password = ''">Submit</neb-button>
     </div>
 
     <!-- <div class="buttons">
@@ -43,8 +55,8 @@ const expand = ref(true)
       <neb-button disabled type="link" @click="popUpOpen = true">Link</neb-button>
       <neb-button disabled type="link-neutral" @click="popUpOpen = true">Link neutral</neb-button>
     </div> -->
-<!--
-    <div class="pop-up">
+
+    <!-- <div class="pop-up">
       <div class="buttons">
         <neb-button @click="popUpOpen = true">Primary</neb-button>
       </div>
@@ -70,14 +82,14 @@ const expand = ref(true)
         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit aspernatur dolor quos quam nesciunt aut consequatur ipsum cupiditate optio! Mollitia, quisquam pariatur fugit iure deserunt harum ut ea commodi cupiditate.
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Natus quasi inventore quam! Deleniti minima dolorem illo quisquam fuga amet eius iure nulla iusto culpa explicabo eveniet, libero rerum sequi. Porro.
       </p>
-    </div>
+    </div> -->
 
-    <div class="neb-blur">
-      <div class="main-box" v-neb-blur:alma="() => console.log('HERE')">
+    <!-- <div class="neb-blur">
+      <div class="main-box" v-neb-blur="() => console.log('HERE')">
         Main box
       </div>
 
-      <div class="exception-box">
+      <div class="exception-box" v-neb-blur-exception>
         Exception box
       </div>
     </div> -->
@@ -89,7 +101,7 @@ const expand = ref(true)
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
-  padding: var(--space-4);
+  padding: var(--space-12);
 }
 
 .form-elements {
@@ -138,9 +150,10 @@ const expand = ref(true)
     align-items: center;
     width: 400px;
     height: 150px;
-    background: var(--primary-color-100);
+    background: var(--primary-color-700);
+    color: var(--neutral-color-300);
     border-radius: var(--radius-default);
-    border: 1px solid var(--primary-color-300);
+    border: 1px solid var(--primary-color-500);
   }
 
   .exception-box {

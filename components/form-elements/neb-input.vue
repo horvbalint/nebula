@@ -20,13 +20,47 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits<{
   'update:modelValue': [id: typeof props.modelValue]
-  validate: [errors: Errors[]]
 }>()
 
-type Errors = keyof ValidityState
-const errors = ref([] as Errors[])
+const input = ref(null as null | HTMLFormElement)
+const { errorsToShow, collectErrors } = useNebValidateNative(input)
 
-const errorDict: Partial<Record<Errors, string>> = {
+const attrs = useAttrs()
+const computedAttrs = computed(() => {
+  const computedAttrs = { ...attrs } as any
+
+  if (!props.lazy)
+    computedAttrs.onInput = emitValue
+  else
+    computedAttrs.onChange = emitValue
+
+  return computedAttrs
+})
+
+const innerValue = ref(props.modelValue)
+
+function emitValue() {
+  innerValue.value = input.value!.value
+  emit('update:modelValue', input.value!.value)
+}
+
+watch(() => props.modelValue, async () => {
+  const showErrors = innerValue.value === props.modelValue // if the value was modified from the outside, we don't show the error to the users
+  innerValue.value = props.modelValue
+
+  await nextTick()
+  collectErrors(showErrors)
+})
+
+const computedLeadingIcon = computed(() => {
+  switch (attrs.type) {
+    case 'email': return 'material-symbols:mail-outline-rounded'
+    case 'password': return 'material-symbols:key-outline-rounded'
+    default: return props.leadingIcon
+  }
+})
+
+const errorDict: Partial<Record<keyof ValidityState, string>> = {
   badInput: 'Hibás érték!',
   patternMismatch: 'A mező nem megfelelő formátumú!',
   rangeOverflow: 'A beírt érték túl nagy!',
@@ -37,50 +71,6 @@ const errorDict: Partial<Record<Errors, string>> = {
   typeMismatch: 'A mező nem megfelelő formátumú!',
   valueMissing: 'A mező kitöltése kötelező!',
 }
-
-const attrs = useAttrs()
-const computedLeadingIcon = computed(() => {
-  switch (attrs.type) {
-    case 'email': return 'material-symbols:mail-outline-rounded'
-    case 'password': return 'material-symbols:key-outline-rounded'
-    default: return props.leadingIcon
-  }
-})
-
-const computedAttrs = computed(() => {
-  const attrsCopy = {
-    ...attrs,
-    onBlur: checkValidity,
-  } as any
-
-  if (!props.lazy)
-    attrsCopy.onInput = emitValue
-  else
-    attrsCopy.onChange = emitValue
-
-  return attrsCopy
-})
-
-const input = ref(null as null | HTMLInputElement)
-
-function emitValue() {
-  emit('update:modelValue', input.value!.value)
-}
-
-function checkValidity() {
-  errors.value = []
-
-  let key: Errors
-  for (key in input.value!.validity) {
-    if (key === 'valid' || errors.value.includes(key))
-      continue
-
-    if (input.value!.validity[key])
-      errors.value.push(key)
-  }
-
-  emit('validate', errors.value)
-}
 </script>
 
 <template>
@@ -88,7 +78,7 @@ function checkValidity() {
     <label>
       <span>{{ label }} <span v-if="$props.required" class="required-star">*</span></span>
 
-      <div class="neb-input" :class="{ 'has-error': errors.length }">
+      <div class="neb-input" :class="{ 'has-error': errorsToShow.length }">
         <slot name="leading">
           <icon v-if="computedLeadingIcon" :name="computedLeadingIcon" />
         </slot>
@@ -103,7 +93,7 @@ function checkValidity() {
 
         <slot name="trailing">
           <icon
-            v-if="errors.length"
+            v-if="errorsToShow.length"
             name="material-symbols:error-outline-rounded"
             color="#F04438"
           />
@@ -114,8 +104,8 @@ function checkValidity() {
 
       <p v-if="hint" class="hint">{{ $props.hint }}</p>
 
-      <ul v-if="errors.length" class="error-list">
-        <li v-for="error in errors" :key="error">{{ errorDict[error] }}</li>
+      <ul v-if="errorsToShow.length" class="error-list">
+        <li v-for="error in errorsToShow" :key="error">{{ errorDict[error] }}</li>
       </ul>
     </label>
   </div>
