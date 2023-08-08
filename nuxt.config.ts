@@ -52,6 +52,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@nuxtjs/google-fonts',
     'nuxt-icon',
+    '@vueuse/nuxt',
   ],
   googleFonts: {
     families: {

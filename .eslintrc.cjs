@@ -1,4 +1,4 @@
 module.exports = {
   root: true,
-  extends: ["@antfu/eslint-config"],
-};
+  extends: ['@antfu/eslint-config'],
+}

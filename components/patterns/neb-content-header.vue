@@ -71,7 +71,7 @@ export default defineNuxtComponent({
   gap: var(--space-4);
   align-items: flex-start;
 
-  .section {
+  &.section {
     .content-text {
       max-width: none;
 

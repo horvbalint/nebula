@@ -20,21 +20,13 @@ const hide = ref(false)
 
 <template>
   <div class="experiments">
-    <div class="form-elements">
-      <neb-validator v-model="isValid" v-model:errors="errors">
-        <neb-input v-model="username" label="Username" placeholder="Write here..."/>
-        <neb-input lazy type="email" required v-model="email" label="Email" placeholder="Write here..."/>
-        <neb-input v-if="!hide" type="password" required v-model="password" label="Password" placeholder="Write here..."/>
-      </neb-validator>
-
-      <br>
-      <neb-button @click="password = 'wef'">Change text</neb-button>
-      <neb-button @click="hide = !hide">Toggle input</neb-button>
+    <neb-validator v-model="isValid" class="form-elements">
+      <neb-input type="email" required v-model="email" label="Email" placeholder="Write here..."/>
+      <neb-input v-if="!hide" type="password" required v-model="password" label="Password" placeholder="Write here..."/>
 
       <br>
       <neb-button :disabled="!isValid" @click="console.log('Logged in')">Login</neb-button>
-      <neb-button @click="password = ''">Submit</neb-button>
-    </div>
+    </neb-validator>
 
     <!-- <div class="buttons">
       <neb-button type="primary" @click="popUpOpen = true">Primary</neb-button>

@@ -18,20 +18,23 @@ const isChecked = computed(() => {
 
 function handleChange(event: Event) {
   const checkbox = event.target! as HTMLInputElement
-  const isInputChecked = checkbox.checked
 
   if (Array.isArray(props.modelValue)) {
     const newValue = [...props.modelValue]
 
-    if (isInputChecked)
+    if (checkbox.checked) {
       newValue.push(props.value!)
-    else
-      newValue.splice(newValue.indexOf(props.value!), 1)
+    }
+    else {
+      const index = newValue.indexOf(props.value!)
+      if (index !== -1)
+        newValue.splice(index, 1)
+    }
 
     emit('update:modelValue', newValue)
   }
   else {
-    emit('update:modelValue', isInputChecked)
+    emit('update:modelValue', checkbox.checked)
   }
 }
 </script>

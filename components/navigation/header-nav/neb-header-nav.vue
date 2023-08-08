@@ -29,52 +29,19 @@ const computedRoutes = computed(() => {
 const mobileMode = ref(false)
 const showMobileMenu = ref(false)
 
-const desktopHeader = ref(null as null | HTMLElement)
+const headernavContainer = ref(null as null | HTMLElement)
 const desktopHeaderContent = ref(null as null | HTMLElement)
 
-onMounted(() => {
-  mobileMode.value = desktopHeaderContent.value!.clientWidth < desktopHeaderContent.value!.scrollWidth
-})
+const compactMode = useNebFlexCompact(headernavContainer, desktopHeaderContent)
 </script>
 
 <template>
-  <header v-if="!mobileMode" ref="desktopHeader" class="desktop-mode">
-    <div ref="desktopHeaderContent" class="header-content">
-      <slot name="logo" />
+  <div ref="headernavContainer">
+    <header v-if="!compactMode" class="desktop-mode">
+      <div ref="desktopHeaderContent" class="header-content">
+        <slot name="logo" />
 
-      <div class="header-content-main">
-        <div class="nav-items">
-          <neb-header-nav-item
-            v-for="route in computedRoutes"
-            :key="route.path"
-            :text="route.name"
-            :path="route.path"
-          />
-        </div>
-
-        <div class="secondary-actions">
-          <slot name="secondary-actions">
-            <neb-button type="tertiary-neutral" class="log-out" @click="$emit('logout')">
-              <icon name="material-symbols:logout-rounded" /> <span>Kijelentkezés</span>
-            </neb-button>
-          </slot>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <header v-else class="mobile-mode">
-    <slot name="mobile-logo">
-      <slot name="logo" />
-    </slot>
-
-    <transition name="slide">
-      <div v-if="showMobileMenu" class="header-content-main">
-        <div class="mobile-logo-wrapper">
-          <slot name="mobile-logo">
-            <slot name="logo" />
-          </slot>
-
+        <div class="header-content-main">
           <div class="nav-items">
             <neb-header-nav-item
               v-for="route in computedRoutes"
@@ -83,30 +50,63 @@ onMounted(() => {
               :path="route.path"
             />
           </div>
-        </div>
 
-        <div class="secondary-actions">
-          <slot name="secondary-actions">
-            <neb-button type="tertiary-neutral" class="log-out" @click="$emit('logout')">
-              <icon name="material-symbols:logout-rounded" /> <span v-if="mobileMode">Kijelentkezés</span>
-            </neb-button>
-          </slot>
+          <div class="secondary-actions">
+            <slot name="secondary-actions">
+              <neb-button type="tertiary-neutral" class="log-out" @click="$emit('logout')">
+                <icon name="material-symbols:logout-rounded" /> <span>Kijelentkezés</span>
+              </neb-button>
+            </slot>
+          </div>
         </div>
       </div>
-    </transition>
+    </header>
 
-    <div v-if="!showMobileMenu" class="open-mobile-menu">
-      <neb-button type="tertiary-neutral" @click="showMobileMenu = true">
-        <icon name="material-symbols:menu-rounded" />
-      </neb-button>
-    </div>
+    <header v-else class="mobile-mode">
+      <slot name="mobile-logo">
+        <slot name="logo" />
+      </slot>
 
-    <div v-else class="close-mobile-menu">
-      <neb-button type="tertiary-neutral" @click="showMobileMenu = false">
-        <icon name="material-symbols:close-rounded" color="var(--white-color)" />
-      </neb-button>
-    </div>
-  </header>
+      <transition name="slide">
+        <div v-if="showMobileMenu" class="header-content-main">
+          <div class="mobile-logo-wrapper">
+            <slot name="mobile-logo">
+              <slot name="logo" />
+            </slot>
+
+            <div class="nav-items">
+              <neb-header-nav-item
+                v-for="route in computedRoutes"
+                :key="route.path"
+                :text="route.name"
+                :path="route.path"
+              />
+            </div>
+          </div>
+
+          <div class="secondary-actions">
+            <slot name="secondary-actions">
+              <neb-button type="tertiary-neutral" class="log-out" @click="$emit('logout')">
+                <icon name="material-symbols:logout-rounded" /> <span v-if="mobileMode">Kijelentkezés</span>
+              </neb-button>
+            </slot>
+          </div>
+        </div>
+      </transition>
+
+      <div v-if="!showMobileMenu" class="open-mobile-menu">
+        <neb-button type="tertiary-neutral" @click="showMobileMenu = true">
+          <icon name="material-symbols:menu-rounded" />
+        </neb-button>
+      </div>
+
+      <div v-else class="close-mobile-menu">
+        <neb-button type="tertiary-neutral" @click="showMobileMenu = false">
+          <icon name="material-symbols:close-rounded" color="var(--white-color)" />
+        </neb-button>
+      </div>
+    </header>
+  </div>
 </template>
 
 <style scoped>
