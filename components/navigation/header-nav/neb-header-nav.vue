@@ -118,6 +118,9 @@ header {
   justify-content: center;
   align-items: center;
 }
+.desktop-mode {
+  overflow: hidden;
+}
 .header-content {
   width: 100%;
   max-width: 1280px;

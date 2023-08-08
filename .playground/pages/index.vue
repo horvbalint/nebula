@@ -12,7 +12,7 @@ const password = ref('')
 const checkbox = ref(false)
 const popUpOpen = ref(false)
 const popUp2 = ref(false)
-const expand = ref(true)
+const expand = ref(false)
 const isValid = ref(false)
 const errors = ref(null)
 const hide = ref(false)
@@ -20,12 +20,14 @@ const hide = ref(false)
 
 <template>
   <div class="experiments">
+    <neb-toast type="info" title="Important notice!" description="We will conduct a scheduled maintanance on Friday."/>
+
     <neb-validator v-model="isValid" class="form-elements">
       <neb-input type="email" required v-model="email" label="Email" placeholder="Write here..."/>
       <neb-input v-if="!hide" type="password" required v-model="password" label="Password" placeholder="Write here..."/>
 
       <br>
-      <neb-button :disabled="!isValid" @click="console.log('Logged in')">Login</neb-button>
+      <neb-button :disabled="!isValid" @click="useNebToast({type: 'info', title: 'Lorem impsum!' + Math.random(), description: 'Lorem ipsum dolor sit et amet...', actions: [{text: 'Read more', callback: () => console.log('Read more')}, {text: 'Other', callback: () => console.log('other')}]})">Login</neb-button>
     </neb-validator>
 
     <!-- <div class="buttons">
@@ -64,9 +66,9 @@ const hide = ref(false)
           <neb-button @click="popUp2 = false">Close</neb-button>
         </div>
       </neb-pop-up>
-    </div>
+    </div> -->
 
-    <div class="neb-expand">
+    <!-- <div class="neb-expand">
       <neb-button @click="expand = !expand">Toggle {{expand}}</neb-button>
 
       <p v-neb-expand="expand">

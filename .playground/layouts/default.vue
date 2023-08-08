@@ -6,6 +6,8 @@
   </neb-header-nav>
 
   <slot />
+
+  <neb-toasts />
 </template>
 
 <script lang="ts" setup>

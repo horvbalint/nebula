@@ -11,11 +11,11 @@ export function useNebFlexCompact(container: RefElement, target: RefElement) {
 }
 
 function startTargetObserver(compactMode: Ref<boolean>, container: RefElement, target: RefElement) {
-  const targetObserver = new ResizeObserver(debounce(() => {
+  const oberserver = new ResizeObserver(debounce(() => {
     if (target.value!.clientWidth === target.value!.scrollWidth)
       return
 
-    targetObserver.disconnect()
+    oberserver.disconnect()
     compactMode.value = true
 
     const missingFromTargetWidth = target.value!.scrollWidth - target.value!.clientWidth
@@ -23,20 +23,20 @@ function startTargetObserver(compactMode: Ref<boolean>, container: RefElement, t
     startContainerObserver(minContainerWidth, compactMode, container, target)
   }))
 
-  targetObserver.observe(target.value!)
+  oberserver.observe(target.value!)
 }
 
 function startContainerObserver(minContainerWidth: number, compactMode: Ref<boolean>, container: RefElement, target: RefElement) {
-  const containerObserver = new ResizeObserver(debounce(() => {
+  const observer = new ResizeObserver(debounce(() => {
     if (container.value!.clientWidth <= minContainerWidth)
       return
 
-    containerObserver.disconnect()
+    observer.disconnect()
     compactMode.value = false
     nextTick(() => startTargetObserver(compactMode, container, target))
   }))
 
-  containerObserver.observe(container.value!)
+  observer.observe(container.value!)
 }
 
 function debounce(callback: any) {
