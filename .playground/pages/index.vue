@@ -28,6 +28,9 @@ const hide = ref(false)
 
       <br>
       <neb-button :disabled="!isValid" @click="useNebToast({type: 'info', title: 'We’ve just released a new feature', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum dolor.', actions: [{text: 'Read more', callback: () => console.log('Read more')}, {text: 'Other', callback: () => console.log('other')}]})">Login</neb-button>
+      <neb-button :disabled="!isValid" @click="useNebToast({type: 'error', title: 'We’ve just released a new feature', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum dolor.', actions: [{text: 'Read more', callback: () => console.log('Read more')}, {text: 'Other', callback: () => console.log('other')}]})">Login</neb-button>
+      <neb-button :disabled="!isValid" @click="useNebToast({type: 'success', title: 'We’ve just released a new feature', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum dolor.', actions: [{text: 'Read more', callback: () => console.log('Read more')}, {text: 'Other', callback: () => console.log('other')}]})">Login</neb-button>
+      <neb-button :disabled="!isValid" @click="useNebToast({type: 'warning', title: 'We’ve just released a new feature', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum dolor.', actions: [{text: 'Read more', callback: () => console.log('Read more')}, {text: 'Other', callback: () => console.log('other')}]})">Login</neb-button>
     </neb-validator>
 
     <!-- <div class="buttons">

@@ -2,7 +2,7 @@
 import type { NebToastAction, NebToastParams } from '@nebula/composables/neb-toast'
 
 const props = withDefaults(defineProps<{
-  progress?: Ref<number>
+  progress?: number
   type: NebToastParams['type']
   title: string
   description?: string
@@ -15,6 +15,13 @@ const props = withDefaults(defineProps<{
 defineEmits<{
   close: []
 }>()
+
+const computedProgress = computed(() => {
+  if (!props.progress)
+    return 0
+
+  return `${props.progress * 100}%`
+})
 </script>
 
 <template>
@@ -31,13 +38,14 @@ defineEmits<{
         </div>
 
         <footer>
-          <neb-button type="link" @click="$emit('close')">
+          <neb-button class="toast-button" type="link" color @click="$emit('close')">
             Bezárás
           </neb-button>
 
           <neb-button
             v-for="action in props.actions"
             :key="action.text"
+            class="toast-button"
             type="link"
             @click="action.callback()"
           >
@@ -46,6 +54,7 @@ defineEmits<{
         </footer>
       </div>
     </div>
+    <hr class="timer-line">
 
     <div class="close-icon" @click="$emit('close')">
       <icon name="mdi:close" />
@@ -56,11 +65,10 @@ defineEmits<{
 <style>
 .neb-toast {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  padding: var(--space-4);
-  gap: var(--space-12);
+  flex-direction: column;
   border-radius: var(--radius-default);
+  overflow: hidden;
+  position: relative;
 
   &.info {
     border: 1px solid var(--primary-color-300);
@@ -91,6 +99,12 @@ defineEmits<{
         color: var(--primary-color-600);
       }
     }
+    .toast-button {
+      color: var(--primary-color-700);
+    }
+    .timer-line {
+      background: var(--primary-color-600);
+    }
   }
   &.error {
     border: 1px solid var(--error-color-300);
@@ -100,7 +114,7 @@ defineEmits<{
       color: var(--error-color-600);
 
       &:before {
-        border-color: var(--error-color-400);
+        border-color: var(--error-color-300);
       }
       &:after {
         border-color: var(--error-color-200);
@@ -121,12 +135,94 @@ defineEmits<{
         color: var(--error-color-600);
       }
     }
+    .toast-button {
+      color: var(--error-color-700);
+    }
+    .timer-line {
+      background: var(--error-color-600);
+    }
+  }
+  &.success {
+    border: 1px solid var(--success-color-300);
+    background: var(--success-color-25);
+
+    .toast-type-icon {
+      color: var(--success-color-500);
+
+      &:before {
+        border-color: var(--success-color-300);
+      }
+      &:after {
+        border-color: var(--success-color-200);
+      }
+    }
+    .toast-content {
+      h6 {
+        color: var(--success-color-600);
+      }
+      p {
+        color: var(--success-color-600);
+      }
+    }
+    .close-icon {
+      color: var(--success-color-400);
+
+      &:hover * {
+        color: var(--success-color-600);
+      }
+    }
+    .toast-button {
+      color: var(--success-color-600);
+    }
+    .timer-line {
+      background: var(--success-color-600);
+    }
+  }
+  &.warning {
+    border: 1px solid var(--warning-color-300);
+    background: var(--warning-color-25);
+
+    .toast-type-icon {
+      color: var(--warning-color-500);
+
+      &:before {
+        border-color: var(--warning-color-300);
+      }
+      &:after {
+        border-color: var(--warning-color-200);
+      }
+    }
+    .toast-content {
+      h6 {
+        color: var(--warning-color-600);
+      }
+      p {
+        color: var(--warning-color-600);
+      }
+    }
+    .close-icon {
+      color: var(--warning-color-400);
+
+      &:hover * {
+        color: var(--warning-color-600);
+      }
+    }
+    .toast-button {
+      color: var(--warning-color-600);
+    }
+    .timer-line {
+      background: var(--warning-color-600);
+    }
   }
 }
+
 .toast-wrapper {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
+  padding: var(--space-4);
   gap: var(--space-4);
+  padding-right: var(--space-16);
 }
 .toast-content {
   display: flex;
@@ -183,11 +279,19 @@ footer {
 }
 .close-icon {
   cursor: pointer;
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
 
   * {
     height: 20px;
     width: 20px;
   }
+}
+.timer-line {
+  border: none;
+  height: 2px;
+  width: v-bind(computedProgress);
 }
 
 .dark-mode {

@@ -35,7 +35,7 @@ export function useNebToast(toastParams: NebToastParams) {
   const toasts = useNebToasts()
 
   if (toastParams.type !== 'error')
-    toastParams.timeout = 2000
+    toastParams.timeout = 5000
 
   const toast = {
     ...toastParams,
