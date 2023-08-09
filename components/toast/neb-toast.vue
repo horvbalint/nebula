@@ -1,11 +1,16 @@
 <script setup lang="ts">
-import type { NebToast, NebToastAction } from '@nebula/composables/neb-toast'
+import type { NebToastAction, NebToastParams } from '@nebula/composables/neb-toast'
 
-const props = withDefaults(
-  defineProps<NebToast>(), {
-    // @ts-expect-error - figure out the type error
-    actions: [] as NebToastAction[],
-  })
+const props = withDefaults(defineProps<{
+  progress?: Ref<number>
+  type: NebToastParams['type']
+  title: string
+  description?: string
+  actions: NebToastAction[]
+}>(), {
+  // @ts-expect-error - figure out the type error
+  actions: [] as NebToastAction[],
+})
 
 defineEmits<{
   close: []
