@@ -48,7 +48,7 @@ withDefaults(defineProps<{
   }
   &:focus {
     background: var(--primary-color-600);
-    box-shadow: var(--primary-focus-shadow);
+    box-shadow: var(--primary-focus-shadow-light);
   }
   &:disabled {
     background: var(--primary-color-200);
@@ -67,7 +67,7 @@ withDefaults(defineProps<{
   }
   &:focus {
     background: var(--primary-color-50);
-    box-shadow: var(--primary-focus-shadow);
+    box-shadow: var(--primary-focus-shadow-light);
     color: var(--primary-color-700);
   }
   &:disabled {
@@ -141,6 +141,7 @@ withDefaults(defineProps<{
   background: none;
   box-shadow: none;
   padding: 0;
+  height: auto;
 
   &:hover {
     color: var(--primary-color-800);
@@ -159,6 +160,7 @@ withDefaults(defineProps<{
   background: none;
   box-shadow: none;
   padding: 0;
+  height: auto;
 
   &:hover {
     color: var(--neutral-color-700);

@@ -20,14 +20,14 @@ const hide = ref(false)
 
 <template>
   <div class="experiments">
-    <neb-toast type="info" title="Important notice!" description="We will conduct a scheduled maintanance on Friday."/>
+    <neb-toast type="info" title="We’ve just released a new feature" description="We will conduct a scheduled maintanance on Friday."/>
 
     <neb-validator v-model="isValid" class="form-elements">
       <neb-input type="email" required v-model="email" label="Email" placeholder="Write here..."/>
       <neb-input v-if="!hide" type="password" required v-model="password" label="Password" placeholder="Write here..."/>
 
       <br>
-      <neb-button :disabled="!isValid" @click="useNebToast({type: 'info', title: 'Lorem impsum!' + Math.random(), description: 'Lorem ipsum dolor sit et amet...', actions: [{text: 'Read more', callback: () => console.log('Read more')}, {text: 'Other', callback: () => console.log('other')}]})">Login</neb-button>
+      <neb-button :disabled="!isValid" @click="useNebToast({type: 'info', title: 'We’ve just released a new feature', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum dolor.', actions: [{text: 'Read more', callback: () => console.log('Read more')}, {text: 'Other', callback: () => console.log('other')}]})">Login</neb-button>
     </neb-validator>
 
     <!-- <div class="buttons">

@@ -39,7 +39,7 @@ defineProps<{
   }
   &:focus {
     background: var(--neutral-color-50);
-    box-shadow: var(--primary-focus-shadow);
+    box-shadow: var(--primary-focus-shadow-light);
   }
 
   .slot-text {

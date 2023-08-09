@@ -93,7 +93,7 @@ function handleChange(event: Event) {
 .container:focus-within input ~ .checkmark {
   background: var(--white-color);
   border-color: var(--primary-color-300);
-  box-shadow: var(--primary-focus-shadow);
+  box-shadow: var(--primary-focus-shadow-light);
   transition: all var(--duration-default);
 }
 .container input:checked ~ .checkmark {

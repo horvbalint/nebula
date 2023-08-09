@@ -158,7 +158,7 @@ label {
   }
   &:focus-within {
     border-color: var(--primary-color-300);
-    box-shadow: var(--primary-focus-shadow);
+    box-shadow: var(--primary-focus-shadow-light);
   }
   & input {
     flex: 1;

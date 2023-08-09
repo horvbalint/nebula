@@ -43,7 +43,7 @@ const menus = [
 ]
 </script>
 
-<style lang="scss" scoped>
+<style lang="css" scoped>
 p {
   color: var(--neutral-color-600);
   font-size: var(--title-xs);
