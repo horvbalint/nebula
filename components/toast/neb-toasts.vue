@@ -14,9 +14,11 @@ function removeToast(index: number) {
       :type="toast.type"
       :title="toast.title"
       :description="toast.description"
-      :timeout="toast.timeout"
+      :progress="toast.controlls?.progress"
       :actions="toast.actions"
       @close="removeToast(index)"
+      @mouseenter="toast.controlls?.pause()"
+      @mouseleave="toast.controlls?.resume()"
     />
   </div>
 </template>
