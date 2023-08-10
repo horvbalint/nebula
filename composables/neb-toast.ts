@@ -11,21 +11,88 @@ export interface NebToastParams {
   actions?: NebToastAction[]
 }
 
-export interface NebToast extends NebToastParams {
+let toastId = 0
+
+class NebToast {
   id: number
+  type: NebToastParams['type']
+  title: string
+  description?: string
   actions: NebToastAction[]
-  controlls?: {
+  timeout?: {
     duration: number
     lastTickAt: number
     paused: boolean
-    progress: Ref<number>
-    pause: () => void
-    resume: () => void
-    loop: () => void
+    progress: number
+  }
+
+  constructor(toast: NebToastParams) {
+    this.id = toastId++
+    this.type = toast.type
+    this.title = toast.title
+    this.description = toast.description
+    this.actions = toast.actions || []
+
+    if (toast.type !== 'error')
+      toast.timeout = 5000
+
+    if (toast.timeout) {
+      this.timeout = reactive({
+        duration: toast.timeout,
+        lastTickAt: 0,
+        paused: false,
+        progress: 0,
+      })
+
+      this.resume()
+    }
+  }
+
+  resume() {
+    if (!this.timeout)
+      return
+
+    if (this.timeout.progress === 1)
+      return
+
+    this.timeout.paused = false
+    this.timeout.lastTickAt = performance.now()
+
+    this.loop()
+  }
+
+  pause() {
+    if (!this.timeout)
+      return
+
+    this.timeout.paused = true
+  }
+
+  loop() {
+    if (!this.timeout)
+      throw new Error('NebToast: error during timeout loop, timeout was removed.')
+
+    const currentMs = performance.now()
+    const elapsedMs = currentMs - this.timeout.lastTickAt
+    const elapsedProgress = elapsedMs / this.timeout.duration
+
+    this.timeout.progress = Math.min(this.timeout.progress + elapsedProgress, 1)
+    this.timeout.lastTickAt = currentMs
+
+    if (this.timeout.progress === 1)
+      this.destroy()
+    else if (!this.timeout.paused)
+      requestAnimationFrame(this.loop.bind(this))
+  }
+
+  destroy() {
+    const toasts = useNebToasts()
+
+    const index = toasts.value.findIndex(t => t.id === this.id)
+    if (index !== -1)
+      toasts.value.splice(index, 1)
   }
 }
-
-let toastId = 0
 
 export function useNebToasts() {
   return useState('nebToasts', () => [] as NebToast[])
@@ -34,60 +101,6 @@ export function useNebToasts() {
 export function useNebToast(toastParams: NebToastParams) {
   const toasts = useNebToasts()
 
-  if (toastParams.type !== 'error')
-    toastParams.timeout = 5000
-
-  const toast = {
-    ...toastParams,
-    id: toastId++,
-    actions: toastParams.actions || [],
-  } as NebToast
-
-  if (toastParams.timeout) {
-    addTimeoutLogic(toast, toastParams.timeout)
-    toast.controlls!.resume()
-  }
-
+  const toast = new NebToast(toastParams)
   toasts.value.push(toast)
-}
-
-function addTimeoutLogic(toast: NebToast, timeout: number) {
-  toast.controlls = {
-    duration: timeout,
-    lastTickAt: 0,
-    paused: false,
-    progress: ref(0),
-    resume: () => {
-      if (!toast.controlls)
-        throw new Error('"resume" cannot be called on NebToast that was created without the "timeout" parameter')
-
-      if (toast.controlls.progress.value === 1)
-        return
-
-      toast.controlls.paused = false
-      toast.controlls.lastTickAt = performance.now()
-
-      toast.controlls.loop()
-    },
-    pause: () => {
-      if (!toast.controlls)
-        throw new Error('"pause" cannot be called on NebToast that was created without the "timeout" parameter')
-
-      toast.controlls.paused = true
-    },
-    loop: () => {
-      if (!toast.controlls)
-        throw new Error('NebToast: error during timeout loop, timeout was removed.')
-
-      const currentMs = performance.now()
-      const elapsedMs = currentMs - toast.controlls.lastTickAt
-      const elapsedProgress = elapsedMs / toast.controlls.duration
-
-      toast.controlls.progress.value = Math.min(toast.controlls.progress.value + elapsedProgress, 1)
-      toast.controlls.lastTickAt = currentMs
-
-      if (!toast.controlls.paused && toast.controlls.progress.value !== 1)
-        requestAnimationFrame(toast.controlls.loop.bind(toast))
-    },
-  }
 }

@@ -1,24 +1,20 @@
 <script setup lang="ts">
 const toasts = useNebToasts()
-
-function removeToast(index: number) {
-  toasts.value.splice(index, 1)
-}
 </script>
 
 <template>
   <div class="neb-toasts">
     <neb-toast
-      v-for="(toast, index) in toasts"
+      v-for="toast in toasts"
       :key="toast.title"
       :type="toast.type"
       :title="toast.title"
       :description="toast.description"
-      :progress="toast.controlls?.progress"
+      :progress="toast.timeout?.progress"
       :actions="toast.actions"
-      @close="removeToast(index)"
-      @mouseenter="toast.controlls?.pause()"
-      @mouseleave="toast.controlls?.resume()"
+      @close="toast.destroy()"
+      @mouseenter="toast.pause()"
+      @mouseleave="toast.resume()"
     />
   </div>
 </template>

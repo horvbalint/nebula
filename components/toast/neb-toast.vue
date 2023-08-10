@@ -6,10 +6,9 @@ const props = withDefaults(defineProps<{
   type: NebToastParams['type']
   title: string
   description?: string
-  actions: NebToastAction[]
+  actions?: NebToastAction[]
 }>(), {
-  // @ts-expect-error - figure out the type error
-  actions: [] as NebToastAction[],
+  actions: () => [],
 })
 
 defineEmits<{
