@@ -7,8 +7,10 @@ const props = withDefaults(defineProps<{
   title: string
   description?: string
   actions?: NebToastAction[]
+  hideActionRow?: boolean
 }>(), {
   actions: () => [],
+  hideActionRow: false,
 })
 
 defineEmits<{
@@ -21,10 +23,19 @@ const computedProgress = computed(() => {
 
   return `${props.progress * 100}%`
 })
+
+const computedClasses = computed(() => {
+  const classes = [props.type] as string[]
+
+  if (props.hideActionRow)
+    classes.push('hide-action-row')
+
+  return classes
+})
 </script>
 
 <template>
-  <div class="neb-toast" :class="props.type">
+  <div class="neb-toast hide-action" :class="computedClasses">
     <div class="toast-wrapper">
       <div class="toast-type-icon">
         <icon name="material-symbols:info-outline-rounded" />
@@ -36,7 +47,7 @@ const computedProgress = computed(() => {
           <p>{{ props.description }}</p>
         </div>
 
-        <footer>
+        <footer v-if="!hideActionRow">
           <neb-button class="toast-button" type="link" color @click="$emit('close')">
             Bezárás
           </neb-button>
@@ -52,12 +63,11 @@ const computedProgress = computed(() => {
           </neb-button>
         </footer>
       </div>
-    </div>
-    <hr class="timer-line">
 
-    <div class="close-icon" @click="$emit('close')">
-      <icon name="mdi:close" />
+      <icon class="close-icon" name="material-symbols:close-rounded" @click="$emit('close')" />
     </div>
+
+    <hr class="timer-line">
   </div>
 </template>
 
@@ -65,9 +75,11 @@ const computedProgress = computed(() => {
 .neb-toast {
   display: flex;
   flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  position: relative;
   border-radius: var(--radius-default);
   overflow: hidden;
-  position: relative;
 
   &.info {
     border: 1px solid var(--primary-color-300);
@@ -94,7 +106,7 @@ const computedProgress = computed(() => {
     .close-icon {
       color: var(--primary-color-400);
 
-      &:hover * {
+      &:hover {
         color: var(--primary-color-600);
       }
     }
@@ -130,7 +142,7 @@ const computedProgress = computed(() => {
     .close-icon {
       color: var(--error-color-400);
 
-      &:hover * {
+      &:hover {
         color: var(--error-color-600);
       }
     }
@@ -166,7 +178,7 @@ const computedProgress = computed(() => {
     .close-icon {
       color: var(--success-color-400);
 
-      &:hover * {
+      &:hover {
         color: var(--success-color-600);
       }
     }
@@ -202,7 +214,7 @@ const computedProgress = computed(() => {
     .close-icon {
       color: var(--warning-color-400);
 
-      &:hover * {
+      &:hover {
         color: var(--warning-color-600);
       }
     }
@@ -219,13 +231,15 @@ const computedProgress = computed(() => {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  padding: var(--space-4);
-  gap: var(--space-4);
-  padding-right: var(--space-16);
+  gap: var(--space-6);
+}
+.hide-action-row .toast-wrapper {
+  align-items: center;
 }
 .toast-content {
   display: flex;
   flex-direction: column;
+  flex: 1;
   gap: var(--space-3);
 
   h6 {
@@ -278,19 +292,16 @@ footer {
 }
 .close-icon {
   cursor: pointer;
-  position: absolute;
-  top: var(--space-4);
-  right: var(--space-4);
-
-  * {
-    height: 20px;
-    width: 20px;
-  }
+  height: 20px;
+  width: 20px;
 }
 .timer-line {
   border: none;
   height: 2px;
   width: v-bind(computedProgress);
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 
 .dark-mode {

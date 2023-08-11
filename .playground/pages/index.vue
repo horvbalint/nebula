@@ -20,7 +20,7 @@ const hide = ref(false)
 
 <template>
   <div class="experiments">
-    <neb-toast type="info" title="We’ve just released a new feature" description="We will conduct a scheduled maintanance on Friday."/>
+    <neb-toast hide-action-row type="info" title="We’ve just released a new feature" description="We will conduct a scheduled maintanance on Friday."/>
 
     <neb-validator v-model="isValid" class="form-elements">
       <neb-input type="email" required v-model="email" label="Email" placeholder="Write here..."/>
