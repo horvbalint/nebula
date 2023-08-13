@@ -4,18 +4,21 @@ const toasts = useNebToasts()
 
 <template>
   <div class="neb-toasts">
-    <neb-toast
-      v-for="toast in toasts"
-      :key="toast.title"
-      :type="toast.type"
-      :title="toast.title"
-      :description="toast.description"
-      :progress="toast.timeout?.progress"
-      :actions="toast.actions"
-      @close="toast.destroy()"
-      @mouseenter="toast.pause()"
-      @mouseleave="toast.resume()"
-    />
+    <transition-group name="toast-list">
+      <neb-toast
+        v-for="toast in toasts"
+        :key="toast"
+        class="toast-move"
+        :type="toast.type"
+        :title="toast.title"
+        :description="toast.description"
+        :progress="toast.timeout?.progress"
+        :actions="toast.actions"
+        @close="toast.destroy()"
+        @mouseenter="toast.pause()"
+        @mouseleave="toast.resume()"
+      />
+    </transition-group>
   </div>
 </template>
 
@@ -26,6 +29,7 @@ const toasts = useNebToasts()
   left: var(--space-6);
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: var(--space-2);
 }
 </style>
