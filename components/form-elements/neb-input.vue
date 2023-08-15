@@ -215,8 +215,8 @@ label {
     color: var(--neutral-color-300);
   }
   .neb-input {
-    background: var(--neutral-color-975);
-    border: 1px solid var(--neutral-color-600);
+    background: var(--neutral-color-950);
+    border: 1px solid var(--neutral-color-700);
 
     &.has-error {
       border-color: var(--error-color-700);

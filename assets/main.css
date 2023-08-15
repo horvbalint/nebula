@@ -12,6 +12,20 @@ body {
 .dark-mode body {
   background: var(--neutral-color-975);
 }
+.neb-overlay-transition {
+  animation: overlay-transition var(--duration-default) forwards;
+}
+
+@keyframes overlay-transition {
+  0% {
+    opacity: .5;
+    transform: translateY(var(--space-3));
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 .toast-move,
 .toast-list-enter-active,

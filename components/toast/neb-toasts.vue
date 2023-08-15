@@ -7,7 +7,7 @@ const toasts = useNebToasts()
     <transition-group name="toast-list">
       <neb-toast
         v-for="toast in toasts"
-        :key="toast"
+        :key="toast.id"
         class="toast-move"
         :type="toast.type"
         :title="toast.title"

@@ -25,48 +25,68 @@ const floatingOptions: UseFloatingOptions = {
 
 const menus = [
   {
-    text: 'Open document',
-    icon: 'material-symbols:open-in-new-rounded',
-    callback: () => console.log('open')
-  },
-  {
-    text: 'Edit document',
+    text: 'View profile',
     icon: 'material-symbols:edit-outline-rounded',
-    callback: () => console.log('edit')
+    callback: () => console.log('edit'),
   },
   {
-    text: 'Share document',
+    text: 'Settings',
     icon: 'material-symbols:ios-share-rounded',
     callback: () => console.log('share')
   },
   {
-    text: 'Delete document',
+    text: 'Keyboard shortcuts',
     icon: 'material-symbols:delete-outline-rounded',
     callback: () => console.log('delete'),
     segment: true,
+  },
+  {
+    text: 'Company profile',
+    icon: 'material-symbols:delete-outline-rounded',
+    callback: () => console.log('delete'),
+  },
+  {
+    text: 'Team',
+    icon: 'material-symbols:delete-outline-rounded',
+    callback: () => console.log('delete'),
+    disabled: true
+  },
+  {
+    text: 'Invite colleagues',
+    icon: 'material-symbols:delete-outline-rounded',
+    callback: () => console.log('delete'),
   }
 ]
 </script>
 
 <template>
   <div class="experiments">
-    <neb-toast hide-action-row type="info" title="We’ve just released a new feature" description="We will conduct a scheduled maintanance on Friday."/>
+    <neb-toast type="info" title="We’ve just released a new feature" description="We will conduct a scheduled maintanance on Friday."/>
+    <neb-toast type="success" title="We’ve just released a new feature" description="We will conduct a scheduled maintanance on Friday."/>
+    <neb-toast type="warning" title="We’ve just released a new feature" description="We will conduct a scheduled maintanance on Friday."/>
+    <neb-toast type="error" title="We’ve just released a new feature" description="We will conduct a scheduled maintanance on Friday."/>
 
-    <!-- <neb-validator v-model="isValid" class="form-elements">
+    <neb-validator v-model="isValid" class="form-elements">
       <neb-input type="email" required v-model="email" label="Email" placeholder="Write here..."/>
       <neb-input v-if="!hide" type="password" required v-model="password" label="Password" placeholder="Write here..."/>
 
       <br>
       <neb-button :disabled="!isValid" @click="useNebToast({type: 'info', title: 'We’ve just released a new feature', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum dolor.', actions: [{text: 'Read more', callback: () => console.log('Read more')}, {text: 'Other', callback: () => console.log('other')}]})">Login</neb-button>
-    </neb-validator> -->
+    </neb-validator>
 
     <div class="neb-dropdown2">
       <neb-menu :menus="menus" :floating-options="floatingOptions">
         <template #button="{toggle}">
-          <neb-button @click="toggle()">Menu</neb-button>
+          <neb-button @click="toggle()" type="secondary-neutral">
+            Account
+            <icon name="material-symbols:keyboard-arrow-down"/>
+          </neb-button>
         </template>
       </neb-menu>
     </div>
+
+    
+
 
     <!-- <div class="buttons">
       <neb-button type="primary" @click="popUpOpen = true">Primary</neb-button>
@@ -135,11 +155,6 @@ const menus = [
   gap: var(--space-6);
   padding: var(--space-12);
 }
-
-.neb-dropdown2 {
-  padding: 1000px 0;
-}
-
 .form-elements {
   max-width: 600px;
   margin: 0 auto;
@@ -201,6 +216,19 @@ const menus = [
     background: var(--success-color-100);
     border-radius: var(--radius-default);
     border: 1px solid var(--success-color-300);
+  }
+}
+.top-slot {
+  padding: var(--space-2) var(--space-4);
+  padding-bottom: var(--space-3);
+
+  h6 {
+    font-size: var(--text-sm);
+    font-weight: 600;
+  }
+  p {
+    font-size: var(--text-sm);
+    font-weight: 400;
   }
 }
 </style>

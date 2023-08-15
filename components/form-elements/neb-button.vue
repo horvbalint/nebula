@@ -175,6 +175,9 @@ withDefaults(defineProps<{
 
 .dark-mode {
   .neb-button.primary {
+    &:focus {
+      box-shadow: var(--primary-focus-shadow-dark);
+    }
     &:disabled {
       opacity: .7;
       background: var(--primary-color-950);
