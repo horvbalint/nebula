@@ -235,7 +235,7 @@ label {
     }
     & input:-webkit-autofill,
     & input:-webkit-autofill:focus {
-      -webkit-box-shadow:0 0 0 50px var(--neutral-color-975) inset; /* Change the color to your own background color */
+      -webkit-box-shadow:0 0 0 50px var(--neutral-color-950) inset; /* Change the color to your own background color */
     }
     .icon {
       color: var(--neutral-color-400);

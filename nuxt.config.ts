@@ -40,6 +40,11 @@ export default defineNuxtConfig({
         ],
       },
     },
+    vue: {
+      script: {
+        defineModel: true,
+      },
+    },
   },
   components: {
     dirs: [

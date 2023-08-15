@@ -8,6 +8,7 @@ definePageMeta({
   }
 })
 
+const hello = ref('')
 const username = ref('')
 const email = ref('')
 const password = ref('')
@@ -61,10 +62,16 @@ const menus = [
 
 <template>
   <div class="experiments">
-    <neb-toast type="info" title="We’ve just released a new feature" description="We will conduct a scheduled maintanance on Friday."/>
+    <!-- <neb-toast type="info" title="We’ve just released a new feature" description="We will conduct a scheduled maintanance on Friday."/>
     <neb-toast type="success" title="We’ve just released a new feature" description="We will conduct a scheduled maintanance on Friday."/>
     <neb-toast type="warning" title="We’ve just released a new feature" description="We will conduct a scheduled maintanance on Friday."/>
-    <neb-toast type="error" title="We’ve just released a new feature" description="We will conduct a scheduled maintanance on Friday."/>
+    <neb-toast type="error" title="We’ve just released a new feature" description="We will conduct a scheduled maintanance on Friday."/> -->
+
+    <neb-radio-button v-model="hello" value="cacac"/>
+    <neb-radio-button v-model="hello" value="vava"/>
+    <neb-radio-button v-model="hello" value="adsasd"/>
+
+    {{ hello }}
 
     <neb-validator v-model="isValid" class="form-elements">
       <neb-input type="email" required v-model="email" label="Email" placeholder="Write here..."/>
