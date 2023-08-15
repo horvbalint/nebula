@@ -80,6 +80,8 @@ const computedClasses = computed(() => {
   position: relative;
   border-radius: var(--radius-default);
   overflow: hidden;
+  box-shadow: var(--shadow-md);
+  animation: bottom-left var(--duration-default) forwards;
 
   &.info {
     border: 1px solid var(--primary-color-300);

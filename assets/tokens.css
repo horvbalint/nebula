@@ -53,6 +53,7 @@
   --shadow-3xl: 0px 32px 64px -12px rgba(var(--neutral-color-component-900), 0.14);
 
   /* TIMING */
+  --duration-slow: .35s;
   --duration-default: .2s;
   --duration-fast: .1s;
 }

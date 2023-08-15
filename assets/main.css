@@ -12,3 +12,20 @@ body {
 .dark-mode body {
   background: var(--neutral-color-975);
 }
+
+.toast-move,
+.toast-list-enter-active,
+.toast-list-leave-active {
+  transition: all var(--duration-slow) ease;
+}
+.toast-list-enter-from {
+  opacity: 0;
+  transform: translateX(-20%);
+}
+.toast-list-leave-to {
+  opacity: 0;
+  transform: translateX(10%);
+}
+.toast-list-leave-active {
+  position: absolute;
+}
