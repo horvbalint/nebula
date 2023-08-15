@@ -18,6 +18,7 @@ export default defineNuxtConfig({
   plugins: [
     '@nebula/plugins/neb-expand',
     '@nebula/plugins/neb-blur',
+    '@nebula/plugins/vueuse-components',
   ],
   nebula: {
     primaryColor: '#9E77ED',

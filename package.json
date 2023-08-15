@@ -12,6 +12,8 @@
     "postinstall": "nuxt prepare .playground"
   },
   "dependencies": {
+    "@floating-ui/vue": "^1.0.2",
+    "@vueuse/components": "^10.3.0",
     "color": "^4.2.3"
   },
   "devDependencies": {

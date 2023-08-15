@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { UseFloatingOptions } from '@floating-ui/vue'
+
 definePageMeta({
   name: 'Fő oldal',
   nebula: {
@@ -16,22 +18,55 @@ const expand = ref(false)
 const isValid = ref(false)
 const errors = ref(null)
 const hide = ref(false)
+
+const floatingOptions: UseFloatingOptions = {
+  placement: 'bottom-start'
+}
+
+const menus = [
+  {
+    text: 'Open document',
+    icon: 'material-symbols:open-in-new-rounded',
+    callback: () => console.log('open')
+  },
+  {
+    text: 'Edit document',
+    icon: 'material-symbols:edit-outline-rounded',
+    callback: () => console.log('edit')
+  },
+  {
+    text: 'Share document',
+    icon: 'material-symbols:ios-share-rounded',
+    callback: () => console.log('share')
+  },
+  {
+    text: 'Delete document',
+    icon: 'material-symbols:delete-outline-rounded',
+    callback: () => console.log('delete'),
+    segment: true,
+  }
+]
 </script>
 
 <template>
   <div class="experiments">
     <neb-toast hide-action-row type="info" title="We’ve just released a new feature" description="We will conduct a scheduled maintanance on Friday."/>
 
-    <neb-validator v-model="isValid" class="form-elements">
+    <!-- <neb-validator v-model="isValid" class="form-elements">
       <neb-input type="email" required v-model="email" label="Email" placeholder="Write here..."/>
       <neb-input v-if="!hide" type="password" required v-model="password" label="Password" placeholder="Write here..."/>
 
       <br>
       <neb-button :disabled="!isValid" @click="useNebToast({type: 'info', title: 'We’ve just released a new feature', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum dolor.', actions: [{text: 'Read more', callback: () => console.log('Read more')}, {text: 'Other', callback: () => console.log('other')}]})">Login</neb-button>
-      <neb-button :disabled="!isValid" @click="useNebToast({type: 'error', title: 'We’ve just released a new feature', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum dolor.', actions: [{text: 'Read more', callback: () => console.log('Read more')}, {text: 'Other', callback: () => console.log('other')}]})">Login</neb-button>
-      <neb-button :disabled="!isValid" @click="useNebToast({type: 'success', title: 'We’ve just released a new feature', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum dolor.', actions: [{text: 'Read more', callback: () => console.log('Read more')}, {text: 'Other', callback: () => console.log('other')}]})">Login</neb-button>
-      <neb-button :disabled="!isValid" @click="useNebToast({type: 'warning', title: 'We’ve just released a new feature', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum dolor.', actions: [{text: 'Read more', callback: () => console.log('Read more')}, {text: 'Other', callback: () => console.log('other')}]})">Login</neb-button>
-    </neb-validator>
+    </neb-validator> -->
+
+    <div class="neb-dropdown2">
+      <neb-menu :menus="menus" :floating-options="floatingOptions">
+        <template #button="{toggle}">
+          <neb-button @click="toggle()">Menu</neb-button>
+        </template>
+      </neb-menu>
+    </div>
 
     <!-- <div class="buttons">
       <neb-button type="primary" @click="popUpOpen = true">Primary</neb-button>
@@ -99,6 +134,10 @@ const hide = ref(false)
   flex-direction: column;
   gap: var(--space-6);
   padding: var(--space-12);
+}
+
+.neb-dropdown2 {
+  padding: 1000px 0;
 }
 
 .form-elements {

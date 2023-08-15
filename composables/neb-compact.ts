@@ -1,11 +1,9 @@
-type RefElement = Ref<HTMLElement | null>
+type RefElement = Ref<Element | null>
 
-export function useNebFlexCompact(container: RefElement, target: RefElement) {
+export function useNebCompact(container: RefElement, target: RefElement) {
   const compactMode = ref(false)
 
-  onMounted(() => {
-    startTargetObserver(compactMode, container, target)
-  })
+  onMounted(() => startTargetObserver(compactMode, container, target))
 
   return compactMode
 }
