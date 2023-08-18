@@ -5,6 +5,7 @@ import type { OnClickOutsideOptions } from '@vueuse/core'
 
 const props = defineProps<{
   floatingOptions?: UseFloatingOptions
+  fullWidth?: boolean
 }>()
 
 const floatingOptions: UseFloatingOptions = {
@@ -40,7 +41,7 @@ defineExpose({
 </script>
 
 <template>
-  <div class="neb-dropdown">
+  <div class="neb-dropdown" :class="{ 'full-width': fullWidth }">
     <div ref="trigger" class="trigger-wrapper">
       <slot name="trigger" :toggle="toggle" :open="open" :close="close" />
     </div>
@@ -52,7 +53,23 @@ defineExpose({
 </template>
 
 <style scoped>
+.neb-dropdown {
+  position: relative;
+
+  &.full-width {
+    width: 100%;
+    .trigger-wrapper {
+      width: 100%;
+    }
+    .dropdown {
+      width: 100%;
+    }
+  }
+}
 .trigger-wrapper {
-  width: fit-content
+  width: fit-content;
+}
+.dropdown {
+  z-index: 1;
 }
 </style>

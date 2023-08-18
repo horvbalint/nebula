@@ -40,6 +40,38 @@ const menus = [
     icon: 'material-symbols:delete-outline-rounded',
     callback: () => console.log('delete'),
     segment: true,
+  },
+  {
+    text: 'View profile',
+    icon: 'material-symbols:edit-outline-rounded',
+    callback: () => console.log('edit'),
+  },
+  {
+    text: 'Settings',
+    icon: 'material-symbols:ios-share-rounded',
+    callback: () => console.log('share')
+  },
+  {
+    text: 'Keyboard shortcuts',
+    icon: 'material-symbols:delete-outline-rounded',
+    callback: () => console.log('delete'),
+    segment: true,
+  },
+  {
+    text: 'View profile',
+    icon: 'material-symbols:edit-outline-rounded',
+    callback: () => console.log('edit'),
+  },
+  {
+    text: 'Settings',
+    icon: 'material-symbols:ios-share-rounded',
+    callback: () => console.log('share')
+  },
+  {
+    text: 'Keyboard shortcuts',
+    icon: 'material-symbols:delete-outline-rounded',
+    callback: () => console.log('delete'),
+    segment: true,
   }
 ]
 
@@ -48,19 +80,30 @@ const numbers = [1, 5, 10, 30, 50]
 
 <template>
   <div class="experiments">
-    <neb-select
-      :options="menus"
-      track-by-key="text"
-      label-key="icon"
-      label="Test select"
-    />
+    <div class="select-wrapper">
+      <neb-select
+        :options="menus"
+        track-by-key="text"
+        label-key="text"
+        label="Test select"
+        :floating-options="floatingOptions"
+      />
+    </div>
 
     <neb-radio-button v-model="hello" value="cacac" label="First option"/>
     <neb-radio-button v-model="hello" value="vava" label="Second option"/>
     <neb-radio-button v-model="hello" value="adsasd" label="Third option"/>
 
-    {{ hello }}
-
+    <div class="neb-dropdown2">
+      <neb-menu :menus="menus" :floating-options="floatingOptions">
+        <template #trigger="{toggle}">
+          <neb-button @click="toggle()" type="secondary-neutral">
+            Account
+            <icon name="material-symbols:keyboard-arrow-down"/>
+          </neb-button>
+        </template>
+      </neb-menu>
+    </div>
     <neb-validator v-model="isValid" class="form-elements">
       <neb-input type="email" required v-model="email" label="Email" placeholder="Write here..."/>
       <neb-input v-if="!hide" type="password" required v-model="password" label="Password" placeholder="Write here..."/>
@@ -69,16 +112,6 @@ const numbers = [1, 5, 10, 30, 50]
       <neb-button :disabled="!isValid" @click="useNebToast({type: 'info', title: 'We’ve just released a new feature', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum dolor.', actions: [{text: 'Read more', callback: () => console.log('Read more')}, {text: 'Other', callback: () => console.log('other')}]})">Login</neb-button>
     </neb-validator>
 
-    <div class="neb-dropdown2">
-      <neb-menu :menus="menus" :floating-options="floatingOptions">
-        <template #button="{toggle}">
-          <neb-button @click="toggle()" type="secondary-neutral">
-            Account
-            <icon name="material-symbols:keyboard-arrow-down"/>
-          </neb-button>
-        </template>
-      </neb-menu>
-    </div>
   </div>
 </template>
 
@@ -88,6 +121,10 @@ const numbers = [1, 5, 10, 30, 50]
   flex-direction: column;
   gap: var(--space-6);
   padding: var(--space-12);
+}
+.select-wrapper {
+  display: flex;
+  width: 700px;
 }
 .form-elements {
   max-width: 600px;

@@ -133,6 +133,7 @@ label {
   font-size: var(--text-sm);
   font-weight: 500;
   width: 100%;
+  color: var(--neutral-color-800);
 }
 .required-star {
   color: var(--error-color-500);
@@ -175,7 +176,7 @@ label {
     }
   }
   .icon {
-    color: var(--neutral-color-600);
+    color: var(--neutral-color-500);
   }
 }
 .hint {
