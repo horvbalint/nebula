@@ -67,4 +67,17 @@ input[type="radio"]:focus {
   outline: none;
   box-shadow: var(--primary-focus-shadow-light);
 }
+
+.dark-mode {
+  .neb-radio-button {
+    color: var(--neutral-color-300);
+  }
+  input[type="radio"] {
+    background: var(--neutral-color-950);
+    border: 1px solid var(--neutral-color-700);
+  }
+  input[type="radio"]:focus {
+    box-shadow: var(--primary-focus-shadow-dark);
+  }
+}
 </style>
