@@ -42,14 +42,18 @@ const menus = [
     segment: true,
   }
 ]
+
+const numbers = [1, 5, 10, 30, 50]
 </script>
 
 <template>
   <div class="experiments">
-    <!-- <neb-toast type="info" title="We’ve just released a new feature" description="We will conduct a scheduled maintanance on Friday."/>
-    <neb-toast type="success" title="We’ve just released a new feature" description="We will conduct a scheduled maintanance on Friday."/>
-    <neb-toast type="warning" title="We’ve just released a new feature" description="We will conduct a scheduled maintanance on Friday."/>
-    <neb-toast type="error" title="We’ve just released a new feature" description="We will conduct a scheduled maintanance on Friday."/> -->
+    <neb-select
+      :options="menus"
+      track-by-key="text"
+      label-key="icon"
+      label="Test select"
+    />
 
     <neb-radio-button v-model="hello" value="cacac" label="First option"/>
     <neb-radio-button v-model="hello" value="vava" label="Second option"/>
@@ -75,67 +79,6 @@ const menus = [
         </template>
       </neb-menu>
     </div>
-
-
-
-
-    <!-- <div class="buttons">
-      <neb-button type="primary" @click="popUpOpen = true">Primary</neb-button>
-      <neb-button type="secondary" @click="popUpOpen = true">Secondary</neb-button>
-      <neb-button type="secondary-neutral" @click="popUpOpen = true">Secondary neutral</neb-button>
-      <neb-button type="tertiary" @click="popUpOpen = true">Tertiary</neb-button>
-      <neb-button type="tertiary-neutral" @click="popUpOpen = true">Tertiary neutral</neb-button>
-      <neb-button type="link" @click="popUpOpen = true">Link</neb-button>
-      <neb-button type="link-neutral" @click="popUpOpen = true">Link neutral</neb-button>
-    </div>
-
-    <div class="buttons">
-      <neb-button disabled type="primary" @click="popUpOpen = true">Primary</neb-button>
-      <neb-button disabled type="secondary" @click="popUpOpen = true">Secondary</neb-button>
-      <neb-button disabled type="secondary-neutral" @click="popUpOpen = true">Secondary neutral</neb-button>
-      <neb-button disabled type="tertiary" @click="popUpOpen = true">Tertiary</neb-button>
-      <neb-button disabled type="tertiary-neutral" @click="popUpOpen = true">Tertiary neutral</neb-button>
-      <neb-button disabled type="link" @click="popUpOpen = true">Link</neb-button>
-      <neb-button disabled type="link-neutral" @click="popUpOpen = true">Link neutral</neb-button>
-    </div> -->
-
-    <!-- <div class="pop-up">
-      <div class="buttons">
-        <neb-button @click="popUpOpen = true">Primary</neb-button>
-      </div>
-
-      <neb-pop-up v-model="popUpOpen">
-        <div class="pop-up-body-1">
-          <neb-button @click="popUp2 = true">Open second</neb-button>
-        </div>
-      </neb-pop-up>
-
-      <neb-pop-up v-model="popUp2">
-        <div class="pop-up-body">
-          <neb-button @click="popUp2 = false">Close</neb-button>
-        </div>
-      </neb-pop-up>
-    </div> -->
-
-    <!-- <div class="neb-expand">
-      <neb-button @click="expand = !expand">Toggle {{expand}}</neb-button>
-
-      <p v-neb-expand="expand">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque ab minima, repellendus facere a quaerat quibusdam in quae rerum enim repudiandae asperiores quam molestias. Quos inventore illum repellendus natus quo.
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit aspernatur dolor quos quam nesciunt aut consequatur ipsum cupiditate optio! Mollitia, quisquam pariatur fugit iure deserunt harum ut ea commodi cupiditate.
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Natus quasi inventore quam! Deleniti minima dolorem illo quisquam fuga amet eius iure nulla iusto culpa explicabo eveniet, libero rerum sequi. Porro.
-      </p>
-    </div> -->
-
-    <!-- <div class="neb-blur">
-      <div class="main-box" v-neb-blur="() => console.log('HERE')">
-        Main box
-      </div>
-
-      <div class="exception-box" v-neb-blur-exception>
-        Exception box
-      </div>
-    </div> -->
   </div>
 </template>
 

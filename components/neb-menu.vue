@@ -28,8 +28,8 @@ function handleClick(menu: Menu) {
 
 <template>
   <NebDropdown ref="nebDropdown" class="neb-menu" :floating-options="floatingOptions">
-    <template #button="{ toggle }">
-      <slot name="button" :toggle="toggle" />
+    <template #trigger="{ toggle }">
+      <slot name="trigger" :toggle="toggle" />
     </template>
 
     <template #content>

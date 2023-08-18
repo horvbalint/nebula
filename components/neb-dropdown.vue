@@ -12,18 +12,26 @@ const floatingOptions: UseFloatingOptions = {
   ...props.floatingOptions,
 }
 
-const button = ref(null)
+const trigger = ref(null)
 const dropdown = ref(null)
 
-const { floatingStyles } = useFloating(button, dropdown, floatingOptions)
+const { floatingStyles } = useFloating(trigger, dropdown, floatingOptions)
 
 const clickOutsideOptions: OnClickOutsideOptions = {
-  ignore: [button],
+  ignore: [trigger],
 }
 
-const open = ref(false)
+const isOpen = ref(false)
 function toggle() {
-  open.value = !open.value
+  isOpen.value = !isOpen.value
+}
+
+function open() {
+  isOpen.value = true
+}
+
+function close() {
+  isOpen.value = false
 }
 
 defineExpose({
@@ -33,18 +41,18 @@ defineExpose({
 
 <template>
   <div class="neb-dropdown">
-    <div ref="button" class="button-wrapper">
-      <slot name="button" :toggle="toggle" />
+    <div ref="trigger" class="trigger-wrapper">
+      <slot name="trigger" :toggle="toggle" :open="open" :close="close" />
     </div>
 
-    <div v-if="open" ref="dropdown" v-on-click-outside="[toggle, clickOutsideOptions]" class="dropdown" :style="floatingStyles">
-      <slot name="content" :toggle="toggle" />
+    <div v-if="isOpen" ref="dropdown" v-on-click-outside="[toggle, clickOutsideOptions]" class="dropdown" :style="floatingStyles">
+      <slot name="content" :toggle="toggle" :open="open" :close="close" />
     </div>
   </div>
 </template>
 
 <style scoped>
-.button-wrapper {
+.trigger-wrapper {
   width: fit-content
 }
 </style>
