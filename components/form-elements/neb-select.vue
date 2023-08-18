@@ -51,6 +51,10 @@ const input = ref<HTMLInputElement | null>(null)
         <span v-if="label">{{ label }} <span class="required-star">*</span></span>
 
         <div class="neb-select-input">
+          <slot name="leading">
+            <!-- <icon :name="computedLeadingIcon" /> -->
+          </slot>
+
           <input ref="input" @focus="open()">
 
           <icon name="material-symbols:keyboard-arrow-down" />

@@ -87,7 +87,12 @@ const numbers = [1, 5, 10, 30, 50]
         label-key="text"
         label="Test select"
         :floating-options="floatingOptions"
-      />
+        hint="This is a hint text to help user."
+      >
+        <template #leading>
+          asdasds
+        </template>
+      </neb-select>
     </div>
 
     <neb-radio-button v-model="hello" value="cacac" label="First option"/>
@@ -124,7 +129,7 @@ const numbers = [1, 5, 10, 30, 50]
 }
 .select-wrapper {
   display: flex;
-  width: 700px;
+  width: 400px;
 }
 .form-elements {
   max-width: 600px;
