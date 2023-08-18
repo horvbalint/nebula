@@ -24,6 +24,7 @@ const props = defineProps<{
   label?: string
   hint?: string
   floatingOptions?: UseFloatingOptions
+  leadingIcon?: string
 }>()
 
 const processedOptions = computed(() => {
@@ -52,12 +53,12 @@ const input = ref<HTMLInputElement | null>(null)
 
         <div class="neb-select-input">
           <slot name="leading">
-            <!-- <icon :name="computedLeadingIcon" /> -->
+            <icon v-if="leadingIcon" :name="leadingIcon" />
           </slot>
 
           <input ref="input" @focus="open()">
 
-          <icon name="material-symbols:keyboard-arrow-down" />
+          <icon class="chevron" name="material-symbols:keyboard-arrow-down" />
         </div>
 
         <p v-if="hint" class="hint">{{ $props.hint }}</p>
@@ -107,9 +108,8 @@ const input = ref<HTMLInputElement | null>(null)
     border-color: var(--primary-color-300);
     box-shadow: var(--primary-focus-shadow-light);
 
-    .icon {
+    .chevron {
       transform: rotate(180deg);
-      transition: transform var(--duration-default);
     }
   }
   & input {

@@ -88,11 +88,8 @@ const numbers = [1, 5, 10, 30, 50]
         label="Test select"
         :floating-options="floatingOptions"
         hint="This is a hint text to help user."
-      >
-        <template #leading>
-          asdasds
-        </template>
-      </neb-select>
+        leading-icon="material-symbols:account-circle-full"
+      />
     </div>
 
     <neb-radio-button v-model="hello" value="cacac" label="First option"/>
