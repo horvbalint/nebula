@@ -25,15 +25,21 @@ const open = ref(false)
 function toggle() {
   open.value = !open.value
 }
+
+defineExpose({
+  toggle,
+})
 </script>
 
 <template>
-  <div ref="button" class="button-wrapper">
-    <slot name="button" :toggle="toggle" />
-  </div>
+  <div class="neb-dropdown">
+    <div ref="button" class="button-wrapper">
+      <slot name="button" :toggle="toggle" />
+    </div>
 
-  <div v-if="open" ref="dropdown" v-on-click-outside="[toggle, clickOutsideOptions]" class="dropdown" :style="floatingStyles">
-    <slot name="content" :toggle="toggle" />
+    <div v-if="open" ref="dropdown" v-on-click-outside="[toggle, clickOutsideOptions]" class="dropdown" :style="floatingStyles">
+      <slot name="content" :toggle="toggle" />
+    </div>
   </div>
 </template>
 

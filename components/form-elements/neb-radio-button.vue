@@ -1,5 +1,6 @@
 <script lang="ts" setup generic="T">
 defineProps<{
+  label: string
   value: T
   disabled?: boolean
 }>()
@@ -15,7 +16,7 @@ const modelValue = defineModel()
       :disabled="disabled"
       type="radio"
     >
-    Remember me
+    <slot>{{ label }}</slot>
   </label>
 </template>
 

@@ -40,22 +40,6 @@ const menus = [
     icon: 'material-symbols:delete-outline-rounded',
     callback: () => console.log('delete'),
     segment: true,
-  },
-  {
-    text: 'Company profile',
-    icon: 'material-symbols:delete-outline-rounded',
-    callback: () => console.log('delete'),
-  },
-  {
-    text: 'Team',
-    icon: 'material-symbols:delete-outline-rounded',
-    callback: () => console.log('delete'),
-    disabled: true
-  },
-  {
-    text: 'Invite colleagues',
-    icon: 'material-symbols:delete-outline-rounded',
-    callback: () => console.log('delete'),
   }
 ]
 </script>
@@ -67,9 +51,9 @@ const menus = [
     <neb-toast type="warning" title="We’ve just released a new feature" description="We will conduct a scheduled maintanance on Friday."/>
     <neb-toast type="error" title="We’ve just released a new feature" description="We will conduct a scheduled maintanance on Friday."/> -->
 
-    <neb-radio-button v-model="hello" value="cacac"/>
-    <neb-radio-button v-model="hello" value="vava"/>
-    <neb-radio-button v-model="hello" value="adsasd"/>
+    <neb-radio-button v-model="hello" value="cacac" label="First option"/>
+    <neb-radio-button v-model="hello" value="vava" label="Second option"/>
+    <neb-radio-button v-model="hello" value="adsasd" label="Third option"/>
 
     {{ hello }}
 
@@ -92,7 +76,7 @@ const menus = [
       </neb-menu>
     </div>
 
-    
+
 
 
     <!-- <div class="buttons">

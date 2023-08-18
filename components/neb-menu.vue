@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { UseFloatingOptions } from '@floating-ui/vue'
+import NebDropdown from '@nebula/components/neb-dropdown.vue'
 
 interface Menu {
   text: string
@@ -13,15 +14,25 @@ defineProps<{
   menus: Menu[]
   floatingOptions?: UseFloatingOptions
 }>()
+
+const nebDropdown = ref<InstanceType<typeof NebDropdown> | null>(null)
+
+function handleClick(menu: Menu) {
+  if (menu.disabled)
+    return
+
+  menu.callback()
+  nebDropdown.value!.toggle()
+}
 </script>
 
 <template>
-  <neb-dropdown class="neb-menu" :floating-options="floatingOptions">
+  <NebDropdown ref="nebDropdown" class="neb-menu" :floating-options="floatingOptions">
     <template #button="{ toggle }">
       <slot name="button" :toggle="toggle" />
     </template>
 
-    <template #content="{ toggle }">
+    <template #content>
       <div class="dropdown neb-overlay-transition">
         <slot name="header" />
 
@@ -33,11 +44,14 @@ defineProps<{
               segment: menu.segment,
               disabled: menu.disabled,
             }"
-            @click="menu.callback(); toggle()"
           >
-            <div class="menu">
-              <icon v-if="menu.icon" :name="menu.icon" />
-              <p>{{ menu.text }}</p>
+            <hr>
+
+            <div class="menu-row">
+              <div class="menu-row-content" @click="handleClick(menu)">
+                <icon v-if="menu.icon" :name="menu.icon" />
+                <p>{{ menu.text }}</p>
+              </div>
             </div>
           </li>
         </ul>
@@ -45,7 +59,7 @@ defineProps<{
         <slot name="footer" />
       </div>
     </template>
-  </neb-dropdown>
+  </NebDropdown>
 </template>
 
 <style scoped>
@@ -64,20 +78,33 @@ ul {
   margin: 0;
 }
 li {
+  hr {
+    margin: var(--space-1) 0;
+    border: none;
+    height: 1px;
+    background: var(--neutral-color-200);
+    display: none;
+  }
+  &.segment {
+    hr {
+      display: block;
+    }
+  }
+  &.disabled{
+    .menu-row {
+      opacity: .45;
+    }
+    .menu-row-content {
+      cursor: not-allowed;
+    }
+  }
+}
+.menu-row {
   margin: 0;
   padding: 0 var(--space-1);
   user-select: none;
-
-  &.segment {
-    border-top: 1px solid var(--neutral-color-200);
-  }
-  &.disabled {
-    opacity: .45;
-    pointer-events: none;
-    cursor: not-allowed;
-  }
 }
-.menu {
+.menu-row-content {
   width: 100%;
   display: flex;
   align-items: center;
@@ -111,11 +138,11 @@ li {
     background: var(--neutral-color-950);
   }
   li {
-    &.segment {
-      border-top: 1px solid var(--neutral-color-800);
+    hr {
+      background: var(--neutral-color-800);
     }
   }
-  .menu {
+  .menu-row-content {
     &:hover {
       background: var(--neutral-color-900);
     }
