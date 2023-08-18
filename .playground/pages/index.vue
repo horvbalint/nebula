@@ -76,12 +76,14 @@ const menus = [
 ]
 
 const numbers = [1, 5, 10, 30, 50]
+const select = ref([])
 </script>
 
 <template>
   <div class="experiments">
     <div class="select-wrapper">
       <neb-select
+        v-model="select"
         :options="menus"
         track-by-key="text"
         label-key="text"
@@ -89,7 +91,11 @@ const numbers = [1, 5, 10, 30, 50]
         :floating-options="floatingOptions"
         hint="This is a hint text to help user."
         leading-icon="material-symbols:account-circle-full"
+        use-only-tracked-key
+        multiple
       />
+
+      {{ select }}
     </div>
 
     <neb-radio-button v-model="hello" value="cacac" label="First option"/>

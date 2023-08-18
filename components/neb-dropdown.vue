@@ -13,8 +13,8 @@ const floatingOptions: UseFloatingOptions = {
   ...props.floatingOptions,
 }
 
-const trigger = ref(null)
-const dropdown = ref(null)
+const trigger = ref<HTMLElement | null>(null)
+const dropdown = ref<HTMLElement | null>(null)
 
 const { floatingStyles } = useFloating(trigger, dropdown, floatingOptions)
 
@@ -23,15 +23,24 @@ const clickOutsideOptions: OnClickOutsideOptions = {
 }
 
 const isOpen = ref(false)
-function toggle() {
+function toggle(event?: PointerEvent) {
+  if (event?.target && trigger.value!.contains(event.target as Node)) // TODO: debug vueuse onClickOutside, when clicking in an input that has a focus event
+    return
+
   isOpen.value = !isOpen.value
 }
 
-function open() {
+function open(event?: PointerEvent) {
+  if (event?.target && trigger.value!.contains(event.target as Node))
+    return
+
   isOpen.value = true
 }
 
-function close() {
+function close(event?: PointerEvent) {
+  if (event?.target && trigger.value!.contains(event.target as Node))
+    return
+
   isOpen.value = false
 }
 
@@ -46,7 +55,7 @@ defineExpose({
       <slot name="trigger" :toggle="toggle" :open="open" :close="close" />
     </div>
 
-    <div v-if="isOpen" ref="dropdown" v-on-click-outside="[toggle, clickOutsideOptions]" class="dropdown" :style="floatingStyles">
+    <div v-if="isOpen" ref="dropdown" v-on-click-outside="[close, clickOutsideOptions]" class="dropdown" :style="floatingStyles">
       <slot name="content" :toggle="toggle" :open="open" :close="close" />
     </div>
   </div>

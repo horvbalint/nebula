@@ -1,10 +1,8 @@
 <script lang="ts">
 import type { UseFloatingOptions } from '@floating-ui/vue'
 
-type KeyType = string | number | symbol
-
-type OptionLike<TrackByKey extends KeyType, LabelKey extends KeyType> = {
-  [x in TrackByKey | LabelKey]: KeyType;
+type ObjectOptionLike<TrackByKey extends PropertyKey, LabelKey extends PropertyKey> = {
+  [x in TrackByKey | LabelKey]: PropertyKey;
 }
 </script>
 
@@ -12,34 +10,159 @@ type OptionLike<TrackByKey extends KeyType, LabelKey extends KeyType> = {
   setup
   lang="ts"
   generic="
-    TrackByKey extends KeyType,
-    LabelKey extends KeyType,
-    Option extends OptionLike<TrackByKey, LabelKey> | KeyType
+    TrackByKey extends PropertyKey,
+    LabelKey extends PropertyKey,
   "
 >
-const props = defineProps<{
-  options: Option[]
-  labelKey?: LabelKey
-  trackByKey?: TrackByKey
+type ObjectOption = ObjectOptionLike<TrackByKey, LabelKey>
+
+type DiscriminatingProps = {
+  multiple: false
+  useOnlyTrackedKey?: false
+  modelValue: ObjectOption | null
+  options: ObjectOption[]
+  trackByKey: TrackByKey
+  labelKey: LabelKey
+} | {
+  multiple: false
+  useOnlyTrackedKey: true
+  modelValue: PropertyKey | null
+  options: ObjectOption[]
+  trackByKey: TrackByKey
+  labelKey: LabelKey
+} | {
+  multiple: false
+  useOnlyTrackedKey?: false
+  modelValue: PropertyKey | null
+  options: PropertyKey[]
+} | {
+  multiple: true
+  useOnlyTrackedKey?: false
+  modelValue: ObjectOption[]
+  options: ObjectOption[]
+  trackByKey: TrackByKey
+  labelKey: LabelKey
+} | {
+  multiple: true
+  useOnlyTrackedKey: true
+  modelValue: PropertyKey[]
+  options: ObjectOption[]
+  trackByKey: TrackByKey
+  labelKey: LabelKey
+} | {
+  multiple: true
+  useOnlyTrackedKey?: false
+  modelValue: PropertyKey[]
+  options: PropertyKey[]
+}
+
+interface FixProps {
   label?: string
   hint?: string
   floatingOptions?: UseFloatingOptions
   leadingIcon?: string
+}
+
+const props = defineProps<DiscriminatingProps & FixProps>()
+
+const emit = defineEmits<{
+  'update:modelValue': [typeof props.modelValue]
 }>()
 
-const processedOptions = computed(() => {
-  return props.options.map(option => ({
-    trackValue: getValue(option, props.trackByKey),
-    labelValue: getValue(option, props.labelKey),
-    option,
-  }))
+interface ProcessedOption {
+  selected?: boolean
+  trackValue: PropertyKey
+  labelValue: PropertyKey
+  option: PropertyKey | ObjectOption
+}
+
+const computedOptions = computed(() => {
+  if ('trackByKey' in props) {
+    return props.options.map((option) => {
+      const temp: ProcessedOption = {
+        trackValue: option[props.trackByKey],
+        labelValue: option[props.labelKey],
+        option,
+      }
+      temp.selected = isSelected(temp)
+
+      return temp
+    })
+  }
+  else {
+    return props.options.map((option) => {
+      const temp: ProcessedOption = {
+        trackValue: option,
+        labelValue: option,
+        option,
+      }
+      temp.selected = isSelected(temp)
+
+      return temp
+    })
+  }
 })
 
-function getValue(option: Option, key?: TrackByKey | LabelKey) {
-  if (typeof option === 'string' || typeof option === 'number' || typeof option === 'symbol')
-    return option
+function isSelected(option: ProcessedOption): boolean {
+  if (props.multiple === true) {
+    if (props.useOnlyTrackedKey)
+      return props.modelValue.includes(option.trackValue)
+    else if ('trackByKey' in props)
+      return !!props.modelValue.find(o => o[props.trackByKey] === option.trackValue)
+    else
+      return props.modelValue.includes(option.option as PropertyKey)
+  }
+  else {
+    if (props.modelValue === null)
+      return false
+
+    if (props.useOnlyTrackedKey)
+      return props.modelValue === option.trackValue
+    else if ('trackByKey' in props)
+      return props.modelValue[props.trackByKey] === option.trackValue
+    else
+      return props.modelValue === option.option as PropertyKey
+  }
+}
+
+function handleOptionClick(option: ProcessedOption): void {
+  if (option.selected)
+    deselectOption(option)
   else
-    return (option as OptionLike<TrackByKey, LabelKey>)[key!]
+    selectOption(option)
+}
+
+function selectOption(option: ProcessedOption): void {
+  if (props.multiple === true) {
+    if (props.useOnlyTrackedKey)
+      emit('update:modelValue', [...props.modelValue, option.trackValue])
+    else if ('trackByKey' in props)
+      emit('update:modelValue', [...props.modelValue, option.option as ObjectOption])
+    else
+      emit('update:modelValue', [...props.modelValue, option.option as PropertyKey])
+  }
+  else {
+    if (props.useOnlyTrackedKey)
+      emit('update:modelValue', option.trackValue)
+    else if ('trackByKey' in props)
+      emit('update:modelValue', option.option as ObjectOption)
+    else
+      emit('update:modelValue', option.option as PropertyKey)
+  }
+}
+
+function deselectOption(option: ProcessedOption): void {
+  if (props.multiple === true) {
+    if (props.useOnlyTrackedKey)
+      emit('update:modelValue', props.modelValue.filter(o => o !== option.trackValue))
+    else if ('trackByKey' in props)
+      emit('update:modelValue', props.modelValue.filter(o => o[props.trackByKey] !== option.trackValue))
+    else
+      emit('update:modelValue', props.modelValue.filter(o => o !== option.option as PropertyKey))
+  }
+  else {
+    emit('update:modelValue', null)
+  }
 }
 
 const input = ref<HTMLInputElement | null>(null)
@@ -48,7 +171,7 @@ const input = ref<HTMLInputElement | null>(null)
 <template>
   <neb-dropdown class="neb-select" :floating-options="floatingOptions" full-width>
     <template #trigger="{ open }">
-      <label @click="input!.focus()">
+      <div class="neb-select-input-wrapper" @click="input!.focus()">
         <span v-if="label">{{ label }} <span class="required-star">*</span></span>
 
         <div class="neb-select-input">
@@ -61,17 +184,19 @@ const input = ref<HTMLInputElement | null>(null)
           <icon class="chevron" name="material-symbols:keyboard-arrow-down" />
         </div>
 
-        <p v-if="hint" class="hint">{{ $props.hint }}</p>
-      </label>
+        <p v-if="hint" class="hint">
+          {{ $props.hint }}
+        </p>
+      </div>
     </template>
 
     <template #content>
       <ul class="neb-overlay-transition">
-        <li v-for="processedOption in processedOptions" :key="processedOption.trackValue">
+        <li v-for="option in computedOptions" :key="option.trackValue" @click="handleOptionClick(option)">
           <div class="menu-row">
             <div class="menu-row-content">
-              <slot :option="processedOption.option">
-                <p>{{ processedOption.labelValue }}</p>
+              <slot :option="option.option">
+                <p>{{ option.labelValue }} {{ option.selected }}</p>
               </slot>
             </div>
           </div>
@@ -131,7 +256,7 @@ const input = ref<HTMLInputElement | null>(null)
     transition: transform var(--duration-default);
   }
 }
-label {
+.neb-select-input-wrapper {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
@@ -219,7 +344,7 @@ li {
       }
     }
   }
-  & label {
+  & .neb-select-input-wrapper {
     color: var(--neutral-color-300);
   }
   .neb-select-input {
