@@ -45,17 +45,45 @@ const menus = [
 
 const numbers = [1, 5, 10, 30, 50]
 const select = ref([])
+
+const toggle = ref(false)
+const input = ref('')
+
+const selectedTab = ref('home')
+const tabs = {
+  home: 'Home page',
+  profile: {
+    text: 'Profile page',
+    icon: 'material-symbols:close'
+  },
+  notifications: {
+    text: 'Notifications',
+    count: 3,
+    disabled: true
+  }
+}
 </script>
 
 <template>
   <div class="experiments">
+    <neb-tabs v-model="selectedTab" :tabs="tabs" />
+    {{ selectedTab }}
+
+    <div>
+      <neb-input v-model="input" required label="Example input" hint="Lorem ipsum dolor sit amet" placeholder="Temp placeholder..."/>
+      <neb-textarea v-model="input" required label="Example textarea" hint="Lorem ipsum dolor sit amet" placeholder="Temp placeholder..."/>
+      Input: {{ input }}
+    </div>
+
     <div class="select-wrapper">
       <neb-select
         v-model="select"
-        :options="numbers"
+        :options="menus"
         label="Test select"
         :floating-options="floatingOptions"
         hint="This is a hint text to help user."
+        track-by-key="text"
+        label-key="text"
         leading-icon="material-symbols:person-outline-rounded"
         use-only-tracked-key
         multiple
@@ -63,30 +91,26 @@ const select = ref([])
     </div>
     {{ select }}
 
-    <neb-radio-button v-model="hello" value="cacac" label="First option"/>
-    <neb-radio-button v-model="hello" value="vava" label="Second option"/>
-    <neb-radio-button v-model="hello" value="adsasd" label="Third option"/>
-
-    <neb-toggle/>
-
-    <div class="neb-dropdown2">
-      <neb-menu :menus="menus" :floating-options="floatingOptions">
-        <template #trigger="{toggle}">
-          <neb-button @click="toggle()" type="secondary-neutral">
-            Account
-            <icon name="material-symbols:keyboard-arrow-down"/>
-          </neb-button>
-        </template>
-      </neb-menu>
+    <div>
+      <neb-radio-button v-model="hello" value="cacac" label="First option"/>
+      <neb-radio-button v-model="hello" value="vava" label="Second option"/>
+      <neb-radio-button v-model="hello" value="adsasd" label="Third option"/>
     </div>
-    <neb-validator v-model="isValid" class="form-elements">
-      <neb-input type="email" required v-model="email" label="Email" placeholder="Write here..."/>
-      <neb-input v-if="!hide" type="password" required v-model="password" label="Password" placeholder="Write here..."/>
 
-      <br>
-      <neb-button :disabled="!isValid" @click="useNebToast({type: 'info', title: 'We’ve just released a new feature', description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid pariatur, ipsum dolor.', actions: [{text: 'Read more', callback: () => console.log('Read more')}, {text: 'Other', callback: () => console.log('other')}]})">Login</neb-button>
-    </neb-validator>
+    <neb-toggle v-model="toggle" label="Test toggle label"/>
+    {{ toggle }}
 
+    <div>
+      <neb-checkbox
+        v-for="menu in menus"
+        :key="menu.text"
+        v-model="select"
+        :value="menu.text"
+        :label="menu.text"
+      />
+
+      {{ select }}
+    </div>
   </div>
 </template>
 

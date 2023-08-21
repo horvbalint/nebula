@@ -16,7 +16,9 @@ const modelValue = defineModel()
       :disabled="disabled"
       type="radio"
     >
-    <slot>{{ label }}</slot>
+    <slot>
+      <p>{{ label }}</p>
+    </slot>
   </label>
 </template>
 
@@ -24,11 +26,15 @@ const modelValue = defineModel()
 .neb-radio-button {
   display: flex;
   align-items: center;
-  width: fit-content;
   gap: var(--space-2);
-  font-size: var(--text-sm);
-  font-weight: 500;
-  color: var(--neutral-color-800);
+  cursor: pointer;
+
+  p {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--neutral-color-800);
+    user-select: none;
+  }
 }
 input[type="radio"] {
   -webkit-appearance: none;
@@ -36,8 +42,8 @@ input[type="radio"] {
   background: var(--white-color);
   margin: 0;
 
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   border: 1px solid var(--neutral-color-300);
   border-radius: 50%;
   display: flex;
@@ -47,8 +53,8 @@ input[type="radio"] {
 
 input[type="radio"]::before {
   content: "";
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   transform: scale(0);
   transition: var(--duration-default) transform ease-in-out;
@@ -72,6 +78,10 @@ input[type="radio"]:focus {
 .dark-mode {
   .neb-radio-button {
     color: var(--neutral-color-300);
+
+    p {
+      color: var(--neutral-color-300);
+    }
   }
   input[type="radio"] {
     background: var(--neutral-color-950);

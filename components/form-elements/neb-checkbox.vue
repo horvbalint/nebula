@@ -1,64 +1,31 @@
 <script lang="ts" setup generic="T">
-const props = defineProps<{
-  modelValue: boolean | T[]
+defineProps<{
   value?: T
   label?: string
 }>()
 
-const emit = defineEmits<{
-  'update:modelValue': [value: typeof props.modelValue]
-}>()
-
-const isChecked = computed(() => {
-  if (Array.isArray(props.modelValue))
-    return props.modelValue.includes(props.value!)
-
-  return props.modelValue === true
-})
-
-function handleChange(event: Event) {
-  const checkbox = event.target! as HTMLInputElement
-
-  if (Array.isArray(props.modelValue)) {
-    const newValue = [...props.modelValue]
-
-    if (checkbox.checked) {
-      newValue.push(props.value!)
-    }
-    else {
-      const index = newValue.indexOf(props.value!)
-      if (index !== -1)
-        newValue.splice(index, 1)
-    }
-
-    emit('update:modelValue', newValue)
-  }
-  else {
-    emit('update:modelValue', checkbox.checked)
-  }
-}
+const modelValue = defineModel()
 </script>
 
 <template>
   <label class="container">
-    <slot>{{ label }}</slot>
-
     <input
+      v-model="modelValue"
       type="checkbox"
-      :checked="isChecked"
       :value="value"
-      @change="handleChange($event)"
     >
     <span class="checkmark" />
+
+    <slot>
+      <p>{{ label }}</p>
+    </slot>
   </label>
 </template>
 
 <style scoped>
 .container {
   display: flex;
-  position: relative;
-  padding-left: 24px;
-  height: 17px;
+  gap: var(--space-2);
   font-weight: 500;
   align-items: center;
   cursor: pointer;
@@ -75,12 +42,16 @@ function handleChange(event: Event) {
   height: 0;
   width: 0;
 }
+.container p {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--neutral-color-800);
+  user-select: none;
+}
 .checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 16px;
-  width: 16px;
+  position: relative;
+  height: 20px;
+  width: 20px;
   background-color: var(--white-color);
   border: 1px solid var(--neutral-color-300);
   border-radius: var(--radius-small);
@@ -110,8 +81,8 @@ function handleChange(event: Event) {
   display: block;
 }
 .container .checkmark:after {
-  left: 4px;
-  top: 0px;
+  left: 6px;
+  top: 2px;
   width: 4px;
   height: 9px;
   border: solid var(--primary-color-600);
@@ -119,5 +90,40 @@ function handleChange(event: Event) {
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
+}
+
+.dark-mode {
+  .container p {
+    color: var(--neutral-color-300);
+  }
+  .checkmark {
+    background-color: var(--neutral-color-950);
+    border: 1px solid var(--neutral-color-700);
+  }
+  .container:hover input ~ .checkmark {
+    background: var(--primary-color-900);
+    border-color: var(--primary-color-600);
+  }
+  .container:focus-within input ~ .checkmark {
+    background-color: var(--neutral-color-950);
+    border-color: var(--primary-color-700);
+    box-shadow: var(--primary-focus-shadow-dark);
+  }
+  .container input:checked ~ .checkmark {
+    background: var(--primary-color-800);
+    border-color: var(--primary-color-600);
+  }
+  .container .checkmark:after {
+    left: 6px;
+    top: 2px;
+    width: 4px;
+    height: 9px;
+    border: solid var(--primary-color-300);
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
 }
 </style>

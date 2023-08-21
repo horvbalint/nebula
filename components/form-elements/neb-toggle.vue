@@ -1,15 +1,37 @@
 <script lang="ts" setup>
+defineProps<{
+  label?: string
+}>()
+const modelValue = defineModel()
 </script>
 
 <template>
-  <label class="neb-switch">
-    <input type="checkbox">
-    <span class="slider" />
+  <label class="neb-toggle">
+    <div class="neb-toggle-switch">
+      <input v-model="modelValue" type="checkbox">
+      <span class="slider" />
+    </div>
+    <slot>
+      <p>{{ label }}</p>
+    </slot>
   </label>
 </template>
 
 <style scoped>
-.neb-switch {
+.neb-toggle {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+
+  p {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--neutral-color-800);
+    user-select: none;
+  }
+}
+.neb-toggle-switch {
   position: relative;
   display: inline-block;
   width: 36px;
@@ -22,7 +44,7 @@
     box-shadow: var(--primary-focus-shadow-light);
   }
 }
-.neb-switch input {
+.neb-toggle-switch input {
   opacity: 0;
   width: 0;
   height: 0;
@@ -82,5 +104,44 @@ input:checked + .slider:before {
 }
 .slider.round:before {
   border-radius: 50%;
+}
+
+.dark-mode {
+  .neb-toggle {
+    p {
+      color: var(--neutral-color-300);
+    }
+  }
+
+  .neb-toggle-switch {
+    &:hover .slider{
+      background: var(--neutral-color-600);
+    }
+    &:focus-within .slider{
+      box-shadow: var(--primary-focus-shadow-dark);
+    }
+  }
+  .slider {
+    background: var(--neutral-color-700);
+  }
+  .slider:before {
+    background: var(--neutral-color-975);
+  }
+  input:checked + .slider {
+    &:hover {
+      background: var(--primary-color-500);
+    }
+  }
+  input:disabled {
+    & + .slider {
+
+      &:before {
+        background: var(--neutral-color-950);
+      }
+      &:hover {
+        background: var(--neutral-color-700);
+      }
+    }
+  }
 }
 </style>

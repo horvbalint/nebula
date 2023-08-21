@@ -206,7 +206,7 @@ const searchResults = computed(() => {
 
         <ul class="neb-overlay-transition">
           <li
-            v-for="option in computedOptions"
+            v-for="option in searchResults"
             :key="option.trackValue"
             @click="handleOptionClick(option)"
           >
