@@ -205,12 +205,20 @@ const searchResults = computed(() => {
         <neb-input v-model="searchTerm" />
 
         <ul class="neb-overlay-transition">
-          <li v-for="option in searchResults" :key="option.trackValue" @click="handleOptionClick(option)">
+          <li
+            v-for="option in computedOptions"
+            :key="option.trackValue"
+            @click="handleOptionClick(option)"
+          >
             <div class="menu-row">
               <div class="menu-row-content">
-                <slot :option="option.option">
-                  <p>{{ option.labelValue }}</p>
-                </slot>
+                <div class="menu-text-wrapper">
+                  <slot :option="option.option">
+                    <p>{{ option.labelValue }}</p>
+                  </slot>
+                </div>
+
+                <icon v-if="option.selected" class="success-icon" name="material-symbols:done-rounded" />
               </div>
             </div>
           </li>
@@ -320,9 +328,11 @@ li {
 .menu-row-content {
   width: 100%;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-3) var(--space-3);
+  max-height: 41px;
   transition: all var(--duration-default);
   cursor: pointer;
   border-radius: var(--radius-small);
@@ -333,15 +343,28 @@ li {
   &:active {
     background: var(--neutral-color-200);
   }
-  p {
-    font-weight: 500;
-    font-size: var(--text-sm);
-    color: var(--neutral-color-800);
-  }
   .icon {
     width: var(--space-5);
     height: var(--space-5);
     color: var(--neutral-color-600)
+  }
+  .success-icon {
+    color: var(--primary-color-600);
+    width: 20px;
+    height: 20px;
+  }
+}
+.menu-text-wrapper {
+  font-weight: 500;
+  font-size: var(--text-sm);
+  color: var(--neutral-color-800);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+
+  p {
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 }
 

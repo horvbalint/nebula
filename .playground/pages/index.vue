@@ -33,10 +33,10 @@ const menus = [
   {
     text: 'Settings',
     icon: 'material-symbols:ios-share-rounded',
-    callback: () => console.log('share')
+    callback: () => console.log('share'),
   },
   {
-    text: 'Keyboard shortcuts',
+    text: 'Keyboard shortcuts for very big uristen mennyire hatraltato kft.',
     icon: 'material-symbols:delete-outline-rounded',
     callback: () => console.log('delete'),
     segment: true,
@@ -56,16 +56,18 @@ const select = ref([])
         label="Test select"
         :floating-options="floatingOptions"
         hint="This is a hint text to help user."
-        leading-icon="material-symbols:account-circle-full"
+        leading-icon="material-symbols:person-outline-rounded"
+        use-only-tracked-key
         multiple
       />
-
-      {{ select }}
     </div>
+    {{ select }}
 
     <neb-radio-button v-model="hello" value="cacac" label="First option"/>
     <neb-radio-button v-model="hello" value="vava" label="Second option"/>
     <neb-radio-button v-model="hello" value="adsasd" label="Third option"/>
+
+    <neb-toggle/>
 
     <div class="neb-dropdown2">
       <neb-menu :menus="menus" :floating-options="floatingOptions">
