@@ -49,12 +49,13 @@ const select = ref([])
 const toggle = ref(false)
 const input = ref('')
 
-const selectedTab = ref('home')
+const selectedTab = ref('notifications')
 const tabs = {
   home: 'Home page',
   profile: {
     text: 'Profile page',
     icon: 'material-symbols:close'
+
   },
   notifications: {
     text: 'Notifications',
@@ -66,7 +67,7 @@ const tabs = {
 
 <template>
   <div class="experiments">
-    <neb-tabs v-model="selectedTab" :tabs="tabs" />
+    <neb-tabs v-model="selectedTab" :tabs="tabs"/>
     {{ selectedTab }}
 
     <div>

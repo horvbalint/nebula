@@ -153,7 +153,7 @@ label {
     border-color: var(--error-color-300);
 
     &:focus-within {
-      box-shadow: var(--error-focus-shadow);
+      box-shadow: var(--error-focus-shadow-light);
       border-color: var(--error-color-300);
     }
   }
