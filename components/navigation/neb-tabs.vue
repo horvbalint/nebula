@@ -44,7 +44,7 @@ const computedTabs = computed(() => {
         <slot :key="key" :tab="tab">
           <icon v-if="tab.icon" :name="tab.icon" />
           <p>{{ tab.text }}</p>
-          <span v-if="tab.count">{{ tab.count }}</span>
+          <neb-badge v-if="tab.count" :text="tab.count" small />
         </slot>
       </li>
     </ul>
@@ -87,12 +87,17 @@ li {
   position: relative;
   display: flex;
   align-items: center;
+  gap: var(--space-2);
   padding: 0 var(--space-3);
   font-size: var(--text-sm);
   font-weight: 600;
   color: var(--neutral-color-500);
   transition: all var(--duration-default);
+  border-radius: var(--radius-small);
 
+  &:hover {
+    color: var(--neutral-color-700);
+  }
   input {
     position: absolute;
     top: 0;
@@ -102,10 +107,13 @@ li {
     right: 0;
     opacity: 0;
   }
+  .icon {
+    width: 20px;
+    height: 20px;
+  }
   &.active {
     color: var(--neutral-color-700);
     background: var(--white-color);
-    border-radius: var(--radius-small);
     box-shadow: var(--shadow-sm);
 
     &.disabled {

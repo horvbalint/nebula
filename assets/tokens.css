@@ -33,6 +33,7 @@
   --space-64: 256px;
 
   /* RADIUS */
+  --radius-large: 16px;
   --radius-default: 8px;
   --radius-small: 4px;
 

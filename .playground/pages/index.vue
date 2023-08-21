@@ -60,13 +60,26 @@ const tabs = {
   notifications: {
     text: 'Notifications',
     count: 3,
-    disabled: true
   }
 }
 </script>
 
 <template>
   <div class="experiments">
+    <neb-badge>Elfogadásra vár</neb-badge>
+    <neb-badge color="error">Elutasitva</neb-badge>
+    <neb-badge color="success">Elfogadva</neb-badge>
+    <neb-badge color="warning">Elfogadásra vár</neb-badge>
+    <neb-badge color="info">Folyamatban</neb-badge>
+    <neb-badge color="primary">Beérkezett</neb-badge>
+
+    <neb-badge small>Elfogadásra vár</neb-badge>
+    <neb-badge small color="error">Elutasitva</neb-badge>
+    <neb-badge small color="success">Elfogadva</neb-badge>
+    <neb-badge small color="warning">Elfogadásra vár</neb-badge>
+    <neb-badge small color="info">Folyamatban</neb-badge>
+    <neb-badge small color="primary">Beérkezett</neb-badge>
+
     <neb-tabs v-model="selectedTab" :tabs="tabs"/>
     {{ selectedTab }}
 
