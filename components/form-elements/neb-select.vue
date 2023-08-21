@@ -1,9 +1,5 @@
 <script lang="ts">
 import type { UseFloatingOptions } from '@floating-ui/vue'
-
-type ObjectOptionLike<TrackByKey extends PropertyKey, LabelKey extends PropertyKey> = {
-  [x in TrackByKey | LabelKey]: PropertyKey;
-}
 </script>
 
 <script
@@ -14,6 +10,12 @@ type ObjectOptionLike<TrackByKey extends PropertyKey, LabelKey extends PropertyK
     LabelKey extends PropertyKey,
   "
 >
+import * as JsSearch from 'js-search'
+
+type ObjectOptionLike<TrackByKey extends PropertyKey, LabelKey extends PropertyKey> = {
+  [x in TrackByKey | LabelKey]: PropertyKey;
+}
+
 type ObjectOption = ObjectOptionLike<TrackByKey, LabelKey>
 
 type DiscriminatingProps = {
@@ -165,21 +167,29 @@ function deselectOption(option: ProcessedOption): void {
   }
 }
 
-const input = ref<HTMLInputElement | null>(null)
+const search = new JsSearch.Search('trackValue')
+search.addIndex('labelValue')
+search.addDocuments(computedOptions.value)
+
+const searchTerm = ref('')
+const searchResults = computed(() => {
+  if (!searchTerm.value.length)
+    return computedOptions.value
+
+  return search.search(searchTerm.value)
+}) as ComputedRef<ProcessedOption[]>
 </script>
 
 <template>
   <neb-dropdown class="neb-select" :floating-options="floatingOptions" full-width>
-    <template #trigger="{ open }">
-      <div class="neb-select-input-wrapper" @click="input!.focus()">
+    <template #trigger="{ toggle }">
+      <div class="neb-select-input-wrapper" @click="toggle()">
         <span v-if="label">{{ label }} <span class="required-star">*</span></span>
 
         <div class="neb-select-input">
           <slot name="leading">
             <icon v-if="leadingIcon" :name="leadingIcon" />
           </slot>
-
-          <input ref="input" @focus="open()">
 
           <icon class="chevron" name="material-symbols:keyboard-arrow-down" />
         </div>
@@ -191,17 +201,21 @@ const input = ref<HTMLInputElement | null>(null)
     </template>
 
     <template #content>
-      <ul class="neb-overlay-transition">
-        <li v-for="option in computedOptions" :key="option.trackValue" @click="handleOptionClick(option)">
-          <div class="menu-row">
-            <div class="menu-row-content">
-              <slot :option="option.option">
-                <p>{{ option.labelValue }} {{ option.selected }}</p>
-              </slot>
+      <div>
+        <neb-input v-model="searchTerm" />
+
+        <ul class="neb-overlay-transition">
+          <li v-for="option in searchResults" :key="option.trackValue" @click="handleOptionClick(option)">
+            <div class="menu-row">
+              <div class="menu-row-content">
+                <slot :option="option.option">
+                  <p>{{ option.labelValue }}</p>
+                </slot>
+              </div>
             </div>
-          </div>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </div>
     </template>
   </neb-dropdown>
 </template>

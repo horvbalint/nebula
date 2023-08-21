@@ -13,8 +13,10 @@
   },
   "dependencies": {
     "@floating-ui/vue": "^1.0.2",
+    "@types/js-search": "^1.4.0",
     "@vueuse/components": "^10.3.0",
-    "color": "^4.2.3"
+    "color": "^4.2.3",
+    "js-search": "^2.0.1"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.8",

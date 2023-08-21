@@ -41,38 +41,6 @@ const menus = [
     callback: () => console.log('delete'),
     segment: true,
   },
-  {
-    text: 'View profile',
-    icon: 'material-symbols:edit-outline-rounded',
-    callback: () => console.log('edit'),
-  },
-  {
-    text: 'Settings',
-    icon: 'material-symbols:ios-share-rounded',
-    callback: () => console.log('share')
-  },
-  {
-    text: 'Keyboard shortcuts',
-    icon: 'material-symbols:delete-outline-rounded',
-    callback: () => console.log('delete'),
-    segment: true,
-  },
-  {
-    text: 'View profile',
-    icon: 'material-symbols:edit-outline-rounded',
-    callback: () => console.log('edit'),
-  },
-  {
-    text: 'Settings',
-    icon: 'material-symbols:ios-share-rounded',
-    callback: () => console.log('share')
-  },
-  {
-    text: 'Keyboard shortcuts',
-    icon: 'material-symbols:delete-outline-rounded',
-    callback: () => console.log('delete'),
-    segment: true,
-  }
 ]
 
 const numbers = [1, 5, 10, 30, 50]
@@ -84,14 +52,11 @@ const select = ref([])
     <div class="select-wrapper">
       <neb-select
         v-model="select"
-        :options="menus"
-        track-by-key="text"
-        label-key="text"
+        :options="numbers"
         label="Test select"
         :floating-options="floatingOptions"
         hint="This is a hint text to help user."
         leading-icon="material-symbols:account-circle-full"
-        use-only-tracked-key
         multiple
       />
 
