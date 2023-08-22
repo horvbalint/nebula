@@ -16,6 +16,7 @@
     "@types/js-search": "^1.4.0",
     "@vueuse/components": "^10.3.0",
     "color": "^4.2.3",
+    "dayjs": "^1.11.9",
     "js-search": "^2.0.1"
   },
   "devDependencies": {

@@ -1,103 +1,276 @@
-<script lang="ts">
-export default defineNuxtComponent({
-  props: {
-    columns: {
-      type: Array,
-      required: true,
-    },
-    data: {
-      type: Array,
-      required: true,
-    },
-  },
-  data() {
+<script setup lang="ts" generic="T extends Record<string, any>">
+import dayjs from 'dayjs'
+
+interface Column {
+  text: string
+  key: string
+  sortFunction?: (a: any, b: any) => number
+  formatFunction?: (cell: any) => string
+}
+
+defineOptions({
+  inheritAttrs: false,
+})
+
+const props = defineProps<{
+  columns: Column[]
+  rows: T[]
+}>()
+
+defineEmits<{
+  'click': [row: T]
+}>()
+
+const modelValue = defineModel<null | T[]>({
+  required: false,
+  default: null,
+})
+
+interface FormattedRow {
+  formatted: Record<string, string>
+  original: T
+}
+
+const formattedRows = computed<FormattedRow[]>(() => {
+  return props.rows.map((row: T) => {
+    const formattedRow: Record<string, any> = {}
+
+    for (const column of props.columns)
+      formattedRow[column.key] = formatCell(row, column)
+
     return {
-      sortKey: null as string | null,
-      sortDir: null as string | null,
+      formatted: formattedRow,
+      original: row,
     }
-  },
-  computed: {
-    sortedData() {
-      if (!this.sortKey)
-        return this.$props.data
+  })
+})
 
-      const sortedData = this.$props.data.sort((a, b) => {
-        if (this.sortDir === 'asc')
-          return a[this.sortKey].localeCompare(b[this.sortKey])
-        else
-          return b[this.sortKey].localeCompare(a[this.sortKey])
-      })
+function formatCell(row: T, column: Column) {
+  if (column.formatFunction)
+    return column.formatFunction(row[column.key])
 
-      return sortedData
-    },
+  const maybeDate = createDateIfPossible(row[column.key])
+  if (maybeDate)
+    return dayjs(maybeDate).format('YYYY.MM.DD')
+
+  return row[column.key]
+}
+
+const sortColumn = ref<Column | null>(null)
+const sortAsc = ref(true)
+
+const sortedRows = computed(() => {
+  if (!sortColumn.value)
+    return formattedRows.value
+
+  const sortFunction = getSortFunction(sortColumn.value)
+
+  return [...formattedRows.value].sort((a, b) => {
+    const first = sortAsc.value ? b.original[sortColumn.value!.key] : a.original[sortColumn.value!.key]
+    const second = sortAsc.value ? a.original[sortColumn.value!.key] : b.original[sortColumn.value!.key]
+
+    if (!first)
+      return -1
+    if (!second)
+      return 1
+
+    return sortFunction(first, second)
+  })
+})
+
+function getSortFunction(column: Column): (a: any, b: any) => number {
+  if (column.sortFunction)
+    return column.sortFunction
+
+  const data = props.rows.find(row => row[column.key])
+
+  if (!data)
+    return () => 1
+
+  if (typeof data[column.key] === 'number')
+    return (a: number, b: number) => a - b
+
+  const maybeDate = createDateIfPossible(data[column.key])
+  if (maybeDate)
+    return (a: Date | string, b: Date | string) => new Date(a).getTime() - new Date(b).getTime()
+
+  return (a: string, b: string) => a.localeCompare(b)
+}
+
+const sortIcon = computed(() => {
+  if (sortAsc.value)
+    return 'material-symbols:arrow-downward-alt'
+  else
+    return 'material-symbols:arrow-upward-alt'
+})
+
+function sortByColumn(column: Column) {
+  if (column.key === sortColumn.value?.key)
+    sortAsc.value = !sortAsc.value
+  else
+    sortColumn.value = column
+}
+
+function createDateIfPossible(value: any) {
+  if (value instanceof Date)
+    return value
+
+  const maybeDate = new Date(value)
+
+  if (Number.isNaN(maybeDate.getTime()))
+    return null
+
+  if (maybeDate.toISOString() === value)
+    return maybeDate
+
+  return null
+}
+
+const isAnyChecked = computed({
+  get() {
+    if (!modelValue.value)
+      return false
+
+    return !!modelValue.value.length
   },
-  methods: {
-    sortColumn(sortKey: string, sortDir: string) {
-      this.sortKey = sortKey
-      this.sortDir = sortDir
-    },
+  set(value: boolean) {
+    if (value)
+      modelValue.value = [...props.rows]
+    else
+      modelValue.value = []
   },
 })
 </script>
 
 <template>
-  <div class="neb-table-component">
-    <header class="table-header">
-      <h2>Ebek listája</h2>
+  <div class="neb-table">
+    <header v-if="$slots.header" class="header-slot">
+      <slot name="header" />
     </header>
 
-    <table class="neb-table">
-      <neb-table-header :columns="columns" @sort="sortColumn($event.sortKey, $event.sortDir)" />
+    <div class="neb-table-wrapper" :class="{ 'no-header': !$slots.header, 'no-footer': !$slots.footer }">
+      <table>
+        <thead>
+          <tr>
+            <th v-if="modelValue" class="checkbox-cell">
+              <neb-checkbox v-model="isAnyChecked" icon="material-symbols:remove-rounded" />
+            </th>
 
-      <tr v-for="(row, index) in sortedData" :key="index">
-        <td v-for="(cell, key) in row" :key="key">
-          {{ cell }}
-        </td>
-      </tr>
-    </table>
+            <th v-for="column in columns" :key="`th-${column.key}`" @click="sortByColumn(column)">
+              <slot :name="`th-${column.key}`" :column="column">
+                {{ column.text }}
+              </slot>
 
-    <footer class="table-footer">
-      <p>asddasasd</p>
+              <icon v-if="column.key === sortColumn?.key" :name="sortIcon" />
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr v-for="(row, index) in sortedRows" :key="index" @click="$emit('click', row.original)">
+            <td v-if="modelValue" class="checkbox-cell">
+              <neb-checkbox v-model="modelValue" :value="row.original" />
+            </td>
+
+            <td v-for="column in columns" :key="`td-${column.key}`">
+              <slot :name="`td-${column.key}`" :original="row.original[column.key]" :formatted="row.formatted[column.key]" :column="column">
+                {{ row.formatted[column.key] }}
+              </slot>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer v-if="$slots.footer" class="footer-slot">
+      <slot name="footer" />
     </footer>
   </div>
 </template>
 
 <style scoped>
-.neb-table-component {
+.neb-table {
   border: 1px solid var(--neutral-color-200);
   border-radius: var(--radius-default);
   box-shadow: var(--shadow-sm);
-  position: relative;
-  height: 100%;
-  width: 100%;
-  overflow-x: auto;
-}
-.table-header, .table-footer {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: var(--space-1);
-  height: 50px;
+}
+.header-slot {
+  border-radius: var(--radius-default) var(--radius-default) 0 0;
+  border-bottom: 1px solid var(--neutral-color-200);
+}
+.footer-slot {
+  border-radius: 0 0 var(--radius-default) var(--radius-default);
+  border-top: 1px solid var(--neutral-color-200);
+}
+.header-slot, .footer-slot {
   background: var(--white-color);
   padding: var(--space-4) var(--space-6);
-  position: sticky;
-  top: 0;
-  left: 0;
-  border-bottom: 1px solid var(--neutral-color-200);
 
   & h2 {
     font-size: var(--text-lg);
     font-weight: 600;
   }
 }
-.table-footer {
-  bottom: 0;
-  left: 0;
-}
-.neb-table {
-  width: 100%;
+.neb-table-wrapper {
+  position: relative;
+  flex: 1;
+  overflow: auto;
 
-  & td {
+  &.no-header {
+    border-top-left-radius: var(--radius-default);
+    border-top-right-radius: var(--radius-default);
+  }
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+
+  &.no-header {
+    border-bottom-left-radius: var(--radius-default);
+    border-bottom-right-radius: var(--radius-default);
+  }
+}
+
+thead {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  height: 44px;
+  box-shadow: 0 1px 0 0 var(--neutral-color-200);
+  background: var(--neutral-color-50);
+}
+th {
+  flex: 1;
+  padding: var(--space-3) var(--space-6);
+  text-align: left;
+  color: var(--neutral-color-600);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  line-height: 22px;
+
+  .icon {
+    margin-left: var(--space-1);
+    width: 18px;
+    height: 18px;
+  }
+}
+tbody {
+  tr {
+    border-bottom: 1px solid var(--neutral-color-200);
+
+    &:hover {
+      background: var(--primary-color-50);
+    }
+  }
+
+  td {
     padding: 20px var(--space-6);
     font-size: var(--text-sm);
     font-weight: 400;
@@ -105,13 +278,9 @@ export default defineNuxtComponent({
     text-align: left;
     white-space: nowrap;
   }
-  & tr {
-    border-top: 1px solid var(--neutral-color-200);
-    border-bottom: 1px solid var(--neutral-color-200);
-
-    &:hover {
-      background: var(--primary-color-50);
-    }
-  }
+}
+.checkbox-cell {
+  width: 0;
+  padding: var(--space-3) var(--space-1) var(--space-3) var(--space-6);
 }
 </style>

@@ -62,23 +62,262 @@ const tabs = {
     count: 3,
   }
 }
+
+const rows = ref([
+  {
+    id: 1,
+    username: 'sunsetSeeker42',
+    name: 'John Doe',
+    email: 'john@example.com',
+    age: 28,
+    profession: 'Engineer',
+    lastLogin: '2023-08-22T08:30:00.000Z',
+  },
+  {
+    id: 2,
+    username: 'artisticDreamer',
+    name: 'Jane Smith',
+    email: 'jane@example.com',
+    age: 35,
+    profession: 'Designer',
+    lastLogin: '2023-08-22T08:30:00.000Z',
+  },
+  {
+    id: 3,
+    username: 'codeNinja',
+    name: 'Michael Johnson',
+    email: 'michael@example.com',
+    age: 22,
+    profession: 'Student',
+    lastLogin: '2023-08-22T08:30:00.000Z',
+  },
+  {
+    id: 4,
+    username: 'wordWeaver',
+    name: 'Emily Brown',
+    email: 'emily@example.com',
+    age: 40,
+    profession: 'Writer',
+    lastLogin: '2023-08-22T08:30:00.000Z',
+  },
+  {
+    id: 5,
+    username: 'pixelPioneer',
+    name: 'Daniel Williams',
+    email: 'daniel@example.com',
+    age: 32,
+    profession: 'Developer',
+    lastLogin: '2023-08-22T08:30:00.000Z',
+  },
+  {
+    id: 6,
+    username: 'colorCanvas',
+    name: 'Olivia Martinez',
+    email: 'olivia@example.com',
+    age: 27,
+    profession: 'Artist',
+    lastLogin: '2023-08-22T08:30:00.000Z',
+  },
+  {
+    id: 7,
+    username: 'adventureArchitect',
+    name: 'William Taylor',
+    email: 'william@example.com',
+    age: 29,
+    profession: 'Manager',
+    lastLogin: '2023-08-22T08:30:00.000Z',
+  },
+  {
+    id: 8,
+    username: 'shutterSculptor',
+    name: 'Sophia Anderson',
+    email: 'sophia@example.com',
+    age: 31,
+    profession: 'Photographer',
+    lastLogin: '2023-08-22T08:30:00.000Z',
+  },
+  {
+    id: 9,
+    username: 'healingHarmony',
+    name: 'James Thomas',
+    email: 'james@example.com',
+    age: 45,
+    profession: 'Doctor',
+    lastLogin: '2023-08-22T08:30:00.000Z',
+  },
+  {
+    id: 10,
+    username: 'musicMaverick',
+    name: 'Emma Jackson',
+    email: 'emma@example.com',
+    age: 23,
+    profession: 'Student',
+    lastLogin: '2023-08-22T08:30:00.000Z',
+  },
+  {
+    id: 11,
+    username: 'fictionFlare',
+    name: 'Liam White',
+    email: 'liam@example.com',
+    age: 26,
+    profession: 'Writer',
+    lastLogin: '2023-08-22T08:30:00.000Z',
+  },
+  {
+    id: 12,
+    username: 'sketchSaga',
+    name: 'Ava Harris',
+    email: 'ava@example.com',
+    age: 34,
+    profession: 'Designer',
+    lastLogin: '2023-08-22T08:30:00.000Z',
+  },
+  {
+    id: 13,
+    username: 'quantumQuill',
+    name: 'Noah Wilson',
+    email: 'noah@example.com',
+    age: 37,
+    profession: 'Engineer',
+    lastLogin: '2023-08-22T08:30:00.000Z',
+  },
+  {
+    id: 14,
+    username: 'canvasChameleon',
+    name: 'Isabella Lee',
+    email: 'isabella@example.com',
+    age: 30,
+    profession: 'Artist',
+    lastLogin: '2023-08-22T08:30:00.000Z',
+  },
+  {
+    id: 15,
+    username: 'byteBard',
+    name: 'Mason Martin',
+    email: 'mason@example.com',
+    age: 29,
+    profession: 'Developer',
+    lastLogin: '2023-08-22T08:30:00.000Z',
+  },
+  {
+    id: 16,
+    username: 'lensLyricist',
+    name: 'Mia Miller',
+    email: 'mia@example.com',
+    age: 28,
+    profession: 'Photographer',
+    lastLogin: '2023-08-22T08:30:00.000Z',
+  },
+  {
+    id: 17,
+    username: 'strategySculptor',
+    name: 'Ethan Moore',
+    email: 'ethan@example.com',
+    age: 33,
+    profession: 'Manager',
+    lastLogin: '2023-08-22T08:30:00.000Z',
+  },
+  {
+    id: 18,
+    username: 'medicMuse',
+    name: 'Amelia Clark',
+    email: 'amelia@example.com',
+    age: 41,
+    profession: 'Doctor',
+    lastLogin: '2023-08-22T08:30:00.000Z',
+  },
+  {
+    id: 19,
+    username: 'cyberScribe',
+    name: 'Alexander Young',
+    email: 'alexander@example.com',
+    age: 24,
+    profession: 'Student',
+    lastLogin: '2023-08-22T08:30:00.000Z',
+  },
+  {
+    id: 20,
+    username: 'imaginationInk',
+    name: 'Ella King',
+    email: 'ella@example.com',
+    age: 36,
+    profession: 'Writer',
+    lastLogin: '2021-08-22T08:30:00.000Z',
+  }
+])
+
+const columns = ref([
+  {
+    text: 'ID',
+    key: 'id'
+  },
+  {
+    text: 'Username',
+    key: 'username'
+  },
+  {
+    text: 'Name',
+    key: 'name'
+  },
+  {
+    text: 'Email',
+    key: 'email'
+  },
+  {
+    text: 'Age',
+    key: 'age',
+  },
+  {
+    text: 'Profession',
+    key: 'profession',
+  },
+  {
+    text: 'Last login',
+    key: 'lastLogin',
+  }
+])
+
+const selectedRows = ref([] as typeof rows.value)
 </script>
 
 <template>
   <div class="experiments">
-    <neb-badge>Elfogadásra vár</neb-badge>
-    <neb-badge color="error">Elutasitva</neb-badge>
-    <neb-badge color="success">Elfogadva</neb-badge>
-    <neb-badge color="warning">Elfogadásra vár</neb-badge>
-    <neb-badge color="info">Folyamatban</neb-badge>
-    <neb-badge color="primary">Beérkezett</neb-badge>
+    <neb-table
+      class="neb-table"
+      v-model="selectedRows"
+      :columns="columns"
+      :rows="rows"
+    >
+      <template #header>
+        Ebek listaja
+      </template>
 
-    <neb-badge small>Elfogadásra vár</neb-badge>
-    <neb-badge small color="error">Elutasitva</neb-badge>
-    <neb-badge small color="success">Elfogadva</neb-badge>
-    <neb-badge small color="warning">Elfogadásra vár</neb-badge>
-    <neb-badge small color="info">Folyamatban</neb-badge>
-    <neb-badge small color="primary">Beérkezett</neb-badge>
+      <template #th-profession="{column}">
+        Custom {{ column.text }}
+      </template>
+
+      <template #td-profession="{formatted}">
+        CellCustom {{ formatted }}
+      </template>
+    </neb-table>
+
+    {{ selectedRows }}
+
+    <div>
+      <neb-badge>Elfogadásra vár</neb-badge>
+      <neb-badge color="error">Elutasitva</neb-badge>
+      <neb-badge color="success">Elfogadva</neb-badge>
+      <neb-badge color="warning">Elfogadásra vár</neb-badge>
+      <neb-badge color="info">Folyamatban</neb-badge>
+      <neb-badge color="primary">Beérkezett</neb-badge>
+
+      <neb-badge small>Elfogadásra vár</neb-badge>
+      <neb-badge small color="error">Elutasitva</neb-badge>
+      <neb-badge small color="success">Elfogadva</neb-badge>
+      <neb-badge small color="warning">Elfogadásra vár</neb-badge>
+      <neb-badge small color="info">Folyamatban</neb-badge>
+      <neb-badge small color="primary">Beérkezett</neb-badge>
+    </div>
 
     <neb-tabs v-model="selectedTab" :tabs="tabs"/>
     {{ selectedTab }}
@@ -214,5 +453,8 @@ const tabs = {
     font-size: var(--text-sm);
     font-weight: 400;
   }
+}
+.neb-table {
+  max-height: 600px;
 }
 </style>

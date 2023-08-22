@@ -44,7 +44,9 @@ const computedTabs = computed(() => {
         <slot :key="key" :tab="tab">
           <icon v-if="tab.icon" :name="tab.icon" />
           <p>{{ tab.text }}</p>
-          <neb-badge v-if="tab.count" :text="tab.count" small />
+          <neb-badge v-if="tab.count" small>
+            {{ tab.count }}
+          </neb-badge>
         </slot>
       </li>
     </ul>

@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 const props = withDefaults(defineProps<{
-  text?: string | number
   small?: boolean
   color?: 'error' | 'warning' | 'success' | 'info' | 'primary'
 }>(), {
@@ -20,7 +19,7 @@ const props = withDefaults(defineProps<{
       primary: props.color === 'primary',
     }"
   >
-    <slot>{{ text }}</slot>
+    <slot />
   </div>
 </template>
 
