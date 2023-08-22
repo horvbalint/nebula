@@ -12,10 +12,15 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   columns: Column[]
   rows: T[]
-}>()
+  loading?: boolean
+  error?: boolean
+}>(), {
+  loading: false,
+  error: false,
+})
 
 defineEmits<{
   'click': [row: T]
@@ -149,7 +154,25 @@ const isAnyChecked = computed({
     </header>
 
     <div class="neb-table-wrapper" :class="{ 'no-header': !$slots.header, 'no-footer': !$slots.footer }">
-      <table>
+      <slot v-if="loading" name="error-state">
+        <neb-loading-state />
+      </slot>
+
+      <slot v-else-if="error" name="error-state">
+        <neb-error-state
+          title="Hiba a lekérés közben!"
+          description="Nem sikerült lekérni a táblázat adatait. Kérjük próbálja újra késöbb!"
+        />
+      </slot>
+
+      <slot v-else-if="!rows.length" name="empty-state">
+        <neb-empty-state
+          title="Nincsenek rendelkezésre álló adatok!"
+          description="Jelenleg nem áll rendelkezésre megjeleníthető adat ebben a táblázatban."
+        />
+      </slot>
+
+      <table v-else>
         <thead>
           <tr>
             <th v-if="modelValue" class="checkbox-cell">
