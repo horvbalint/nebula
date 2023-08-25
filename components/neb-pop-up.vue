@@ -53,4 +53,10 @@ defineEmits<{
     }
   }
 }
+
+.dark-mode {
+  .topper {
+    background: rgba(var(--neutral-color-component-800), 0.8);
+  }
+}
 </style>
