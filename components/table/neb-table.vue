@@ -213,6 +213,7 @@ const isAnyChecked = computed({
 
 <style scoped>
 .neb-table {
+  background: var(--white-color);
   border: 1px solid var(--neutral-color-200);
   border-radius: var(--radius-default);
   box-shadow: var(--shadow-sm);
@@ -228,7 +229,6 @@ const isAnyChecked = computed({
   border-top: 1px solid var(--neutral-color-200);
 }
 .header-slot, .footer-slot {
-  background: var(--white-color);
   padding: var(--space-4) var(--space-6);
 
   & h2 {
@@ -245,17 +245,23 @@ const isAnyChecked = computed({
     border-top-left-radius: var(--radius-default);
     border-top-right-radius: var(--radius-default);
   }
+  &.no-footer {
+    table {
+      tr:last-child {
+        td:first-child {
+          border-bottom-left-radius: var(--radius-default);
+        }
+        td:last-child {
+          border-bottom-right-radius: var(--radius-default);
+        }
+      }
+    }
+  }
 }
 table {
   width: 100%;
   border-collapse: collapse;
-
-  &.no-header {
-    border-bottom-left-radius: var(--radius-default);
-    border-bottom-right-radius: var(--radius-default);
-  }
 }
-
 thead {
   position: sticky;
   top: 0;
@@ -288,6 +294,9 @@ tbody {
   tr {
     border-bottom: 1px solid var(--neutral-color-200);
 
+    &:last-child {
+      border-bottom: none;
+    }
     &:hover {
       background: var(--primary-color-50);
     }
@@ -305,5 +314,40 @@ tbody {
 .checkbox-cell {
   width: 0;
   padding: var(--space-3) var(--space-1) var(--space-3) var(--space-6);
+}
+.dark-mode {
+  .neb-table {
+    background: var(--neutral-color-950);
+    border: 1px solid var(--neutral-color-700);
+  }
+  .header-slot {
+    border-bottom: 1px solid var(--neutral-color-700);
+  }
+  .footer-slot {
+    border-top: 1px solid var(--neutral-color-700);
+  }
+  thead {
+    box-shadow: 0 1px 0 0 var(--neutral-color-700);
+    background: var(--neutral-color-900);
+  }
+  th {
+    color: var(--neutral-color-300);
+  }
+  tbody {
+    tr {
+      border-bottom: 1px solid var(--neutral-color-700);
+
+      &:last-child {
+        border-bottom: none;
+      }
+      &:hover {
+        background: var(--primary-color-975);
+      }
+    }
+
+    td {
+      color: var(--neutral-color-300);
+    }
+  }
 }
 </style>

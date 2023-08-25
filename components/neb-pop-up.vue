@@ -1,7 +1,10 @@
 <script lang="ts" setup>
-defineProps<{
-  modelValue: boolean
-}>()
+withDefaults(defineProps<{
+  modelValue: boolean | any
+  closedValue: boolean | any
+}>(), {
+  closedValue: false,
+})
 
 defineEmits<{
   'update:modelValue': [value: boolean]
@@ -15,7 +18,7 @@ defineEmits<{
         <slot />
       </div>
 
-      <div class="topper" @click="$emit('update:modelValue', false)" />
+      <div class="topper" @click="$emit('update:modelValue', closedValue)" />
     </div>
   </teleport>
 </template>
