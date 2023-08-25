@@ -8,6 +8,10 @@ export default defineNuxtConfig({
   devtools: {
     enabled: true,
   },
+  modulesDir: [
+    'node_modules',
+    resolve('./node_modules'),
+  ],
   alias: {
     '@nebula': resolve('./'),
   },
@@ -33,7 +37,7 @@ export default defineNuxtConfig({
         plugins: [
           postcssGlobalData({
             files: [
-              './assets/viewports.css',
+              resolve('./assets/viewports.css'),
             ],
           }),
           postcssPresetEnv,

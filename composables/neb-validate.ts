@@ -12,7 +12,7 @@ export function useNebValidate(
   reference: Ref<HTMLElement | null>,
   collectErrors: (element: HTMLElement) => ValidityKey[],
 ) {
-  const validatorCallbacks = inject(NebValidatorInjectKey)
+  const validatorCallbacks = inject(NebValidatorInjectKey, null)
   const errorsToShow = ref([] as ValidityKey[])
 
   function wrappedCollectErrors(show = true) {
