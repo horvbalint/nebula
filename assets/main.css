@@ -9,9 +9,14 @@ body {
   background: var(--light-color);
 }
 
-.dark-mode body {
-  background: var(--neutral-color-975);
+.dark-mode {
+  color-scheme: dark;
+
+  body {
+    background: var(--neutral-color-975);
+  }
 }
+
 .neb-overlay-transition {
   animation: overlay-transition var(--duration-default) forwards;
 }

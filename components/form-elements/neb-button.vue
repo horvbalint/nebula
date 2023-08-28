@@ -27,7 +27,7 @@ withDefaults(defineProps<{
   font-weight: 600;
   cursor: pointer;
   box-shadow: var(--shadow-xs);
-  transition: all var(--duration-default);
+  transition: background, box-shadow var(--duration-default);
   outline: 0;
   display: flex;
   align-items: center;
@@ -87,7 +87,7 @@ withDefaults(defineProps<{
   }
   &:focus {
     background: var(--white-color);
-    box-shadow: var(--neutral-focus-shadow);
+    box-shadow: var(--neutral-focus-shadow-light);
     color: var(--neutral-color-700);
   }
   &:disabled {

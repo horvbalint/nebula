@@ -1,8 +1,4 @@
 <script lang="ts" setup>
-defineOptions({
-  inheritAttrs: false,
-})
-
 withDefaults(defineProps<{
   size?: string
   src?: string
@@ -30,7 +26,7 @@ export default defineComponent({
     <span v-if="$props.text">{{ $props.text }}</span>
 
     <div v-if="$slots.badge" class="badge">
-      <slot name="badge" />
+      <slot />
     </div>
   </div>
 </template>
@@ -83,5 +79,22 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.dark-mode {
+  .neb-avatar {
+    background: var(--neutral-color-800);
+    border: 1px solid var(--neutral-color-700);
+    color: var(--neutral-color-300);
+    outline: 0px solid var(--neutral-color-600);
+
+    &:focus {
+      outline: 4px solid var(--neutral-color-700);
+    }
+  }
+  .badge {
+    background: var(--neutral-color-800);
+    border: 2px solid var(--neutral-color-975);
+  }
 }
 </style>

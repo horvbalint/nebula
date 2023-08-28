@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 withDefaults(defineProps<{
   modelValue: boolean | any
-  closedValue: boolean | any
+  closedValue?: boolean | any
 }>(), {
   closedValue: false,
 })

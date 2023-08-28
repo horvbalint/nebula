@@ -36,6 +36,7 @@ interface FormattedRow {
   original: T
 }
 
+const paginationResult = ref<FormattedRow[]>([])
 const formattedRows = computed<FormattedRow[]>(() => {
   return props.rows.map((row: T) => {
     const formattedRow: Record<string, any> = {}
@@ -153,7 +154,7 @@ const isAnyChecked = computed({
       <slot name="header" />
     </header>
 
-    <div class="neb-table-wrapper" :class="{ 'no-header': !$slots.header, 'no-footer': !$slots.footer }">
+    <div class="neb-table-wrapper" :class="{ 'no-header': !$slots.header }">
       <slot v-if="loading" name="error-state">
         <neb-loading-state />
       </slot>
@@ -190,7 +191,7 @@ const isAnyChecked = computed({
         </thead>
 
         <tbody>
-          <tr v-for="(row, index) in sortedRows" :key="index" @click="$emit('click', row.original)">
+          <tr v-for="(row, index) in paginationResult" :key="index" @click="$emit('click', row.original)">
             <td v-if="modelValue" class="checkbox-cell">
               <neb-checkbox v-model="modelValue" :value="row.original" />
             </td>
@@ -205,8 +206,10 @@ const isAnyChecked = computed({
       </table>
     </div>
 
-    <footer v-if="$slots.footer" class="footer-slot">
-      <slot name="footer" />
+    <footer>
+      <slot name="footer-start" />
+      <neb-pagination v-model="paginationResult" :data="sortedRows" />
+      <slot name="footer-end" />
     </footer>
   </div>
 </template>
@@ -224,11 +227,11 @@ const isAnyChecked = computed({
   border-radius: var(--radius-default) var(--radius-default) 0 0;
   border-bottom: 1px solid var(--neutral-color-200);
 }
-.footer-slot {
+footer {
   border-radius: 0 0 var(--radius-default) var(--radius-default);
   border-top: 1px solid var(--neutral-color-200);
 }
-.header-slot, .footer-slot {
+.header-slot, footer {
   padding: var(--space-4) var(--space-6);
 
   & h2 {
@@ -244,18 +247,6 @@ const isAnyChecked = computed({
   &.no-header {
     border-top-left-radius: var(--radius-default);
     border-top-right-radius: var(--radius-default);
-  }
-  &.no-footer {
-    table {
-      tr:last-child {
-        td:first-child {
-          border-bottom-left-radius: var(--radius-default);
-        }
-        td:last-child {
-          border-bottom-right-radius: var(--radius-default);
-        }
-      }
-    }
   }
 }
 table {
@@ -317,13 +308,13 @@ tbody {
 }
 .dark-mode {
   .neb-table {
-    background: var(--neutral-color-950);
+    background: var(--neutral-color-975);
     border: 1px solid var(--neutral-color-700);
   }
   .header-slot {
     border-bottom: 1px solid var(--neutral-color-700);
   }
-  .footer-slot {
+  footer {
     border-top: 1px solid var(--neutral-color-700);
   }
   thead {

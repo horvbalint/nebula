@@ -1,67 +1,56 @@
-<script lang="ts">
+<script setup lang="ts">
 import { h } from 'vue'
-import NebAvatar from './neb-avatar'
-import { getSlotsChildren } from '~/composables/neb-slots'
+import NebAvatar from '@nebula/components/avatar/neb-avatar.vue'
 
-export default {
-  props: {
-    max: {
-      type: Number,
-      default: 3,
-    },
-    size: {
-      type: String,
-      default: '40px',
-    },
-  },
-  setup(props) {
-    const slots = useSlots()
-    if (!slots || !slots.default)
-      return
+const props = withDefaults(defineProps<{
+  max?: number
+  size?: string
+}>(), {
+  max: 3,
+  size: '40px',
+})
 
-    const plus = ref(0)
-    const children = getSlotsChildren(slots)
+const slots = useSlots()
+if (!slots || !slots.default)
+  throw new Error('"neb-avatar-list" default slot can not be empty!')
 
-    plus.value = children.length - props.max
-    children.splice(props.max, plus.value)
+const slotNodes = getSlotsChildren(slots)
+const avatarNodes = slotNodes
+  .filter(node => (node.type as Component).name === 'NebAvatar')
 
-    if (props.size) {
-      children.map((node: VNode) => {
-        if (node.props)
-          return node.props.size = props.size
+if (slotNodes.length !== avatarNodes.length)
+  console.warn('"neb-avatar-list" can only contain "neb-avatar" components!')
 
-        return node
-      })
-    }
+const childNodes = avatarNodes.slice(0, props.max)
 
-    if (plus.value > 0)
-      children.push(h(NebAvatar, { text: `+${plus.value}`, size: props.size }))
-
-    return () => h('div', { class: 'neb-avatar-list' }, children)
-  },
+for (const node of childNodes) {
+  if (node.props)
+    node.props.size = props.size
 }
+
+const truncated = avatarNodes.length - props.max
+if (truncated > 0)
+  childNodes.push(h(NebAvatar, { text: `+${truncated}`, size: props.size }))
+
+const render = () => h('div', { class: 'neb-avatar-list' }, childNodes)
 </script>
 
-<!-- <template>
-  <div class="neb-avatar-list">
-    <slot />
-  </div>
-</template> -->
+<template>
+  <render />
+</template>
 
 <style scoped>
 .neb-avatar-list {
   display: flex;
   align-items: center;
-}
-</style>
 
-<style>
-.neb-avatar-list .neb-avatar {
-  margin-left: -8px;
-  border: 3px solid var(--white-color);
+  :deep(.neb-avatar) {
+    margin-left: -8px;
+    border: 3px solid transparent;
 
-  &:first-child {
-    margin-left: 0;
+    &:first-child {
+      margin-left: 0;
+    }
   }
 }
 </style>
