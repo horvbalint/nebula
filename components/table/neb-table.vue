@@ -166,7 +166,7 @@ const isAnyChecked = computed({
         />
       </slot>
 
-      <slot v-else-if="!rows.length" name="empty-state">
+      <slot v-else-if="!paginationResult.length" name="empty-state">
         <neb-empty-state
           title="Nincsenek rendelkezésre álló adatok!"
           description="Jelenleg nem áll rendelkezésre megjeleníthető adat ebben a táblázatban."

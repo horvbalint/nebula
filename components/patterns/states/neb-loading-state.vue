@@ -76,4 +76,20 @@ withDefaults(defineProps<{
   align-items: center;
   gap: var(--space-3);
 }
+
+.dark-mode {
+  .loading-icon {
+    .icon {
+      color: var(--primary-color-400);
+    }
+  }
+  .loading-state-text {
+    h6 {
+      color: var(--neutral-color-300);
+    }
+    p {
+      color: var(--neutral-color-400);
+    }
+  }
+}
 </style>

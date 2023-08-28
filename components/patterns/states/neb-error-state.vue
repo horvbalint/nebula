@@ -101,4 +101,28 @@ withDefaults(defineProps<{
   align-items: center;
   gap: var(--space-3);
 }
+
+.dark-mode {
+  .error-icon {
+    background: var(--error-color-950);
+
+    &:before {
+      border: 4px solid var(--error-color-975);
+    }
+    &:after {
+      border: 1px solid var(--error-color-975);
+    }
+    .icon {
+      color: var(--error-color-500);
+    }
+  }
+  .error-state-text {
+    h6 {
+      color: var(--neutral-color-300);
+    }
+    p {
+      color: var(--neutral-color-400);
+    }
+  }
+}
 </style>
