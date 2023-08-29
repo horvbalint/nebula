@@ -86,6 +86,7 @@ const modelValue = defineModel()
 .neb-checkbox input:checked ~ .checkmark .icon {
   display: block;
 }
+
 .dark-mode {
   .neb-checkbox p {
     color: var(--neutral-color-300);
@@ -107,16 +108,8 @@ const modelValue = defineModel()
     background: var(--primary-color-800);
     border-color: var(--primary-color-600);
   }
-  .neb-checkbox .checkmark:after {
-    left: 6px;
-    top: 2px;
-    width: 4px;
-    height: 9px;
-    border: solid var(--primary-color-300);
-    border-width: 0 2px 2px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
+  .neb-checkbox .checkmark .icon {
+    color: var(--primary-color-100);
   }
 
 }

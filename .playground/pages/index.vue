@@ -290,8 +290,7 @@ const page = ref(0)
       class="neb-table"
       v-model="selectedRows"
       :columns="columns"
-      :rows="[]"
-      loading
+      :rows="rows"
     >
       <template #header>
         <p class="table-header-text">Ebek listaja</p>

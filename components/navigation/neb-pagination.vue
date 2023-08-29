@@ -171,7 +171,7 @@ function next() {
         </neb-button>
 
         <div class="page-stats">
-          {{ page! + 1 }}. oldal {{ computedPageCount }} oldalból
+          {{ page! + 1 }}/{{ computedPageCount }} oldal
         </div>
 
         <neb-button type="secondary-neutral" :disabled="page === computedPageCount - 1" @click="next()">
