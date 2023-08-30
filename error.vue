@@ -92,6 +92,24 @@ footer {
   gap: var(--space-3);
 }
 
+.dark-mode {
+  .status-code {
+    color: var(--neutral-color-900);
+
+    &.error {
+      color: var(--error-color-975)
+    }
+  }
+  .error-text {
+    h1 {
+      color: var(--neutral-color-100);
+    }
+    p {
+      color: var(--neutral-color-400);
+    }
+  }
+}
+
 @media (--tablet-viewport) {
   .status-code {
     top: 8%;
