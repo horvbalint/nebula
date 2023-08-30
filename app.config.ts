@@ -6,6 +6,7 @@ export default defineAppConfig({
         maxWait: 200,
       },
     },
+    homePath: '/',
   },
   nuxtIcon: {
     size: '24px',
