@@ -201,17 +201,23 @@ const searchResults = computed(() => {
     </template>
 
     <template #content>
-      <div>
-        <neb-input v-model="searchTerm" />
+      <div class="neb-overlay-transition select-options">
+        <div class="select-search">
+          <neb-input
+            v-model="searchTerm"
+            leading-icon="material-symbols:search-rounded"
+            placeholder="Search..."
+          />
+        </div>
 
-        <ul class="neb-overlay-transition">
+        <ul>
           <li
             v-for="option in searchResults"
             :key="option.trackValue"
             @click="handleOptionClick(option)"
           >
             <div class="menu-row">
-              <div class="menu-row-content">
+              <div class="menu-row-content" :class="{ selected: option.selected }">
                 <div class="menu-text-wrapper">
                   <slot :option="option.option">
                     <p>{{ option.labelValue }}</p>
@@ -295,21 +301,33 @@ const searchResults = computed(() => {
   color: var(--neutral-color-600);
   font-weight: 400;
 }
-ul {
+.select-options {
+  position: relative;
   display: flex;
   flex-direction: column;
-  list-style: none;
-  padding: 0;
-  margin: 0;
   width: 100%;
   max-height: 300px;
-  overflow: auto;
 
   border: 1px solid var(--neutral-color-200);
   border-radius: var(--radius-default);
   box-shadow: var(--shadow-lg);
-  padding: var(--space-1) 0;
   background: var(--white-color);
+  overflow: auto;
+}
+.select-search {
+  position: sticky;
+  top: 0;
+  border-bottom: 1px solid var(--neutral-color-200);
+}
+ul {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  padding: var(--space-1) 0;
 }
 li {
   hr {
@@ -342,6 +360,16 @@ li {
   }
   &:active {
     background: var(--neutral-color-200);
+  }
+  &.selected {
+    background: var(--neutral-color-50);
+
+    &:hover {
+      background: var(--neutral-color-100);
+    }
+    &:active {
+      background: var(--neutral-color-200);
+    }
   }
   .icon {
     width: var(--space-5);

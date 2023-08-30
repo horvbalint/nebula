@@ -76,7 +76,7 @@ const errorDict: Partial<Record<keyof ValidityState, string>> = {
 <template>
   <div class="neb-input-component" :class="{ disabled: $props.disabled }">
     <label>
-      <span>{{ label }} <span v-if="$props.required" class="required-star">*</span></span>
+      <span v-if="label">{{ label }} <span v-if="$props.required" class="required-star">*</span></span>
 
       <div class="neb-input" :class="{ 'has-error': errorsToShow.length }">
         <slot name="leading">
