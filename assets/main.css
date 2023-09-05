@@ -23,11 +23,13 @@ body {
 
 @keyframes overlay-transition {
   0% {
+    visibility: hidden;
     opacity: .5;
     transform: translateY(var(--space-3));
   }
   100% {
     opacity: 1;
+    visibility: visible;
     transform: translateY(0);
   }
 }

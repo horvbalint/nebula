@@ -286,6 +286,11 @@ const page = ref(0)
 
 <template>
   <div class="experiments">
+    <neb-tooltip title="Tooltip example" text="Tooltips are used to describe or identify an element. In most scenarios, tooltips help the user understand meaning, function or alt-text.">
+      <neb-button type="secondary-neutral">Hover me</neb-button>
+    </neb-tooltip>
+
+
     <neb-table
       class="neb-table"
       v-model="selectedRows"
@@ -297,7 +302,9 @@ const page = ref(0)
       </template>
 
       <template #th-profession="{column}">
-        Custom {{ column.text }}
+        <neb-tooltip title="Custom profession is a custom header field in the table component th slot.">
+          Custom {{ column.text }}
+        </neb-tooltip>
       </template>
 
       <template #td-profession>
