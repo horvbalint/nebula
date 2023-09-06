@@ -27,7 +27,7 @@ withDefaults(defineProps<{
   font-weight: 600;
   cursor: pointer;
   box-shadow: var(--shadow-xs);
-  transition: background, box-shadow var(--duration-default);
+  transition: all var(--duration-default);
   outline: 0;
   display: flex;
   align-items: center;
@@ -175,6 +175,11 @@ withDefaults(defineProps<{
 
 .dark-mode {
   .neb-button.primary {
+    background: var(--primary-color-700);
+
+    &:hover {
+      background: var(--primary-color-600);
+    }
     &:focus {
       box-shadow: var(--primary-focus-shadow-dark);
     }

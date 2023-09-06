@@ -282,14 +282,56 @@ const columns = ref([
 const selectedRows = ref([] as typeof rows.value)
 
 const page = ref(0)
+const show = ref(false)
+const show2 = ref(false)
 </script>
 
 <template>
   <div class="experiments">
-    <neb-tooltip title="Tooltip example" text="Tooltips are used to describe or identify an element. In most scenarios, tooltips help the user understand meaning, function or alt-text.">
-      <neb-button type="secondary-neutral">Hover me</neb-button>
-    </neb-tooltip>
 
+    <neb-modal
+      centered
+      header-icon="ic:outline-maps-home-work"
+      v-model="show"
+      title="Add your company"
+      subtitle="Create your company profile for free in less than 5 minutes."
+    >
+      <template #content>
+        <neb-input label="Company name"/>
+        <neb-input label="Website URL"/>
+        <neb-input label="Profile image"/>
+        <neb-input label="Username"/>
+        <neb-input label="Password"/>
+      </template>
+
+      <template #actions>
+        <neb-button type="secondary-neutral">Mégse</neb-button>
+        <neb-button>Változások mentése</neb-button>
+      </template>
+    </neb-modal>
+
+    <neb-modal
+      header-icon="ic:outline-maps-home-work"
+      v-model="show2"
+      title="Add your company"
+    >
+      <template #content>
+        <neb-input label="Company name"/>
+        <neb-input label="Website URL"/>
+        <neb-input label="Profile image"/>
+        <neb-input label="Username"/>
+        <neb-input label="Password"/>
+      </template>
+
+      <template #actions>
+        <neb-button type="secondary-neutral">Mégse</neb-button>
+        <neb-button>Változások mentése</neb-button>
+      </template>
+    </neb-modal>
+
+    <neb-tooltip title="Tooltip example" text="Tooltips are used to describe or identify an element. In most scenarios, tooltips help the user understand meaning, function or alt-text.">
+      <neb-button type="secondary-neutral" @click="show = show2 = true">Hover me</neb-button>
+    </neb-tooltip>
 
     <neb-table
       class="neb-table"

@@ -300,7 +300,7 @@ tbody {
   }
 
   td {
-    padding: 20px var(--space-6);
+    padding: var(--space-3) var(--space-6);
     font-size: var(--text-sm);
     font-weight: 400;
     color: var(--neutral-color-600);

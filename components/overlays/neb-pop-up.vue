@@ -1,62 +1,76 @@
 <script lang="ts" setup>
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   modelValue: boolean | any
   closedValue?: boolean | any
+  centerContent?: boolean
 }>(), {
   closedValue: false,
+  centerContent: false,
 })
 
-defineEmits<{
+const emit = defineEmits<{
   'update:modelValue': [value: boolean]
 }>()
+
+const popup = ref<null | HTMLElement>(null)
+
+function handleClick(event: MouseEvent) {
+  if (event.target === popup.value)
+    emit('update:modelValue', props.closedValue)
+}
 </script>
 
 <template>
   <teleport v-if="modelValue" to="body">
-    <div class="neb-pop-up-component">
-      <div class="content-wrapper">
-        <slot />
-      </div>
-
-      <div class="topper" @click="$emit('update:modelValue', closedValue)" />
+    <div
+      ref="popup"
+      class="neb-pop-up"
+      :class="{ 'center-content': centerContent }"
+      @click="handleClick($event)"
+    >
+      <slot />
     </div>
   </teleport>
 </template>
 
 <style scoped>
-.neb-pop-up-component {
+.neb-pop-up {
   position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
   z-index: 100;
+  overflow: auto;
+  overscroll-behavior: none;
+  animation: fade var(--duration-default) forwards;
 
-  .content-wrapper {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &.center-content {
+    justify-content: center;
   }
-
-  .topper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(var(--neutral-color-component-200), 0.8);
-    z-index: 1;
-    display: none;
-  }
-
   &:last-child {
-    .topper {
-      display: block !important;
-    }
+    background: rgba(var(--neutral-color-component), 0.7);
+    backdrop-filter: blur(6px);
   }
 }
 
 .dark-mode {
-  .topper {
-    background: rgba(var(--neutral-color-component-800), 0.8);
+  .neb-pop-up {
+    background: rgba(var(--neutral-color-component-800), 0.7);
+  }
+}
+
+@keyframes fade {
+  0% {
+    opacity: .5;
+  }
+  100% {
+    opacity: 1;
   }
 }
 </style>
