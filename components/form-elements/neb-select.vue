@@ -201,7 +201,7 @@ const searchResults = computed(() => {
     </template>
 
     <template #content>
-      <div class="neb-overlay-transition select-options">
+      <div class="select-options">
         <div class="select-search">
           <neb-input
             v-model="searchTerm"

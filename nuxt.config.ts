@@ -8,13 +8,13 @@ export default defineNuxtConfig({
   devtools: {
     enabled: true,
   },
+  alias: {
+    '@nebula': resolve('./'),
+  },
   modulesDir: [
     'node_modules',
     resolve('./node_modules'),
   ],
-  alias: {
-    '@nebula': resolve('./'),
-  },
   css: [
     '@nebula/assets/main.css',
     '@nebula/assets/tokens.css',
@@ -65,6 +65,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
   ],
   googleFonts: {
+    download: true,
     families: {
       Inter: [100, 200, 300, 400, 500, 600, 700, 800, 900],
     },

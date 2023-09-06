@@ -2,39 +2,44 @@ type RefElement = Ref<Element | null>
 
 export function useNebCompact(container: RefElement, target: RefElement) {
   const compactMode = ref(false)
+  let observer: null | ResizeObserver = null
 
-  onMounted(() => startTargetObserver(compactMode, container, target))
+  onMounted(() => startTargetObserver())
+  onBeforeUnmount(() => {
+    if (observer)
+      observer.disconnect()
+  })
+
+  function startTargetObserver() {
+    observer = new ResizeObserver(debounce(() => {
+      if (target.value!.clientWidth === target.value!.scrollWidth)
+        return
+
+      observer!.disconnect()
+      compactMode.value = true
+
+      const missingFromTargetWidth = target.value!.scrollWidth - target.value!.clientWidth
+      const minContainerWidth = container.value!.clientWidth + missingFromTargetWidth
+      startContainerObserver(minContainerWidth)
+    }))
+
+    observer.observe(target.value!)
+  }
+
+  function startContainerObserver(minContainerWidth: number) {
+    observer = new ResizeObserver(debounce(() => {
+      if (container.value!.clientWidth <= minContainerWidth)
+        return
+
+      observer!.disconnect()
+      compactMode.value = false
+      nextTick(() => startTargetObserver())
+    }))
+
+    observer.observe(container.value!)
+  }
 
   return compactMode
-}
-
-function startTargetObserver(compactMode: Ref<boolean>, container: RefElement, target: RefElement) {
-  const oberserver = new ResizeObserver(debounce(() => {
-    if (target.value!.clientWidth === target.value!.scrollWidth)
-      return
-
-    oberserver.disconnect()
-    compactMode.value = true
-
-    const missingFromTargetWidth = target.value!.scrollWidth - target.value!.clientWidth
-    const minContainerWidth = container.value!.clientWidth + missingFromTargetWidth
-    startContainerObserver(minContainerWidth, compactMode, container, target)
-  }))
-
-  oberserver.observe(target.value!)
-}
-
-function startContainerObserver(minContainerWidth: number, compactMode: Ref<boolean>, container: RefElement, target: RefElement) {
-  const observer = new ResizeObserver(debounce(() => {
-    if (container.value!.clientWidth <= minContainerWidth)
-      return
-
-    observer.disconnect()
-    compactMode.value = false
-    nextTick(() => startTargetObserver(compactMode, container, target))
-  }))
-
-  observer.observe(container.value!)
 }
 
 function debounce(callback: any) {

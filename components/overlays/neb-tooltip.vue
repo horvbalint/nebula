@@ -27,13 +27,13 @@ const { floatingStyles } = useFloating(trigger, dropdown, floatingOptions)
     </div>
 
     <div ref="dropdown" class="tooltip-box" :style="floatingStyles">
-      <h6 v-if="title">
-        {{ title }}
-      </h6>
+      <div class="tooltip-animation-wrapper">
+        <h6>{{ title }}</h6>
 
-      <p v-if="text">
-        {{ text }}
-      </p>
+        <p v-if="text">
+          {{ text }}
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -41,30 +41,38 @@ const { floatingStyles } = useFloating(trigger, dropdown, floatingOptions)
 <style scoped>
 .neb-tooltip {
   width: fit-content;
-  &:hover .tooltip-box {
-    animation: overlay-transition var(--duration-default) forwards;
-  }
 
+  &:hover {
+    .tooltip-animation-wrapper {
+      animation: overlay-transition var(--duration-default) forwards;
+    }
+    .tooltip-box {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
 }
 .tooltip-trigger {
   position: relative;
 }
 .tooltip-box {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
   opacity: 0;
   visibility: hidden;
   width: max-content;
+  z-index: 10;
+  max-width: 300px;
+}
+.tooltip-animation-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  white-space: pre-line;
+  line-height: 18px;
   background: var(--white-color);
   border: 1px solid var(--neutral-color-100);
   padding: var(--space-2) var(--space-3);
-  z-index: 10;
   box-shadow: var(--shadow-lg);
   border-radius: var(--radius-default);
-  max-width: 300px;
-  white-space: pre-line;
-  line-height: 18px;
 
   h6 {
     color: var(--neutral-color-700);
@@ -77,11 +85,10 @@ const { floatingStyles } = useFloating(trigger, dropdown, floatingOptions)
     font-size: var(--text-xs);
   }
 }
-
 .dark-mode {
-  .tooltip-box {
+  .tooltip-animation-wrapper {
     background: var(--neutral-color-975);
-    border: 1px solid var(--neutral-color-900);
+    border: 1px solid var(--neutral-color-800);
 
     h6 {
       color: var(--neutral-color-300);

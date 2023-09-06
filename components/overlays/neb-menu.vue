@@ -37,7 +37,7 @@ function handleClick(menu: Menu) {
     </template>
 
     <template #content>
-      <div class="dropdown neb-overlay-transition">
+      <div class="dropdown">
         <slot name="header" />
 
         <ul>

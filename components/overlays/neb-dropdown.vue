@@ -55,8 +55,16 @@ defineExpose({
       <slot name="trigger" :toggle="toggle" :open="open" :close="close" />
     </div>
 
-    <div v-if="isOpen" ref="dropdown" v-on-click-outside="[close, clickOutsideOptions]" class="dropdown" :style="floatingStyles">
-      <slot name="content" :toggle="toggle" :open="open" :close="close" />
+    <div
+      v-if="isOpen"
+      ref="dropdown"
+      v-on-click-outside="[close, clickOutsideOptions]"
+      :style="floatingStyles"
+      class="dropdown"
+    >
+      <div class="neb-overlay-transition">
+        <slot name="content" :toggle="toggle" :open="open" :close="close" />
+      </div>
     </div>
   </div>
 </template>
