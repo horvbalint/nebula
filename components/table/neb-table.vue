@@ -181,9 +181,11 @@ const isAnyChecked = computed({
             </th>
 
             <th v-for="column in columns" :key="`th-${column.key}`" @click="sortByColumn(column)">
-              <slot :name="`th-${column.key}`" :column="column">
-                {{ column.text }}
-              </slot>
+              <div class="th-slot-wrapper">
+                <slot :name="`th-${column.key}`" :column="column">
+                  {{ column.text }}
+                </slot>
+              </div>
 
               <icon v-if="column.key === sortColumn?.key" :name="sortIcon" />
             </th>
@@ -274,6 +276,10 @@ th {
   cursor: pointer;
   user-select: none;
   line-height: 22px;
+
+  .th-slot-wrapper {
+    display: inline-block;
+  }
 
   .icon {
     margin-left: var(--space-1);
