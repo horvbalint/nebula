@@ -29,28 +29,45 @@ const computedTabs = computed(() => {
 
   return tabs
 })
+
+const arrayTabs = computed(() => {
+  return Object.entries(computedTabs.value)
+    .map(([key, props]) => ({ key, ...props }))
+})
 </script>
 
 <template>
-  <fieldset id="tabs">
-    <ul class="neb-tabs" :class="{ 'vertical': props.vertical, 'full-width': props.fullWidth }">
-      <li
-        v-for="(tab, key) in computedTabs"
-        :key="key"
-        :class="{ active: modelValue === key, disabled: tab.disabled }"
-      >
-        <input v-model="modelValue" :disabled="tab.disabled" type="radio" :value="key" name="tabs">
+  <neb-compact>
+    <template #normal-mode="{ setNormalModeRef }">
+      <ul :ref="setNormalModeRef" class="neb-tabs" :class="{ 'vertical': props.vertical, 'full-width': props.fullWidth }">
+        <li
+          v-for="(tab, key) in computedTabs"
+          :key="key"
+          :class="{ active: modelValue === key, disabled: tab.disabled }"
+        >
+          <input v-model="modelValue" :disabled="tab.disabled" type="radio" :value="key" name="tabs">
 
-        <slot :key="key" :tab="tab">
-          <icon v-if="tab.icon" :name="tab.icon" />
-          <p>{{ tab.text }}</p>
-          <neb-badge v-if="tab.count" small>
-            {{ tab.count }}
-          </neb-badge>
-        </slot>
-      </li>
-    </ul>
-  </fieldset>
+          <slot :key="key" :tab="tab">
+            <icon v-if="tab.icon" :name="tab.icon" />
+            <p>{{ tab.text }}</p>
+            <neb-badge v-if="tab.count" small>
+              {{ tab.count }}
+            </neb-badge>
+          </slot>
+        </li>
+      </ul>
+    </template>
+
+    <template #compact-mode>
+      <neb-select
+        v-model="modelValue"
+        :options="arrayTabs"
+        label-key="text"
+        track-by-key="key"
+        use-only-tracked-key
+      />
+    </template>
+  </neb-compact>
 </template>
 
 <style scoped>
@@ -88,6 +105,8 @@ li {
   justify-content: center;
   position: relative;
   display: flex;
+  flex-wrap: nowrap;
+  text-wrap: nowrap;
   align-items: center;
   gap: var(--space-2);
   padding: 0 var(--space-3);

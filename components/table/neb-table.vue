@@ -259,7 +259,6 @@ thead {
   position: sticky;
   top: 0;
   left: 0;
-  z-index: 1;
   height: 44px;
   box-shadow: 0 1px 0 0 var(--neutral-color-200);
   background: var(--neutral-color-50);

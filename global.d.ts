@@ -7,7 +7,7 @@ interface NebulaNavSettings {
 
 declare module 'vue-router' {
   interface RouteMeta {
-    nebula?:NebulaNavSettings
+    nebula?: NebulaNavSettings
   }
 }
 
