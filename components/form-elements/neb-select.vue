@@ -12,28 +12,26 @@ import type { UseFloatingOptions } from '@floating-ui/vue'
 >
 import * as JsSearch from 'js-search'
 
-type ObjectOptionLike<TrackByKey extends PropertyKey, LabelKey extends PropertyKey> = {
+type ObjectOption = {
   [x in TrackByKey | LabelKey]: PropertyKey;
 }
 
-type ObjectOption = ObjectOptionLike<TrackByKey, LabelKey>
-
 type DiscriminatingProps = {
-  multiple: false
+  multiple?: false
   useOnlyTrackedKey?: false
   modelValue: ObjectOption | null
   options: ObjectOption[]
   trackByKey: TrackByKey
   labelKey: LabelKey
 } | {
-  multiple: false
+  multiple?: false
   useOnlyTrackedKey: true
-  modelValue: PropertyKey | null
+  modelValue: ObjectOption[TrackByKey] | null
   options: ObjectOption[]
   trackByKey: TrackByKey
   labelKey: LabelKey
 } | {
-  multiple: false
+  multiple?: false
   useOnlyTrackedKey?: false
   modelValue: PropertyKey | null
   options: PropertyKey[]
@@ -47,7 +45,7 @@ type DiscriminatingProps = {
 } | {
   multiple: true
   useOnlyTrackedKey: true
-  modelValue: PropertyKey[]
+  modelValue: ObjectOption[TrackByKey][]
   options: ObjectOption[]
   trackByKey: TrackByKey
   labelKey: LabelKey
@@ -72,7 +70,6 @@ const emit = defineEmits<{
 }>()
 
 interface ProcessedOption {
-  selected?: boolean
   trackValue: PropertyKey
   labelValue: PropertyKey
   option: PropertyKey | ObjectOption
@@ -80,29 +77,39 @@ interface ProcessedOption {
 
 const computedOptions = computed(() => {
   if ('trackByKey' in props) {
-    return props.options.map((option) => {
-      const temp: ProcessedOption = {
-        trackValue: option[props.trackByKey],
-        labelValue: option[props.labelKey],
-        option,
-      }
-      temp.selected = isSelected(temp)
-
-      return temp
-    })
+    return props.options.map(option => ({
+      trackValue: option[props.trackByKey],
+      labelValue: option[props.labelKey],
+      option,
+    }))
   }
   else {
-    return props.options.map((option) => {
-      const temp: ProcessedOption = {
-        trackValue: option,
-        labelValue: option,
-        option,
-      }
-      temp.selected = isSelected(temp)
-
-      return temp
-    })
+    return props.options.map(option => ({
+      trackValue: option,
+      labelValue: option,
+      option,
+    }))
   }
+})
+
+interface SearchedOption extends ProcessedOption {
+  selected: boolean
+}
+
+const search = new JsSearch.Search('trackValue')
+search.addIndex('labelValue')
+search.addDocuments(computedOptions.value)
+
+const searchTerm = ref('')
+const searchResults = computed<SearchedOption[]>(() => {
+  const searchResults = !searchTerm.value.length
+    ? computedOptions.value
+    : search.search(searchTerm.value) as ProcessedOption[]
+
+  for (const option of searchResults)
+    (option as SearchedOption).selected = isSelected(option)
+
+  return searchResults as SearchedOption[]
 })
 
 function isSelected(option: ProcessedOption): boolean {
@@ -127,14 +134,14 @@ function isSelected(option: ProcessedOption): boolean {
   }
 }
 
-function handleOptionClick(option: ProcessedOption): void {
+function handleOptionClick(option: SearchedOption): void {
   if (option.selected)
     deselectOption(option)
   else
     selectOption(option)
 }
 
-function selectOption(option: ProcessedOption): void {
+function selectOption(option: SearchedOption): void {
   if (props.multiple === true) {
     if (props.useOnlyTrackedKey)
       emit('update:modelValue', [...props.modelValue, option.trackValue])
@@ -153,7 +160,7 @@ function selectOption(option: ProcessedOption): void {
   }
 }
 
-function deselectOption(option: ProcessedOption): void {
+function deselectOption(option: SearchedOption): void {
   if (props.multiple === true) {
     if (props.useOnlyTrackedKey)
       emit('update:modelValue', props.modelValue.filter(o => o !== option.trackValue))
@@ -166,18 +173,6 @@ function deselectOption(option: ProcessedOption): void {
     emit('update:modelValue', null)
   }
 }
-
-const search = new JsSearch.Search('trackValue')
-search.addIndex('labelValue')
-search.addDocuments(computedOptions.value)
-
-const searchTerm = ref('')
-const searchResults = computed(() => {
-  if (!searchTerm.value.length)
-    return computedOptions.value
-
-  return search.search(searchTerm.value)
-}) as ComputedRef<ProcessedOption[]>
 </script>
 
 <template>

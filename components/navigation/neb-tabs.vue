@@ -15,7 +15,9 @@ const props = withDefaults(defineProps<{
   fullWidth: false,
 })
 
-const modelValue = defineModel()
+const modelValue = defineModel<string>({
+  required: true,
+})
 
 const computedTabs = computed(() => {
   const tabs: Record<string, Tab> = {}

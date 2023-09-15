@@ -68,7 +68,7 @@ const computedBinds = computed(() => {
     v-model="modelValue"
     v-model:sortAsc="sortAsc"
     v-model:sortColumn="sortColumn"
-    :rows="sortedRows"
+    :rows="paginationResult"
     v-bind="computedBinds"
   >
     <template v-for="(_, slot) of $slots" #[slot]="scope">
