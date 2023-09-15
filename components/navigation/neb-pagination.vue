@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T">
 const props = withDefaults(defineProps<{
-  modelValue: T[]
+  modelValue?: T[]
   page?: number
   data?: T[]
   count?: number
