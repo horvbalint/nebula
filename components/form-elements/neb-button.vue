@@ -2,14 +2,18 @@
 withDefaults(defineProps<{
   loading?: boolean
   type?: 'primary' | 'secondary' | 'secondary-neutral' | 'tertiary' | 'tertiary-neutral' | 'link' | 'link-neutral'
+  small?: boolean
+  icon?: boolean
 }>(), {
   loading: false,
   type: 'primary',
+  small: false,
+  icon: false,
 })
 </script>
 
 <template>
-  <button class="neb-button" :class="type">
+  <button class="neb-button" :class="{ [type]: true, small }">
     <slot v-if="!loading" />
 
     <icon v-else name="eos-icons:loading" />
@@ -18,7 +22,6 @@ withDefaults(defineProps<{
 
 <style scoped>
 .neb-button {
-  height: 40px;
   padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-default);
   text-align: center;
@@ -33,9 +36,17 @@ withDefaults(defineProps<{
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
+  user-select: none;
 
   &:disabled {
     cursor: not-allowed;
+  }
+  &.small {
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-small);
+  }
+  &.icon {
+    padding: var(--space-3) var(--space-3);
   }
 }
 

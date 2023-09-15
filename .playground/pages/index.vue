@@ -287,6 +287,8 @@ const page = ref(0)
 
 <template>
   <div class="experiments">
+    <NuxtPage/>
+    
     <neb-select
       label="Users"
       v-model="selectModel"
