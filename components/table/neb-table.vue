@@ -1,10 +1,6 @@
 <script setup lang="ts" generic="T extends Record<string, any>">
 import type { Column, Props } from '@nebula/components/table/neb-table-frame.vue'
 
-defineOptions({
-  inheritAttrs: false,
-})
-
 const props = defineProps<Omit<Props<T>, 'sortAsc' | 'sortColumn'>>()
 
 const modelValue = defineModel<null | T[]>({

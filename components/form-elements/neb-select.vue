@@ -1,7 +1,3 @@
-<script lang="ts">
-import type { UseFloatingOptions } from '@floating-ui/vue'
-</script>
-
 <script
   setup
   lang="ts"
@@ -10,7 +6,10 @@ import type { UseFloatingOptions } from '@floating-ui/vue'
     LabelKey extends PropertyKey,
   "
 >
+import type { UseFloatingOptions } from '@floating-ui/vue'
 import * as JsSearch from 'js-search'
+import NebDropdown from '../overlays/neb-dropdown.vue'
+import type NebInput from './neb-input.vue'
 
 type ObjectOption = {
   [x in TrackByKey | LabelKey]: PropertyKey;
@@ -59,8 +58,10 @@ type DiscriminatingProps = {
 interface FixProps {
   label?: string
   hint?: string
+  placeholder?: string
   floatingOptions?: UseFloatingOptions
   leadingIcon?: string
+  noSearch?: boolean
 }
 
 const props = defineProps<DiscriminatingProps & FixProps>()
@@ -75,7 +76,7 @@ interface ProcessedOption {
   option: PropertyKey | ObjectOption
 }
 
-const computedOptions = computed(() => {
+const processedOptions = computed(() => {
   if ('trackByKey' in props) {
     return props.options.map(option => ({
       trackValue: option[props.trackByKey],
@@ -92,24 +93,32 @@ const computedOptions = computed(() => {
   }
 })
 
-interface SearchedOption extends ProcessedOption {
-  selected: boolean
-}
-
-const search = new JsSearch.Search('trackValue')
-search.addIndex('labelValue')
-search.addDocuments(computedOptions.value)
+const searcher = new JsSearch.Search('trackValue')
+searcher.addIndex('labelValue')
+searcher.addDocuments(processedOptions.value)
 
 const searchTerm = ref('')
-const searchResults = computed<SearchedOption[]>(() => {
-  const searchResults = !searchTerm.value.length
-    ? computedOptions.value
-    : search.search(searchTerm.value) as ProcessedOption[]
+const searchResults = computed<ProcessedOption[]>(() => {
+  if (!searchTerm.value.length)
+    return processedOptions.value
+  else
+    return searcher.search(searchTerm.value) as ProcessedOption[]
+})
 
-  for (const option of searchResults)
-    (option as SearchedOption).selected = isSelected(option)
+const selectedOptions = computed(() => {
+  const selectedOptions = new Map<PropertyKey, ProcessedOption>()
 
-  return searchResults as SearchedOption[]
+  for (const option of processedOptions.value) {
+    if (isSelected(option))
+      selectedOptions.set(option.trackValue, option)
+  }
+
+  return selectedOptions
+})
+
+const selectionText = computed(() => {
+  const options = [...selectedOptions.value.values()]
+  return options.map(option => option.labelValue).join(', ')
 })
 
 function isSelected(option: ProcessedOption): boolean {
@@ -134,14 +143,14 @@ function isSelected(option: ProcessedOption): boolean {
   }
 }
 
-function handleOptionClick(option: SearchedOption): void {
-  if (option.selected)
+function handleOptionClick(option: ProcessedOption): void {
+  if (selectedOptions.value.has(option.trackValue))
     deselectOption(option)
   else
     selectOption(option)
 }
 
-function selectOption(option: SearchedOption): void {
+function selectOption(option: ProcessedOption): void {
   if (props.multiple === true) {
     if (props.useOnlyTrackedKey)
       emit('update:modelValue', [...props.modelValue, option.trackValue])
@@ -160,7 +169,7 @@ function selectOption(option: SearchedOption): void {
   }
 }
 
-function deselectOption(option: SearchedOption): void {
+function deselectOption(option: ProcessedOption): void {
   if (props.multiple === true) {
     if (props.useOnlyTrackedKey)
       emit('update:modelValue', props.modelValue.filter(o => o !== option.trackValue))
@@ -173,18 +182,61 @@ function deselectOption(option: SearchedOption): void {
     emit('update:modelValue', null)
   }
 }
+
+const orderedOptions = ref([]) as Ref<ProcessedOption[]>
+function orderOptions() {
+  const options = [...searchResults.value]
+
+  orderedOptions.value = options.sort((a, b) => {
+    if (selectedOptions.value.has(a.trackValue)) {
+      if (selectedOptions.value.has(b.trackValue))
+        return 0
+      else
+        return -1
+    }
+    else {
+      return 1
+    }
+  })
+}
+
+const search = ref<null | InstanceType<typeof NebInput>>(null)
+const dropdown = ref<null | InstanceType<typeof NebDropdown>>(null)
+
+async function handleSelectClick() {
+  if (!dropdown.value!.isOpen)
+    orderOptions()
+
+  dropdown.value!.toggle()
+
+  await nextTick()
+  if (search.value) {
+    if (dropdown.value!.isOpen)
+      search.value!.focus()
+  }
+}
+
+watch(searchTerm, orderOptions)
 </script>
 
 <template>
-  <neb-dropdown class="neb-select" :floating-options="floatingOptions" full-width>
-    <template #trigger="{ toggle }">
-      <div class="neb-select-input-wrapper" @click="toggle()">
+  <NebDropdown ref="dropdown" class="neb-select" :floating-options="floatingOptions" full-width>
+    <template #trigger>
+      <div class="neb-select-input-wrapper" @click="handleSelectClick()">
         <span v-if="label">{{ label }} <span class="required-star">*</span></span>
 
         <div class="neb-select-input">
           <slot name="leading">
             <icon v-if="leadingIcon" :name="leadingIcon" />
           </slot>
+
+          <p v-if="!selectedOptions.size" class="placeholder">
+            {{ $props.placeholder }}
+          </p>
+
+          <div v-else class="selection">
+            {{ selectionText }}
+          </div>
 
           <icon class="chevron" name="material-symbols:keyboard-arrow-down" />
         </div>
@@ -197,41 +249,58 @@ function deselectOption(option: SearchedOption): void {
 
     <template #content>
       <div class="select-options">
-        <div class="select-search">
-          <neb-input
+        <div v-if="!noSearch" class="select-search" @click="search!.focus()">
+          <input
+            ref="search"
             v-model="searchTerm"
-            leading-icon="material-symbols:search-rounded"
-            placeholder="Search..."
-          />
+            placeholder="Írj ide a kereséshez..."
+          >
+
+          <icon v-if="searchTerm" name="material-symbols:close-rounded" @click="searchTerm = ''" />
         </div>
 
-        <ul>
+        <ul v-if="orderedOptions.length">
           <li
-            v-for="option in searchResults"
+            v-for="option in orderedOptions"
             :key="option.trackValue"
             @click="handleOptionClick(option)"
           >
             <div class="menu-row">
-              <div class="menu-row-content" :class="{ selected: option.selected }">
+              <div class="menu-row-content" :class="{ selected: selectedOptions.has(option.trackValue) }">
                 <div class="menu-text-wrapper">
-                  <slot :option="option.option">
+                  <slot name="option" :option="option.option" :label-value="option.labelValue" :track-value="option.trackValue">
                     <p>{{ option.labelValue }}</p>
                   </slot>
                 </div>
 
-                <icon v-if="option.selected" class="success-icon" name="material-symbols:done-rounded" />
+                <icon v-if="selectedOptions.has(option.trackValue)" class="success-icon" name="material-symbols:done-rounded" />
               </div>
             </div>
           </li>
         </ul>
+
+        <neb-empty-state
+          v-else
+          :title="`A(z) '${searchTerm}' nem található`"
+          description="Próbálkozz másik kulcsszóval."
+        />
       </div>
     </template>
-  </neb-dropdown>
+  </NebDropdown>
 </template>
 
 <style scoped>
 .neb-select {
   width: 100%;
+}
+.neb-select-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  width: 100%;
+  color: var(--neutral-color-800);
 }
 .neb-select-input {
   background: var(--white-color);
@@ -243,6 +312,8 @@ function deselectOption(option: SearchedOption): void {
   border-radius: var(--radius-default);
   border: 1px solid var(--neutral-color-300);
   transition: all var(--duration-default);
+  cursor: pointer;
+  user-select: none;
 
   &.has-error {
     border-color: var(--error-color-300);
@@ -279,14 +350,18 @@ function deselectOption(option: SearchedOption): void {
     transition: transform var(--duration-default);
   }
 }
-.neb-select-input-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  font-size: var(--text-sm);
-  font-weight: 500;
-  width: 100%;
-  color: var(--neutral-color-800);
+.placeholder {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--neutral-color-400)
+}
+.selection {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .required-star {
   color: var(--error-color-500);
@@ -312,7 +387,29 @@ function deselectOption(option: SearchedOption): void {
 .select-search {
   position: sticky;
   top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-3) var(--space-4);
   border-bottom: 1px solid var(--neutral-color-200);
+  background: var(--white-color);
+
+  input {
+    font-size: var(--text-sm);
+    outline: none;
+    border: none;
+    background: transparent;
+
+    &::placeholder {
+      color: var(--neutral-color-400)
+    }
+  }
+  .icon {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    color: var(--neutral-color-500)
+  }
 }
 ul {
   display: flex;
@@ -411,14 +508,7 @@ li {
     background: var(--neutral-color-950);
     border: 1px solid var(--neutral-color-700);
 
-    &.has-error {
-      border-color: var(--error-color-700);
-
-      &:focus-within {
-        box-shadow: var(--error-focus-shadow-dark);
-        border-color: var(--error-color-700);
-      }
-    }
+    &.has-e.menu-text-wrapper
     &:focus-within {
       border-color: var(--primary-color-700);
       box-shadow: var(--primary-focus-shadow-dark);
@@ -437,9 +527,13 @@ li {
   .hint {
     color: var(--neutral-color-300);
   }
-  ul {
-    border: 1px solid var(--neutral-color-800);
+  .select-search {
     background: var(--neutral-color-950);
+    border-color: var(--neutral-color-800);
+  }
+  .select-options {
+    background: var(--neutral-color-950);
+    border: 1px solid var(--neutral-color-800);
   }
   li {
     hr {
@@ -447,6 +541,16 @@ li {
     }
   }
   .menu-row-content {
+    &.selected {
+      background: var(--neutral-color-900);
+
+      &:hover {
+        background: var(--neutral-color-800);
+      }
+      &:active {
+        background: var(--neutral-color-900);
+      }
+    }
     &:hover {
       background: var(--neutral-color-900);
     }
@@ -459,6 +563,12 @@ li {
     .icon {
       color: var(--neutral-color-400)
     }
+    .success-icon {
+      color: var(--primary-color-500);
+    }
+  }
+  .menu-text-wrapper {
+    color: var(--neutral-color-300)
   }
 }
 </style>

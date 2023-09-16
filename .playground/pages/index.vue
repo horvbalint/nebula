@@ -247,7 +247,7 @@ const rows = ref([
     profession: 'Writer',
     lastLogin: '2021-08-22T08:30:00.000Z',
   }
-])
+].sort((a, b) => a.name.localeCompare(b.name)))
 
 const columns = ref([
   {
@@ -280,6 +280,14 @@ const columns = ref([
   }
 ])
 
+const paginationOptions = [
+  10,
+  20,
+  30,
+  50,
+  100
+]
+
 const selectedRows = ref([] as typeof rows.value)
 
 const page = ref(0)
@@ -287,8 +295,10 @@ const page = ref(0)
 
 <template>
   <div class="experiments">
-    <NuxtPage/>
-    
+    <neb-tooltip title="efwfewefwef">
+      <neb-button>Gomb vagyok</neb-button>
+    </neb-tooltip>
+
     <neb-select
       label="Users"
       v-model="selectModel"
@@ -296,9 +306,10 @@ const page = ref(0)
       :options="rows"
       track-by-key="id"
       label-key="name"
-      multiple
       class="select-wrapper"
-    />
+      multiple
+    >
+    </neb-select>
 
     <!-- <neb-table
       class="neb-table"

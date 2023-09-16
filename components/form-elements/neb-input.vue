@@ -1,8 +1,4 @@
 <script lang="ts" setup>
-defineOptions({
-  inheritAttrs: false,
-})
-
 const props = withDefaults(defineProps<{
   modelValue: string | number
   leadingIcon?: string
@@ -22,7 +18,7 @@ const emit = defineEmits<{
   'update:modelValue': [id: typeof props.modelValue]
 }>()
 
-const input = ref(null as null | HTMLFormElement)
+const input = ref<null | HTMLFormElement>(null)
 const { errorsToShow, collectErrors } = useNebValidateNative(input)
 
 const attrs = useAttrs()
@@ -71,6 +67,12 @@ const errorDict: Partial<Record<keyof ValidityState, string>> = {
   typeMismatch: 'A mező nem megfelelő formátumú!',
   valueMissing: 'A mező kitöltése kötelező!',
 }
+
+function focus() {
+  input.value!.focus()
+}
+
+defineExpose({ focus })
 </script>
 
 <template>

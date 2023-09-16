@@ -1,8 +1,4 @@
 <script lang="ts" setup>
-defineOptions({
-  inheritAttrs: false,
-})
-
 const props = withDefaults(defineProps<{
   modelValue: string | number
   label?: string

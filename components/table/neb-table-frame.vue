@@ -17,10 +17,6 @@ export interface Props<T> {
   error?: boolean
 }
 
-defineOptions({
-  inheritAttrs: false,
-})
-
 const props = withDefaults(defineProps<Props<T>>(), {
   loading: false,
   error: false,
