@@ -57,7 +57,7 @@ export default defineNuxtComponent({
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
-  padding: var(--space-6) 0;
+  padding: 0;
 
   &.has-separator {
     border-bottom: 1px solid var(--neutral-color-200);
