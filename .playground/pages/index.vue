@@ -288,7 +288,7 @@ const paginationOptions = [
   100
 ]
 
-const selectedRows = ref([] as typeof rows.value)
+const selectedRows = ref([])
 
 const page = ref(0)
 </script>
@@ -301,7 +301,7 @@ const page = ref(0)
 
     <neb-select
       label="Users"
-      v-model="selectModel"
+      v-model="selectedRows"
       placeholder="Select a user..."
       :options="rows"
       track-by-key="id"

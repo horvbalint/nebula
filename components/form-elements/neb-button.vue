@@ -13,7 +13,7 @@ withDefaults(defineProps<{
 </script>
 
 <template>
-  <button class="neb-button" :class="{ [type]: true, small }">
+  <button class="neb-button" :class="{ [type]: true, small, icon }">
     <slot v-if="!loading" />
 
     <icon v-else name="eos-icons:loading" />
@@ -46,7 +46,11 @@ withDefaults(defineProps<{
     border-radius: var(--radius-small);
   }
   &.icon {
-    padding: var(--space-3) var(--space-3);
+    padding: var(--space-3);
+  }
+  &.small.icon {
+    padding: var(--space-1);
+    border-radius: var(--radius-small);
   }
 }
 

@@ -32,7 +32,7 @@ const modelValue = defineModel()
           </div>
         </slot>
 
-        <neb-button type="tertiary-neutral" @click="modelValue = false">
+        <neb-button type="tertiary-neutral" icon small @click="modelValue = false">
           <icon class="close-icon" name="material-symbols:close-rounded" />
         </neb-button>
       </header>
