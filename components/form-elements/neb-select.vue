@@ -16,7 +16,9 @@ export type ObjectOption<TrackByKey extends PropertyKey, LabelKey extends Proper
   [x in TrackByKey | LabelKey]: PropertyKey;
 }
 
-const props = defineProps<{
+defineOptions({ inheritAttrs: false })
+
+const props = withDefaults(defineProps<{
   modelValue: null | T | T[]
   options: T[]
   trackByKey?: TrackByKey
@@ -30,10 +32,16 @@ const props = defineProps<{
   floatingOptions?: UseFloatingOptions
   leadingIcon?: string
   noSearch?: boolean
-}>()
+}>(), {
+  placeholder: 'Válassz egyet a listából...',
+  multiple: false,
+  useOnlyTrackedKey: false,
+  noSearch: false,
+})
 
 const emit = defineEmits<{
   'update:modelValue': [typeof props.modelValue]
+  'new': [searchTerm: string]
 }>()
 
 interface ProcessedOption {
@@ -249,7 +257,11 @@ watch(searchTerm, orderOptions)
           v-else
           :title="`A(z) '${searchTerm}' nem található`"
           description="Próbálkozz másik kulcsszóval."
-        />
+        >
+          <neb-button type="secondary" small @click="emit('new', searchTerm)">
+            <icon name="material-symbols:add-rounded" /> Új elem felvitele
+          </neb-button>
+        </neb-empty-state>
       </div>
     </template>
   </NebDropdown>

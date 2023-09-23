@@ -56,10 +56,6 @@ export default defineNuxtConfig({
         path: '@nebula/components',
         pathPrefix: false,
       },
-      {
-        path: '@/components',
-        pathPrefix: false,
-      },
     ],
   },
   modules: [

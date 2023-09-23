@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 const props = withDefaults(defineProps<{
-  modelValue: string | number
+  modelValue: string | number | undefined
   leadingIcon?: string
   trailingIcon?: string
   label?: string

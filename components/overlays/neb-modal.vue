@@ -76,6 +76,7 @@ header {
   left: 0;
   background: var(--white-color);
   border-radius: var(--radius-large) var(--radius-large) 0 0;
+  z-index: 2;
 }
 .close-icon {
   color: var(--neutral-color-500);

@@ -78,6 +78,3 @@ const computedBinds = computed(() => {
     </template>
   </neb-table-frame>
 </template>
-
-<style scoped>
-</style>
