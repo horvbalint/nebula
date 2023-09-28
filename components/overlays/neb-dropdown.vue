@@ -46,6 +46,8 @@ function close(event?: PointerEvent) {
 
 defineExpose({
   toggle,
+  open,
+  close,
   isOpen: readonly(isOpen),
 })
 </script>

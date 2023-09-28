@@ -72,7 +72,11 @@ function focus() {
   input.value!.focus()
 }
 
-defineExpose({ focus })
+function blur() {
+  input.value!.blur()
+}
+
+defineExpose({ focus, blur })
 </script>
 
 <template>

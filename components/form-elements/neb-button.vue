@@ -30,7 +30,7 @@ withDefaults(defineProps<{
   font-weight: 600;
   cursor: pointer;
   box-shadow: var(--shadow-xs);
-  transition: all var(--duration-default);
+  transition: all var(--duration-fast);
   outline: 0;
   display: flex;
   align-items: center;
