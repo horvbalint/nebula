@@ -32,7 +32,7 @@ function init(element: HTMLElement) {
   onBeforeUnmount(() => onDestroy(element))
 }
 
-provide(NebValidatorInjectKey, {
+provide(NebValidatorCallbacksInjectKey, {
   init,
   onValidityChange,
   onDestroy,

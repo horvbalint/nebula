@@ -10,9 +10,13 @@ const props = withDefaults(defineProps<{
   label?: string
   placeholder?: string
   disabled?: boolean
+  required?: boolean
   closeOnSelect?: boolean
+  from?: Date | string
+  to?: Date | string
 }>(), {
   disabled: false,
+  required: false,
   closeOnSelect: true,
   placeholder: 'Válassz egy dátumot...',
 })
@@ -26,11 +30,29 @@ dayjs.locale('hu')
 
 const input = ref<InstanceType<typeof NebInput> | null>(null)
 
-const selectedDay = computed(() => dayjs(props.modelValue))
-const calendarView = ref<'day' | 'month' | 'year'>('day')
+const selectedDay = computed(() => dayjs(props.modelValue || null)) // if modelValue is undefined, we don't want to default to the current date (which dayjs would do by default)
+if (selectedDay.value.isValid())
+  emitDate(selectedDay.value)
 
+const calendarView = ref<'day' | 'month' | 'year'>('day')
 const viewDay = ref(selectedDay.value.isValid() ? selectedDay.value.clone() : dayjs())
+
+const { collectErrors, errorsToShow } = useNebValidate(input, () => {
+  if (props.required && !selectedDay.value.isValid())
+    return ['valueMissing']
+  else
+    return []
+})
+
+provide(NebValidatorErrorsToShowInjectKey, errorsToShow)
+
+const lastEmittedDate = ref<number | null>(selectedDay.value.toDate().getTime())
 watch(selectedDay, () => {
+  const currValue = selectedDay.value.toDate().getTime()
+  const showErrors = !lastEmittedDate.value || currValue === lastEmittedDate.value
+  lastEmittedDate.value = currValue
+  collectErrors(showErrors)
+
   if (selectedDay.value.isValid())
     viewDay.value = selectedDay.value.clone()
 })
@@ -85,7 +107,7 @@ const weekdayjs = computed(() => {
 })
 
 function handleDayClick(day: Dayjs) {
-  emit('update:modelValue', day.toDate())
+  emitDate(day)
 
   if (props.closeOnSelect)
     input.value!.blur()
@@ -99,6 +121,19 @@ function handleYearClick(year: Dayjs) {
   calendarView.value = 'month'
 }
 
+function handleAdd() {
+  if (calendarView.value === 'day')
+    viewDay.value = viewDay.value.add(1, 'month')
+  else if (calendarView.value === 'year')
+    viewDay.value = viewDay.value.add(10, 'year')
+}
+function handleSubtract() {
+  if (calendarView.value === 'day')
+    viewDay.value = viewDay.value.subtract(1, 'month')
+  else if (calendarView.value === 'year')
+    viewDay.value = viewDay.value.subtract(10, 'year')
+}
+
 function getDayButtonType(day: Dayjs) {
   if (day.isSame(selectedDay.value, 'day'))
     return 'primary'
@@ -108,14 +143,64 @@ function getDayButtonType(day: Dayjs) {
 
   return 'tertiary-neutral'
 }
+function getMonthButtonType(month: Dayjs) {
+  if (month.month() === dayjs().month())
+    return 'secondary-neutral'
+  else
+    return 'tertiary-neutral'
+}
+function getYearButtonType(year: Dayjs) {
+  if (year.year() === dayjs().year())
+    return 'secondary-neutral'
+  else
+    return 'tertiary-neutral'
+}
+
+function isDayOutOfRange(day: Dayjs) {
+  if (props.from && day.isBefore(props.from, 'day'))
+    return true
+
+  if (props.to && day.isAfter(props.to, 'day'))
+    return true
+
+  return false
+}
+function isMonthOutOfRange(month: Dayjs) {
+  if (props.from && month.isBefore(props.from, 'month'))
+    return true
+
+  if (props.to && month.isAfter(props.to, 'month'))
+    return true
+
+  return false
+}
+function isYearOutOfRange(year: Dayjs) {
+  if (props.from && year.isBefore(props.from, 'year'))
+    return true
+
+  if (props.to && year.isAfter(props.to, 'year'))
+    return true
+
+  return false
+}
 
 function handleInput(value: string) {
   const date = dayjs(value)
 
-  if (date.isValid())
-    emit('update:modelValue', date.toDate())
-  else
+  if (!date.isValid() || isDayOutOfRange(date)) {
+    lastEmittedDate.value = null
     emit('update:modelValue', null)
+  }
+  else {
+    emitDate(date)
+  }
+}
+
+function emitDate(day: Dayjs) {
+  const value = day.startOf('day').toDate()
+  lastEmittedDate.value = value.getTime()
+
+  emit('update:modelValue', value)
 }
 
 const formattedDate = computed(() => {
@@ -133,9 +218,10 @@ const formattedDate = computed(() => {
         ref="input"
         :model-value="formattedDate"
         :disabled="disabled"
+        :required="required"
         :label="label"
         :placeholder="placeholder"
-        leading-icon="material-symbols:calendar-month-rounded"
+        leading-icon="material-symbols:calendar-month-outline-rounded"
         lazy
         @update:model-value="handleInput($event as string)"
         @focus="open()"
@@ -146,7 +232,7 @@ const formattedDate = computed(() => {
     <template #content>
       <div class="dropdown" @mousedown.prevent="input!.focus()">
         <header>
-          <neb-button type="tertiary-neutral" icon @click="viewDay = viewDay.subtract(1, 'month')">
+          <neb-button :disabled="calendarView === 'month'" type="tertiary-neutral" square @click="handleSubtract()">
             <icon name="material-symbols:chevron-left-rounded" />
           </neb-button>
 
@@ -160,7 +246,7 @@ const formattedDate = computed(() => {
             </neb-button>
           </div>
 
-          <neb-button type="tertiary-neutral" icon @click="viewDay = viewDay.add(1, 'month')">
+          <neb-button :disabled="calendarView === 'month'" type="tertiary-neutral" square @click="handleAdd()">
             <icon name="material-symbols:chevron-right-rounded" />
           </neb-button>
         </header>
@@ -172,8 +258,9 @@ const formattedDate = computed(() => {
             v-for="day in daysInView"
             :key="day.toString()"
             :type="getDayButtonType(day)"
+            :disabled="isDayOutOfRange(day)"
             :class="{ 'not-curr-month': day.month() !== viewDay.month() }"
-            icon
+            square
             @click="handleDayClick(day)"
           >
             {{ day.date() }}
@@ -184,8 +271,9 @@ const formattedDate = computed(() => {
           <neb-button
             v-for="month in monthsInView"
             :key="month.toString()"
-            type="tertiary-neutral"
-            icon
+            :type="getMonthButtonType(month)"
+            :disabled="isMonthOutOfRange(month)"
+            square
             @click="handleMonthClick(month)"
           >
             {{ month.format('MMMM') }}
@@ -196,8 +284,9 @@ const formattedDate = computed(() => {
           <neb-button
             v-for="year in yearInView"
             :key="year.toString()"
-            type="tertiary-neutral"
-            icon
+            :type="getYearButtonType(year)"
+            :disabled="isYearOutOfRange(year)"
+            square
             @click="handleYearClick(year)"
           >
             {{ year.year() }}
@@ -237,7 +326,7 @@ const formattedDate = computed(() => {
     }
 
     .not-curr-month {
-      opacity: .6;
+      opacity: .5;
     }
   }
   &.month {
@@ -254,8 +343,10 @@ header {
   gap: var(--space-1);
 }
 .current-date {
+  flex: 1;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 .dark-mode {
   .dropdown {

@@ -45,18 +45,6 @@ watch(() => props.modelValue, async () => {
   await nextTick()
   collectErrors(showErrors)
 })
-
-const errorDict: Partial<Record<keyof ValidityState, string>> = {
-  badInput: 'Hibás érték!',
-  patternMismatch: 'A mező nem megfelelő formátumú!',
-  rangeOverflow: 'A beírt érték túl nagy!',
-  rangeUnderflow: 'A beírt érték túl alacsony!',
-  stepMismatch: 'A lépésköz nem megfelelő!',
-  tooLong: 'A beírt szöveg túl hosszú!',
-  tooShort: 'A beírt szöveg túl rövid!',
-  typeMismatch: 'A mező nem megfelelő formátumú!',
-  valueMissing: 'A mező kitöltése kötelező!',
-}
 </script>
 
 <template>
@@ -76,9 +64,7 @@ const errorDict: Partial<Record<keyof ValidityState, string>> = {
 
       <p v-if="hint" class="hint">{{ $props.hint }}</p>
 
-      <ul v-if="errorsToShow.length" class="error-list">
-        <li v-for="error in errorsToShow" :key="error">{{ errorDict[error] }}</li>
-      </ul>
+      <neb-error-list :errors="errorsToShow" />
     </label>
   </div>
 </template>
@@ -155,20 +141,6 @@ label {
   color: var(--neutral-color-600);
   font-weight: 400;
 }
-.error-list {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-
-  & li {
-    color: var(--error-color-500);
-    font-size: var(--text-xs);
-    font-weight: 400;
-    margin-left: var(--space-4);
-  }
-}
 
 .dark-mode {
   .neb-textarea-component {
@@ -215,11 +187,6 @@ label {
   }
   .hint {
     color: var(--neutral-color-300);
-  }
-  .error-list {
-    & li {
-      color: var(--error-color-700);
-    }
   }
 }
 </style>

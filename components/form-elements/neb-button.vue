@@ -3,17 +3,17 @@ withDefaults(defineProps<{
   loading?: boolean
   type?: 'primary' | 'secondary' | 'secondary-neutral' | 'tertiary' | 'tertiary-neutral' | 'link' | 'link-neutral'
   small?: boolean
-  icon?: boolean
+  square?: boolean
 }>(), {
   loading: false,
   type: 'primary',
   small: false,
-  icon: false,
+  square: false,
 })
 </script>
 
 <template>
-  <button class="neb-button" :class="{ [type]: true, small, icon }">
+  <button class="neb-button" :class="{ [type]: true, small, square }">
     <slot v-if="!loading" />
 
     <icon v-else name="eos-icons:loading" />
@@ -45,10 +45,10 @@ withDefaults(defineProps<{
     padding: var(--space-1) var(--space-2);
     border-radius: var(--radius-small);
   }
-  &.icon {
+  &.square {
     padding: var(--space-3);
   }
-  &.small.icon {
+  &.small.square {
     padding: var(--space-1);
     border-radius: var(--radius-small);
   }
@@ -199,7 +199,7 @@ withDefaults(defineProps<{
       box-shadow: var(--primary-focus-shadow-dark);
     }
     &:disabled {
-      opacity: .7;
+      opacity: .6;
       background: var(--primary-color-950);
       color: var(--neutral-color-300)
     }
@@ -219,7 +219,7 @@ withDefaults(defineProps<{
       color: var(--primary-color-100);
     }
     &:disabled {
-      opacity: .7;
+      opacity: .6;
       background: var(--primary-color-975);
       color: var(--neutral-color-300);
     }
@@ -240,7 +240,7 @@ withDefaults(defineProps<{
       color: var(--neutral-color-100);
     }
     &:disabled {
-      opacity: .7;
+      opacity: .6;
       background: var(--neutral-color-975);
       color: var(--neutral-color-300);
       border-color: var(--neutral-color-700);
@@ -259,7 +259,7 @@ withDefaults(defineProps<{
       color: var(--primary-color-300);
     }
     &:disabled {
-      opacity: .7;
+      opacity: .6;
       color: var(--primary-color-500);
     }
   }
@@ -275,7 +275,7 @@ withDefaults(defineProps<{
       color: var(--neutral-color-300);
     }
     &:disabled {
-      opacity: .7;
+      opacity: .6;
       color: var(--neutral-color-300);
     }
   }
@@ -291,7 +291,7 @@ withDefaults(defineProps<{
       color: var(--primary-color-300);
     }
     &:disabled {
-      opacity: .7;
+      opacity: .6;
       color: var(--neutral-color-300);
     }
   }
@@ -306,7 +306,7 @@ withDefaults(defineProps<{
       color: var(--neutral-color-200);
     }
     &:disabled {
-      opacity: .7;
+      opacity: .6;
       color: var(--neutral-color-300);
     }
   }

@@ -6,12 +6,19 @@ definePageMeta({
   }
 })
 
-const date = ref(new Date())
+const date = ref()
+const isValid = ref(false)
 </script>
 
 <template>
   <div class="experiments">
-    <neb-datepicker label="Csodaszep datepicker" v-model="date" />
+    <neb-validator v-model="isValid">
+      <neb-datepicker required label="Csodaszep datepicker" v-model="date" />
+    </neb-validator>
+
+    <neb-tooltip title="wefwefwef wef wef ">
+      <neb-button :disabled="!isValid" @click="date = null">efwfwe</neb-button>
+    </neb-tooltip>
   </div>
 </template>
 

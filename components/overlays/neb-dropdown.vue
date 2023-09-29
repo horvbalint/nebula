@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { flip, offset, shift, useFloating } from '@floating-ui/vue'
+import { autoUpdate, flip, offset, shift, useFloating } from '@floating-ui/vue'
 import type { UseFloatingOptions } from '@floating-ui/vue'
 import type { OnClickOutsideOptions } from '@vueuse/core'
 
@@ -9,7 +9,8 @@ const props = defineProps<{
 }>()
 
 const floatingOptions: UseFloatingOptions = {
-  middleware: [offset(8), flip(), shift({ padding: 4 })], // TODO: use the --space-1 and --space-2 css vars
+  middleware: [offset(8), flip({ padding: 4 }), shift({ padding: 4 })], // TODO: use the --space-1 and --space-2 css vars
+  whileElementsMounted: autoUpdate,
   ...props.floatingOptions,
 }
 
