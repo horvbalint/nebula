@@ -32,7 +32,7 @@ const input = ref<InstanceType<typeof NebInput> | null>(null)
 
 const selectedDay = computed(() => dayjs(props.modelValue || null)) // if modelValue is undefined, we don't want to default to the current date (which dayjs would do by default)
 if (selectedDay.value.isValid())
-  emitDate(selectedDay.value)
+  onMounted(() => emitValue(selectedDay.value))
 
 const calendarView = ref<'day' | 'month' | 'year'>('day')
 const viewDay = ref(selectedDay.value.isValid() ? selectedDay.value.clone() : dayjs())
@@ -43,16 +43,21 @@ const { collectErrors, errorsToShow } = useNebValidate(input, () => {
   else
     return []
 })
-
 provide(NebValidatorErrorsToShowInjectKey, errorsToShow)
 
-const lastEmittedDate = ref<number | null>(selectedDay.value.toDate().getTime())
-watch(selectedDay, () => {
-  const currValue = selectedDay.value.toDate().getTime()
-  const showErrors = !lastEmittedDate.value || currValue === lastEmittedDate.value
-  lastEmittedDate.value = currValue
-  collectErrors(showErrors)
+const lastEmitted = ref<Date | null>(null)
+watch(() => props.modelValue, () => collectErrors(showErrors()))
+function showErrors() {
+  if (lastEmitted.value === props.modelValue)
+    return true
 
+  if (props.modelValue instanceof Date && lastEmitted.value instanceof Date)
+    return props.modelValue.getTime() === lastEmitted.value.getTime()
+
+  return false
+}
+
+watch(selectedDay, () => {
   if (selectedDay.value.isValid())
     viewDay.value = selectedDay.value.clone()
 })
@@ -107,7 +112,7 @@ const weekdayjs = computed(() => {
 })
 
 function handleDayClick(day: Dayjs) {
-  emitDate(day)
+  emitValue(day)
 
   if (props.closeOnSelect)
     input.value!.blur()
@@ -125,13 +130,13 @@ function handleAdd() {
   if (calendarView.value === 'day')
     viewDay.value = viewDay.value.add(1, 'month')
   else if (calendarView.value === 'year')
-    viewDay.value = viewDay.value.add(10, 'year')
+    viewDay.value = viewDay.value.add(20, 'year')
 }
 function handleSubtract() {
   if (calendarView.value === 'day')
     viewDay.value = viewDay.value.subtract(1, 'month')
   else if (calendarView.value === 'year')
-    viewDay.value = viewDay.value.subtract(10, 'year')
+    viewDay.value = viewDay.value.subtract(20, 'year')
 }
 
 function getDayButtonType(day: Dayjs) {
@@ -156,29 +161,11 @@ function getYearButtonType(year: Dayjs) {
     return 'tertiary-neutral'
 }
 
-function isDayOutOfRange(day: Dayjs) {
-  if (props.from && day.isBefore(props.from, 'day'))
+function isOutOfRange(day: Dayjs, granularity: 'day' | 'month' | 'year') {
+  if (props.from && day.isBefore(props.from, granularity))
     return true
 
-  if (props.to && day.isAfter(props.to, 'day'))
-    return true
-
-  return false
-}
-function isMonthOutOfRange(month: Dayjs) {
-  if (props.from && month.isBefore(props.from, 'month'))
-    return true
-
-  if (props.to && month.isAfter(props.to, 'month'))
-    return true
-
-  return false
-}
-function isYearOutOfRange(year: Dayjs) {
-  if (props.from && year.isBefore(props.from, 'year'))
-    return true
-
-  if (props.to && year.isAfter(props.to, 'year'))
+  if (props.to && day.isAfter(props.to, granularity))
     return true
 
   return false
@@ -187,19 +174,16 @@ function isYearOutOfRange(year: Dayjs) {
 function handleInput(value: string) {
   const date = dayjs(value)
 
-  if (!date.isValid() || isDayOutOfRange(date)) {
-    lastEmittedDate.value = null
-    emit('update:modelValue', null)
-  }
-  else {
-    emitDate(date)
-  }
+  if (!date.isValid() || isOutOfRange(date, 'day'))
+    emitValue(null)
+  else
+    emitValue(date)
 }
 
-function emitDate(day: Dayjs) {
-  const value = day.startOf('day').toDate()
-  lastEmittedDate.value = value.getTime()
+function emitValue(day: Dayjs | null) {
+  const value = day === null ? null : day.startOf('day').toDate()
 
+  lastEmitted.value = value
   emit('update:modelValue', value)
 }
 
@@ -238,10 +222,10 @@ const formattedDate = computed(() => {
 
           <div class="current-date">
             <neb-button type="tertiary-neutral" small @click="calendarView = 'year'">
-              {{ viewDay.year() }}
+              {{ calendarView === 'year' ? 'Év kiválasztása' : viewDay.year() }}
             </neb-button>
 
-            <neb-button type="tertiary-neutral" small @click="calendarView = 'month'">
+            <neb-button v-if="calendarView === 'day'" type="tertiary-neutral" small @click="calendarView = 'month'">
               {{ viewDay.format('MMMM') }}
             </neb-button>
           </div>
@@ -258,7 +242,7 @@ const formattedDate = computed(() => {
             v-for="day in daysInView"
             :key="day.toString()"
             :type="getDayButtonType(day)"
-            :disabled="isDayOutOfRange(day)"
+            :disabled="isOutOfRange(day, 'day')"
             :class="{ 'not-curr-month': day.month() !== viewDay.month() }"
             square
             @click="handleDayClick(day)"
@@ -272,7 +256,7 @@ const formattedDate = computed(() => {
             v-for="month in monthsInView"
             :key="month.toString()"
             :type="getMonthButtonType(month)"
-            :disabled="isMonthOutOfRange(month)"
+            :disabled="isOutOfRange(month, 'month')"
             square
             @click="handleMonthClick(month)"
           >
@@ -285,7 +269,7 @@ const formattedDate = computed(() => {
             v-for="year in yearInView"
             :key="year.toString()"
             :type="getYearButtonType(year)"
-            :disabled="isYearOutOfRange(year)"
+            :disabled="isOutOfRange(year, 'year')"
             square
             @click="handleYearClick(year)"
           >
