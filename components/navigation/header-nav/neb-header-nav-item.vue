@@ -55,7 +55,7 @@ defineProps<{
 
 .dark-mode {
   .neb-header-nav-item {
-    color: var(--neutral-color-100);
+    color: var(--neutral-color-300);
 
     &.active {
       background: var(--neutral-color-800);

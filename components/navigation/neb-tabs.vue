@@ -67,6 +67,7 @@ const arrayTabs = computed(() => {
         label-key="text"
         track-by-key="key"
         use-only-tracked-key
+        no-search
       />
     </template>
   </neb-compact>

@@ -6,6 +6,7 @@ withDefaults(defineProps<{
   maxWidth?: string
   minWidth?: string
   centered?: boolean
+  closedValue?: boolean | any
 }>(), {
   maxWidth: '768px',
   minWidth: '375px',
@@ -16,13 +17,13 @@ const modelValue = defineModel()
 </script>
 
 <template>
-  <neb-pop-up v-model="modelValue" :center-content="centered">
+  <neb-pop-up v-model="modelValue" :center-content="centered" :closed-value="closedValue">
     <div class="neb-modal neb-overlay-transition" :style="{ 'max-width': maxWidth, 'min-width': minWidth }" :class="{ centered }">
       <header>
         <slot name="header">
           <div class="header">
             <div v-if="$props.headerIcon" class="header-icon">
-              <icon :name="$props.headerIcon" />
+              <IconCSS style="font-size: 20px;" :name="$props.headerIcon" />
             </div>
 
             <div class="header-titles">

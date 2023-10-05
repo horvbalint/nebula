@@ -16,10 +16,12 @@ export type ObjectOption<TrackByKey extends PropertyKey, LabelKey extends Proper
   [x in TrackByKey | LabelKey]: PropertyKey;
 }
 
+type ModelValue = PropertyKey | ObjectOption<TrackByKey, LabelKey>
+
 defineOptions({ inheritAttrs: false })
 
 const props = withDefaults(defineProps<{
-  modelValue: null | T | T[]
+  modelValue: undefined | null | ModelValue | ModelValue[]
   options: T[]
   trackByKey?: TrackByKey
   labelKey?: LabelKey
@@ -40,9 +42,12 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'update:modelValue': [typeof props.modelValue]
+  'update:modelValue': [null | T | T[]]
   'new': [searchTerm: string]
 }>()
+
+const search = ref<null | InstanceType<typeof NebInput>>(null)
+const dropdown = ref<null | InstanceType<typeof NebDropdown>>(null)
 
 interface ProcessedOption {
   trackValue: PropertyKey
@@ -105,7 +110,7 @@ function isSelected(option: ProcessedOption): boolean {
       return (props.modelValue as PropertyKey[]).includes(option.option as PropertyKey)
   }
   else {
-    if (props.modelValue === null)
+    if (props.modelValue === null || props.modelValue === undefined)
       return false
 
     if (props.useOnlyTrackedKey)
@@ -140,6 +145,8 @@ function selectOption(option: ProcessedOption): void {
       emit('update:modelValue', option.option as ObjectOption<TrackByKey, LabelKey> as T)
     else
       emit('update:modelValue', option.option as PropertyKey as T)
+
+    dropdown.value!.close()
   }
 }
 
@@ -173,9 +180,6 @@ function orderOptions() {
     }
   })
 }
-
-const search = ref<null | InstanceType<typeof NebInput>>(null)
-const dropdown = ref<null | InstanceType<typeof NebDropdown>>(null)
 
 async function handleSelectClick() {
   if (!dropdown.value!.isOpen)

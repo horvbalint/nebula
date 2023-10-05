@@ -1,29 +1,12 @@
-<script lang="ts">
-export default defineNuxtComponent({
-  props: {
-    hasSeparator: {
-      type: Boolean,
-      default: false,
-    },
-    title: {
-      type: String,
-    },
-    description: {
-      type: String,
-    },
-    type: {
-      type: String,
-      default: 'page',
-      validator(value: string) {
-        return ['section', 'page'].includes(value)
-      },
-    },
-  },
-  data() {
-    return {
-
-    }
-  },
+<script lang="ts" setup>
+withDefaults(defineProps<{
+  title: string
+  description: string
+  type?: 'section' | 'page'
+  hasSeparator?: boolean
+}>(), {
+  type: 'page',
+  hasSeparator: false,
 })
 </script>
 
@@ -31,19 +14,13 @@ export default defineNuxtComponent({
   <div class="neb-content-header" :class="{ 'has-separator': hasSeparator }">
     <slot name="top" />
 
-    <div
-      class="neb-content-wrapper"
-      :class="{
-        page: type === 'page',
-        section: type === 'section',
-      }"
-    >
+    <div class="neb-content-wrapper" :class="type">
       <div class="content-text">
         <h1>{{ title }}</h1>
         <p>{{ description }}</p>
       </div>
 
-      <div class="content-actions">
+      <div v-if="$slots.actions" class="content-actions">
         <slot name="actions" />
       </div>
     </div>
@@ -109,10 +86,26 @@ export default defineNuxtComponent({
   gap: var(--space-3);
 }
 
-@media only screen and (max-width: var(--tablet)) {
+@media (--tablet-viewport) {
   .content-text {
     & h1 {
       font-size: var(--title-xs);
+    }
+  }
+}
+
+.dark-mode {
+  .neb-content-header {
+    &.has-separator {
+      border-bottom: 1px solid var(--neutral-color-700);
+    }
+  }
+  .content-text {
+    & h1 {
+      color: var(--neutral-color-300);
+    }
+    & p {
+      color: var(--neutral-color-400);
     }
   }
 }

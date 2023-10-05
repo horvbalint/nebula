@@ -151,7 +151,7 @@ withDefaults(defineProps<{
 
 /* LINK STYLES */
 .neb-button.link {
-  font-size: var(--text-xs);
+  font-size: var(--text-md);
   color: var(--primary-color-700);
   background: none;
   box-shadow: none;
@@ -170,7 +170,7 @@ withDefaults(defineProps<{
 }
 
 .neb-button.link-neutral {
-  font-size: var(--text-xs);
+  font-size: var(--text-md);
   color: var(--neutral-color-600);
   background: none;
   box-shadow: none;

@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 type ValidityKey = keyof ValidityState
 
+defineProps<{ modelValue: boolean }>()
+
 const emit = defineEmits<{
   'update:modelValue': [isValid: boolean]
   'update:errors': [errors: typeof readonlyErrorStates]
@@ -40,7 +42,5 @@ provide(NebValidatorCallbacksInjectKey, {
 </script>
 
 <template>
-  <div>
-    <slot />
-  </div>
+  <slot />
 </template>

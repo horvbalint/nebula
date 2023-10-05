@@ -8,12 +8,26 @@ definePageMeta({
 
 const date = ref()
 const isValid = ref(false)
+
+const files = ref([
+  {
+    name: 'Titkos irat.pdf',
+    size: 120 * 1024,
+    type: 'application/pdf'
+  }
+])
 </script>
 
 <template>
   <div class="experiments">
     <neb-validator v-model="isValid">
-      <neb-datepicker required label="Csodaszep datepicker" v-model="date" />
+      <neb-multi-file-picker
+        v-model="files"
+        label="Profilkép kiválasztása"
+        required
+        :max-size="20 * 1024 * 1024"
+        :accept="['image/*']"
+      />
     </neb-validator>
 
     <neb-tooltip title="wefwefwef wef wef ">

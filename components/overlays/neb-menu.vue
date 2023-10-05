@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { UseFloatingOptions } from '@floating-ui/vue'
-import NebDropdown from '@nebula/components/neb-dropdown.vue'
+import NebDropdown from './neb-dropdown.vue'
 
 interface Menu {
   text: string

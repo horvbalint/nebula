@@ -55,6 +55,7 @@ export default defineNuxtConfig({
       {
         path: '@nebula/components',
         pathPrefix: false,
+        global: true,
       },
     ],
   },
@@ -63,6 +64,7 @@ export default defineNuxtConfig({
     '@nuxtjs/google-fonts',
     'nuxt-icon',
     '@vueuse/nuxt',
+    'nuxt-icons',
   ],
   googleFonts: {
     download: true,

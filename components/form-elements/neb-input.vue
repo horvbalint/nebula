@@ -23,7 +23,10 @@ const { errorsToShow, collectErrors } = useNebValidateNative(input)
 
 const attrs = useAttrs()
 const computedAttrs = computed(() => {
-  const computedAttrs = { ...attrs } as any
+  const computedAttrs = {
+    ...attrs,
+    placeholder: attrs.placeholder || props.label,
+  } as any
 
   if (!props.lazy)
     computedAttrs.onInput = emitValue
@@ -36,8 +39,12 @@ const computedAttrs = computed(() => {
 const innerValue = ref(props.modelValue)
 
 function emitValue() {
-  innerValue.value = input.value!.value
-  emit('update:modelValue', input.value!.value)
+  if (attrs.type === 'number')
+    innerValue.value = Number(input.value!.value)
+  else
+    innerValue.value = input.value!.value
+
+  emit('update:modelValue', innerValue.value)
 }
 
 watch(() => props.modelValue, async () => {
@@ -155,6 +162,7 @@ label {
   }
   & input {
     flex: 1;
+    width: 100%;
     border: none;
     background: inherit;
     height: 100%;
