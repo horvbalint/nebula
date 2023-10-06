@@ -72,16 +72,20 @@ const processedOptions = computed(() => {
   }
 })
 
-const searcher = new JsSearch.Search('trackValue')
-searcher.addIndex('labelValue')
-searcher.addDocuments(processedOptions.value)
+const searcher = computed(() => {
+  const searcher = new JsSearch.Search('trackValue')
+  searcher.addIndex('labelValue')
+  searcher.addDocuments(processedOptions.value)
+
+  return searcher
+})
 
 const searchTerm = ref('')
 const searchResults = computed<ProcessedOption[]>(() => {
   if (!searchTerm.value.length)
     return processedOptions.value
   else
-    return searcher.search(searchTerm.value) as ProcessedOption[]
+    return searcher.value.search(searchTerm.value) as ProcessedOption[]
 })
 
 const selectedOptions = computed(() => {

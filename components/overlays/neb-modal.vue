@@ -159,6 +159,8 @@ footer {
   .neb-modal {
     margin: auto 0 0;
     width: 100%;
+    min-width: auto !important;
+    max-width: none !important;
     border-radius: var(--radius-large) var(--radius-large) 0 0;
 
     &.centered {

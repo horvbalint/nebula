@@ -40,7 +40,7 @@ const innerValue = ref(props.modelValue)
 
 function emitValue() {
   if (attrs.type === 'number')
-    innerValue.value = Number(input.value!.value)
+    innerValue.value = input.value!.valueAsNumber
   else
     innerValue.value = input.value!.value
 
