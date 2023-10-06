@@ -20,11 +20,6 @@ const { open, onChange } = useFileDialog()
 const isDraging = ref(false)
 const uploadedFiles = ref<File[]>([])
 
-onChange((files) => {
-  if (files)
-    uploadedFiles.value.push(...files)
-})
-
 const formattedAccept = computed(() => {
   if (!props.accept)
     return null
@@ -41,12 +36,19 @@ const formattedMaxSize = computed(() => {
 
   return nebBytesToSize(props.maxSize)
 })
+
+onChange((files) => {
+  if (files)
+    uploadedFiles.value.push(...files)
+})
+
 function handleDrop(event: DragEvent) {
   isDraging.value = false
 
   if (event.dataTransfer)
     uploadedFiles.value.push(...event.dataTransfer.files)
 }
+
 function handleRemove(index: number) {
   uploadedFiles.value.splice(index, 1)
 }
