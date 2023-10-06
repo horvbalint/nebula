@@ -11,8 +11,8 @@ const isValid = ref(false)
 
 const files = ref([
   {
-    name: 'Titkos irat.pdf',
-    size: 120 * 1024,
+    name: 'Dashboard prototype FINAL',
+    size: 120 * 1024 * 1024,
     type: 'application/pdf'
   }
 ])
