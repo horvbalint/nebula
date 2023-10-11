@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import type { MaybeFile } from '@nebula/composables/neb-file'
-
 const props = withDefaults(defineProps<{
-  modelValue: MaybeFile[]
   required?: boolean
   label?: string
   accept?: string[]
@@ -16,14 +13,7 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits(['update:modelValue'])
-const { open, onChange } = useFileDialog()
 const isDraging = ref(false)
-const uploadedFiles = ref<File[]>([])
-
-onChange((files) => {
-  if (files)
-    uploadedFiles.value.push(...files)
-})
 
 const formattedAccept = computed(() => {
   if (!props.accept)
@@ -41,19 +31,32 @@ const formattedMaxSize = computed(() => {
 
   return nebBytesToSize(props.maxSize)
 })
+
+const selectedFiles = ref<File[]>([])
+
+const { open, onChange, reset } = useFileDialog()
+onChange((files) => {
+  if (files)
+    selectedFiles.value.push(...files)
+
+  reset()
+})
+
 function handleDrop(event: DragEvent) {
   isDraging.value = false
 
   if (event.dataTransfer)
-    uploadedFiles.value.push(...event.dataTransfer.files)
+    selectedFiles.value.push(...event.dataTransfer.files)
 }
 function handleRemove(index: number) {
-  uploadedFiles.value.splice(index, 1)
+  selectedFiles.value.splice(index, 1)
 }
 
-watch(uploadedFiles, (newVal) => {
-  emit('update:modelValue', [...newVal])
-}, { deep: true })
+watch(
+  selectedFiles,
+  () => emit('update:modelValue', [...selectedFiles.value]),
+  { deep: true },
+)
 </script>
 
 <template>
@@ -93,12 +96,11 @@ watch(uploadedFiles, (newVal) => {
 
     <div class="selected-files">
       <neb-file-item
-        v-for="(file, index) in modelValue"
+        v-for="(file, index) in selectedFiles"
         :key="`${file.name} - ${index}`"
         :file="file"
-        remove
-        download
         @remove="handleRemove(index)"
+        @download="nebDownloadFile(file)"
       />
     </div>
   </div>

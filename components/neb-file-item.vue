@@ -1,16 +1,13 @@
 <script setup lang="ts">
 import type { MaybeFile } from '@nebula/composables/neb-file'
 
-const props = withDefaults(defineProps<{
+const props = defineProps<{
   file: MaybeFile
-  remove: boolean
-  download: boolean
-}>(), {
-  remove: false,
-  download: false,
-})
+  onRemove?: ($event: MaybeFile) => void
+  onDownload?: ($event: MaybeFile) => void
+}>()
 
-defineEmits(['remove'])
+defineEmits(['remove', 'download'])
 
 const formattedFileSize = computed(() => nebBytesToSize(props.file.size))
 </script>
@@ -27,11 +24,11 @@ const formattedFileSize = computed(() => nebBytesToSize(props.file.size))
     </div>
 
     <div class="actions">
-      <neb-button v-if="download" type="tertiary-neutral" small square>
+      <neb-button v-if="props.onDownload" type="tertiary-neutral" small square @click="props.onDownload(file)">
         <icon name="material-symbols:download-rounded" />
       </neb-button>
 
-      <neb-button v-if="remove" type="tertiary-neutral" small square @click="$emit('remove')">
+      <neb-button v-if="props.onRemove" type="tertiary-neutral" small square @click="props.onRemove(file)">
         <icon name="material-symbols:delete-outline-rounded" />
       </neb-button>
     </div>

@@ -9,13 +9,7 @@ definePageMeta({
 const date = ref()
 const isValid = ref(false)
 
-const files = ref([
-  {
-    name: 'Dashboard prototype FINAL',
-    size: 120 * 1024 * 1024,
-    type: 'application/pdf'
-  }
-])
+const files = ref([])
 </script>
 
 <template>
