@@ -266,9 +266,13 @@ watch(searchTerm, orderOptions)
           :title="`A(z) '${searchTerm}' nem található`"
           description="Próbálkozz másik kulcsszóval."
         >
-          <neb-button type="secondary" small @click="emit('new', searchTerm)">
-            <icon name="material-symbols:add-rounded" /> Új elem felvitele
-          </neb-button>
+          <div class="create-button-wrapper">
+            <neb-content-separator text="Vagy" />
+
+            <neb-button type="secondary" small @click="emit('new', searchTerm)">
+              <icon name="material-symbols:add-rounded" /> Új elem felvitele
+            </neb-button>
+          </div>
         </neb-empty-state>
       </div>
     </template>
@@ -362,7 +366,7 @@ watch(searchTerm, orderOptions)
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-height: 300px;
+  max-height: 350px;
 
   border: 1px solid var(--neutral-color-200);
   border-radius: var(--radius-default);
@@ -472,6 +476,11 @@ li {
     text-overflow: ellipsis;
     overflow: hidden;
   }
+}
+.create-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
 }
 
 .dark-mode {
