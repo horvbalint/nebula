@@ -38,8 +38,8 @@ watch(() => props.modelValue, () => {
       >
         <div class="step-progress">
           <div class="circle">
-            <icon v-if="isDone(index)" name="material-symbols:done-rounded" />
-            <icon v-else name="octicon:dot-fill-24" />
+            <icon class="check" name="mdi:check-bold" />
+            <icon class="dot" name="octicon:dot-fill-24" />
           </div>
 
           <hr v-if="index !== steps.length - 1">
@@ -51,12 +51,6 @@ watch(() => props.modelValue, () => {
         </div>
       </li>
     </ul>
-
-    <template v-for="(step, index) in steps" :key="step.title">
-      <div v-if="modelValue === index" class="step-content">
-        <slot :name="`step-${index + 1}`" />
-      </div>
-    </template>
   </div>
 </template>
 
@@ -110,9 +104,15 @@ watch(() => props.modelValue, () => {
       .icon {
         color: var(--primary-color);
       }
+      .check {
+        display: block;
+      }
+      .dot {
+        display: none;
+      }
     }
     .step-progress hr {
-      background: var(--primary-color);
+      background-position: 0;
     }
   }
 }
@@ -129,7 +129,10 @@ watch(() => props.modelValue, () => {
     width: 100%;
     border: none;
     height: 2px;
-    background: var(--neutral-color-200);
+    background: linear-gradient(90deg, var(--primary-color) 50%, var(--neutral-color-200) 50%);
+    background-position: 100%;
+    background-size: 200% 100%;
+    transition: all var(--duration-default);
   }
 }
 .circle {
@@ -148,11 +151,18 @@ watch(() => props.modelValue, () => {
   background: var(--white-color);
   border-radius: 50%;
   border: 2px solid var(--neutral-color-200);
+  transition: all var(--duration-slow);
 
   .icon {
     width: 20px;
     height: 20px;
     color: var(--neutral-color-200);
+  }
+  .check {
+    display: none;
+  }
+  .dot {
+    display: block;
   }
 }
 .step-text {
@@ -164,11 +174,13 @@ watch(() => props.modelValue, () => {
     font-size: var(--text-md);
     font-weight: 600;
     color: var(--neutral-color-700);
+    transition: all var(--duration-slow);
   }
   p {
     font-size: var(--text-md);
     font-weight: 400;
     color: var(--neutral-color-600);
+    transition: all var(--duration-slow);
   }
 }
 </style>
