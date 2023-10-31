@@ -2,7 +2,7 @@
 withDefaults(defineProps<{
   title: string
   description: string
-  type?: 'section' | 'page'
+  type: 'section' | 'page'
   hasSeparator?: boolean
 }>(), {
   type: 'page',
@@ -38,6 +38,7 @@ withDefaults(defineProps<{
 
   &.has-separator {
     border-bottom: 1px solid var(--neutral-color-200);
+    padding-bottom: var(--space-4);
   }
 }
 .neb-content-wrapper {
