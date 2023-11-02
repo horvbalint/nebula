@@ -4,10 +4,13 @@ interface Step {
   text?: string
 }
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   modelValue: number
   steps: Step[]
-}>()
+  vertical?: boolean
+}>(), {
+  vertical: false,
+})
 
 const emit = defineEmits(['update:modelValue'])
 
@@ -25,42 +28,35 @@ watch(() => props.modelValue, () => {
 </script>
 
 <template>
-  <div class="neb-stepper">
-    <ul class="steps-wrapper">
-      <li
-        v-for="(step, index) in steps"
-        :key="step.title"
-        class="step"
-        :class="{
-          active: modelValue === index,
-          done: isDone(index),
-        }"
-      >
-        <div class="step-progress">
-          <div class="circle">
-            <icon class="check" name="mdi:check-bold" />
-            <icon class="dot" name="octicon:dot-fill-24" />
-          </div>
-
-          <hr v-if="index !== steps.length - 1">
+  <ul class="neb-stepper" :class="{ vertical: $props.vertical }">
+    <li
+      v-for="(step, index) in $props.steps"
+      :key="step.title"
+      class="step"
+      :class="{
+        active: modelValue === index,
+        done: isDone(index),
+      }"
+    >
+      <div class="step-progress">
+        <div class="circle">
+          <icon class="check" name="mdi:check-bold" />
+          <icon class="dot" name="octicon:dot-fill-24" />
         </div>
 
-        <div class="step-text">
-          <h6>{{ step.title }}</h6>
-          <p>{{ step.text }}</p>
-        </div>
-      </li>
-    </ul>
-  </div>
+        <hr v-if="index !== steps.length - 1">
+      </div>
+
+      <div class="step-text">
+        <h6>{{ step.title }}</h6>
+        <p>{{ step.text }}</p>
+      </div>
+    </li>
+  </ul>
 </template>
 
 <style scoped>
 .neb-stepper {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-8);
-}
-.steps-wrapper {
   width: 100%;
   list-style: none;
   margin: 0;
@@ -125,6 +121,7 @@ watch(() => props.modelValue, () => {
   align-items: center;
 
   hr {
+    display: block;
     margin-right: -50%;
     width: 100%;
     border: none;
@@ -181,6 +178,94 @@ watch(() => props.modelValue, () => {
     font-weight: 400;
     color: var(--neutral-color-600);
     transition: all var(--duration-slow);
+  }
+}
+
+.vertical {
+  flex-direction: column;
+
+  .step {
+    flex-direction: row;
+    align-items: stretch;
+    text-align: left;
+
+    &:last-child .step-text{
+      padding-bottom: 0;
+    }
+  }
+  .step-progress {
+    height: auto;
+    width: 32px;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    .circle {
+      position: static;
+      transform: none;
+    }
+    hr {
+      margin-right: 0;
+      height: 100%;
+      width: 2px;
+    }
+  }
+  .step-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding-bottom: var(--space-4);
+  }
+}
+
+.dark-mode {
+  .step {
+    .circle {
+      background: var(--neutral-color-975);
+      border-color: var(--neutral-color-700);
+
+      .dot {
+        color: var(--neutral-color-700);
+      }
+    }
+    &.done  {
+      .step-progress hr {
+        background-position: 0;
+      }
+      .circle {
+        background: var(--primary-color-975);
+        border-color: var(--primary-color-800);
+      }
+    }
+    &.active .circle {
+      background: var(--primary-color-975);
+      box-shadow: none;
+      border-color: var(--primary-color-800);
+
+      .dot {
+        color: var(--primary-color-500);
+      }
+    }
+    .step-text {
+      h6 {
+        color: var(--neutral-color-300);
+      }
+      p {
+        color: var(--neutral-color-400);
+      }
+    }
+    .step-progress {
+      hr {
+        display: block;
+        margin-right: -50%;
+        width: 100%;
+        border: none;
+        height: 2px;
+        background: linear-gradient(90deg, var(--primary-color) 50%, var(--neutral-color-900) 50%);
+        background-position: 100%;
+        background-size: 200% 100%;
+        transition: all var(--duration-default);
+      }
+    }
   }
 }
 </style>
