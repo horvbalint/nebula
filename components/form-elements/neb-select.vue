@@ -34,11 +34,13 @@ const props = withDefaults(defineProps<{
   floatingOptions?: UseFloatingOptions
   leadingIcon?: string
   noSearch?: boolean
+  required?: boolean
 }>(), {
   placeholder: 'Válassz egyet a listából...',
   multiple: false,
   useOnlyTrackedKey: false,
   noSearch: false,
+  required: false,
 })
 
 const emit = defineEmits<{
@@ -48,6 +50,25 @@ const emit = defineEmits<{
 
 const search = ref<null | InstanceType<typeof NebInput>>(null)
 const dropdown = ref<null | InstanceType<typeof NebDropdown>>(null)
+
+const { errorsToShow, collectErrors } = useNebValidate(dropdown, () => {
+  if (props.required) {
+    if ((props.multiple && !(props.modelValue as []).length) || !props.modelValue)
+      return ['valueMissing']
+  }
+
+  return []
+})
+
+const innerValue = ref(null) as Ref<undefined | null | ModelValue | ModelValue[]>
+
+watch(() => props.modelValue, async () => {
+  const showErrors = innerValue.value === props.modelValue // if the value was modified from the outside, we don't show the error to the users
+  innerValue.value = props.modelValue
+
+  await nextTick()
+  collectErrors(showErrors)
+})
 
 interface ProcessedOption {
   trackValue: PropertyKey
@@ -136,19 +157,19 @@ function handleOptionClick(option: ProcessedOption): void {
 function selectOption(option: ProcessedOption): void {
   if (props.multiple === true) {
     if (props.useOnlyTrackedKey)
-      emit('update:modelValue', [...(props.modelValue as PropertyKey[]), option.trackValue] as T[])
+      emitValue([...(props.modelValue as PropertyKey[]), option.trackValue] as T[])
     else if (props.trackByKey)
-      emit('update:modelValue', [...(props.modelValue as ObjectOption<TrackByKey, LabelKey>[]), option.option as ObjectOption<TrackByKey, LabelKey>] as T[])
+      emitValue([...(props.modelValue as ObjectOption<TrackByKey, LabelKey>[]), option.option as ObjectOption<TrackByKey, LabelKey>] as T[])
     else
-      emit('update:modelValue', [...(props.modelValue as PropertyKey[]), option.option as PropertyKey] as T[])
+      emitValue([...(props.modelValue as PropertyKey[]), option.option as PropertyKey] as T[])
   }
   else {
     if (props.useOnlyTrackedKey)
-      emit('update:modelValue', option.trackValue as T)
+      emitValue(option.trackValue as T)
     else if (props.trackByKey)
-      emit('update:modelValue', option.option as ObjectOption<TrackByKey, LabelKey> as T)
+      emitValue(option.option as ObjectOption<TrackByKey, LabelKey> as T)
     else
-      emit('update:modelValue', option.option as PropertyKey as T)
+      emitValue(option.option as PropertyKey as T)
 
     dropdown.value!.close()
   }
@@ -157,15 +178,20 @@ function selectOption(option: ProcessedOption): void {
 function deselectOption(option: ProcessedOption): void {
   if (props.multiple === true) {
     if (props.useOnlyTrackedKey)
-      emit('update:modelValue', (props.modelValue as PropertyKey[]).filter(o => o !== option.trackValue) as T[])
+      emitValue((props.modelValue as PropertyKey[]).filter(o => o !== option.trackValue) as T[])
     else if (props.trackByKey)
-      emit('update:modelValue', (props.modelValue as ObjectOption<TrackByKey, LabelKey>[]).filter(o => o[props.trackByKey!] !== option.trackValue) as T[])
+      emitValue((props.modelValue as ObjectOption<TrackByKey, LabelKey>[]).filter(o => o[props.trackByKey!] !== option.trackValue) as T[])
     else
-      emit('update:modelValue', (props.modelValue as PropertyKey[]).filter(o => o !== option.option as PropertyKey) as T[])
+      emitValue((props.modelValue as PropertyKey[]).filter(o => o !== option.option as PropertyKey) as T[])
   }
   else {
-    emit('update:modelValue', null)
+    emitValue(null)
   }
+}
+
+function emitValue(value: T | T[] | null) {
+  innerValue.value = value
+  emit('update:modelValue', value)
 }
 
 const orderedOptions = ref([]) as Ref<ProcessedOption[]>
@@ -202,14 +228,14 @@ watch(searchTerm, orderOptions)
 </script>
 
 <template>
-  <NebDropdown ref="dropdown" class="neb-select" :floating-options="floatingOptions" full-width>
+  <NebDropdown ref="dropdown" class="neb-select" :floating-options="$props.floatingOptions" full-width>
     <template #trigger>
       <div class="neb-select-input-wrapper" @click="handleSelectClick()">
-        <span v-if="label">{{ label }} <span class="required-star">*</span></span>
+        <span v-if="$props.label">{{ $props.label }} <span v-if="$props.required" class="required-star">*</span></span>
 
-        <div class="neb-select-input">
+        <div class="neb-select-input" :class="{ 'has-error': errorsToShow.length, 'opened': dropdown?.isOpen }">
           <slot name="leading">
-            <icon v-if="leadingIcon" :name="leadingIcon" />
+            <icon v-if="$props.leadingIcon" :name="$props.leadingIcon" />
           </slot>
 
           <p v-if="!selectedOptions.size" class="placeholder">
@@ -226,12 +252,14 @@ watch(searchTerm, orderOptions)
         <p v-if="hint" class="hint">
           {{ $props.hint }}
         </p>
+
+        <neb-error-list :errors="errorsToShow" />
       </div>
     </template>
 
     <template #content>
       <div class="select-options">
-        <div v-if="!noSearch" class="select-search" @click="search!.focus()">
+        <div v-if="!$props.noSearch" class="select-search" @click="search!.focus()">
           <input
             ref="search"
             v-model="searchTerm"
@@ -308,12 +336,12 @@ watch(searchTerm, orderOptions)
   &.has-error {
     border-color: var(--error-color-300);
 
-    &:focus-within {
+    &.opened {
       box-shadow: var(--error-focus-shadow-light);
       border-color: var(--error-color-300);
     }
   }
-  &:focus-within {
+  &.opened {
     border-color: var(--primary-color-300);
     box-shadow: var(--primary-focus-shadow-light);
 
