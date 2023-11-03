@@ -15,9 +15,15 @@ withDefaults(defineProps<{
     <slot name="top" />
 
     <div class="neb-content-wrapper" :class="type">
-      <div class="content-text">
-        <h1>{{ title }}</h1>
-        <p>{{ description }}</p>
+      <div class="content-row-start">
+        <div v-if="$slots.start" class="content-actions">
+          <slot name="start" />
+        </div>
+
+        <div class="content-text">
+          <h1>{{ title }}</h1>
+          <p>{{ description }}</p>
+        </div>
       </div>
 
       <div v-if="$slots.actions" class="content-actions">
@@ -79,6 +85,11 @@ withDefaults(defineProps<{
     font-weight: 400;
     color: var(--neutral-color-600);
   }
+}
+.content-row-start {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
 }
 .content-actions {
   display: flex;

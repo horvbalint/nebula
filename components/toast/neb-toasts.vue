@@ -25,6 +25,7 @@ const toasts = useNebToasts()
 <style scoped>
 .neb-toasts {
   position: fixed;
+  z-index: 101;
   bottom: var(--space-6);
   left: var(--space-6);
   display: flex;

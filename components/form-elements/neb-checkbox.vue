@@ -3,16 +3,19 @@ withDefaults(defineProps<{
   value?: T
   label?: string
   icon?: string
+  align?: 'top' | 'center' | 'bottom'
 }>(), {
   icon: 'material-symbols:done-rounded',
+  align: 'center',
 })
 
 const modelValue = defineModel()
 </script>
 
 <template>
-  <label class="neb-checkbox">
+  <label class="neb-checkbox" :class="$props.align">
     <input
+      v-bind="$attrs"
       v-model="modelValue"
       type="checkbox"
       :value="$props.value"
@@ -32,13 +35,22 @@ const modelValue = defineModel()
   display: flex;
   gap: var(--space-2);
   font-weight: 500;
-  align-items: center;
   cursor: pointer;
   font-size: var(--text-xs);
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+
+  &.top {
+    align-items: flex-start;
+  }
+  &.center {
+    align-items: center;
+  }
+  &.bottom {
+    align-items: flex-end;
+  }
 }
 .neb-checkbox input {
   position: absolute;
