@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 withDefaults(defineProps<{
   title: string
-  description: string
-  type: 'section' | 'page'
+  description?: string
+  type?: 'section' | 'page'
   hasSeparator?: boolean
 }>(), {
   type: 'page',
@@ -11,18 +11,21 @@ withDefaults(defineProps<{
 </script>
 
 <template>
-  <div class="neb-content-header" :class="{ 'has-separator': hasSeparator }">
+  <div class="neb-content-header" :class="{ 'has-separator': $props.hasSeparator }">
     <slot name="top" />
 
-    <div class="neb-content-wrapper" :class="type">
+    <div class="neb-content-wrapper" :class="$props.type">
       <div class="content-row-start">
         <div v-if="$slots.start" class="content-actions">
           <slot name="start" />
         </div>
 
         <div class="content-text">
-          <h1>{{ title }}</h1>
-          <p>{{ description }}</p>
+          <h1>{{ $props.title }}</h1>
+
+          <p v-if="$props.description">
+            {{ $props.description }}
+          </p>
         </div>
       </div>
 
