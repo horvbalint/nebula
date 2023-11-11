@@ -30,7 +30,7 @@ const toasts = useNebToasts()
   left: var(--space-6);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--space-2);
 }
 </style>
