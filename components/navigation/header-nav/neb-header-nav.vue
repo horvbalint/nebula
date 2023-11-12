@@ -122,9 +122,6 @@ const showMobileMenu = ref(false)
   width: 100%;
   max-width: 1280px;
 }
-.desktop-mode {
-  overflow: hidden;
-}
 .header-content {
   margin: 0 auto;
   display: flex;

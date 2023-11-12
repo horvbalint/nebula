@@ -128,6 +128,7 @@ li {
     font-weight: 500;
     font-size: var(--text-sm);
     color: var(--neutral-color-800);
+    white-space: nowrap;
   }
   .icon {
     width: var(--space-5);

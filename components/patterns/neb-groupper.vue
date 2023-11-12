@@ -175,20 +175,37 @@ export default defineNuxtComponent({
   &:after {
     content: '';
     position: absolute;
-    left: -7px;
+    left: -9px;
     top: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     width: var(--space-3);
     height: var(--space-3);
-    background: var(--neutral-color-100);
+    background: var(--neutral-color-200);
     border-radius: 50%;
-    border: 2px solid var(--white-color);
+    border: 4px solid var(--white-color);
   }
   &:last-child {
     &:before {
       height: calc(100% - 16px);
+    }
+  }
+}
+
+.dark-mode {
+  .ath-groupper-group-line {
+    &:before {
+      background: var(--neutral-color-700);
+    }
+    &:after {
+      background: var(--neutral-color-700);
+      border: 4px solid var(--neutral-color-975);
+    }
+    &:last-child {
+      &:before {
+        height: calc(100% - 16px);
+      }
     }
   }
 }

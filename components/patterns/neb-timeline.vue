@@ -102,4 +102,12 @@ export default defineNuxtComponent({
     margin-bottom: var(--space-2);
   }
 }
+
+.dark-mode {
+  .timeline-groups {
+    h6 {
+      color: var(--neutral-color-300);
+    }
+  }
+}
 </style>

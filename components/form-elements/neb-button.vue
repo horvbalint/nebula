@@ -228,16 +228,16 @@ withDefaults(defineProps<{
   .neb-button.secondary-neutral {
     background: var(--neutral-color-975);
     border: 1px solid var(--neutral-color-700);
-    color: var(--neutral-color-100);
+    color: var(--neutral-color-300);
 
     &:hover {
       background: var(--neutral-color-900);
-      color: var(--neutral-color-100);
+      color: var(--neutral-color-300);
     }
     &:focus {
       background: var(--neutral-color-975);
       box-shadow: var(--neutral-focus-shadow-dark);
-      color: var(--neutral-color-100);
+      color: var(--neutral-color-300);
     }
     &:disabled {
       opacity: .6;

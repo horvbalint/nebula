@@ -1,11 +1,12 @@
 <script lang="ts" setup>
-withDefaults(defineProps<{
+export interface Props {
   size?: string
   src?: string
   icon?: string
   text?: string
   alt?: string
-}>(), {
+}
+withDefaults(defineProps<Props>(), {
   size: '40px',
   icon: 'material-symbols:person-outline-rounded',
   alt: 'Avatar image...',
@@ -21,9 +22,8 @@ export default defineComponent({
 <template>
   <div tabindex="0" class="neb-avatar" :style="{ width: $props.size, height: $props.size }">
     <img v-if="$props.src" :src="$props.src" :alt="alt">
-
-    <icon v-if="$props.icon && !$props.text" :name="icon" />
-    <span v-if="$props.text">{{ $props.text }}</span>
+    <span v-else-if="$props.text">{{ $props.text }}</span>
+    <icon v-else-if="$props.icon" :name="icon" />
 
     <div v-if="$slots.badge" class="badge">
       <slot />

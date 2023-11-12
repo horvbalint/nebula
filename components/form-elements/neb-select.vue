@@ -531,8 +531,15 @@ li {
     background: var(--neutral-color-950);
     border: 1px solid var(--neutral-color-700);
 
-    &.has-e.menu-text-wrapper
-    &:focus-within {
+    &.has-error {
+      border-color: var(--error-color-700);
+
+      &.opened {
+        box-shadow: var(--error-focus-shadow-dark);
+        border-color: var(--error-color-700);
+      }
+    }
+    &.opened {
       border-color: var(--primary-color-700);
       box-shadow: var(--primary-focus-shadow-dark);
     }
