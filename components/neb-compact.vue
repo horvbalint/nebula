@@ -17,7 +17,4 @@ function setNormalModeRef(ref: Element | ComponentPublicInstance | null) {
 </template>
 
 <style scoped>
-.neb-compact {
-  width: 100%;
-}
 </style>

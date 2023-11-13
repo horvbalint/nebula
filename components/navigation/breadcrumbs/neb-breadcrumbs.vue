@@ -13,7 +13,7 @@ const props = withDefaults(defineProps<{
 })
 
 defineEmits<{
-  click: [id: string]
+  click: [id: Breadcrumb['id']]
 }>()
 
 const computedCrumbs = computed<Breadcrumb[]>(() => {
@@ -59,6 +59,7 @@ ul {
   align-items: center;
   gap: var(--space-1);
   list-style: none;
+  margin-left: -8px;
 }
 li {
   margin: 0;
