@@ -64,7 +64,7 @@ const computedClasses = computed(() => {
         </footer>
       </div>
 
-      <icon class="close-icon" name="material-symbols:close-rounded" @click="$emit('close')" />
+      <icon v-if="!hideActionRow" class="close-icon" name="material-symbols:close-rounded" @click="$emit('close')" />
     </div>
 
     <hr class="timer-line">
