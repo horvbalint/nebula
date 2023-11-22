@@ -27,7 +27,6 @@ const props = withDefaults(defineProps<{
   labelKey?: LabelKey
   multiple?: boolean
   useOnlyTrackedKey?: boolean
-
   label?: string
   hint?: string
   placeholder?: string

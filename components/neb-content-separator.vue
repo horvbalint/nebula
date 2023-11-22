@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 defineProps<{
-  text: string
+  text?: string
 }>()
 </script>
 
@@ -9,7 +9,9 @@ defineProps<{
     <hr>
 
     <slot>
-      <h6>{{ text }}</h6>
+      <h6 v-if="text">
+        {{ text }}
+      </h6>
     </slot>
 
     <hr>
