@@ -87,6 +87,7 @@ withDefaults(defineProps<{
     font-size: var(--text-md);
     font-weight: 400;
     color: var(--neutral-color-600);
+    line-height: 1.5;
   }
 }
 .content-row-start {
