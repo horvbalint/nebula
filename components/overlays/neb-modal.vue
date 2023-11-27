@@ -23,7 +23,7 @@ const modelValue = defineModel()
         <slot name="header">
           <div class="header">
             <div v-if="$props.headerIcon" class="header-icon">
-              <IconCSS style="font-size: 20px;" :name="$props.headerIcon" />
+              <icon :name="$props.headerIcon" />
             </div>
 
             <div class="header-titles">
