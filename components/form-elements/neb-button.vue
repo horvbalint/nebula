@@ -4,16 +4,18 @@ withDefaults(defineProps<{
   type?: 'primary' | 'secondary' | 'secondary-neutral' | 'tertiary' | 'tertiary-neutral' | 'link' | 'link-neutral'
   small?: boolean
   square?: boolean
+  destructive?: boolean
 }>(), {
   loading: false,
   type: 'primary',
   small: false,
   square: false,
+  destructive: false,
 })
 </script>
 
 <template>
-  <button class="neb-button" :class="{ [type]: true, small, square }">
+  <button class="neb-button" :class="{ [type]: true, small, square, destructive }">
     <slot v-if="!loading" />
 
     <icon v-else name="eos-icons:loading" />
@@ -68,6 +70,21 @@ withDefaults(defineProps<{
   &:disabled {
     background: var(--primary-color-200);
   }
+  &.destructive {
+    background: var(--error-color-600);
+    color: var(--white-color);
+
+    &:hover {
+      background: var(--error-color-700);
+    }
+    &:focus {
+      background: var(--error-color-600);
+      box-shadow: var(--error-focus-shadow-light);
+    }
+    &:disabled {
+      background: var(--error-color-200);
+    }
+  }
 }
 
 /* SECONDARY STYLES */
@@ -88,6 +105,25 @@ withDefaults(defineProps<{
   &:disabled {
     background: var(--primary-color-25);
     color: var(--primary-color-300);
+  }
+  &.destructive {
+    background: var(--error-color-50);
+    border: 1px solid var(--error-color-300);
+    color: var(--error-color-600);
+
+    &:hover {
+      background: var(--error-color-100);
+      color: var(--error-color-700);
+    }
+    &:focus {
+      background: var(--error-color-50);
+      box-shadow: var(--error-focus-shadow-light);
+      color: var(--error-color-600);
+    }
+    &:disabled {
+      background: var(--error-color-25);
+      color: var(--error-color-300);
+    }
   }
 }
 
@@ -129,6 +165,23 @@ withDefaults(defineProps<{
     color: var(--neutral-color-300);
     background: none;
   }
+  &.destructive {
+    color: var(--error-color-600);
+    background: none;
+    box-shadow: none;
+
+    &:hover {
+      background: var(--error-color-50);
+      color: var(--error-color-600);
+    }
+    &:focus {
+      color: var(--error-color-600);
+    }
+    &:disabled {
+      color: var(--neutral-color-300);
+      background: none;
+    }
+  }
 }
 
 .neb-button.tertiary-neutral {
@@ -166,6 +219,21 @@ withDefaults(defineProps<{
   }
   &:disabled {
     color: var(--neutral-color-300);
+  }
+  &.destructive {
+    color: var(--error-color-600);
+    background: none;
+    box-shadow: none;
+
+    &:hover {
+      color: var(--error-color-700);
+    }
+    &:focus {
+      color: var(--error-color-700);
+    }
+    &:disabled {
+      color: var(--neutral-color-300);
+    }
   }
 }
 
