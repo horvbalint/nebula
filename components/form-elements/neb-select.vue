@@ -52,7 +52,7 @@ const dropdown = ref<null | InstanceType<typeof NebDropdown>>(null)
 
 const { errorsToShow, collectErrors } = useNebValidate(dropdown, () => {
   if (props.required) {
-    if ((props.multiple && !(props.modelValue as []).length) || !props.modelValue)
+    if (!props.modelValue || (props.multiple && !(props.modelValue as []).length))
       return ['valueMissing']
   }
 
@@ -125,6 +125,9 @@ const selectionText = computed(() => {
 })
 
 function isSelected(option: ProcessedOption): boolean {
+  if (props.modelValue === null || props.modelValue === undefined)
+    return false
+
   if (props.multiple === true) {
     if (props.useOnlyTrackedKey)
       return (props.modelValue as PropertyKey[]).includes(option.trackValue)
@@ -134,9 +137,6 @@ function isSelected(option: ProcessedOption): boolean {
       return (props.modelValue as PropertyKey[]).includes(option.option as PropertyKey)
   }
   else {
-    if (props.modelValue === null || props.modelValue === undefined)
-      return false
-
     if (props.useOnlyTrackedKey)
       return (props.modelValue as PropertyKey) === option.trackValue
     else if (props.trackByKey)
@@ -155,12 +155,14 @@ function handleOptionClick(option: ProcessedOption): void {
 
 function selectOption(option: ProcessedOption): void {
   if (props.multiple === true) {
+    const currentValue = props.modelValue || []
+
     if (props.useOnlyTrackedKey)
-      emitValue([...(props.modelValue as PropertyKey[]), option.trackValue] as T[])
+      emitValue([...(currentValue as PropertyKey[]), option.trackValue] as T[])
     else if (props.trackByKey)
-      emitValue([...(props.modelValue as ObjectOption<TrackByKey, LabelKey>[]), option.option as ObjectOption<TrackByKey, LabelKey>] as T[])
+      emitValue([...(currentValue as ObjectOption<TrackByKey, LabelKey>[]), option.option as ObjectOption<TrackByKey, LabelKey>] as T[])
     else
-      emitValue([...(props.modelValue as PropertyKey[]), option.option as PropertyKey] as T[])
+      emitValue([...(currentValue as PropertyKey[]), option.option as PropertyKey] as T[])
   }
   else {
     if (props.useOnlyTrackedKey)
@@ -176,12 +178,14 @@ function selectOption(option: ProcessedOption): void {
 
 function deselectOption(option: ProcessedOption): void {
   if (props.multiple === true) {
+    const currentValue = props.modelValue || []
+
     if (props.useOnlyTrackedKey)
-      emitValue((props.modelValue as PropertyKey[]).filter(o => o !== option.trackValue) as T[])
+      emitValue((currentValue as PropertyKey[]).filter(o => o !== option.trackValue) as T[])
     else if (props.trackByKey)
-      emitValue((props.modelValue as ObjectOption<TrackByKey, LabelKey>[]).filter(o => o[props.trackByKey!] !== option.trackValue) as T[])
+      emitValue((currentValue as ObjectOption<TrackByKey, LabelKey>[]).filter(o => o[props.trackByKey!] !== option.trackValue) as T[])
     else
-      emitValue((props.modelValue as PropertyKey[]).filter(o => o !== option.option as PropertyKey) as T[])
+      emitValue((currentValue as PropertyKey[]).filter(o => o !== option.option as PropertyKey) as T[])
   }
   else {
     emitValue(null)
@@ -372,7 +376,7 @@ watch(searchTerm, orderOptions)
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: var(--neutral-color-400)
+  color: var(--neutral-color-500)
 }
 .selection {
   flex: 1;

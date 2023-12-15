@@ -21,9 +21,9 @@ const sortedRows = computed(() => {
     const first = sortAsc.value ? b[sortColumn.value!.key] : a[sortColumn.value!.key]
     const second = sortAsc.value ? a[sortColumn.value!.key] : b[sortColumn.value!.key]
 
-    if (!first)
+    if (first === undefined || first === null)
       return -1
-    if (!second)
+    if (second === undefined || second === null)
       return 1
 
     return sortFunction(first, second)

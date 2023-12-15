@@ -14,6 +14,7 @@ export default defineNuxtComponent({
     },
     groupKey: {
       type: String,
+      required: true,
     },
     groupDateFormat: {
       type: String,
@@ -21,6 +22,7 @@ export default defineNuxtComponent({
     },
     itemSortKey: {
       type: String,
+      default: (props: any) => props.groupKey,
     },
     itemSortDir: {
       type: String as PropType<'asc' | 'desc'>,

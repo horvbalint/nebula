@@ -1,4 +1,5 @@
 <script setup lang="ts" generic="T extends Record<string, any>">
+import type { RestoreProps } from '@nebula/composables/neb-restore'
 import dayjs from 'dayjs'
 
 export interface Column {
@@ -8,18 +9,24 @@ export interface Column {
   formatFunction?: (cell: any) => string
 }
 
-export interface Props<T> {
+interface RestoreState {
+  sortColumn: Column | null
+  sortAsc: boolean
+}
+
+export type Props<T> = {
   columns: Column[]
   rows: T[]
   sortColumn: Column | null
   sortAsc: boolean
   loading?: boolean
   error?: boolean
-}
+} & RestoreProps<RestoreState>
 
 const props = withDefaults(defineProps<Props<T>>(), {
   loading: false,
   error: false,
+  restore: false,
 })
 
 const emit = defineEmits<{
@@ -27,6 +34,20 @@ const emit = defineEmits<{
   'update:sortAsc': [sortAsc: typeof props.sortAsc]
   'update:sortColumn': [sortColumn: typeof props.sortColumn]
 }>()
+
+// useNebLoading(props, () => {
+// useNebRestore<RestoreState>({
+//   props,
+//   store: () => ({
+//     sortColumn: props.sortColumn,
+//     sortAsc: props.sortAsc,
+//   }),
+//   restore: (state) => {
+//     emit('update:sortColumn', state.sortColumn)
+//     emit('update:sortAsc', state.sortAsc)
+//   },
+// })
+// })
 
 const modelValue = defineModel<null | T[]>({
   required: false,

@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<{
   fullWidth: false,
 })
 
-const modelValue = defineModel<string>({
+const modelValue = defineModel<string | null>({
   required: true,
 })
 

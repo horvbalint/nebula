@@ -8,10 +8,12 @@ const props = withDefaults(defineProps<{
   required?: boolean
   disabled?: boolean
   lazy?: boolean
+  autoHeight?: boolean
 }>(), {
   required: false,
   disabled: false,
   lazy: false,
+  autoHeight: false,
 })
 
 const emit = defineEmits<{
@@ -79,7 +81,7 @@ defineExpose({ focus, blur })
     <label>
       <span v-if="label">{{ label }} <span v-if="$props.required" class="required-star">*</span></span>
 
-      <div class="neb-input" :class="{ 'has-error': errorsToShow.length }">
+      <div class="neb-input" :class="{ 'has-error': errorsToShow.length, 'auto-height': autoHeight }">
         <slot name="leading">
           <icon v-if="computedLeadingIcon" :name="computedLeadingIcon" />
         </slot>
@@ -141,6 +143,7 @@ label {
   background: var(--white-color);
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: var(--space-2);
   padding: var(--space-2) var(--space-3);
   height: 40px;
@@ -148,6 +151,10 @@ label {
   border: 1px solid var(--neutral-color-300);
   transition: all var(--duration-default);
 
+  &.auto-height {
+    height: auto;
+    min-height: 40px;
+  }
   &.has-error {
     border-color: var(--error-color-300);
 
@@ -170,6 +177,9 @@ label {
     outline: none;
     color: var(--neutral-color-900);
 
+    &::placeholder {
+      color: var(--neutral-color-500);
+    }
     &:-webkit-autofill,
     &:-webkit-autofill:focus {
       -webkit-box-shadow:0 0 0 50px white inset; /* Change the color to your own background color */

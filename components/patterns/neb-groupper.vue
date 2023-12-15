@@ -119,35 +119,35 @@ export default defineNuxtComponent({
 </script>
 
 <template>
-  <div class="ath-groupper">
+  <div class="neb-groupper">
     <div
       v-for="(group, groupId) in dataGroups"
       :key="groupId"
-      class="ath-groupper-group"
-      :class="{ 'ath-groupper-group-line': hasLine }"
+      class="neb-groupper-group"
+      :class="{ 'neb-groupper-group-line': hasLine }"
     >
       <slot name="group" :group="group" :group-id="groupId">
-        <ath-expansion :title="group.label">
+        <neb-expansion :title="group.label">
           <template #body>
-            <div class="ath-groupper-group-items" :style="{ gap: itemGap }" :class="{ grid }">
+            <div class="neb-groupper-group-items" :style="{ gap: itemGap }" :class="{ grid }">
               <div v-for="(item, index) in group.items" :key="index">
                 <slot name="item" :item="item" />
               </div>
             </div>
           </template>
-        </ath-expansion>
+        </neb-expansion>
       </slot>
     </div>
   </div>
 </template>
 
 <style scoped>
-.ath-groupper {
+.neb-groupper {
   position: relative;
   display: flex;
   flex-direction: column;
 }
-.ath-groupper-group-items {
+.neb-groupper-group-items {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -159,7 +159,7 @@ export default defineNuxtComponent({
     gap: var(--space-3)!important;
   }
 }
-.ath-groupper-group-line {
+.neb-groupper-group-line {
   padding-left: var(--space-6);
   position: relative;
 
@@ -194,7 +194,7 @@ export default defineNuxtComponent({
 }
 
 .dark-mode {
-  .ath-groupper-group-line {
+  .neb-groupper-group-line {
     &:before {
       background: var(--neutral-color-700);
     }

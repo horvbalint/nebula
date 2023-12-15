@@ -127,6 +127,9 @@ label {
     outline: none;
     color: var(--neutral-color-900);
 
+    &::placeholder {
+      color: var(--neutral-color-500);
+    }
     &:-webkit-autofill,
     &:-webkit-autofill:focus {
       -webkit-box-shadow:0 0 0 50px white inset; /* Change the color to your own background color */
