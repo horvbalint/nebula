@@ -1,5 +1,7 @@
 import { createResolver } from '@nuxt/kit'
 import postcssPresetEnv from 'postcss-preset-env'
+
+// @ts-expect-error - the package has no declaration file or @types package
 import postcssGlobalData from '@csstools/postcss-global-data'
 
 const { resolve } = createResolver(import.meta.url)

@@ -74,7 +74,7 @@ export default defineNuxtComponent({
     :group-fun="(item: any) => dayjs(item[groupKey!]).startOf(groupDatePrecision)"
     :format-fun="(groupValue: any) => groupValue.locale('hu').format(groupDateFormat)"
     :item-sort-dir="itemSortDir"
-    :item-sort-process-fun="(item: any) => new Date(item[itemSortKey!])"
+    :item-sort-process-fun="(item: any) => new Date(item[itemSortKey!]).getTime()"
     :has-line="hasLine"
   >
     <template #group="{ group }">

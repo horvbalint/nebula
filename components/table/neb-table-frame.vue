@@ -9,7 +9,7 @@ export interface Column {
   formatFunction?: (cell: any) => string
 }
 
-interface RestoreState {
+export interface RestoreState {
   sortColumn: Column | null
   sortAsc: boolean
 }
@@ -165,8 +165,10 @@ const isAnyChecked = computed({
             </td>
 
             <td v-for="column in columns" :key="`td-${column.key}`">
-              <slot :name="`td-${column.key}`" :original="row.original[column.key]" :formatted="row.formatted[column.key]" :column="column">
-                {{ row.formatted[column.key] }}
+              <slot name="td" :data="row" :original="row.original[column.key]" :formatted="row.formatted[column.key]" :column="column">
+                <slot :name="`td-${column.key}`" :data="row" :original="row.original[column.key]" :formatted="row.formatted[column.key]" :column="column">
+                  {{ row.formatted[column.key] }}
+                </slot>
               </slot>
             </td>
           </tr>

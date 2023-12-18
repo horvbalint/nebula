@@ -17,13 +17,11 @@ const errorDict: Partial<Record<keyof ValidityState, string>> = {
 </script>
 
 <template>
-  <div>
-    <ul v-if="errors.length" class="error-list">
-      <li v-for="error in errors" :key="error">
-        {{ errorDict[error] }}
-      </li>
-    </ul>
-  </div>
+  <ul v-if="errors.length" class="error-list">
+    <li v-for="error in errors" :key="error">
+      {{ errorDict[error] }}
+    </li>
+  </ul>
 </template>
 
 <style scoped>

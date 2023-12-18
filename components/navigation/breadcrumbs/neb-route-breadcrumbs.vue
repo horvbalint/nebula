@@ -24,7 +24,7 @@ const routeCrumbs = computed(() => {
 </script>
 
 <template>
-  <neb-breadcrumbs :crumbs="routeCrumbs" @click="navigateTo($event)" />
+  <neb-breadcrumbs :crumbs="routeCrumbs" @click="navigateTo($event as string)" />
 </template>
 
 <style scoped>

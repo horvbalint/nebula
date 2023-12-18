@@ -11,7 +11,7 @@ withDefaults(defineProps<{
 <template>
   <div class="neb-empty-state">
     <div class="empty-icon">
-      <icon name="material-symbols:search-rounded" />
+      <Icon :name="$props.icon!" />
     </div>
 
     <div class="empty-state-text">

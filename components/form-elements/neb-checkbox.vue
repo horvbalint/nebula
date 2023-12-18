@@ -9,7 +9,7 @@ withDefaults(defineProps<{
   align: 'center',
 })
 
-const modelValue = defineModel()
+const modelValue = defineModel<T[] | Set<T> | boolean>()
 </script>
 
 <template>
@@ -21,7 +21,7 @@ const modelValue = defineModel()
       :value="$props.value"
     >
     <div class="checkmark">
-      <icon :name="$props.icon" />
+      <Icon :name="$props.icon!" />
     </div>
 
     <slot>
