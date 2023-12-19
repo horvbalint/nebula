@@ -134,10 +134,13 @@ footer {
 }
 
 .dark-mode {
-  .neb-modal, header {
+  .neb-modal,
+  header {
     background: var(--neutral-color-975);
   }
-  header, footer, .header-icon {
+  header,
+  footer,
+  .header-icon {
     border-color: var(--neutral-color-700);
   }
   .header-titles {
@@ -168,7 +171,9 @@ footer {
       margin: auto;
     }
   }
-  header, .body, .footer{
+  header,
+  .body,
+  .footer {
     padding: var(--space-4) var(--space-5);
   }
   .header-icon {

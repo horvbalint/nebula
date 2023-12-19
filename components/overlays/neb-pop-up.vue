@@ -67,7 +67,7 @@ function handleClick(event: MouseEvent) {
 
 @keyframes fade {
   0% {
-    opacity: .5;
+    opacity: 0.5;
   }
   100% {
     opacity: 1;

@@ -363,7 +363,7 @@ watch(searchTerm, orderOptions)
 
     &:-webkit-autofill,
     &:-webkit-autofill:focus {
-      -webkit-box-shadow:0 0 0 50px white inset; /* Change the color to your own background color */
+      -webkit-box-shadow: 0 0 0 50px white inset; /* Change the color to your own background color */
     }
   }
   .icon {
@@ -376,7 +376,7 @@ watch(searchTerm, orderOptions)
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: var(--neutral-color-500)
+  color: var(--neutral-color-500);
 }
 .selection {
   flex: 1;
@@ -422,14 +422,14 @@ watch(searchTerm, orderOptions)
     background: transparent;
 
     &::placeholder {
-      color: var(--neutral-color-400)
+      color: var(--neutral-color-400);
     }
   }
   .icon {
     width: 18px;
     height: 18px;
     cursor: pointer;
-    color: var(--neutral-color-500)
+    color: var(--neutral-color-500);
   }
 }
 ul {
@@ -487,7 +487,7 @@ li {
   .icon {
     width: var(--space-5);
     height: var(--space-5);
-    color: var(--neutral-color-600)
+    color: var(--neutral-color-600);
   }
   .success-icon {
     color: var(--primary-color-600);
@@ -551,7 +551,7 @@ li {
     }
     & input:-webkit-autofill,
     & input:-webkit-autofill:focus {
-      -webkit-box-shadow:0 0 0 50px var(--neutral-color-950) inset; /* Change the color to your own background color */
+      -webkit-box-shadow: 0 0 0 50px var(--neutral-color-950) inset; /* Change the color to your own background color */
     }
     .icon {
       color: var(--neutral-color-400);
@@ -594,14 +594,14 @@ li {
       color: var(--neutral-color-300);
     }
     .icon {
-      color: var(--neutral-color-400)
+      color: var(--neutral-color-400);
     }
     .success-icon {
       color: var(--primary-color-500);
     }
   }
   .menu-text-wrapper {
-    color: var(--neutral-color-300)
+    color: var(--neutral-color-300);
   }
 }
 </style>

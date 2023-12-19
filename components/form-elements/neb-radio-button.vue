@@ -36,7 +36,7 @@ const modelValue = defineModel()
     user-select: none;
   }
 }
-input[type="radio"] {
+input[type='radio'] {
   -webkit-appearance: none;
   appearance: none;
   background: var(--white-color);
@@ -51,8 +51,8 @@ input[type="radio"] {
   justify-content: center;
 }
 
-input[type="radio"]::before {
-  content: "";
+input[type='radio']::before {
+  content: '';
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -62,15 +62,15 @@ input[type="radio"]::before {
   flex-shrink: 0;
 }
 
-input[type="radio"]:checked {
+input[type='radio']:checked {
   border-color: var(--primary-color-600);
   background: var(--primary-color-100);
 
   &::before {
-    transform: scale(.40);
+    transform: scale(0.4);
   }
 }
-input[type="radio"]:focus {
+input[type='radio']:focus {
   outline: none;
   box-shadow: var(--primary-focus-shadow-light);
 }
@@ -83,11 +83,11 @@ input[type="radio"]:focus {
       color: var(--neutral-color-300);
     }
   }
-  input[type="radio"] {
+  input[type='radio'] {
     background: var(--neutral-color-950);
     border: 1px solid var(--neutral-color-700);
   }
-  input[type="radio"]:focus {
+  input[type='radio']:focus {
     box-shadow: var(--primary-focus-shadow-dark);
   }
 }

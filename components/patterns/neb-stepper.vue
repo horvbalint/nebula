@@ -126,7 +126,11 @@ watch(() => props.modelValue, () => {
     width: 100%;
     border: none;
     height: 2px;
-    background: linear-gradient(90deg, var(--primary-color) 50%, var(--neutral-color-200) 50%);
+    background: linear-gradient(
+      90deg,
+      var(--primary-color) 50%,
+      var(--neutral-color-200) 50%
+    );
     background-position: 100%;
     background-size: 200% 100%;
     transition: all var(--duration-default);
@@ -189,7 +193,7 @@ watch(() => props.modelValue, () => {
     align-items: stretch;
     text-align: left;
 
-    &:last-child .step-text{
+    &:last-child .step-text {
       padding-bottom: 0;
     }
   }
@@ -227,7 +231,7 @@ watch(() => props.modelValue, () => {
         color: var(--neutral-color-700);
       }
     }
-    &.done  {
+    &.done {
       .step-progress hr {
         background-position: 0;
       }
@@ -260,7 +264,11 @@ watch(() => props.modelValue, () => {
         width: 100%;
         border: none;
         height: 2px;
-        background: linear-gradient(90deg, var(--primary-color) 50%, var(--neutral-color-900) 50%);
+        background: linear-gradient(
+          90deg,
+          var(--primary-color) 50%,
+          var(--neutral-color-900) 50%
+        );
         background-position: 100%;
         background-size: 200% 100%;
         transition: all var(--duration-default);

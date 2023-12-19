@@ -123,6 +123,5 @@ const modelValue = defineModel<T[] | Set<T> | boolean>()
   .neb-checkbox .checkmark .icon {
     color: var(--primary-color-100);
   }
-
 }
 </style>

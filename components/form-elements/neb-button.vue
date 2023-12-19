@@ -267,9 +267,9 @@ withDefaults(defineProps<{
       box-shadow: var(--primary-focus-shadow-dark);
     }
     &:disabled {
-      opacity: .6;
+      opacity: 0.6;
       background: var(--primary-color-950);
-      color: var(--neutral-color-300)
+      color: var(--neutral-color-300);
     }
   }
   /* SECONDARY STYLES */
@@ -287,7 +287,7 @@ withDefaults(defineProps<{
       color: var(--primary-color-100);
     }
     &:disabled {
-      opacity: .6;
+      opacity: 0.6;
       background: var(--primary-color-975);
       color: var(--neutral-color-300);
     }
@@ -308,7 +308,7 @@ withDefaults(defineProps<{
       color: var(--neutral-color-300);
     }
     &:disabled {
-      opacity: .6;
+      opacity: 0.6;
       background: var(--neutral-color-975);
       color: var(--neutral-color-300);
       border-color: var(--neutral-color-700);
@@ -327,7 +327,7 @@ withDefaults(defineProps<{
       color: var(--primary-color-300);
     }
     &:disabled {
-      opacity: .6;
+      opacity: 0.6;
       color: var(--primary-color-500);
     }
   }
@@ -343,7 +343,7 @@ withDefaults(defineProps<{
       color: var(--neutral-color-300);
     }
     &:disabled {
-      opacity: .6;
+      opacity: 0.6;
       color: var(--neutral-color-300);
     }
   }
@@ -359,7 +359,7 @@ withDefaults(defineProps<{
       color: var(--primary-color-300);
     }
     &:disabled {
-      opacity: .6;
+      opacity: 0.6;
       color: var(--neutral-color-300);
     }
   }
@@ -374,7 +374,7 @@ withDefaults(defineProps<{
       color: var(--neutral-color-200);
     }
     &:disabled {
-      opacity: .6;
+      opacity: 0.6;
       color: var(--neutral-color-300);
     }
   }

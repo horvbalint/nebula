@@ -37,10 +37,10 @@ const modelValue = defineModel()
   width: 36px;
   height: 20px;
 
-  &:hover .slider{
+  &:hover .slider {
     background: var(--neutral-color-300);
   }
-  &:focus-within .slider{
+  &:focus-within .slider {
     box-shadow: var(--primary-focus-shadow-light);
   }
 }
@@ -64,7 +64,7 @@ const modelValue = defineModel()
 .slider:before {
   border-radius: 50%;
   position: absolute;
-  content: "";
+  content: '';
   height: 16px;
   width: 16px;
   left: 2px;
@@ -83,7 +83,6 @@ input:checked + .slider {
 }
 input:disabled {
   & + .slider {
-
     &:before {
       background: var(--neutral-color-50);
     }
@@ -114,10 +113,10 @@ input:checked + .slider:before {
   }
 
   .neb-toggle-switch {
-    &:hover .slider{
+    &:hover .slider {
       background: var(--neutral-color-600);
     }
-    &:focus-within .slider{
+    &:focus-within .slider {
       box-shadow: var(--primary-focus-shadow-dark);
     }
   }
@@ -134,7 +133,6 @@ input:checked + .slider:before {
   }
   input:disabled {
     & + .slider {
-
       &:before {
         background: var(--neutral-color-950);
       }

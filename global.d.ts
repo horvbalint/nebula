@@ -19,4 +19,3 @@ declare module '#app' {
 }
 
 export {}
-

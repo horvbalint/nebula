@@ -94,9 +94,9 @@ li {
       display: block;
     }
   }
-  &.disabled{
+  &.disabled {
     .menu-row {
-      opacity: .45;
+      opacity: 0.45;
     }
     .menu-row-content {
       cursor: not-allowed;
@@ -133,7 +133,7 @@ li {
   .icon {
     width: var(--space-5);
     height: var(--space-5);
-    color: var(--neutral-color-600)
+    color: var(--neutral-color-600);
   }
 }
 
@@ -158,7 +158,7 @@ li {
       color: var(--neutral-color-300);
     }
     .icon {
-      color: var(--neutral-color-400)
+      color: var(--neutral-color-400);
     }
   }
 }

@@ -53,16 +53,12 @@ export default defineNuxtModule({
     nuxt.options.css.push(resolve(colorsPath))
     nuxt.options.css.push(resolve(colorComponentsPath))
 
-    nuxt.hook('close', async () => {
-      const unlinks = []
-
+    nuxt.hook('close', () => {
       if (fs.existsSync(colorsPath))
-        unlinks.push(fs.promises.unlink(colorsPath))
+        fs.unlinkSync(colorsPath)
 
       if (fs.existsSync(colorComponentsPath))
-        unlinks.push(fs.promises.unlink(colorComponentsPath))
-
-      await Promise.all(unlinks)
+        fs.unlinkSync(colorComponentsPath)
     })
   },
 })

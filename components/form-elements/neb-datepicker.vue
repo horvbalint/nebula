@@ -310,7 +310,7 @@ const formattedDate = computed(() => {
     }
 
     .not-curr-month {
-      opacity: .5;
+      opacity: 0.5;
     }
   }
   &.month {

@@ -184,7 +184,8 @@ const showMobileMenu = ref(false)
     flex-direction: column;
     gap: var(--space-6);
   }
-  .nav-items, .secondary-actions {
+  .nav-items,
+  .secondary-actions {
     flex-direction: column;
     width: 100%;
   }

@@ -90,7 +90,7 @@ ul {
   border: 1px solid var(--neutral-color-200);
   border-radius: var(--radius-default);
 
-  &.full-width li{
+  &.full-width li {
     flex: 1;
   }
   &.vertical {

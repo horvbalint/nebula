@@ -69,9 +69,9 @@ const props = withDefaults(defineProps<{
 
 .dark-mode {
   .neb-badge {
-      background: var(--neutral-color-900);
-      border: 1px solid var(--neutral-color-800);
-      color: var(--neutral-color-300);
+    background: var(--neutral-color-900);
+    border: 1px solid var(--neutral-color-800);
+    color: var(--neutral-color-300);
 
     &.error {
       background: var(--error-color-975);

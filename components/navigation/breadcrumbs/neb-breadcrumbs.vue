@@ -68,7 +68,7 @@ li {
   align-items: center;
   gap: var(--space-1);
 
-  &:last-child .separator{
+  &:last-child .separator {
     display: none;
   }
   .separator {

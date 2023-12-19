@@ -23,7 +23,7 @@ body {
 
 @keyframes overlay-transition {
   0% {
-    opacity: .5;
+    opacity: 0.5;
     transform: translateY(var(--space-3));
   }
   100% {

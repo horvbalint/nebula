@@ -156,7 +156,7 @@ export default defineNuxtComponent({
   &.grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: var(--space-3)!important;
+    gap: var(--space-3) !important;
   }
 }
 .neb-groupper-group-line {

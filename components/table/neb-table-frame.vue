@@ -199,7 +199,8 @@ footer {
   border-radius: 0 0 var(--radius-default) var(--radius-default);
   border-top: 1px solid var(--neutral-color-200);
 }
-.header-slot, footer {
+.header-slot,
+footer {
   padding: var(--space-4) var(--space-6);
 
   & h2 {

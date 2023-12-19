@@ -113,10 +113,10 @@ watch(
   flex-direction: column;
   gap: var(--space-2);
 
-  &.disabled .picker-area{
+  &.disabled .picker-area {
     background: var(--neutral-color-50);
   }
-  &.is-draging .picker-area{
+  &.is-draging .picker-area {
     outline: 2px solid var(--primary-color);
   }
 }
