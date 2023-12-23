@@ -67,6 +67,7 @@ const computedBinds = computed(() => {
     :rows="paginationResult"
     v-bind="computedBinds"
   >
+    <!-- @vue-skip -->
     <template v-for="(_, slot) of $slots" #[slot]="scope">
       <slot :name="slot" v-bind="scope" />
     </template>

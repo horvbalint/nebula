@@ -103,7 +103,7 @@ const yearInView = computed(() => {
   return yearInView
 })
 
-const weekdayjs = computed(() => {
+const weekdays = computed(() => {
   const days = dayjs.weekdaysMin()
   const sunday = days.shift()
   days.push(sunday!)
@@ -236,7 +236,7 @@ const formattedDate = computed(() => {
         </header>
 
         <div v-if="calendarView === 'day'" class="calendar day">
-          <span v-for="name in weekdayjs" :key="name">{{ name }}</span>
+          <span v-for="name in weekdays" :key="name">{{ name }}</span>
 
           <neb-button
             v-for="day in daysInView"
