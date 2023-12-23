@@ -24,9 +24,11 @@ const modelValue = defineModel<T[] | Set<T> | boolean>()
       <Icon :name="$props.icon!" />
     </div>
 
-    <slot>
-      <p v-if="label">{{ $props.label }}</p>
-    </slot>
+    <div class="slot-wrapper">
+      <slot>
+        <p v-if="label">{{ $props.label }}</p>
+      </slot>
+    </div>
   </label>
 </template>
 
@@ -58,6 +60,9 @@ const modelValue = defineModel<T[] | Set<T> | boolean>()
   cursor: pointer;
   height: 0;
   width: 0;
+}
+.slot-wrapper {
+  flex: 1;
 }
 .neb-checkbox p {
   font-size: var(--text-sm);

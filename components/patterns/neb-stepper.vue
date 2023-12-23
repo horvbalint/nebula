@@ -126,7 +126,7 @@ watch(() => props.modelValue, () => {
     width: 100%;
     border: none;
     height: 2px;
-    background: linear-gradient(
+    background-image: linear-gradient(
       90deg,
       var(--primary-color) 50%,
       var(--neutral-color-200) 50%
@@ -259,19 +259,11 @@ watch(() => props.modelValue, () => {
     }
     .step-progress {
       hr {
-        display: block;
-        margin-right: -50%;
-        width: 100%;
-        border: none;
-        height: 2px;
-        background: linear-gradient(
+        background-image: linear-gradient(
           90deg,
           var(--primary-color) 50%,
           var(--neutral-color-900) 50%
         );
-        background-position: 100%;
-        background-size: 200% 100%;
-        transition: all var(--duration-default);
       }
     }
   }
