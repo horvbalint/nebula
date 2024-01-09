@@ -1,6 +1,7 @@
 <script setup lang="ts">
 interface Option {
-  text: string
+  icon?: string
+  text?: string
   value: unknown
 }
 
@@ -18,6 +19,8 @@ function getButtonType(option: Option) {
   else
     return 'secondary-neutral'
 }
+
+const radioNode = ref<HTMLInputElement[]>([])
 </script>
 
 <template>
@@ -27,8 +30,11 @@ function getButtonType(option: Option) {
       :key="index"
       class="button"
       :type="getButtonType(option)"
+      @click="radioNode[index].click()"
     >
-      <input v-model="modelValue" :value="option.value" type="radio" class="radio">
+      <input ref="radioNode" v-model="modelValue" tabindex="-1" :value="option.value" type="radio" class="radio">
+
+      <icon v-if="option.icon" :name="option.icon" />
       {{ option.text }}
     </neb-button>
   </neb-button-group>
@@ -38,16 +44,11 @@ function getButtonType(option: Option) {
 .button {
   position: relative;
 }
-
+.icon {
+  width: 20px;
+  height: 20px;
+}
 input {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  cursor: pointer;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  opacity: 0;
+  display: none;
 }
 </style>

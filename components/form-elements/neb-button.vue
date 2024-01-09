@@ -98,7 +98,7 @@ export default defineComponent({
 /* SECONDARY STYLES */
 .neb-button.secondary {
   background: var(--primary-color-50);
-  border: 1px solid var(--primary-color-200);
+  border: 1px solid var(--primary-color-300);
   color: var(--primary-color-700);
 
   &:hover {

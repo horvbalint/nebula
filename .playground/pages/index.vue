@@ -1,15 +1,16 @@
 <script setup lang="ts">
 const options = [
   {
-    text: 'Egy',
+    icon: 'material-symbols:close-rounded',
     value: 1,
   },
   {
-    text: 'Ketto',
+    text: 'wefwef',
     value: 2,
   },
   {
-    text: 'Harom',
+    text: 'Bezaras',
+    icon: 'material-symbols:close-rounded',
     value: 3,
   },
 ]
@@ -20,14 +21,14 @@ const value = ref(1)
 <template>
   <div class="wrapper">
     {{ value }}
-    <neb-radio-group v-model="value" :options="options" />
+    <neb-radio-group v-model="value" square :options="options" />
 
     <neb-button-group>
       <neb-button>
         First
       </neb-button>
 
-      <neb-button type="secondary">
+      <neb-button>
         Second
       </neb-button>
 

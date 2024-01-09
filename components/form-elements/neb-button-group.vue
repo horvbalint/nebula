@@ -12,28 +12,24 @@ const slots = useSlots()
 if (!slots || !slots.default)
   throw new Error('"neb-button-group" default slot can not be empty!')
 
-const slotNodes = getSlotsChildren(slots)
-const buttonNodes = slotNodes
-  .filter(node => (node.type as Component).name === 'NebButton')
+function render() {
+  const slotNodes = getSlotsChildren(slots)
+  const buttonNodes = slotNodes
+    .filter(node => (node.type as Component).name === 'NebButton')
 
-if (slotNodes.length !== buttonNodes.length)
-  console.warn('"neb-button-group" can only contain "neb-button" components!')
+  if (slotNodes.length !== buttonNodes.length)
+    console.warn('"neb-button-group" can only contain "neb-button" components!')
 
-for (const node of buttonNodes) {
-  console.log(node.props)
+  for (const node of slotNodes) {
+    if (!node.props)
+      node.props = {}
 
-  if (!node.props)
-    node.props = {}
+    if (!node.props.type)
+      node.props.type = props.type
+  }
 
-  if (!node.props.type)
-    node.props.type = props.type
+  return h('div', { class: 'neb-button-group' }, buttonNodes)
 }
-
-watch(slots, () => console.log('here'), {
-  deep: true,
-})
-
-const render = () => h('div', { class: 'neb-button-group' }, buttonNodes)
 </script>
 
 <template>
