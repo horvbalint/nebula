@@ -17,3 +17,5 @@ dist
 .history
 
 modules/runtime
+
+.playground/content

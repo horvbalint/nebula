@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 const props = withDefaults(defineProps<{
+  /**
+   * Test prop description
+   */
   small?: boolean
   color?: 'error' | 'warning' | 'success' | 'info' | 'primary'
 }>(), {

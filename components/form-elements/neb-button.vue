@@ -1,9 +1,7 @@
 <script lang="ts" setup>
-export type ButtonType = 'primary' | 'secondary' | 'secondary-neutral' | 'tertiary' | 'tertiary-neutral' | 'link' | 'link-neutral'
-
 withDefaults(defineProps<{
   loading?: boolean
-  type?: ButtonType
+  type?: 'primary' | 'secondary' | 'secondary-neutral' | 'tertiary' | 'tertiary-neutral' | 'link' | 'link-neutral'
   small?: boolean
   square?: boolean
   destructive?: boolean

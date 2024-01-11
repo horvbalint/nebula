@@ -24,6 +24,11 @@ const clickOutsideOptions: OnClickOutsideOptions = {
 }
 
 const isOpen = ref(false)
+
+/**
+ * This function toggles the open state of the menu
+ * @param event string
+ */
 function toggle(event?: PointerEvent) {
   if (event?.target && trigger.value!.contains(event.target as Node)) // TODO: debug vueuse onClickOutside, when clicking in an input that has a focus event
     return

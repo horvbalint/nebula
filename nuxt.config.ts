@@ -67,6 +67,7 @@ export default defineNuxtConfig({
     'nuxt-icon',
     '@vueuse/nuxt',
     'nuxt-icons',
+    // '@nuxt/content',
   ],
   googleFonts: {
     download: true,
