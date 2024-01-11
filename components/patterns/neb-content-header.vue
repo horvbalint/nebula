@@ -60,8 +60,6 @@ withDefaults(defineProps<{
 
   &.section {
     .content-text {
-      max-width: none;
-
       & h1 {
         font-size: var(--text-lg);
       }
@@ -76,7 +74,6 @@ withDefaults(defineProps<{
   justify-content: flex-start;
   flex-direction: column;
   gap: var(--space-2);
-  max-width: 445px;
 
   & h1 {
     font-size: var(--title-sm);
