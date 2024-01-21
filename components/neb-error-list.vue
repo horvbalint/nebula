@@ -2,24 +2,12 @@
 defineProps<{
   errors: (keyof ValidityState)[]
 }>()
-
-const errorDict: Partial<Record<keyof ValidityState, string>> = {
-  badInput: 'Hibás érték!',
-  patternMismatch: 'A mező nem megfelelő formátumú!',
-  rangeOverflow: 'A megadott érték túl nagy!',
-  rangeUnderflow: 'A megadott érték túl alacsony!',
-  stepMismatch: 'A lépésköz nem megfelelő!',
-  tooLong: 'A megadott szöveg túl hosszú!',
-  tooShort: 'A megadott szöveg túl rövid!',
-  typeMismatch: 'A mező nem megfelelő formátumú!',
-  valueMissing: 'A mező kitöltése kötelező!',
-}
 </script>
 
 <template>
   <ul v-if="errors.length" class="error-list">
     <li v-for="error in errors" :key="error">
-      {{ errorDict[error] }}
+      {{ $t(`nebula.error-list${error}`) }}
     </li>
   </ul>
 </template>

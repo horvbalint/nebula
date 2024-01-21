@@ -18,7 +18,6 @@ const props = withDefaults(defineProps<{
   disabled: false,
   required: false,
   closeOnSelect: true,
-  placeholder: 'Válassz egy dátumot...',
 })
 
 const emit = defineEmits<{
@@ -26,7 +25,6 @@ const emit = defineEmits<{
 }>()
 
 dayjs.extend(localeData)
-dayjs.locale('hu')
 
 const input = ref<InstanceType<typeof NebInput> | null>(null)
 
@@ -204,7 +202,7 @@ const formattedDate = computed(() => {
         :disabled="disabled"
         :required="required"
         :label="label"
-        :placeholder="placeholder"
+        :placeholder="placeholder || $t('nebula.datepicker.placeholder')"
         leading-icon="material-symbols:calendar-month-outline-rounded"
         lazy
         @update:model-value="handleInput($event as string)"
@@ -222,7 +220,7 @@ const formattedDate = computed(() => {
 
           <div class="current-date">
             <neb-button type="tertiary-neutral" small @click="calendarView = 'year'">
-              {{ calendarView === 'year' ? 'Év kiválasztása' : viewDay.year() }}
+              {{ calendarView === 'year' ? $t('nebula.datepicker.selectYear') : viewDay.year() }}
             </neb-button>
 
             <neb-button v-if="calendarView === 'day'" type="tertiary-neutral" small @click="calendarView = 'month'">

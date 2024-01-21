@@ -35,7 +35,6 @@ const props = withDefaults(defineProps<{
   noSearch?: boolean
   required?: boolean
 }>(), {
-  placeholder: 'Válassz egyet a listából...',
   multiple: false,
   useOnlyTrackedKey: false,
   noSearch: false,
@@ -242,7 +241,7 @@ watch(searchTerm, orderOptions)
           </slot>
 
           <p v-if="!selectedOptions.size" class="placeholder">
-            {{ $props.placeholder }}
+            {{ $props.placeholder || $t('nebula.neb-select.placeholder') }}
           </p>
 
           <div v-else class="selection">
@@ -266,7 +265,7 @@ watch(searchTerm, orderOptions)
           <input
             ref="search"
             v-model="searchTerm"
-            placeholder="Írj ide a kereséshez..."
+            :placeholder="$t('nebula.neb-select.search')"
           >
 
           <icon v-if="searchTerm" name="material-symbols:close-rounded" @click="searchTerm = ''" />
@@ -294,14 +293,14 @@ watch(searchTerm, orderOptions)
 
         <neb-empty-state
           v-else
-          :title="`A(z) '${searchTerm}' nem található`"
-          description="Próbálkozz másik kulcsszóval."
+          :title="$t('nebula.neb-select.empty.title', { term: searchTerm })"
+          :description="$t('nebula.neb-select.empty.description')"
         >
           <div class="create-button-wrapper">
-            <neb-content-separator text="Vagy" />
+            <neb-content-separator :text="$t('nebula.neb-select.empty.or')" />
 
             <neb-button type="secondary" small @click="emit('new', searchTerm)">
-              <icon name="material-symbols:add-rounded" /> Új elem felvitele
+              <icon name="material-symbols:add-rounded" /> {{ $t('nebula.neb-select.empty.newItem') }}
             </neb-button>
           </div>
         </neb-empty-state>

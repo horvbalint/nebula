@@ -67,6 +67,7 @@ export default defineNuxtConfig({
     'nuxt-icon',
     '@vueuse/nuxt',
     'nuxt-icons',
+    '@nuxtjs/i18n',
   ],
   googleFonts: {
     download: true,
@@ -74,7 +75,21 @@ export default defineNuxtConfig({
       Inter: [100, 200, 300, 400, 500, 600, 700, 800, 900],
     },
   },
-  // typescript: {
-  //   typeCheck: true,
-  // },
+  i18n: {
+    locales: [
+      {
+        code: 'en',
+        file: 'en.json',
+      },
+      {
+        code: 'hu',
+        file: 'hu.json',
+      },
+    ],
+    langDir: 'lang',
+    strategy: 'no_prefix',
+  },
+  typescript: {
+    typeCheck: true,
+  },
 })

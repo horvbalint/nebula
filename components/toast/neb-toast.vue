@@ -49,7 +49,7 @@ const computedClasses = computed(() => {
 
         <footer v-if="!hideActionRow">
           <neb-button class="toast-button" type="link" color @click="$emit('close')">
-            Bezárás
+            {{ $t('nebula.toast.close') }}
           </neb-button>
 
           <neb-button

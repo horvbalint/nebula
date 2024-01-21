@@ -1,0 +1,62 @@
+{
+  "nebula": {
+    "loading": "Betöltés...",
+    "avatar": {
+      "alt": "Avatár kép"
+    },
+    "datepicker": {
+      "placeholder": "Válassz egy dátumot...",
+      "selectYear": "Év kiválasztás"
+    },
+    "error-list": {
+      "badInput": "Hibás érték!",
+      "patternMismatch": "A mező nem megfelelő formátumú!",
+      "rangeOverflow": "A megadott érték túl nagy!",
+      "rangeUnderflow": "A megadott érték túl alacsony!",
+      "stepMismatch": "A lépésköz nem megfelelő!",
+      "tooLong": "A megadott szöveg túl hosszú!",
+      "tooShort": "A megadott szöveg túl rövid!",
+      "typeMismatch": "A mező nem megfelelő formátumú!",
+      "valueMissing": "A mező kitöltése kötelező!"
+    },
+    "header-nav": {
+      "logout": "Kijelentkezés"
+    },
+    "multi-file-picker": {
+      "click": "Kattints a feltöltéshez",
+      "drag": "vagy húzd ide a fájlokat."
+    },
+    "neb-select": {
+      "empty": {
+        "description": "Próbálkozzon másik kulcsszóval.",
+        "newItem": "Új elem felvitele",
+        "or": "Vagy",
+        "title": "A(z) '{term}' nem találtható"
+      },
+      "placeholder": "Válassz a listából...",
+      "search": "Írj ide a kereséshez..."
+    },
+    "pagination": {
+      "next": "Következő",
+      "page": "oldal",
+      "previous": "Előző"
+    },
+    "table-frame": {
+      "empty": {
+        "description": "Jelenleg nem áll rendelkezésre megjeleníthető adat ebben a táblázatban.",
+        "title": "Nincsenek rendelkezésre álló adatok!"
+      },
+      "error": {
+        "description": "Nem sikerült betölteni a táblázat adatait, próbálkozzon újra később.",
+        "title": "Hoppá! Ez nem sikerült!"
+      }
+    },
+    "tag-input": {
+      "hint": "Új elem hozzáadásához nyomja meg az „enter” gombot",
+      "placeholder": "Írj ide..."
+    },
+    "toast": {
+      "close": "Bezárás"
+    }
+  }
+}

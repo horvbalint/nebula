@@ -127,15 +127,15 @@ const isAnyChecked = computed({
 
       <slot v-else-if="error" name="error-state">
         <neb-error-state
-          title="Hiba a lekérés közben!"
-          description="Nem sikerült lekérni a táblázat adatait. Kérjük próbálja újra késöbb!"
+          :title="$t('nebula.table-frame.error.title')"
+          :description="$t('nebula.table-frame.error.description')"
         />
       </slot>
 
       <slot v-else-if="!formattedRows.length" name="empty-state">
         <neb-empty-state
-          title="Nincsenek rendelkezésre álló adatok!"
-          description="Jelenleg nem áll rendelkezésre megjeleníthető adat ebben a táblázatban."
+          :title="$t('nebula.table-frame.empty.title')"
+          :description="$t('nebula.table-frame.empty.description')"
         />
       </slot>
 

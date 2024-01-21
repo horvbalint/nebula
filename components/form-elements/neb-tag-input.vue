@@ -57,8 +57,8 @@ watch(() => props.modelValue, () => {
     :label="label"
     lazy
     auto-height
-    placeholder="Írj ide..."
-    hint="Az enter megnyomásával adhatsz hozzá új elemet"
+    :placeholder="$t('nebula.tag-input.placeholder')"
+    :hint="$t('nebula.tag-input.hint')"
     :required="$props.required"
     :disabled="$props.disabled"
     @change="handleAdd()"

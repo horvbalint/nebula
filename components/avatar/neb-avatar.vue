@@ -9,7 +9,6 @@ export interface Props {
 withDefaults(defineProps<Props>(), {
   size: '40px',
   icon: 'material-symbols:person-outline-rounded',
-  alt: 'Avatar image...',
 })
 </script>
 
@@ -21,7 +20,7 @@ export default defineComponent({
 
 <template>
   <div tabindex="0" class="neb-avatar" :style="{ width: $props.size, height: $props.size }">
-    <img v-if="$props.src" :src="$props.src" :alt="alt">
+    <img v-if="$props.src" :src="$props.src" :alt="alt || $t('nebula.avatar.alt')">
     <span v-else-if="$props.text">{{ $props.text }}</span>
     <icon v-else-if="$props.icon" :name="icon" />
 

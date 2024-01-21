@@ -5,19 +5,18 @@ withDefaults(defineProps<{
   description?: string
 }>(), {
   icon: 'eos-icons:loading',
-  title: 'Betöltés...',
 })
 </script>
 
 <template>
   <div class="neb-loading-state">
     <div class="loading-icon">
-      <icon :name="$props.icon" />
+      <Icon :name="$props.icon!" />
     </div>
 
     <div class="loading-state-text">
-      <h6 v-if="title">
-        {{ $props.title }}
+      <h6>
+        {{ $props.title || $t('nebula.loading') }}
       </h6>
 
       <p v-if="description">

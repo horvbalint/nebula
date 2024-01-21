@@ -1,16 +1,16 @@
 <script lang="ts" setup>
 withDefaults(defineProps<{
   label?: string
-  size: 'small' | 'normal' | 'large'
+  size?: 'small' | 'normal' | 'large'
 }>(), {
-  size: "normal"
+  size: 'normal',
 })
 const modelValue = defineModel()
 </script>
 
 <template>
   <label class="neb-toggle">
-    <div class="neb-toggle-switch" :class="{[size]: true}">
+    <div class="neb-toggle-switch" :class="{ [size]: true }">
       <input v-model="modelValue" type="checkbox">
       <span class="slider" />
     </div>

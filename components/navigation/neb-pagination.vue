@@ -137,7 +137,7 @@ function next() {
       <div :ref="setNormalModeRef" class="neb-pagination">
         <neb-button type="secondary-neutral" :disabled="page === 0" @click="previous()">
           <icon name="material-symbols:arrow-left-alt-rounded" />
-          Előző
+          {{ $t('nebula.pagination.previous') }}
         </neb-button>
 
         <div class="page-numbers">
@@ -158,7 +158,7 @@ function next() {
         </div>
 
         <neb-button type="secondary-neutral" :disabled="page === computedPageCount - 1" @click="next()">
-          Következő
+          {{ $t('nebula.pagination.next') }}
           <icon name="material-symbols:arrow-right-alt-rounded" />
         </neb-button>
       </div>
@@ -171,7 +171,7 @@ function next() {
         </neb-button>
 
         <div class="page-stats">
-          {{ page! + 1 }}/{{ computedPageCount }} oldal
+          {{ page! + 1 }}/{{ computedPageCount }} {{ $t('nebula.pagination.page') }}
         </div>
 
         <neb-button type="secondary-neutral" :disabled="page === computedPageCount - 1" @click="next()">

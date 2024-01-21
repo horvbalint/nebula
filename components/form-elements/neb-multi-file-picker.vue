@@ -77,10 +77,10 @@ watch(
       <div class="text">
         <div class="description">
           <neb-button type="link" :disabled="disabled" @click="open()">
-            Kattints a feltöltéshez
+            {{ $t('nebula.multi-file-picker.click') }}
           </neb-button>
 
-          <p>vagy húzd ide a fájlokat.</p>
+          <p>{{ $t('nebula.multi-file-picker.drag') }}</p>
         </div>
 
         <p v-if="accept || maxSize" class="info">

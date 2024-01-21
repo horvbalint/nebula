@@ -1,0 +1,54 @@
+{
+  "nebula": {
+    "loading": "Loading...",
+    "avatar": {
+      "alt": "Avatar image"
+    },
+    "datepicker": {
+      "placeholder": "Choose a date...",
+      "selectYear": "Select year"
+    },
+    "multi-file-picker": {
+      "click": "Click here",
+      "drag": "or drag the files here to upload."
+    },
+    "neb-select": {
+      "placeholder": "Select from the list...",
+      "search": "Write here to search...",
+      "empty": {
+        "title": "No result for the expression: '{term}'",
+        "description": "Try another keyword",
+        "or": "Or",
+        "newItem": "Add new item"
+      }
+    },
+    "tag-input": {
+      "placeholder": "Type here...",
+      "hint": "Press 'enter' to add a new entry"
+    },
+    "header-nav": {
+      "logout": "Logout"
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "page": "page"
+    },
+    "table-frame": {
+      "error": {
+        "title": "Oh-oh! Something went wrong!",
+        "description": "Failed to load the table data, try again later."
+      },
+      "empty": {
+        "title": "This table is empty!",
+        "description": "There is nothing to show in this table currently."
+      }
+    },
+    "toast": {
+      "close": "Close"
+    },
+    "error-list": {
+      "badInput": "Invalid value!"
+    }
+  }
+}

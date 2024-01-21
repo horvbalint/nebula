@@ -26,7 +26,6 @@
     "dayjs": "^1.11.10",
     "eslint": "^8.56.0",
     "js-search": "^2.0.1",
-    "nuxt": "^3.8.2",
     "nuxt-icon": "^0.6.7",
     "nuxt-icons": "^3.2.1",
     "postcss": "^8.4.27",
@@ -35,6 +34,8 @@
     "vue-tsc": "^1.8.25"
   },
   "devDependencies": {
-    "eslint-plugin-format": "^0.1.0"
+    "@nuxtjs/i18n": "^8.0.0",
+    "eslint-plugin-format": "^0.1.0",
+    "nuxt": "^3.9.3"
   }
 }

@@ -51,7 +51,7 @@ const showMobileMenu = ref(false)
               <div class="secondary-actions">
                 <slot name="secondary-actions">
                   <neb-button type="tertiary-neutral" class="log-out" @click="$emit('logout')">
-                    <icon name="material-symbols:logout-rounded" /> <span>Kijelentkezés</span>
+                    <icon name="material-symbols:logout-rounded" /> <span>{{ $t('nebula.header-nav.logout') }}</span>
                   </neb-button>
                 </slot>
               </div>
@@ -86,7 +86,7 @@ const showMobileMenu = ref(false)
               <div class="secondary-actions">
                 <slot name="secondary-actions">
                   <neb-button type="tertiary-neutral" class="log-out" @click="$emit('logout')">
-                    <icon name="material-symbols:logout-rounded" /> <span v-if="mobileMode">Kijelentkezés</span>
+                    <icon name="material-symbols:logout-rounded" /> <span v-if="mobileMode">{{ $t('nebula.header-nav.logout') }}</span>
                   </neb-button>
                 </slot>
               </div>
