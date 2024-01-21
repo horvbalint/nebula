@@ -1,10 +1,14 @@
 <script setup lang="ts">
 const { locale } = useI18n()
+
+const temp = ref()
 </script>
 
 <template>
   <div class="wrapper">
     <neb-select v-model="locale" :options="['hu', 'en']" />
+
+    <neb-datepicker v-model="temp" />
 
     <neb-loading-state />
 
