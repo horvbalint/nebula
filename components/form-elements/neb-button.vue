@@ -1,7 +1,9 @@
 <script lang="ts" setup>
+export type ButtonType = 'primary' | 'secondary' | 'secondary-neutral' | 'tertiary' | 'tertiary-neutral' | 'link' | 'link-neutral'
+
 withDefaults(defineProps<{
   loading?: boolean
-  type?: 'primary' | 'secondary' | 'secondary-neutral' | 'tertiary' | 'tertiary-neutral' | 'link' | 'link-neutral'
+  type?: ButtonType
   small?: boolean
   square?: boolean
   destructive?: boolean
@@ -11,6 +13,12 @@ withDefaults(defineProps<{
   small: false,
   square: false,
   destructive: false,
+})
+</script>
+
+<script lang="ts">
+export default defineComponent({
+  name: 'NebButton',
 })
 </script>
 
@@ -90,7 +98,7 @@ withDefaults(defineProps<{
 /* SECONDARY STYLES */
 .neb-button.secondary {
   background: var(--primary-color-50);
-  border: 1px solid var(--primary-color-200);
+  border: 1px solid var(--primary-color-300);
   color: var(--primary-color-700);
 
   &:hover {

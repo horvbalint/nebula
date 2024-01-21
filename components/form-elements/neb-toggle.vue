@@ -1,18 +1,21 @@
 <script lang="ts" setup>
-defineProps<{
+withDefaults(defineProps<{
   label?: string
-}>()
+  size: 'small' | 'normal' | 'large'
+}>(), {
+  size: "normal"
+})
 const modelValue = defineModel()
 </script>
 
 <template>
   <label class="neb-toggle">
-    <div class="neb-toggle-switch">
+    <div class="neb-toggle-switch" :class="{[size]: true}">
       <input v-model="modelValue" type="checkbox">
       <span class="slider" />
     </div>
     <slot>
-      <p>{{ label }}</p>
+      <p class="toggle-text">{{ label }}</p>
     </slot>
   </label>
 </template>
@@ -23,13 +26,12 @@ const modelValue = defineModel()
   display: flex;
   align-items: center;
   gap: var(--space-2);
-
-  p {
-    font-size: var(--text-sm);
-    font-weight: 500;
-    color: var(--neutral-color-800);
-    user-select: none;
-  }
+}
+.toggle-text {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--neutral-color-800);
+  user-select: none;
 }
 .neb-toggle-switch {
   position: relative;
@@ -37,6 +39,52 @@ const modelValue = defineModel()
   width: 36px;
   height: 20px;
 
+  &.normal {
+    width: 45px;
+    height: 26px;
+
+    .slider {
+      border-radius: 15px;
+
+      &:before {
+        height: 20px;
+        width: 20px;
+        left: 3px;
+        bottom: 3px;
+      }
+    }
+    input:checked + .slider:before {
+      -webkit-transform: translateX(19px);
+      -ms-transform: translateX(19px);
+      transform: translateX(19px);
+    }
+    ~ .toggle-text {
+      font-size: var(--text-md);
+    }
+  }
+  &.large {
+    width: 54px;
+    height: 30px;
+
+    .slider {
+      border-radius: 18px;
+
+      &:before {
+        height: 24px;
+        width: 24px;
+        left: 3px;
+        bottom: 3px;
+      }
+    }
+    input:checked + .slider:before {
+      -webkit-transform: translateX(24px);
+      -ms-transform: translateX(24px);
+      transform: translateX(24px);
+    }
+    ~ .toggle-text {
+      font-size: var(--text-lg);
+    }
+  }
   &:hover .slider {
     background: var(--neutral-color-300);
   }
@@ -95,14 +143,6 @@ input:checked + .slider:before {
   -webkit-transform: translateX(16px);
   -ms-transform: translateX(16px);
   transform: translateX(16px);
-}
-
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
-.slider.round:before {
-  border-radius: 50%;
 }
 
 .dark-mode {
