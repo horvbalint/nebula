@@ -14,7 +14,7 @@
     },
     "neb-select": {
       "placeholder": "Select from the list...",
-      "search": "Write here to search...",
+      "search": "Type here to search...",
       "empty": {
         "title": "No result for the expression: '{term}'",
         "description": "Try another keyword",
