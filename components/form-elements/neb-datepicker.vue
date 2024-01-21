@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import { NebInput } from '#components'
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
-import localeData from 'dayjs/plugin/localeData'
-import { NebInput } from '#components'
 import 'dayjs/locale/hu'
+import localeData from 'dayjs/plugin/localeData'
 
 const props = withDefaults(defineProps<{
   modelValue: Date | string | undefined | null
@@ -25,6 +25,9 @@ const emit = defineEmits<{
 }>()
 
 dayjs.extend(localeData)
+
+const { locale } = useI18n()
+dayjs.locale(locale.value)
 
 const input = ref<InstanceType<typeof NebInput> | null>(null)
 

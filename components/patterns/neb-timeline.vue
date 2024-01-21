@@ -44,6 +44,7 @@ export default defineNuxtComponent({
   data() {
     return {
       dayjs,
+      locale: useI18n().locale,
     }
   },
   computed: {
@@ -72,7 +73,7 @@ export default defineNuxtComponent({
     :items="items"
     :group-sort-dir="groupSortDir"
     :group-fun="(item: any) => dayjs(item[groupKey!]).startOf(groupDatePrecision)"
-    :format-fun="(groupValue: any) => groupValue.format(groupDateFormat)"
+    :format-fun="(groupValue: any) => groupValue.locale(locale).format(groupDateFormat)"
     :item-sort-dir="itemSortDir"
     :item-sort-process-fun="(item: any) => new Date(item[itemSortKey!]).getTime()"
     :has-line="hasLine"
