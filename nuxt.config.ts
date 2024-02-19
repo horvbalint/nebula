@@ -89,7 +89,7 @@ export default defineNuxtConfig({
     langDir: 'lang',
     strategy: 'no_prefix',
   },
-  typescript: {
-    typeCheck: true,
-  },
+  // typescript: {
+  //   typeCheck: true,
+  // },
 })

@@ -514,8 +514,8 @@ li {
 }
 
 .dark-mode {
-  .neb-input-component {
-    &.disabled .neb-input {
+  .neb-input {
+    &.disabled .input {
       background: var(--neutral-color-900);
 
       .icon {

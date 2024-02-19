@@ -13,23 +13,32 @@ const modelValue = defineModel<T[] | Set<T> | boolean>()
 </script>
 
 <template>
-  <label class="neb-checkbox" :class="$props.align">
+  <div class="neb-checkbox" :class="$props.align">
     <input
       v-bind="$attrs"
+      ref="input"
       v-model="modelValue"
       type="checkbox"
       :value="$props.value"
     >
-    <div class="checkmark">
+    <div class="checkmark" @click="($refs.input as HTMLInputElement).click()">
       <Icon :name="$props.icon!" />
     </div>
 
-    <div class="slot-wrapper">
-      <slot>
-        <p v-if="label">{{ $props.label }}</p>
-      </slot>
+    <div class="right-side">
+      <div class="label-wrapper" @click="($refs.input as HTMLInputElement).click()">
+        <slot>
+          <p v-if="label">
+            {{ $props.label }}
+          </p>
+        </slot>
+      </div>
+
+      <div v-if="$slots.content" class="content-wrapper">
+        <slot name="content" />
+      </div>
     </div>
-  </label>
+  </div>
 </template>
 
 <style scoped>
@@ -37,7 +46,6 @@ const modelValue = defineModel<T[] | Set<T> | boolean>()
   display: flex;
   gap: var(--space-2);
   font-weight: 500;
-  cursor: pointer;
   font-size: var(--text-xs);
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -55,13 +63,9 @@ const modelValue = defineModel<T[] | Set<T> | boolean>()
   }
 }
 .neb-checkbox input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
+  display: none;
 }
-.slot-wrapper {
+.right-side {
   flex: 1;
 }
 .neb-checkbox p {
@@ -79,6 +83,7 @@ const modelValue = defineModel<T[] | Set<T> | boolean>()
   background-color: var(--white-color);
   border: 1px solid var(--neutral-color-300);
   border-radius: var(--radius-small);
+  cursor: pointer;
 }
 .neb-checkbox:hover input ~ .checkmark {
   background: var(--primary-color-100);
@@ -102,6 +107,9 @@ const modelValue = defineModel<T[] | Set<T> | boolean>()
 }
 .neb-checkbox input:checked ~ .checkmark .icon {
   display: block;
+}
+.label-wrapper {
+  cursor: pointer;
 }
 
 .dark-mode {

@@ -77,11 +77,11 @@ defineExpose({ focus, blur })
 </script>
 
 <template>
-  <div class="neb-input-component" :class="{ disabled: $props.disabled }">
+  <div class="neb-input" :class="{ disabled: $props.disabled }">
     <label>
       <span v-if="label">{{ label }} <span v-if="$props.required" class="required-star">*</span></span>
 
-      <div class="neb-input" :class="{ 'has-error': errorsToShow.length, 'auto-height': autoHeight }">
+      <div class="input" :class="{ 'has-error': errorsToShow.length, 'auto-height': autoHeight }">
         <slot name="leading">
           <icon v-if="computedLeadingIcon" :name="computedLeadingIcon" />
         </slot>
@@ -113,10 +113,10 @@ defineExpose({ focus, blur })
 </template>
 
 <style scoped>
-.neb-input-component {
+.neb-input {
   width: 100%;
 
-  &.disabled .neb-input {
+  &.disabled .input {
     background: var(--neutral-color-50);
 
     .icon {
@@ -139,7 +139,7 @@ label {
 .required-star {
   color: var(--error-color-500);
 }
-.neb-input {
+.input {
   background: var(--white-color);
   display: flex;
   align-items: center;
@@ -196,8 +196,8 @@ label {
 }
 
 .dark-mode {
-  .neb-input-component {
-    &.disabled .neb-input {
+  .neb-input {
+    &.disabled .input {
       background: var(--neutral-color-900);
 
       .icon {
@@ -211,7 +211,7 @@ label {
   & label {
     color: var(--neutral-color-300);
   }
-  .neb-input {
+  .input {
     background: var(--neutral-color-950);
     border: 1px solid var(--neutral-color-700);
 

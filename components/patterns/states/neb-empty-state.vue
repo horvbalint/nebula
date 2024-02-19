@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 withDefaults(defineProps<{
-  icon?: string
+  icon?: string | null
   title?: string
   description?: string
 }>(), {
@@ -10,8 +10,8 @@ withDefaults(defineProps<{
 
 <template>
   <div class="neb-empty-state">
-    <div class="empty-icon">
-      <Icon :name="$props.icon!" />
+    <div v-if="$props.icon" class="empty-icon">
+      <Icon :name="$props.icon" />
     </div>
 
     <div class="empty-state-text">
