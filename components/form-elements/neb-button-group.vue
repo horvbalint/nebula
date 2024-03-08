@@ -20,9 +20,11 @@ function render() {
   if (slotNodes.length !== buttonNodes.length)
     console.warn('"neb-button-group" can only contain "neb-button" components!')
 
-  for (const node of slotNodes) {
+  for (const node of buttonNodes) {
     if (!node.props)
       node.props = {}
+
+    node.props = { ...node.props, ...useAttrs() }
 
     if (!node.props.type)
       node.props.type = props.type
