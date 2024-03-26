@@ -9,7 +9,7 @@ const props = defineProps<{
 }>()
 
 const floatingOptions: UseFloatingOptions = {
-  middleware: [offset(8), autoPlacement(), shift({ padding: 4 })], // TODO: use the --space-1 and --space-2 css vars
+  middleware: [offset(8), autoPlacement({ allowedPlacements: ['top', 'bottom'] }), shift({ padding: 4 })], // TODO: use the --space-1 and --space-2 css vars
   ...props.floatingOptions,
 }
 </script>

@@ -1,20 +1,10 @@
 <script setup lang="ts">
-const { locale } = useI18n()
-
-const temp = ref()
+const temp = ref('')
 </script>
 
 <template>
   <div class="wrapper">
-    <neb-select v-model="locale" :options="['hu', 'en']" />
-
-    <neb-datepicker v-model="temp" />
-
-    <neb-loading-state />
-
-    <neb-toggle size="large" label="Valami van a levegoben" />
-    <neb-toggle label="Valami van a levegoben" />
-    <neb-toggle size="small" label="Valami van a levegoben" />
+    <neb-wysiwyg-editor v-model="temp" />
   </div>
 </template>
 
