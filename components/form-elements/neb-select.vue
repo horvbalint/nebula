@@ -34,6 +34,7 @@ const props = withDefaults(defineProps<{
   leadingIcon?: string
   noSearch?: boolean
   required?: boolean
+  customLabel?: (option: T) => PropertyKey
 }>(), {
   multiple: false,
   useOnlyTrackedKey: false,
@@ -78,7 +79,7 @@ const processedOptions = computed(() => {
   if (props.trackByKey) {
     return (props.options as ObjectOption<TrackByKey, LabelKey>[]).map(option => ({
       trackValue: option[props.trackByKey!],
-      labelValue: option[props.labelKey!],
+      labelValue: props.customLabel ? props.customLabel(option as T) : option[props.labelKey!],
       option,
     }))
   }

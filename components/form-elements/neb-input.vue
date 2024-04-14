@@ -92,6 +92,7 @@ defineExpose({ focus, blur })
           :required="$props.required"
           :disabled="$props.disabled"
           :value="$props.modelValue"
+          step="any"
         >
 
         <slot name="trailing">
