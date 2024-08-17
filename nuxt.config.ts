@@ -1,7 +1,5 @@
 import { createResolver } from '@nuxt/kit'
 import postcssPresetEnv from 'postcss-preset-env'
-
-// @ts-expect-error - the package has type definitions, but it does not work sometimes
 import postcssGlobalData from '@csstools/postcss-global-data'
 
 const { resolve } = createResolver(import.meta.url)
@@ -10,22 +8,27 @@ export default defineNuxtConfig({
   devtools: {
     enabled: true,
   },
+
   alias: {
     '@nebula': resolve('./'),
   },
+
   modulesDir: [
     'node_modules',
     resolve('./node_modules'),
   ],
+
   css: [
     '@nebula/assets/main.css',
     '@nebula/assets/tokens.css',
   ],
+
   plugins: [
     '@nebula/plugins/neb-expand',
     '@nebula/plugins/neb-blur',
     '@nebula/plugins/vueuse-components',
   ],
+
   nebula: {
     primaryColor: '#9E77ED',
     neutralColor: '#667085',
@@ -33,6 +36,7 @@ export default defineNuxtConfig({
     warningColor: '#F79009',
     successColor: '#17B26A',
   },
+
   vite: {
     css: {
       postcss: {
@@ -52,6 +56,7 @@ export default defineNuxtConfig({
       },
     },
   },
+
   components: {
     dirs: [
       {
@@ -61,6 +66,7 @@ export default defineNuxtConfig({
       },
     ],
   },
+
   modules: [
     '@nuxtjs/color-mode',
     '@nuxtjs/google-fonts',
@@ -69,12 +75,17 @@ export default defineNuxtConfig({
     'nuxt-icons',
     '@nuxtjs/i18n',
   ],
+
   googleFonts: {
     download: true,
     families: {
       Inter: [100, 200, 300, 400, 500, 600, 700, 800, 900],
     },
   },
+
+  // typescript: {
+  //   typeCheck: true,
+  // },
   i18n: {
     locales: [
       {
@@ -89,7 +100,6 @@ export default defineNuxtConfig({
     langDir: 'lang',
     strategy: 'no_prefix',
   },
-  // typescript: {
-  //   typeCheck: true,
-  // },
+
+  compatibilityDate: '2024-08-15',
 })

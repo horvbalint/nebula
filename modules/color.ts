@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import { createResolver, defineNuxtModule } from '@nuxt/kit'
+import { getColors } from "theme-colors"
 import Color from 'color'
 
 const { resolve } = createResolver(import.meta.url)
@@ -28,7 +29,7 @@ export default defineNuxtModule({
     colorsFileLines.push(':root {')
     colorComponentsFileLines.push(':root {')
 
-    createNeutralShades(colorsFileLines, colorComponentsFileLines, 'white-color', options.whiteColor)
+    // createNeutralShades(colorsFileLines, colorComponentsFileLines, 'white-color', options.whiteColor)
     createColorShades(colorsFileLines, colorComponentsFileLines, 'primary-color', options.primaryColor)
     createColorShades(colorsFileLines, colorComponentsFileLines, 'secondary-color', options.secondaryColor)
     createColorShades(colorsFileLines, colorComponentsFileLines, 'success-color', options.successColor)
@@ -64,79 +65,39 @@ export default defineNuxtModule({
 })
 
 function createColorShades(colorsFileLines: string[], colorComponentsFileLines: string[], name: string, color: string) {
-  const MIN_LIGHTNESS = 20
-  const MAX_LIGHTNESS = 98
-
-  const MIN_SATURATION = 20
-  const MAX_SATURATION = 98
+  const colorShades = getColors(color)
 
   const baseColor = new Color(color)
-
-  const lightnessDistToMin = Math.max(baseColor.lightness() - MIN_LIGHTNESS, 0)
-  const lightnessDistToMax = Math.max(MAX_LIGHTNESS - baseColor.lightness(), 0)
-
-  const saturationDistToMin = baseColor.saturationl() - MIN_SATURATION
-  const saturationDistToMax = MAX_SATURATION - baseColor.saturationl()
-
   colorsFileLines.push(formatColorToCss(name, baseColor))
   colorComponentsFileLines.push(formatColorComponentToCss(`${name}-component`, baseColor))
 
-  for (const shade of [25, 50, 100, 200, 300, 400]) {
-    const percent = 1 - (shade / 500)
-    const shifted = 1 - ((1 - percent) ** 2)
-
-    const color = new Color ({
-      h: baseColor.hue(),
-      s: baseColor.saturationl() + shifted * saturationDistToMax,
-      l: baseColor.lightness() + shifted * lightnessDistToMax,
-    })
-
-    colorsFileLines.push(formatColorToCss(`${name}-${shade}`, color))
-    colorComponentsFileLines.push(formatColorComponentToCss(`${name}-component-${shade}`, color))
-  }
-
-  for (const shade of [500, 600, 700, 800, 900, 950, 975]) {
-    const percent = (shade - 500) / 500
-
-    const color = new Color ({
-      h: baseColor.hue(),
-      s: baseColor.saturationl() - percent * saturationDistToMin,
-      l: baseColor.lightness() - percent * lightnessDistToMin,
-    })
-
+  for(const shade in colorShades) {
+    const color = new Color(colorShades[shade])
     colorsFileLines.push(formatColorToCss(`${name}-${shade}`, color))
     colorComponentsFileLines.push(formatColorComponentToCss(`${name}-component-${shade}`, color))
   }
 }
 
 function createNeutralShades(colorsFileLines: string[], colorComponentsFileLines: string[], name: string, color: string) {
-  const MIN_LIGHTNESS = 10
-  const MAX_LIGHTNESS = 98
+  const colorShades = getColors(color)
 
   const baseColor = new Color(color)
-
-  const lightnessDistToMin = Math.max(baseColor.lightness() - MIN_LIGHTNESS, 0)
-  const lightnessDistToMax = Math.max(MAX_LIGHTNESS - baseColor.lightness(), 0)
-
   colorsFileLines.push(formatColorToCss(name, baseColor))
   colorComponentsFileLines.push(formatColorComponentToCss(`${name}-component`, baseColor))
 
-  for (const shade of [25, 50, 100, 200, 300, 400]) {
-    const percent = 1 - (shade / 500)
-    const shifted = 1 - ((1 - percent) ** 2)
-    const color = baseColor.lightness(baseColor.lightness() + shifted * lightnessDistToMax)
-
+  for(const shade in colorShades) {
+    const color = new Color(colorShades[shade])
     colorsFileLines.push(formatColorToCss(`${name}-${shade}`, color))
     colorComponentsFileLines.push(formatColorComponentToCss(`${name}-component-${shade}`, color))
   }
 
-  for (const shade of [500, 600, 700, 800, 900, 950, 975]) {
-    const percent = (shade - 500) / 500
-    const color = baseColor.lightness(baseColor.lightness() - percent * lightnessDistToMin)
+  const color25 = new Color(colorShades[50])
+  colorsFileLines.push(formatColorToCss(`${name}-25`, color25))
+  colorComponentsFileLines.push(formatColorComponentToCss(`${name}-component-25`, color25))
 
-    colorsFileLines.push(formatColorToCss(`${name}-${shade}`, color))
-    colorComponentsFileLines.push(formatColorComponentToCss(`${name}-component-${shade}`, color))
-  }
+  const color975 = new Color(colorShades[950])
+  colorsFileLines.push(formatColorToCss(`${name}-975`, color975))
+  colorComponentsFileLines.push(formatColorComponentToCss(`${name}-component-975`, color975))
 }
 
 function formatColorToCss(name: string, color: Color) {
