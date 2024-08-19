@@ -93,7 +93,7 @@ export default defineComponent({
   }
   .badge {
     background: var(--neutral-color-800);
-    border: 2px solid var(--neutral-color-975);
+    border: 2px solid var(--neutral-color-950);
   }
 }
 </style>

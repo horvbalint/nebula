@@ -40,11 +40,11 @@
   /* ELEVATION */
   --primary-focus-shadow-light: 0px 0px 0px 4px var(--primary-color-100),
     0px 1px 2px 0px rgba(var(--neutral-color-component-900), 0.05);
-  --primary-focus-shadow-dark: 0px 0px 0px 4px var(--primary-color-975),
+  --primary-focus-shadow-dark: 0px 0px 0px 4px var(--primary-color-950),
     0px 1px 2px 0px rgba(var(--neutral-color-component-50), 0.05);
   --error-focus-shadow-light: 0px 0px 0px 4px var(--error-color-100),
     0px 1px 2px 0px rgba(var(--neutral-color-component-900), 0.05);
-  --error-focus-shadow-dark: 0px 0px 0px 4px var(--error-color-975),
+  --error-focus-shadow-dark: 0px 0px 0px 4px var(--error-color-950),
     0px 1px 2px 0px rgba(var(--neutral-color-component-50), 0.05);
   --neutral-focus-shadow-light: 0px 0px 0px 4px var(--neutral-color-100),
     0px 1px 2px 0px rgba(var(--neutral-color-component-900), 0.05);

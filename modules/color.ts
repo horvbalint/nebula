@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import { createResolver, defineNuxtModule } from '@nuxt/kit'
-import { getColors } from "theme-colors"
+import { getColors } from 'theme-colors'
 import Color from 'color'
 
 const { resolve } = createResolver(import.meta.url)
@@ -36,7 +36,7 @@ export default defineNuxtModule({
     createColorShades(colorsFileLines, colorComponentsFileLines, 'error-color', options.errorColor)
     createColorShades(colorsFileLines, colorComponentsFileLines, 'warning-color', options.warningColor)
     createColorShades(colorsFileLines, colorComponentsFileLines, 'info-color', options.infoColor)
-    createNeutralShades(colorsFileLines, colorComponentsFileLines, 'neutral-color', options.neutralColor)
+    createColorShades(colorsFileLines, colorComponentsFileLines, 'neutral-color', options.neutralColor)
 
     colorsFileLines.push('}')
     colorComponentsFileLines.push('}')
@@ -71,33 +71,11 @@ function createColorShades(colorsFileLines: string[], colorComponentsFileLines: 
   colorsFileLines.push(formatColorToCss(name, baseColor))
   colorComponentsFileLines.push(formatColorComponentToCss(`${name}-component`, baseColor))
 
-  for(const shade in colorShades) {
+  for (const shade in colorShades) {
     const color = new Color(colorShades[shade])
     colorsFileLines.push(formatColorToCss(`${name}-${shade}`, color))
     colorComponentsFileLines.push(formatColorComponentToCss(`${name}-component-${shade}`, color))
   }
-}
-
-function createNeutralShades(colorsFileLines: string[], colorComponentsFileLines: string[], name: string, color: string) {
-  const colorShades = getColors(color)
-
-  const baseColor = new Color(color)
-  colorsFileLines.push(formatColorToCss(name, baseColor))
-  colorComponentsFileLines.push(formatColorComponentToCss(`${name}-component`, baseColor))
-
-  for(const shade in colorShades) {
-    const color = new Color(colorShades[shade])
-    colorsFileLines.push(formatColorToCss(`${name}-${shade}`, color))
-    colorComponentsFileLines.push(formatColorComponentToCss(`${name}-component-${shade}`, color))
-  }
-
-  const color25 = new Color(colorShades[50])
-  colorsFileLines.push(formatColorToCss(`${name}-25`, color25))
-  colorComponentsFileLines.push(formatColorComponentToCss(`${name}-component-25`, color25))
-
-  const color975 = new Color(colorShades[950])
-  colorsFileLines.push(formatColorToCss(`${name}-975`, color975))
-  colorComponentsFileLines.push(formatColorComponentToCss(`${name}-component-975`, color975))
 }
 
 function formatColorToCss(name: string, color: Color) {

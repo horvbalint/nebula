@@ -107,10 +107,10 @@ withDefaults(defineProps<{
     background: var(--error-color-950);
 
     &:before {
-      border: 4px solid var(--error-color-975);
+      border: 4px solid var(--error-color-950);
     }
     &:after {
-      border: 1px solid var(--error-color-975);
+      border: 1px solid var(--error-color-950);
     }
     .icon {
       color: var(--error-color-500);

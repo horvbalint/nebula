@@ -63,7 +63,7 @@ const floatingOptions: UseFloatingOptions = {
 }
 .dark-mode {
   .tooltip-animation-wrapper {
-    background: var(--neutral-color-975);
+    background: var(--neutral-color-950);
     border: 1px solid var(--neutral-color-800);
 
     h6 {

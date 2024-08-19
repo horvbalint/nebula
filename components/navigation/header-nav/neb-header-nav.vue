@@ -228,7 +228,7 @@ const showMobileMenu = ref(false)
 
   .mobile-mode {
     .header-content-main {
-      background: var(--neutral-color-975);
+      background: var(--neutral-color-950);
       border-color: var(--neutral-color-800);
     }
     .log-out {

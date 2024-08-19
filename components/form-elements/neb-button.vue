@@ -111,7 +111,7 @@ export default defineComponent({
     color: var(--primary-color-700);
   }
   &:disabled {
-    background: var(--primary-color-25);
+    background: var(--primary-color-50);
     color: var(--primary-color-300);
   }
   &.destructive {
@@ -129,7 +129,7 @@ export default defineComponent({
       color: var(--error-color-600);
     }
     &:disabled {
-      background: var(--error-color-25);
+      background: var(--error-color-50);
       color: var(--error-color-300);
     }
   }
@@ -282,7 +282,7 @@ export default defineComponent({
   }
   /* SECONDARY STYLES */
   .neb-button.secondary {
-    background: var(--primary-color-975);
+    background: var(--primary-color-950);
     border: 1px solid var(--primary-color-700);
     color: var(--primary-color-100);
 
@@ -296,13 +296,13 @@ export default defineComponent({
     }
     &:disabled {
       opacity: 0.6;
-      background: var(--primary-color-975);
+      background: var(--primary-color-950);
       color: var(--neutral-color-300);
     }
   }
 
   .neb-button.secondary-neutral {
-    background: var(--neutral-color-975);
+    background: var(--neutral-color-950);
     border: 1px solid var(--neutral-color-700);
     color: var(--neutral-color-300);
 
@@ -311,13 +311,13 @@ export default defineComponent({
       color: var(--neutral-color-300);
     }
     &:focus {
-      background: var(--neutral-color-975);
+      background: var(--neutral-color-950);
       box-shadow: var(--neutral-focus-shadow-dark);
       color: var(--neutral-color-300);
     }
     &:disabled {
       opacity: 0.6;
-      background: var(--neutral-color-975);
+      background: var(--neutral-color-950);
       color: var(--neutral-color-300);
       border-color: var(--neutral-color-700);
     }

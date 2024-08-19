@@ -224,7 +224,7 @@ watch(() => props.modelValue, () => {
 .dark-mode {
   .step {
     .circle {
-      background: var(--neutral-color-975);
+      background: var(--neutral-color-950);
       border-color: var(--neutral-color-700);
 
       .dot {
@@ -236,12 +236,12 @@ watch(() => props.modelValue, () => {
         background-position: 0;
       }
       .circle {
-        background: var(--primary-color-975);
+        background: var(--primary-color-950);
         border-color: var(--primary-color-800);
       }
     }
     &.active .circle {
-      background: var(--primary-color-975);
+      background: var(--primary-color-950);
       box-shadow: none;
       border-color: var(--primary-color-800);
 

@@ -164,7 +164,7 @@ input:checked + .slider:before {
     background: var(--neutral-color-700);
   }
   .slider:before {
-    background: var(--neutral-color-975);
+    background: var(--neutral-color-950);
   }
   input:checked + .slider {
     &:hover {

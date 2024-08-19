@@ -82,7 +82,7 @@ const formattedFileSize = computed(() => nebBytesToSize(props.file.size))
 .dark-mode {
   .neb-file-item {
     border: 1px solid var(--neutral-color-700);
-    background: var(--neutral-color-975);
+    background: var(--neutral-color-950);
   }
   .file-text {
     p {
