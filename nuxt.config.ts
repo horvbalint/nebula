@@ -1,8 +1,7 @@
-import { createResolver } from '@nuxt/kit'
-import postcssPresetEnv from 'postcss-preset-env'
-
-// @ts-expect-error - the package has type definitions, but it does not work sometimes
 import postcssGlobalData from '@csstools/postcss-global-data'
+import { createResolver } from '@nuxt/kit'
+
+import postcssPresetEnv from 'postcss-preset-env'
 
 const { resolve } = createResolver(import.meta.url)
 
@@ -20,11 +19,6 @@ export default defineNuxtConfig({
   css: [
     '@nebula/assets/main.css',
     '@nebula/assets/tokens.css',
-  ],
-  plugins: [
-    '@nebula/plugins/neb-expand',
-    '@nebula/plugins/neb-blur',
-    '@nebula/plugins/vueuse-components',
   ],
   nebula: {
     primaryColor: '#9E77ED',
@@ -46,34 +40,30 @@ export default defineNuxtConfig({
         ],
       },
     },
-    vue: {
-      script: {
-        defineModel: true,
-      },
-    },
   },
   components: {
     dirs: [
       {
         path: '@nebula/components',
         pathPrefix: false,
-        global: true,
       },
     ],
   },
   modules: [
+    '@nuxt/fonts',
+    '@nuxt/icon',
     '@nuxtjs/color-mode',
-    '@nuxtjs/google-fonts',
-    'nuxt-icon',
-    '@vueuse/nuxt',
-    'nuxt-icons',
     '@nuxtjs/i18n',
+    '@vueuse/nuxt',
+    'nuxt-typed-router',
   ],
-  googleFonts: {
-    download: true,
-    families: {
-      Inter: [100, 200, 300, 400, 500, 600, 700, 800, 900],
-    },
+  icon: {
+    customCollections: [
+      {
+        prefix: 'nebula',
+        dir: resolve('./assets/icons/nebula'),
+      },
+    ],
   },
   i18n: {
     locales: [

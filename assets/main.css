@@ -11,10 +11,6 @@ body {
 
 .dark-mode {
   color-scheme: dark;
-
-  body {
-    background: var(--neutral-color-975);
-  }
 }
 
 .neb-overlay-transition {

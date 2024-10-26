@@ -1,6 +1,6 @@
 export default defineAppConfig({
   nebula: {
-    nebFlex: {
+    nebCompact: {
       debounce: {
         delay: 100,
         maxWait: 200,
@@ -8,8 +8,9 @@ export default defineAppConfig({
     },
     homePath: '/',
   },
-  nuxtIcon: {
+  icon: {
     size: '24px',
+    class: 'icon',
   },
 })
 
