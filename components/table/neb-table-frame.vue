@@ -184,7 +184,7 @@ const isAnyChecked = computed({
 
 <style scoped>
 .neb-table {
-  background: var(--white-color);
+  background: #fff;
   border: 1px solid var(--neutral-color-200);
   border-radius: var(--radius-default);
   box-shadow: var(--shadow-sm);
@@ -281,7 +281,7 @@ tbody {
 }
 .dark-mode {
   .neb-table {
-    background: var(--neutral-color-975);
+    background: var(--neutral-color-950);
     border: 1px solid var(--neutral-color-700);
   }
   .header-slot {
@@ -305,7 +305,7 @@ tbody {
         border-bottom: none;
       }
       &:hover {
-        background: var(--primary-color-975);
+        background: var(--primary-color-950);
       }
     }
 

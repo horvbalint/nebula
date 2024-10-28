@@ -85,7 +85,7 @@ const computedClasses = computed(() => {
 
   &.info {
     border: 1px solid var(--primary-color-300);
-    background: var(--primary-color-25);
+    background: var(--primary-color-50);
 
     .toast-type-icon {
       color: var(--primary-color-600);
@@ -121,7 +121,7 @@ const computedClasses = computed(() => {
   }
   &.error {
     border: 1px solid var(--error-color-300);
-    background: var(--error-color-25);
+    background: var(--error-color-50);
 
     .toast-type-icon {
       color: var(--error-color-600);
@@ -157,7 +157,7 @@ const computedClasses = computed(() => {
   }
   &.success {
     border: 1px solid var(--success-color-300);
-    background: var(--success-color-25);
+    background: var(--success-color-50);
 
     .toast-type-icon {
       color: var(--success-color-500);
@@ -193,7 +193,7 @@ const computedClasses = computed(() => {
   }
   &.warning {
     border: 1px solid var(--warning-color-300);
-    background: var(--warning-color-25);
+    background: var(--warning-color-50);
 
     .toast-type-icon {
       color: var(--warning-color-500);
@@ -309,7 +309,7 @@ footer {
 .dark-mode {
   .info {
     border: 1px solid var(--primary-color-800);
-    background: var(--primary-color-975);
+    background: var(--primary-color-950);
 
     .toast-type-icon {
       color: var(--primary-color-600);
@@ -345,7 +345,7 @@ footer {
   }
   .success {
     border: 1px solid var(--success-color-700);
-    background: var(--success-color-975);
+    background: var(--success-color-950);
 
     .toast-type-icon {
       color: var(--success-color-600);
@@ -381,7 +381,7 @@ footer {
   }
   .warning {
     border: 1px solid var(--warning-color-800);
-    background: var(--warning-color-975);
+    background: var(--warning-color-950);
 
     .toast-type-icon {
       color: var(--warning-color-600);
@@ -417,7 +417,7 @@ footer {
   }
   .error {
     border: 1px solid var(--error-color-800);
-    background: var(--error-color-975);
+    background: var(--error-color-950);
 
     .toast-type-icon {
       color: var(--error-color-700);

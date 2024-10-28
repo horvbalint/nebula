@@ -139,7 +139,7 @@ li {
   }
   &.active {
     color: var(--neutral-color-700);
-    background: var(--white-color);
+    background: #fff;
     box-shadow: var(--shadow-sm);
 
     &.disabled {
@@ -166,7 +166,7 @@ li {
 
     &.active {
       color: var(--neutral-color-200);
-      background: var(--neutral-color-975);
+      background: var(--neutral-color-950);
 
       &.disabled {
         color: var(--neutral-color-500);

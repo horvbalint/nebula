@@ -97,7 +97,7 @@ label {
   color: var(--error-color-500);
 }
 .neb-textarea {
-  background: var(--white-color);
+  background: #fff;
   display: flex;
   align-items: center;
   gap: var(--space-2);

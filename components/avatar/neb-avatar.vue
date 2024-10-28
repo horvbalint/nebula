@@ -74,7 +74,7 @@ export default defineComponent({
   height: 35%;
   background: var(--neutral-color-100);
   border-radius: 50%;
-  border: 2px solid var(--white-color);
+  border: 2px solid #fff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -93,7 +93,7 @@ export default defineComponent({
   }
   .badge {
     background: var(--neutral-color-800);
-    border: 2px solid var(--neutral-color-975);
+    border: 2px solid var(--neutral-color-950);
   }
 }
 </style>

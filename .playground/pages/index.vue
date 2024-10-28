@@ -6,6 +6,28 @@ const temp = ref()
 
 <template>
   <div class="wrapper">
+    <neb-button type="primary">
+      Test button text
+    </neb-button>
+    <neb-button type="secondary">
+      Test button text
+    </neb-button>
+    <neb-button type="secondary-neutral">
+      Test button text
+    </neb-button>
+    <neb-button type="tertiary">
+      Test button text
+    </neb-button>
+    <neb-button type="tertiary-neutral">
+      Test button text
+    </neb-button>
+    <neb-button type="link">
+      Test button text
+    </neb-button>
+    <neb-button type="link-neutral">
+      Test button text
+    </neb-button>
+
     <neb-select v-model="locale" :options="['hu', 'en']" />
 
     <neb-datepicker v-model="temp" />
@@ -26,6 +48,5 @@ const temp = ref()
   flex-direction: column;
   gap: var(--space-10);
   width: 100%;
-  height: 100vh;
 }
 </style>

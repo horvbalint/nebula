@@ -9,24 +9,28 @@ export default defineNuxtConfig({
   devtools: {
     enabled: true,
   },
+
   alias: {
     '@nebula': resolve('./'),
   },
+
   modulesDir: [
     'node_modules',
     resolve('./node_modules'),
   ],
+
   css: [
     '@nebula/assets/main.css',
     '@nebula/assets/tokens.css',
   ],
   nebula: {
-    primaryColor: '#9E77ED',
+    primaryColor: '#7c4ddb',
     neutralColor: '#667085',
     errorColor: '#F04438',
     warningColor: '#F79009',
     successColor: '#17B26A',
   },
+
   vite: {
     css: {
       postcss: {
@@ -41,6 +45,7 @@ export default defineNuxtConfig({
       },
     },
   },
+
   components: {
     dirs: [
       {
@@ -49,6 +54,7 @@ export default defineNuxtConfig({
       },
     ],
   },
+
   modules: [
     '@nuxt/fonts',
     '@nuxt/icon',
@@ -65,6 +71,10 @@ export default defineNuxtConfig({
       },
     ],
   },
+
+  // typescript: {
+  //   typeCheck: true,
+  // },
   i18n: {
     locales: [
       {
@@ -79,7 +89,6 @@ export default defineNuxtConfig({
     langDir: 'lang',
     strategy: 'no_prefix',
   },
-  // typescript: {
-  //   typeCheck: true,
-  // },
+
+  compatibilityDate: '2024-08-15',
 })

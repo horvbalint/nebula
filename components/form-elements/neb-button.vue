@@ -65,11 +65,11 @@ export default defineComponent({
 }
 
 .neb-button.primary {
-  background: var(--primary-color-600);
-  color: var(--white-color);
+  background: var(--primary-color);
+  color: #fff;
 
   &:hover {
-    background: var(--primary-color-700);
+    background: var(--primary-color-600);
   }
   &:focus {
     background: var(--primary-color-600);
@@ -80,7 +80,7 @@ export default defineComponent({
   }
   &.destructive {
     background: var(--error-color-600);
-    color: var(--white-color);
+    color: #fff;
 
     &:hover {
       background: var(--error-color-700);
@@ -99,11 +99,11 @@ export default defineComponent({
 .neb-button.secondary {
   background: var(--primary-color-50);
   border: 1px solid var(--primary-color-300);
-  color: var(--primary-color-700);
+  color: var(--primary-color-600);
 
   &:hover {
     background: var(--primary-color-100);
-    color: var(--primary-color-800);
+    color: var(--primary-color-700);
   }
   &:focus {
     background: var(--primary-color-50);
@@ -111,7 +111,7 @@ export default defineComponent({
     color: var(--primary-color-700);
   }
   &:disabled {
-    background: var(--primary-color-25);
+    background: var(--primary-color-50);
     color: var(--primary-color-300);
   }
   &.destructive {
@@ -129,14 +129,14 @@ export default defineComponent({
       color: var(--error-color-600);
     }
     &:disabled {
-      background: var(--error-color-25);
+      background: var(--error-color-50);
       color: var(--error-color-300);
     }
   }
 }
 
 .neb-button.secondary-neutral {
-  background: var(--white-color);
+  background: #fff;
   border: 1px solid var(--neutral-color-300);
   color: var(--neutral-color-700);
 
@@ -145,12 +145,12 @@ export default defineComponent({
     color: var(--neutral-color-800);
   }
   &:focus {
-    background: var(--white-color);
+    background: #fff;
     box-shadow: var(--neutral-focus-shadow-light);
     color: var(--neutral-color-700);
   }
   &:disabled {
-    background: var(--white-color);
+    background: #fff;
     color: var(--neutral-color-300);
     border-color: var(--neutral-color-200);
   }
@@ -158,13 +158,13 @@ export default defineComponent({
 
 /* TERTIARY STYLES */
 .neb-button.tertiary {
-  color: var(--primary-color-700);
+  color: var(--primary-color-600);
   background: none;
   box-shadow: none;
 
   &:hover {
     background: var(--primary-color-50);
-    color: var(--primary-color-800);
+    color: var(--primary-color-700);
   }
   &:focus {
     color: var(--primary-color-700);
@@ -213,14 +213,14 @@ export default defineComponent({
 /* LINK STYLES */
 .neb-button.link {
   font-size: var(--text-sm);
-  color: var(--primary-color-700);
+  color: var(--primary-color-600);
   background: none;
   box-shadow: none;
   padding: 0;
   height: auto;
 
   &:hover {
-    color: var(--primary-color-800);
+    color: var(--primary-color-700);
   }
   &:focus {
     color: var(--primary-color-700);
@@ -282,8 +282,8 @@ export default defineComponent({
   }
   /* SECONDARY STYLES */
   .neb-button.secondary {
-    background: var(--primary-color-975);
-    border: 1px solid var(--primary-color-700);
+    background: var(--primary-color-950);
+    border: 1px solid var(--primary-color-800);
     color: var(--primary-color-100);
 
     &:hover {
@@ -296,13 +296,13 @@ export default defineComponent({
     }
     &:disabled {
       opacity: 0.6;
-      background: var(--primary-color-975);
+      background: var(--primary-color-950);
       color: var(--neutral-color-300);
     }
   }
 
   .neb-button.secondary-neutral {
-    background: var(--neutral-color-975);
+    background: var(--neutral-color-950);
     border: 1px solid var(--neutral-color-700);
     color: var(--neutral-color-300);
 
@@ -311,13 +311,13 @@ export default defineComponent({
       color: var(--neutral-color-300);
     }
     &:focus {
-      background: var(--neutral-color-975);
+      background: var(--neutral-color-950);
       box-shadow: var(--neutral-focus-shadow-dark);
       color: var(--neutral-color-300);
     }
     &:disabled {
       opacity: 0.6;
-      background: var(--neutral-color-975);
+      background: var(--neutral-color-950);
       color: var(--neutral-color-300);
       border-color: var(--neutral-color-700);
     }

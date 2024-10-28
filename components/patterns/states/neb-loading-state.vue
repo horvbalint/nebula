@@ -48,7 +48,7 @@ withDefaults(defineProps<{
   .icon {
     width: 56px;
     height: 56px;
-    color: var(--primary-color-600);
+    color: var(--primary-color);
   }
 }
 .loading-state-text {

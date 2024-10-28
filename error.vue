@@ -97,7 +97,7 @@ footer {
     color: var(--neutral-color-900);
 
     &.error {
-      color: var(--error-color-975);
+      color: var(--error-color-950);
     }
   }
   .error-text {

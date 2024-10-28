@@ -184,7 +184,7 @@ export default defineNuxtComponent({
     height: var(--space-3);
     background: var(--neutral-color-200);
     border-radius: 50%;
-    border: 4px solid var(--white-color);
+    border: 4px solid #fff;
   }
   &:last-child {
     &:before {
@@ -200,7 +200,7 @@ export default defineNuxtComponent({
     }
     &:after {
       background: var(--neutral-color-700);
-      border: 4px solid var(--neutral-color-975);
+      border: 4px solid var(--neutral-color-950);
     }
     &:last-child {
       &:before {

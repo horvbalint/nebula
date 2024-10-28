@@ -32,6 +32,7 @@
     "nuxt-typed-router": "^3.7.0",
     "postcss": "8.4.47",
     "postcss-preset-env": "10.0.8",
+    "theme-colors": "0.1.0",
     "typescript": "5.6.3",
     "vue-tsc": "2.1.6"
   },
