@@ -48,8 +48,8 @@ export function useNebCompact(container: RefElement, target: RefElement) {
 function debounce(callback: any) {
   const { nebula } = useAppConfig()
 
-  const delay = nebula.nebFlex.debounce.delay
-  const maxWait = nebula.nebFlex.debounce.maxWait
+  const delay = nebula.nebCompact.debounce.delay
+  const maxWait = nebula.nebCompact.debounce.maxWait
 
   return useDebounceFn(callback, delay, { maxWait })
 }

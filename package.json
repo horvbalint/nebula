@@ -12,31 +12,31 @@
     "postinstall": "nuxt prepare .playground"
   },
   "dependencies": {
-    "@antfu/eslint-config": "2.25.2",
+    "@antfu/eslint-config": "3.8.0",
     "@csstools/postcss-global-data": "3.0.0",
-    "@floating-ui/vue": "1.1.4",
-    "@nuxtjs/color-mode": "3.4.2",
-    "@nuxtjs/google-fonts": "3.2.0",
-    "@types/color": "3.0.6",
+    "@floating-ui/vue": "1.1.5",
+    "@nuxt/fonts": "^0.10.2",
+    "@nuxt/icon": "^1.5.8",
+    "@nuxtjs/color-mode": "3.5.2",
+    "@nuxtjs/i18n": "8.5.5",
+    "@types/color": "4.2.0",
     "@types/js-search": "1.4.4",
-    "@vueuse/components": "10.11.1",
-    "@vueuse/core": "10.11.1",
-    "@vueuse/nuxt": "10.11.1",
+    "@vueuse/components": "11.1.0",
+    "@vueuse/core": "11.1.0",
+    "@vueuse/nuxt": "11.1.0",
     "color": "4.2.3",
-    "dayjs": "1.11.12",
-    "eslint": "9.9.0",
+    "dayjs": "1.11.13",
+    "eslint": "9.13.0",
+    "eslint-plugin-format": "0.1.2",
     "js-search": "2.0.1",
-    "nuxt-icon": "0.6.10",
-    "nuxt-icons": "3.2.1",
-    "postcss": "8.4.41",
-    "postcss-preset-env": "10.0.1",
+    "nuxt-typed-router": "^3.7.0",
+    "postcss": "8.4.47",
+    "postcss-preset-env": "10.0.8",
     "theme-colors": "0.1.0",
-    "typescript": "5.5.4",
-    "vue-tsc": "2.0.29"
+    "typescript": "5.6.3",
+    "vue-tsc": "2.1.6"
   },
   "devDependencies": {
-    "@nuxtjs/i18n": "8.4.0",
-    "eslint-plugin-format": "0.1.2",
-    "nuxt": "3.12.4"
+    "nuxt": "3.13.2"
   }
 }
