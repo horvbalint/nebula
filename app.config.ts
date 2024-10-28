@@ -2,8 +2,8 @@ export default defineAppConfig({
   nebula: {
     nebCompact: {
       debounce: {
-        delay: 100,
-        maxWait: 200,
+        delay: 20,
+        maxWait: 100,
       },
     },
     homePath: '/',

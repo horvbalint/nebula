@@ -36,6 +36,7 @@
     "vue-tsc": "2.1.6"
   },
   "devDependencies": {
+    "@iconify-json/material-symbols": "^1.2.5",
     "nuxt": "3.13.2"
   }
 }
