@@ -59,7 +59,7 @@ defineProps<{
 
     &.active {
       background: var(--neutral-color-800);
-      color: var(--white-color);
+      color: #fff;
     }
     &:hover {
       background: var(--neutral-color-900);

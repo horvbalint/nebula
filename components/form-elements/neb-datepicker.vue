@@ -291,7 +291,7 @@ const formattedDate = computed(() => {
   border: 1px solid var(--neutral-color-200);
   border-radius: var(--radius-default);
   box-shadow: var(--shadow-lg);
-  background: var(--white-color);
+  background: #fff;
 }
 .calendar {
   display: grid;

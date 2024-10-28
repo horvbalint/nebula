@@ -74,27 +74,27 @@ const props = withDefaults(defineProps<{
     color: var(--neutral-color-300);
 
     &.error {
-      background: var(--error-color-975);
+      background: var(--error-color-950);
       border: 1px solid var(--error-color-800);
       color: var(--error-color-300);
     }
     &.warning {
-      background: var(--warning-color-975);
+      background: var(--warning-color-950);
       border: 1px solid var(--warning-color-800);
       color: var(--warning-color-300);
     }
     &.success {
-      background: var(--success-color-975);
+      background: var(--success-color-950);
       border: 1px solid var(--success-color-800);
       color: var(--success-color-300);
     }
     &.info {
-      background: var(--info-color-975);
+      background: var(--info-color-950);
       border: 1px solid var(--info-color-800);
       color: var(--info-color-300);
     }
     &.primary {
-      background: var(--primary-color-975);
+      background: var(--primary-color-950);
       border: 1px solid var(--primary-color-800);
       color: var(--primary-color-300);
     }

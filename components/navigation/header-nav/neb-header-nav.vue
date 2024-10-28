@@ -101,7 +101,7 @@ const showMobileMenu = ref(false)
 
           <div v-else class="close-mobile-menu">
             <neb-button type="tertiary-neutral" @click="showMobileMenu = false">
-              <icon name="material-symbols:close-rounded" color="var(--white-color)" />
+              <icon name="material-symbols:close-rounded" color="#fff" />
             </neb-button>
           </div>
         </header>
@@ -166,7 +166,7 @@ const showMobileMenu = ref(false)
   }
   .header-content-main {
     height: 100vh;
-    background: var(--white-color);
+    background: #fff;
     position: fixed;
     z-index: 1;
     top: 0;
@@ -228,7 +228,7 @@ const showMobileMenu = ref(false)
 
   .mobile-mode {
     .header-content-main {
-      background: var(--neutral-color-975);
+      background: var(--neutral-color-950);
       border-color: var(--neutral-color-800);
     }
     .log-out {

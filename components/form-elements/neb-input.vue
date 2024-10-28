@@ -141,7 +141,7 @@ label {
   color: var(--error-color-500);
 }
 .input {
-  background: var(--white-color);
+  background: #fff;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
