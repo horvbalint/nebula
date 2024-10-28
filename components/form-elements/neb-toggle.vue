@@ -117,16 +117,16 @@ const modelValue = defineModel()
   width: 16px;
   left: 2px;
   bottom: 2px;
-  background: var(--white-color);
+  background: #fff;
   box-shadow: var(--shadow-sm);
   -webkit-transition: var(--duration-default);
   transition: var(--duration-default);
 }
 input:checked + .slider {
-  background: var(--primary-color-600);
+  background: var(--primary-color);
 
   &:hover {
-    background: var(--primary-color-700);
+    background: var(--primary-color-600);
   }
 }
 input:disabled {

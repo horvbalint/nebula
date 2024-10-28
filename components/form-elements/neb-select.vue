@@ -324,7 +324,7 @@ watch(searchTerm, orderOptions)
   color: var(--neutral-color-800);
 }
 .neb-select-input {
-  background: var(--white-color);
+  background: #fff;
   display: flex;
   align-items: center;
   gap: var(--space-2);
@@ -402,7 +402,7 @@ watch(searchTerm, orderOptions)
   border: 1px solid var(--neutral-color-200);
   border-radius: var(--radius-default);
   box-shadow: var(--shadow-lg);
-  background: var(--white-color);
+  background: #fff;
   overflow: auto;
 }
 .select-search {
@@ -413,7 +413,7 @@ watch(searchTerm, orderOptions)
   align-items: center;
   padding: var(--space-3) var(--space-4);
   border-bottom: 1px solid var(--neutral-color-200);
-  background: var(--white-color);
+  background: #fff;
 
   input {
     font-size: var(--text-sm);

@@ -149,7 +149,7 @@ watch(() => props.modelValue, () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--white-color);
+  background: #fff;
   border-radius: 50%;
   border: 2px solid var(--neutral-color-200);
   transition: all var(--duration-slow);

@@ -184,7 +184,7 @@ const isAnyChecked = computed({
 
 <style scoped>
 .neb-table {
-  background: var(--white-color);
+  background: #fff;
   border: 1px solid var(--neutral-color-200);
   border-radius: var(--radius-default);
   box-shadow: var(--shadow-sm);

@@ -80,7 +80,7 @@ const modelValue = defineModel<T[] | Set<T> | boolean>()
   justify-content: center;
   height: 20px;
   width: 20px;
-  background-color: var(--white-color);
+  background-color: #fff;
   border: 1px solid var(--neutral-color-300);
   border-radius: var(--radius-small);
   cursor: pointer;
@@ -91,7 +91,7 @@ const modelValue = defineModel<T[] | Set<T> | boolean>()
   transition: all var(--duration-default);
 }
 .neb-checkbox:focus-within input ~ .checkmark {
-  background: var(--white-color);
+  background: #fff;
   border-color: var(--primary-color-300);
   box-shadow: var(--primary-focus-shadow-light);
   transition: all var(--duration-default);

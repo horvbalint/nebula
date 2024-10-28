@@ -72,7 +72,7 @@ function handleClick(menu: Menu) {
   border-radius: var(--radius-default);
   box-shadow: var(--shadow-lg);
   padding: var(--space-1) 0;
-  background: var(--white-color);
+  background: #fff;
 }
 ul {
   display: flex;

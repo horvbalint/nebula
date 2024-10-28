@@ -39,7 +39,7 @@ const modelValue = defineModel()
 input[type='radio'] {
   -webkit-appearance: none;
   appearance: none;
-  background: var(--white-color);
+  background: #fff;
   margin: 0;
 
   width: 20px;

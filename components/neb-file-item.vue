@@ -44,7 +44,7 @@ const formattedFileSize = computed(() => nebBytesToSize(props.file.size))
   align-items: center;
   justify-content: space-between;
   gap: var(--space-2);
-  background: var(--white-color);
+  background: #fff;
 }
 .file-info {
   display: flex;

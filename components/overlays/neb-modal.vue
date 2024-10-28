@@ -59,7 +59,7 @@ const modelValue = defineModel()
 
 <style scoped>
 .neb-modal {
-  background: var(--white-color);
+  background: #fff;
   border-radius: var(--radius-large);
   box-shadow: var(--shadow-xl);
   margin: var(--space-12) 0;
@@ -75,7 +75,7 @@ header {
   position: sticky;
   top: 0;
   left: 0;
-  background: var(--white-color);
+  background: #fff;
   border-radius: var(--radius-large) var(--radius-large) 0 0;
   z-index: 2;
 }

@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import { createResolver, defineNuxtModule } from '@nuxt/kit'
-import { getColors } from 'theme-colors'
 import Color from 'color'
+import { getColors } from 'theme-colors'
 
 const { resolve } = createResolver(import.meta.url)
 
@@ -13,7 +13,6 @@ export default defineNuxtModule({
     },
   },
   defaults: {
-    whiteColor: '#FFFFFF',
     primaryColor: '#9E77ED',
     secondaryColor: '#9E77ED',
     neutralColor: '#667085',
@@ -29,7 +28,6 @@ export default defineNuxtModule({
     colorsFileLines.push(':root {')
     colorComponentsFileLines.push(':root {')
 
-    // createNeutralShades(colorsFileLines, colorComponentsFileLines, 'white-color', options.whiteColor)
     createColorShades(colorsFileLines, colorComponentsFileLines, 'primary-color', options.primaryColor)
     createColorShades(colorsFileLines, colorComponentsFileLines, 'secondary-color', options.secondaryColor)
     createColorShades(colorsFileLines, colorComponentsFileLines, 'success-color', options.successColor)

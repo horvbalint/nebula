@@ -139,7 +139,7 @@ li {
   }
   &.active {
     color: var(--neutral-color-700);
-    background: var(--white-color);
+    background: #fff;
     box-shadow: var(--shadow-sm);
 
     &.disabled {

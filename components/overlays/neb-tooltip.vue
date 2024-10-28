@@ -44,7 +44,7 @@ const floatingOptions: UseFloatingOptions = {
   gap: var(--space-1);
   white-space: pre-line;
   line-height: 18px;
-  background: var(--white-color);
+  background: #fff;
   border: 1px solid var(--neutral-color-100);
   padding: var(--space-2) var(--space-3);
   box-shadow: var(--shadow-lg);

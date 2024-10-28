@@ -74,7 +74,7 @@ export default defineComponent({
   height: 35%;
   background: var(--neutral-color-100);
   border-radius: 50%;
-  border: 2px solid var(--white-color);
+  border: 2px solid #fff;
   display: flex;
   align-items: center;
   justify-content: center;

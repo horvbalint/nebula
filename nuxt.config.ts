@@ -24,7 +24,7 @@ export default defineNuxtConfig({
     '@nebula/assets/tokens.css',
   ],
   nebula: {
-    primaryColor: '#9E77ED',
+    primaryColor: '#7c4ddb',
     neutralColor: '#667085',
     errorColor: '#F04438',
     warningColor: '#F79009',
