@@ -8,9 +8,9 @@
   "
 >
 import type { UseFloatingOptions } from '@floating-ui/vue'
+import type NebInput from './neb-input.vue'
 import * as JsSearch from 'js-search'
 import NebDropdown from '../overlays/neb-dropdown.vue'
-import type NebInput from './neb-input.vue'
 
 export type ObjectOption<TrackByKey extends PropertyKey, LabelKey extends PropertyKey> = {
   [x in TrackByKey | LabelKey]: PropertyKey;

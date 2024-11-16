@@ -4,6 +4,7 @@ withDefaults(defineProps<{
   description?: string
   type?: 'section' | 'page'
   hasSeparator?: boolean
+  icon?: string
 }>(), {
   type: 'page',
   hasSeparator: false,
@@ -16,8 +17,12 @@ withDefaults(defineProps<{
 
     <div class="neb-content-wrapper" :class="$props.type">
       <div class="content-row-start">
-        <div v-if="$slots.start" class="content-actions">
-          <slot name="start" />
+        <div v-if="$slots.start || $props.icon" class="content-actions">
+          <slot name="start">
+            <div class="header-icon">
+              <Icon v-if="$props.icon" :name="$props.icon" />
+            </div>
+          </slot>
         </div>
 
         <div class="content-text">
@@ -90,13 +95,29 @@ withDefaults(defineProps<{
 .content-row-start {
   display: flex;
   align-items: flex-start;
-  gap: var(--space-3);
+  gap: var(--space-4);
 }
 .content-actions {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
   gap: var(--space-3);
+  align-self: stretch;
+}
+.header-icon {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: var(--space-3);
+  border: 1px solid var(--neutral-color-200);
+  box-shadow: var(--shadow-xs);
+  border-radius: var(--radius-default);
+
+  .icon {
+    color: var(--neutral-color-700);
+  }
 }
 
 @media (--tablet-viewport) {

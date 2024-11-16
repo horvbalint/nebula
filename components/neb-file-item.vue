@@ -10,45 +10,67 @@ const props = defineProps<{
 defineEmits(['remove', 'download'])
 
 const formattedFileSize = computed(() => nebBytesToSize(props.file.size))
+const isImage = computed(() => props.file.type.startsWith('image/'))
+const imageUrl = computed(() => {
+  if (!isImage.value || !(props.file instanceof File))
+    return null
+  else
+    return URL.createObjectURL(props.file)
+})
 </script>
 
 <template>
   <div class="neb-file-item">
-    <div class="file-info">
-      <icon name="material-symbols:docs-outline" />
+    <img v-if="imageUrl" class="preview-image" :src="imageUrl">
 
-      <div class="file-text">
-        <p>{{ file.name }}</p>
-        <span>{{ formattedFileSize }}</span>
+    <div class="right-side">
+      <div class="file-info">
+        <icon v-if="!imageUrl" name="material-symbols:docs-outline" />
+
+        <div class="file-text">
+          <p>{{ file.name }}</p>
+          <span>{{ formattedFileSize }}</span>
+        </div>
       </div>
-    </div>
 
-    <div class="actions">
-      <neb-button v-if="props.onDownload" type="tertiary-neutral" small square @click="props.onDownload(file)">
-        <icon name="material-symbols:download-rounded" />
-      </neb-button>
+      <div class="actions">
+        <neb-button v-if="props.onDownload" type="tertiary-neutral" small square @click="props.onDownload(file)">
+          <icon name="material-symbols:download-rounded" />
+        </neb-button>
 
-      <neb-button v-if="props.onRemove" type="tertiary-neutral" small square @click="props.onRemove(file)">
-        <icon name="material-symbols:delete-outline-rounded" />
-      </neb-button>
+        <neb-button v-if="props.onRemove" type="tertiary-neutral" small square @click="props.onRemove(file)">
+          <icon name="material-symbols:delete-outline-rounded" />
+        </neb-button>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
 .neb-file-item {
+  overflow: hidden;
+  display: flex;
+  align-items: stretch;
   border: 1px solid var(--neutral-color-200);
   border-radius: var(--radius-default);
-  padding: var(--space-4);
+  background: #fff;
+  height: fit-content;
+}
+.right-side {
+  flex: 1;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: var(--space-2);
-  background: #fff;
+  padding: var(--space-2) var(--space-4);
+}
+.preview-image {
+  width: 50px;
+  object-fit: cover;
 }
 .file-info {
+  flex: 1;
   display: flex;
-  align-items: flex-start;
+  align-items: start;
   gap: var(--space-2);
 
   .icon {
@@ -56,6 +78,8 @@ const formattedFileSize = computed(() => nebBytesToSize(props.file.size))
   }
 }
 .file-text {
+  width: 0;
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
@@ -64,6 +88,8 @@ const formattedFileSize = computed(() => nebBytesToSize(props.file.size))
     font-size: var(--text-sm);
     font-weight: 600;
     color: var(--neutral-color-700);
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   span {
     font-size: var(--text-sm);

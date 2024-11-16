@@ -11,7 +11,7 @@ withDefaults(defineProps<{
 <template>
   <div class="neb-error-state">
     <div class="error-icon">
-      <icon :name="$props.icon" />
+      <Icon :name="$props.icon!" />
     </div>
 
     <div class="error-state-text">

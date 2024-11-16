@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { autoUpdate, flip, offset, shift, useFloating } from '@floating-ui/vue'
 import type { UseFloatingOptions } from '@floating-ui/vue'
 import type { OnClickOutsideOptions } from '@vueuse/core'
+import { autoUpdate, flip, offset, shift, useFloating } from '@floating-ui/vue'
 
 const props = defineProps<{
   floatingOptions?: UseFloatingOptions

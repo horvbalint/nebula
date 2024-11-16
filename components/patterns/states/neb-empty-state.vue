@@ -10,9 +10,11 @@ withDefaults(defineProps<{
 
 <template>
   <div class="neb-empty-state">
-    <div v-if="$props.icon" class="empty-icon">
-      <Icon :name="$props.icon" />
-    </div>
+    <slot name="icon">
+      <div v-if="$props.icon" class="empty-icon">
+        <Icon :name="$props.icon" />
+      </div>
+    </slot>
 
     <div class="empty-state-text">
       <h6 v-if="title">
@@ -46,6 +48,10 @@ withDefaults(defineProps<{
   padding: var(--space-3);
   border-radius: 50%;
   position: relative;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:before {
     content: '';

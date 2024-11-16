@@ -6,10 +6,14 @@ const props = withDefaults(defineProps<{
   required?: boolean
   disabled?: boolean
   lazy?: boolean
+  minHeight?: number
+  resize?: string
 }>(), {
   required: false,
   disabled: false,
   lazy: false,
+  minHeight: 100,
+  resize: 'vertical',
 })
 
 const emit = defineEmits<{
@@ -48,17 +52,21 @@ watch(() => props.modelValue, async () => {
 </script>
 
 <template>
-  <div class="neb-textarea-component" :class="{ disabled: $props.disabled }">
+  <div class="neb-textarea" :class="{ disabled: $props.disabled }">
     <label>
       <span v-if="label">{{ label }} <span v-if="$props.required" class="required-star">*</span></span>
 
-      <div class="neb-textarea" :class="{ 'has-error': errorsToShow.length }">
+      <div class="textarea-wrapper" :class="{ 'has-error': errorsToShow.length }">
         <textarea
           ref="textarea"
           v-bind="computedAttrs"
           :required="$props.required"
           :disabled="$props.disabled"
           :value="$props.modelValue"
+          :style="{
+            minHeight: `${$props.minHeight}px`,
+            resize: $props.resize,
+          }"
         />
       </div>
 
@@ -70,10 +78,10 @@ watch(() => props.modelValue, async () => {
 </template>
 
 <style scoped>
-.neb-textarea-component {
+.neb-textarea {
   width: 100%;
 
-  &.disabled .neb-textarea {
+  &.disabled .textarea-wrapper {
     background: var(--neutral-color-50);
 
     .icon {
@@ -96,7 +104,7 @@ label {
 .required-star {
   color: var(--error-color-500);
 }
-.neb-textarea {
+.textarea-wrapper {
   background: #fff;
   display: flex;
   align-items: center;
@@ -119,7 +127,6 @@ label {
     box-shadow: var(--primary-focus-shadow-light);
   }
   & textarea {
-    min-height: 100px;
     flex: 1;
     border: none;
     background: inherit;
@@ -146,8 +153,8 @@ label {
 }
 
 .dark-mode {
-  .neb-textarea-component {
-    &.disabled .neb-textarea {
+  .neb-textarea {
+    &.disabled .textarea-wrapper {
       background: var(--neutral-color-900);
 
       .icon {
@@ -161,7 +168,7 @@ label {
   & label {
     color: var(--neutral-color-300);
   }
-  .neb-textarea {
+  .textarea-wrapper {
     background: var(--neutral-color-950);
     border: 1px solid var(--neutral-color-700);
 
