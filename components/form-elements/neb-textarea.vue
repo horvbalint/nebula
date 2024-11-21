@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 const props = withDefaults(defineProps<{
-  modelValue: string | number
+  modelValue: string | number | undefined
   label?: string
   hint?: string
   required?: boolean

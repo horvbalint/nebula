@@ -86,7 +86,6 @@ export default defineNuxtConfig({
         file: 'hu.json',
       },
     ],
-    langDir: 'lang',
     strategy: 'no_prefix',
   },
 
