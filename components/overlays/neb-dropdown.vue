@@ -87,9 +87,6 @@ defineExpose({
     }
   }
 }
-.trigger-wrapper {
-  /* width: fit-content; */
-}
 .dropdown {
   z-index: 1;
 }

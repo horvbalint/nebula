@@ -1,13 +1,27 @@
 <script lang="ts" setup>
-import { autoPlacement, offset, shift } from '@floating-ui/vue'
 import type { UseFloatingOptions } from '@floating-ui/vue'
+import { autoPlacement, offset, shift } from '@floating-ui/vue'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   floatingOptions?: UseFloatingOptions
   title: string
   text?: string
-}>()
+  timing?: number
+}>(), {
+  timing: 1000,
+})
 
+const timer = ref<ReturnType<typeof setTimeout> | undefined>(undefined)
+
+function delayOpen(open: () => void) {
+  timer.value = setTimeout(() => {
+    open()
+  }, props.timing)
+}
+function closeTooltip(close: () => void) {
+  clearTimeout(timer.value)
+  close()
+}
 const floatingOptions: UseFloatingOptions = {
   middleware: [offset(8), autoPlacement(), shift({ padding: 4 })], // TODO: use the --space-1 and --space-2 css vars
   ...props.floatingOptions,
@@ -17,7 +31,7 @@ const floatingOptions: UseFloatingOptions = {
 <template>
   <neb-dropdown class="neb-tooltip" :floating-options="floatingOptions">
     <template #trigger="{ open, close }">
-      <div @mouseover="open()" @mouseleave="close()">
+      <div @mouseenter="delayOpen(open)" @mouseleave="closeTooltip(close)">
         <slot />
       </div>
     </template>

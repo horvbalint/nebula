@@ -8,6 +8,7 @@ interface Menu {
   segment?: boolean
   disabled?: boolean
   callback: () => void
+  desctructive: boolean
 }
 
 defineProps<{
@@ -47,6 +48,7 @@ function handleClick(menu: Menu) {
             :class="{
               segment: menu.segment,
               disabled: menu.disabled,
+              desctructive: menu.desctructive,
             }"
           >
             <hr>
@@ -100,6 +102,14 @@ li {
     }
     .menu-row-content {
       cursor: not-allowed;
+    }
+  }
+  &.desctructive {
+    .menu-row-content {
+      p,
+      .icon {
+        color: var(--error-color);
+      }
     }
   }
 }
