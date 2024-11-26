@@ -2,12 +2,14 @@
 export interface Step {
   title: string
   text?: string
+  warning?: boolean
 }
 
 const props = withDefaults(defineProps<{
   modelValue: number
   steps: Step[]
   vertical?: boolean
+  skippable?: boolean
 }>(), {
   vertical: false,
 })
@@ -16,6 +18,15 @@ const emit = defineEmits(['update:modelValue'])
 
 function isDone(index: number) {
   return props.modelValue > index
+}
+function hasWarning(step: Step, index: number) {
+  return step.warning && props.modelValue > index
+}
+function handleClick(index: number) {
+  if (!props.skippable)
+    return
+
+  emit('update:modelValue', index)
 }
 
 watch(() => props.modelValue, () => {
@@ -36,20 +47,27 @@ watch(() => props.modelValue, () => {
       :class="{
         active: modelValue === index,
         done: isDone(index),
+        warning: hasWarning(step, index),
       }"
     >
       <div class="step-progress">
         <div class="circle">
-          <icon class="check" name="mdi:check-bold" />
-          <icon class="dot" name="octicon:dot-fill-24" />
+          <template v-if="!hasWarning(step, index)">
+            <icon v-if="props.modelValue <= index" class="dot" name="octicon:dot-fill-24" />
+            <icon v-else class="check" name="mdi:check-bold" />
+          </template>
+
+          <icon v-else class="warning" name="mdi:exclamation-thick" />
         </div>
 
         <hr v-if="index !== steps.length - 1">
       </div>
 
       <div class="step-text">
-        <h6>{{ step.title }}</h6>
-        <p>{{ step.text }}</p>
+        <div :class="{ 'step-text-hover-wrapper': skippable }" @click="handleClick(index)">
+          <h6>{{ step.title }}</h6>
+          <p>{{ step.text }}</p>
+        </div>
       </div>
     </li>
   </ul>
@@ -58,6 +76,7 @@ watch(() => props.modelValue, () => {
 <style scoped>
 .neb-stepper {
   width: 100%;
+  flex: 1;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -69,7 +88,6 @@ watch(() => props.modelValue, () => {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
   align-items: center;
   text-align: center;
 
@@ -100,15 +118,31 @@ watch(() => props.modelValue, () => {
       .icon {
         color: var(--primary-color);
       }
-      .check {
-        display: block;
-      }
-      .dot {
-        display: none;
-      }
     }
     .step-progress hr {
       background-position: 0;
+    }
+  }
+  &.warning {
+    .circle {
+      border-color: var(--warning-color);
+
+      .icon {
+        color: var(--warning-color);
+      }
+    }
+    .step-progress {
+      hr {
+        background-image: linear-gradient(90deg, var(--warning-color) 50%, var(--neutral-color-200) 50%);
+      }
+    }
+    .step-text {
+      h6 {
+        color: var(--warning-color);
+      }
+      p {
+        color: var(--warning-color-400);
+      }
     }
   }
 }
@@ -126,11 +160,7 @@ watch(() => props.modelValue, () => {
     width: 100%;
     border: none;
     height: 2px;
-    background-image: linear-gradient(
-      90deg,
-      var(--primary-color) 50%,
-      var(--neutral-color-200) 50%
-    );
+    background-image: linear-gradient(90deg, var(--primary-color) 50%, var(--neutral-color-200) 50%);
     background-position: 100%;
     background-size: 200% 100%;
     transition: all var(--duration-default);
@@ -159,18 +189,22 @@ watch(() => props.modelValue, () => {
     height: 20px;
     color: var(--neutral-color-200);
   }
-  .check {
-    display: none;
-  }
-  .dot {
-    display: block;
-  }
 }
 .step-text {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
+  padding: 0 var(--space-4);
 
+  .step-text-hover-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-default);
+    cursor: pointer;
+
+    &:hover {
+      background: var(--neutral-color-100);
+    }
+  }
   h6 {
     font-size: var(--text-md);
     font-weight: 600;
@@ -216,6 +250,7 @@ watch(() => props.modelValue, () => {
   .step-text {
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
     gap: var(--space-1);
     padding-bottom: var(--space-4);
   }
@@ -250,6 +285,11 @@ watch(() => props.modelValue, () => {
       }
     }
     .step-text {
+      .step-text-hover-wrapper {
+        &:hover {
+          background: var(--neutral-color-900);
+        }
+      }
       h6 {
         color: var(--neutral-color-300);
       }
@@ -259,11 +299,7 @@ watch(() => props.modelValue, () => {
     }
     .step-progress {
       hr {
-        background-image: linear-gradient(
-          90deg,
-          var(--primary-color) 50%,
-          var(--neutral-color-900) 50%
-        );
+        background-image: linear-gradient(90deg, var(--primary-color) 50%, var(--neutral-color-900) 50%);
       }
     }
   }
