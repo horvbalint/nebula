@@ -81,6 +81,7 @@ const computedClasses = computed(() => {
   border-radius: var(--radius-default);
   overflow: hidden;
   box-shadow: var(--shadow-md);
+  border: 1px solid var(--neutral-color-200);
   animation: bottom-left var(--duration-default) forwards;
 
   &.info {
@@ -233,34 +234,38 @@ const computedClasses = computed(() => {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  gap: var(--space-6);
-}
-.hide-action-row .toast-wrapper {
-  align-items: center;
+  gap: var(--space-4);
 }
 .toast-content {
   display: flex;
   flex-direction: column;
   flex: 1;
   gap: var(--space-3);
-
-  h6 {
-    font-size: var(--text-sm);
-    font-weight: 600;
-  }
-  p {
-    font-size: var(--text-sm);
-    font-weight: 400;
-  }
 }
 .toast-content-text {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: 6px;
+
+  h6 {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--neutral-color-900);
+  }
+  p {
+    font-size: var(--text-sm);
+    font-weight: 400;
+    color: var(--neutral-color-800);
+    line-height: 1.5;
+  }
 }
 
 .toast-type-icon {
+  margin-top: var(--space-1);
   position: relative;
+  height: 24px;
+  color: var(--neutral-color-500);
+  width: 24px;
 
   &:before {
     content: '';
@@ -271,7 +276,7 @@ const computedClasses = computed(() => {
     right: 0px;
     bottom: 0px;
     left: 0px;
-    border: 2px solid var(--neutral-color-300);
+    border: 2px solid var(--neutral-color-200);
     border-radius: 50%;
   }
   &:after {
@@ -283,7 +288,7 @@ const computedClasses = computed(() => {
     right: 0px;
     bottom: 0px;
     left: 0px;
-    border: 1px solid var(--neutral-color-50);
+    border: 1px solid var(--neutral-color-100);
     border-radius: 50%;
   }
 }

@@ -2,7 +2,7 @@
 export interface Step {
   title: string
   text?: string
-  warning?: boolean
+  unfinished?: boolean
 }
 
 const props = withDefaults(defineProps<{
@@ -20,7 +20,7 @@ function isDone(index: number) {
   return props.modelValue > index
 }
 function hasWarning(step: Step, index: number) {
-  return step.warning && props.modelValue > index
+  return step.unfinished && props.modelValue > index
 }
 function handleClick(index: number) {
   if (!props.skippable)
@@ -47,7 +47,7 @@ watch(() => props.modelValue, () => {
       :class="{
         active: modelValue === index,
         done: isDone(index),
-        warning: hasWarning(step, index),
+        unfinished: hasWarning(step, index),
       }"
     >
       <div class="step-progress">
@@ -57,7 +57,7 @@ watch(() => props.modelValue, () => {
             <icon v-else class="check" name="mdi:check-bold" />
           </template>
 
-          <icon v-else class="warning" name="mdi:exclamation-thick" />
+          <icon v-else class="unfinished" name="mdi:exclamation-thick" />
         </div>
 
         <hr v-if="index !== steps.length - 1">
@@ -87,6 +87,7 @@ watch(() => props.modelValue, () => {
 .step {
   flex: 1;
   display: flex;
+  gap: var(--space-2);
   flex-direction: column;
   align-items: center;
   text-align: center;
@@ -123,7 +124,7 @@ watch(() => props.modelValue, () => {
       background-position: 0;
     }
   }
-  &.warning {
+  &.unfinished {
     .circle {
       border-color: var(--warning-color);
 

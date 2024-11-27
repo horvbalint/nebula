@@ -120,7 +120,7 @@ const showMobileMenu = ref(false)
 }
 .compact-wrapper {
   width: 100%;
-  max-width: 1280px;
+  max-width: 1440px;
 }
 .header-content {
   margin: 0 auto;
