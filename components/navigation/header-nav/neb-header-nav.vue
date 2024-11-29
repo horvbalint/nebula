@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-interface Route {
+export interface Route {
   name: string
   path: string
+  subRoutes?: Route[]
 }
 
 const props = withDefaults(defineProps<{
@@ -43,8 +44,7 @@ const showMobileMenu = ref(false)
                 <neb-header-nav-item
                   v-for="route in computedRoutes"
                   :key="route.path"
-                  :text="route.name"
-                  :path="route.path"
+                  :route="route"
                 />
               </div>
 
@@ -77,8 +77,7 @@ const showMobileMenu = ref(false)
                   <neb-header-nav-item
                     v-for="route in computedRoutes"
                     :key="route.path"
-                    :text="route.name"
-                    :path="route.path"
+                    :route="route"
                   />
                 </div>
               </div>

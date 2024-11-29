@@ -8,7 +8,7 @@ interface Menu {
   segment?: boolean
   disabled?: boolean
   callback: () => void
-  desctructive: boolean
+  desctructive?: boolean
 }
 
 defineProps<{

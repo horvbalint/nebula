@@ -47,6 +47,7 @@ export default defineComponent({
   justify-content: center;
   gap: var(--space-2);
   user-select: none;
+  white-space: nowrap;
 
   &:disabled {
     cursor: not-allowed;

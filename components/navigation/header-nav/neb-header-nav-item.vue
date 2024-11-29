@@ -1,23 +1,41 @@
 <script lang="ts" setup>
+import type { Route } from './neb-header-nav.vue'
+
 defineProps<{
-  text?: string
-  path?: string
+  route: Route
 }>()
 </script>
 
 <template>
-  <NuxtLink :to="path" class="neb-header-nav-item" active-class="active">
+  <NuxtLink v-if="!route.subRoutes?.length" :to="route.path" class="neb-header-nav-item" active-class="active">
     <slot>
       <p class="slot-text">
-        {{ text }}
+        {{ $props.route.name }}
       </p>
     </slot>
   </NuxtLink>
+
+  <neb-dropdown v-else class="neb-menu">
+    <template #trigger="{ toggle }">
+      <neb-button type="tertiary-neutral" @click="toggle()">
+        {{ $props.route.name }}
+      </neb-button>
+    </template>
+
+    <template #content>
+      <div class="dropdown">
+        <neb-header-nav-item v-for="r in $props.route.subRoutes" :key="r.name" :route="r" />
+      </div>
+    </template>
+  </neb-dropdown>
 </template>
 
 <style scoped>
 .neb-header-nav-item {
-  padding: 0 var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-4);
   font-size: var(--text-sm);
   border-radius: var(--radius-default);
   height: 40px;
@@ -45,6 +63,13 @@ defineProps<{
   .slot-text {
     white-space: nowrap;
   }
+}
+.dropdown {
+  border: 1px solid var(--neutral-color-200);
+  border-radius: var(--radius-default);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-1) 0;
+  background: #fff;
 }
 
 @media only screen and (max-width: var(--tablet)) {
