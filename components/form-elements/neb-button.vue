@@ -47,6 +47,7 @@ export default defineComponent({
   justify-content: center;
   gap: var(--space-2);
   user-select: none;
+  white-space: nowrap;
 
   &:disabled {
     cursor: not-allowed;
@@ -129,8 +130,9 @@ export default defineComponent({
       color: var(--error-color-600);
     }
     &:disabled {
-      background: var(--error-color-50);
-      color: var(--error-color-300);
+      background: var(--neutral-color-50);
+      color: var(--neutral-color-300);
+      border: 1px solid var(--neutral-color-100);
     }
   }
 }

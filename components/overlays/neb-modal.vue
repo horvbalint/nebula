@@ -28,7 +28,9 @@ const modelValue = defineModel()
 
             <div class="header-titles">
               <h4>{{ $props.title }}</h4>
-              <p>{{ $props.subtitle }}</p>
+              <p v-if="$props.subtitle">
+                {{ $props.subtitle }}
+              </p>
             </div>
           </div>
         </slot>
@@ -89,8 +91,12 @@ header {
   gap: var(--space-4);
 }
 .header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
   flex-shrink: 0;
-  padding: var(--space-3);
   border: 1px solid var(--neutral-color-200);
   box-shadow: var(--shadow-xs);
   border-radius: var(--radius-default);

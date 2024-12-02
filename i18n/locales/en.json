@@ -4,6 +4,9 @@
     "avatar": {
       "alt": "Avatar image"
     },
+    "neb-search-input": {
+      "placeholder": "Type here to search..."
+    },
     "datepicker": {
       "placeholder": "Choose a date...",
       "selectYear": "Select year"
