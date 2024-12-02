@@ -100,7 +100,7 @@ withDefaults(defineProps<{
 .content-actions {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--space-3);
   align-self: stretch;
 }
@@ -110,7 +110,8 @@ withDefaults(defineProps<{
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  padding: var(--space-3);
+  height: 48px;
+  width: 48px;
   border: 1px solid var(--neutral-color-200);
   box-shadow: var(--shadow-xs);
   border-radius: var(--radius-default);

@@ -1,23 +1,34 @@
 <script lang="ts" setup>
 import type { Route } from './neb-header-nav.vue'
 
-defineProps<{
+const props = defineProps<{
   route: Route
 }>()
+
+const currentRoute = useRoute()
+const isActive = computed(() => {
+  const currUrlParts = currentRoute.path.split('/')
+  const propUrlParts = props.route.path.split('/')
+  const propsRouteUrlName = propUrlParts[propUrlParts.length - 1]
+
+  return currUrlParts.includes(propsRouteUrlName)
+})
 </script>
 
 <template>
   <NuxtLink v-if="!route.subRoutes?.length" :to="route.path" class="neb-header-nav-item" active-class="active">
     <slot>
       <p class="slot-text">
+        <icon v-if="$props.route.icon" :name="$props.route.icon" />
         {{ $props.route.name }}
       </p>
     </slot>
   </NuxtLink>
 
-  <neb-dropdown v-else class="neb-menu">
+  <neb-dropdown v-else>
     <template #trigger="{ toggle }">
-      <neb-button type="tertiary-neutral" @click="toggle()">
+      <neb-button :type="isActive ? 'tertiary' : 'tertiary-neutral'" @click="toggle()">
+        <icon name="material-symbols:keyboard-arrow-down-rounded" />
         {{ $props.route.name }}
       </neb-button>
     </template>
@@ -49,8 +60,7 @@ defineProps<{
   text-decoration: none;
 
   &.active {
-    background: var(--neutral-color-100);
-    color: var(--neutral-color-900);
+    color: var(--primary-color);
   }
   &:hover {
     background: var(--neutral-color-50);
@@ -61,6 +71,9 @@ defineProps<{
   }
 
   .slot-text {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
     white-space: nowrap;
   }
 }

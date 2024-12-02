@@ -3,6 +3,7 @@ export interface Route {
   name: string
   path: string
   subRoutes?: Route[]
+  icon?: string
 }
 
 const props = withDefaults(defineProps<{

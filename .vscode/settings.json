@@ -40,9 +40,10 @@
     "yaml",
     "toml"
   ],
-  "i18n-ally.localesPaths": [
-    "lang"
-  ],
   "i18n-ally.keystyle": "nested",
-  "i18n-ally.editor.preferEditor": true
+  "i18n-ally.editor.preferEditor": true,
+  "i18n-ally.localesPaths": [
+    "i18n",
+    "i18n/locales"
+  ]
 }
