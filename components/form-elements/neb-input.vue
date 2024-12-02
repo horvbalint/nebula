@@ -60,6 +60,7 @@ watch(() => props.modelValue, async () => {
 const computedLeadingIcon = computed(() => {
   switch (attrs.type) {
     case 'email': return 'material-symbols:mail-outline-rounded'
+    case 'tel': return 'material-symbols:call-outline-rounded'
     case 'password': return 'material-symbols:key-outline-rounded'
     default: return props.leadingIcon
   }

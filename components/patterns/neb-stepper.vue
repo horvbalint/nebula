@@ -207,13 +207,13 @@ watch(() => props.modelValue, () => {
     }
   }
   h6 {
-    font-size: var(--text-md);
+    font-size: var(--text-sm);
     font-weight: 600;
     color: var(--neutral-color-700);
     transition: all var(--duration-slow);
   }
   p {
-    font-size: var(--text-md);
+    font-size: var(--text-sm);
     font-weight: 400;
     color: var(--neutral-color-600);
     transition: all var(--duration-slow);

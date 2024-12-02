@@ -78,7 +78,7 @@ withDefaults(defineProps<{
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-1);
 
   & h1 {
     font-size: var(--title-sm);
