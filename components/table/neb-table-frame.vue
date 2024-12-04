@@ -161,7 +161,7 @@ const isAnyChecked = computed({
         <tbody>
           <tr v-for="(row, index) in formattedRows" :key="index" @click="$emit('click', row.original)">
             <td v-if="modelValue" class="checkbox-cell">
-              <neb-checkbox v-model="modelValue" :value="row.original" />
+              <neb-checkbox @click.stop="" v-model="modelValue" :value="row.original" />
             </td>
 
             <td v-for="column in columns" :key="`td-${column.key}`">

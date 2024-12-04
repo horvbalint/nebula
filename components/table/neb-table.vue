@@ -62,8 +62,8 @@ const computedBinds = computed(() => {
 <template>
   <neb-table-frame
     v-model="modelValue"
-    v-model:sortAsc="sortAsc"
-    v-model:sortColumn="sortColumn"
+    v-model:sort-asc="sortAsc"
+    v-model:sort-column="sortColumn"
     :rows="paginationResult"
     v-bind="computedBinds"
   >
