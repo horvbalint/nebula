@@ -2,26 +2,29 @@
 import type { RestoreProps } from '@nebula/composables/neb-restore'
 import dayjs from 'dayjs'
 
-export interface Column {
+export interface Column<T, Key extends keyof T = keyof T> {
   text: string
-  key: string
   sortFunction?: (a: any, b: any) => number
-  formatFunction?: (cell: any) => string
+  formatFunction?: (value: T[Key]) => string
 }
 
-export interface RestoreState {
-  sortColumn: Column | null
+export type Columns<T> = Partial<{
+  [K in keyof T]: Column<T, K>
+}>
+
+export interface RestoreState<T> {
+  sortColumn: keyof T | null
   sortAsc: boolean
 }
 
 export type Props<T> = {
-  columns: Column[]
-  rows: T[]
-  sortColumn: Column | null
+  columns: Columns<T>
+  rows: T[] | null
+  sortColumn: keyof T | null
   sortAsc: boolean
   loading?: boolean
   error?: boolean
-} & RestoreProps<RestoreState>
+} & RestoreProps<RestoreState<T>>
 
 const props = withDefaults(defineProps<Props<T>>(), {
   loading: false,
@@ -55,33 +58,36 @@ const modelValue = defineModel<null | T[]>({
 })
 
 interface FormattedRow {
-  formatted: Record<string, string>
+  formatted: Record<keyof T, string>
   original: T
 }
 
 const formattedRows = computed<FormattedRow[]>(() => {
-  return props.rows.map((row: T) => {
-    const formattedRow: Record<string, any> = {}
+  if (props.loading)
+    return []
 
-    for (const column of props.columns)
-      formattedRow[column.key] = formatCell(row, column)
+  return props.rows!.map((row: T) => {
+    const formattedRow: Partial<FormattedRow['formatted']> = {}
+
+    for (const column in props.columns)
+      formattedRow[column] = formatCell(row, column)
 
     return {
-      formatted: formattedRow,
+      formatted: formattedRow as FormattedRow['formatted'],
       original: row,
     }
   })
 })
 
-function formatCell(row: T, column: Column) {
-  if (column.formatFunction)
-    return column.formatFunction(row[column.key])
+function formatCell(row: T, key: keyof T) {
+  if (props.columns[key]!.formatFunction)
+    return props.columns[key]!.formatFunction(row[key])
 
-  const maybeDate = createDateIfPossible(row[column.key])
+  const maybeDate = createDateIfPossible(row[key])
   if (maybeDate)
     return dayjs(maybeDate).format('YYYY-MM-DD')
 
-  return row[column.key]
+  return row[key]
 }
 
 const sortIcon = computed(() => {
@@ -91,11 +97,11 @@ const sortIcon = computed(() => {
     return 'material-symbols:arrow-downward-alt'
 })
 
-function handleHeaderClick(column: Column) {
-  if (column.key === props.sortColumn?.key)
+function handleHeaderClick(key: keyof T) {
+  if (key === props.sortColumn)
     emit('update:sortAsc', !props.sortAsc)
   else
-    emit('update:sortColumn', column)
+    emit('update:sortColumn', key)
 }
 
 const isAnyChecked = computed({
@@ -107,7 +113,7 @@ const isAnyChecked = computed({
   },
   set(value: boolean) {
     if (value)
-      modelValue.value = [...props.rows]
+      modelValue.value = [...props.rows || []]
     else
       modelValue.value = []
   },
@@ -146,14 +152,14 @@ const isAnyChecked = computed({
               <neb-checkbox v-model="isAnyChecked" icon="material-symbols:remove-rounded" />
             </th>
 
-            <th v-for="column in columns" :key="`th-${column.key}`" @click="handleHeaderClick(column)">
+            <th v-for="(column, key) in columns" :key="`th-${key as string}`" @click="handleHeaderClick(key)">
               <div class="th-slot-wrapper">
-                <slot :name="`th-${column.key}`" :column="column">
-                  {{ column.text }}
+                <slot :name="`th-${key as string}`" :column="column">
+                  {{ column!.text }}
                 </slot>
               </div>
 
-              <icon v-if="column.key === sortColumn?.key" :name="sortIcon" />
+              <icon v-if="key === sortColumn" :name="sortIcon" />
             </th>
           </tr>
         </thead>
@@ -164,10 +170,10 @@ const isAnyChecked = computed({
               <neb-checkbox v-model="modelValue" :value="row.original" @click.stop="" />
             </td>
 
-            <td v-for="column in columns" :key="`td-${column.key}`">
-              <slot name="td" :data="row" :original="row.original[column.key]" :formatted="row.formatted[column.key]" :column="column">
-                <slot :name="`td-${column.key}`" :data="row" :original="row.original[column.key]" :formatted="row.formatted[column.key]" :column="column">
-                  {{ row.formatted[column.key] }}
+            <td v-for="(column, key) in columns" :key="`td-${key as string}`">
+              <slot name="td" :data="row" :original="row.original[key]" :formatted="row.formatted[key]" :column="column">
+                <slot :name="`td-${key as string}`" :data="row" :original="row.original[key]" :formatted="row.formatted[key]" :column="column">
+                  {{ row.formatted[key] }}
                 </slot>
               </slot>
             </td>

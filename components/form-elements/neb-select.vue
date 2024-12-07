@@ -408,6 +408,7 @@ watch(searchTerm, orderOptions)
 .select-search {
   position: sticky;
   top: 0;
+  z-index: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -416,6 +417,7 @@ watch(searchTerm, orderOptions)
   background: #fff;
 
   input {
+    width: 100%;
     font-size: var(--text-sm);
     outline: none;
     border: none;

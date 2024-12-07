@@ -8,18 +8,21 @@ const modelValue = defineModel<null | T[]>({
   default: null,
 })
 
-const sortColumn = ref<Column | null>(null)
+const sortColumn = ref<keyof T | null>(null) as Ref<keyof T | null>
 const sortAsc = ref(true)
 
 const sortedRows = computed(() => {
+  if (props.loading)
+    return []
+
   if (!sortColumn.value)
     return props.rows
 
   const sortFunction = getSortFunction(sortColumn.value)
 
-  return [...props.rows].sort((a, b) => {
-    const first = sortAsc.value ? b[sortColumn.value!.key] : a[sortColumn.value!.key]
-    const second = sortAsc.value ? a[sortColumn.value!.key] : b[sortColumn.value!.key]
+  return [...props.rows || []].sort((a, b) => {
+    const first = sortAsc.value ? b[sortColumn.value!] : a[sortColumn.value!]
+    const second = sortAsc.value ? a[sortColumn.value!] : b[sortColumn.value!]
 
     if (first === undefined || first === null)
       return -1
@@ -30,19 +33,19 @@ const sortedRows = computed(() => {
   })
 })
 
-function getSortFunction(column: Column): (a: any, b: any) => number {
-  if (column.sortFunction)
-    return column.sortFunction
+function getSortFunction(key: keyof T): (a: any, b: any) => number {
+  if (props.columns[key]!.sortFunction)
+    return props.columns[key]!.sortFunction
 
-  const data = props.rows.find(row => row[column.key])
+  const data = props.rows!.find(row => row[key])
 
   if (!data)
     return () => 1
 
-  if (typeof data[column.key] === 'number')
+  if (typeof data[key] === 'number')
     return (a: number, b: number) => a - b
 
-  const maybeDate = createDateIfPossible(data[column.key])
+  const maybeDate = createDateIfPossible(data[key])
   if (maybeDate)
     return (a: Date | string, b: Date | string) => new Date(a).getTime() - new Date(b).getTime()
 
@@ -67,7 +70,6 @@ const computedBinds = computed(() => {
     :rows="paginationResult"
     v-bind="computedBinds"
   >
-    <!-- @vue-skip -->
     <template v-for="(_, slot) of $slots" #[slot]="scope">
       <slot :name="slot" v-bind="scope" />
     </template>

@@ -5,6 +5,10 @@ const props = defineProps<{
   route: Route
 }>()
 
+const emit = defineEmits<{
+  close: []
+}>()
+
 const currentRoute = useRoute()
 const isActive = computed(() => {
   const currUrlParts = currentRoute.path.split('/')
@@ -16,7 +20,7 @@ const isActive = computed(() => {
 </script>
 
 <template>
-  <NuxtLink v-if="!route.subRoutes?.length" :to="route.path" class="neb-header-nav-item" active-class="active">
+  <NuxtLink v-if="!route.subRoutes?.length" :to="route.path" class="neb-header-nav-item" active-class="active" @click="emit('close')">
     <slot>
       <p class="slot-text">
         <icon v-if="$props.route.icon" :name="$props.route.icon" />
@@ -33,9 +37,9 @@ const isActive = computed(() => {
       </neb-button>
     </template>
 
-    <template #content>
+    <template #content="{ close }">
       <div class="dropdown">
-        <neb-header-nav-item v-for="r in $props.route.subRoutes" :key="r.name" :route="r" />
+        <neb-header-nav-item v-for="r in $props.route.subRoutes" :key="r.name" :route="r" @close="close(); emit('close')" />
       </div>
     </template>
   </neb-dropdown>

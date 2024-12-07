@@ -2,7 +2,7 @@
 const props = withDefaults(defineProps<{
   modelValue?: T[]
   page?: number
-  data?: T[]
+  data?: T[] | null
   count?: number
   itemsPerPage?: number
   radius?: number
@@ -37,13 +37,16 @@ function emitPages() {
 }
 
 const computedPageCount = computed(() => {
-  const itemCount = props.data?.length || props.count!
+  const itemCount = props.data?.length || props.count
 
-  return Math.ceil(itemCount / props.itemsPerPage)
+  if (!itemCount)
+    return 0
+  else
+    return Math.ceil(itemCount / props.itemsPerPage)
 })
 
 const pageGroups = computed(() => {
-  if (!computedPageCount)
+  if (!computedPageCount.value)
     return []
 
   const startGroup = generateStartGroup()
@@ -157,7 +160,7 @@ function next() {
           </template>
         </div>
 
-        <neb-button type="secondary-neutral" :disabled="page === computedPageCount - 1" @click="next()">
+        <neb-button type="secondary-neutral" :disabled="page >= computedPageCount - 1" @click="next()">
           {{ $t('nebula.pagination.next') }}
           <icon name="material-symbols:arrow-right-alt-rounded" />
         </neb-button>
@@ -174,7 +177,7 @@ function next() {
           {{ page! + 1 }}/{{ computedPageCount }} {{ $t('nebula.pagination.page') }}
         </div>
 
-        <neb-button type="secondary-neutral" :disabled="page === computedPageCount - 1" @click="next()">
+        <neb-button type="secondary-neutral" :disabled="page >= computedPageCount - 1" @click="next()">
           <icon name="material-symbols:arrow-right-alt-rounded" />
         </neb-button>
       </div>
