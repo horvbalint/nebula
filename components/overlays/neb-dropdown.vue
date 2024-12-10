@@ -8,6 +8,11 @@ const props = defineProps<{
   fullWidth?: boolean
 }>()
 
+const emit = defineEmits<{
+  close: []
+  open: []
+}>()
+
 const floatingOptions: UseFloatingOptions = {
   middleware: [offset(8), flip({ padding: 4 }), shift({ padding: 4 })], // TODO: use the --space-1 and --space-2 css vars
   whileElementsMounted: autoUpdate,
@@ -36,6 +41,7 @@ function open(event?: PointerEvent) {
     return
 
   isOpen.value = true
+  emit('open')
 }
 
 function close(event?: PointerEvent) {
@@ -43,6 +49,7 @@ function close(event?: PointerEvent) {
     return
 
   isOpen.value = false
+  emit('close')
 }
 
 defineExpose({

@@ -1,64 +1,154 @@
 <script setup lang="ts" generic="T extends Record<string, any>">
-import type { Column, Props } from '@nebula/components/table/neb-table-frame.vue'
+import type { Columns, FormattedRow, Props } from '@nebula/components/table/neb-table-frame.vue'
+import dayjs from 'dayjs'
+import Fuse from 'fuse.js'
 
-const props = defineProps<Omit<Props<T>, 'sortAsc' | 'sortColumn'>>()
+type TableProps = Omit<Props<T>, 'rows'> & {
+  rows: T[] | null
+}
+const props = defineProps<TableProps>()
 
 const modelValue = defineModel<null | T[]>({
   required: false,
   default: null,
 })
 
+const searchTerm = ref('')
+const computedColumns = computed(() => {
+  const columns: Columns<T> = {}
+
+  if (searchTerm.value)
+    // @ts-expect-error searchScore is added by the table
+    columns.searchScore = { text: 'Score' }
+
+  for (const key in props.columns)
+    columns[key] = props.columns[key]
+
+  return columns
+})
+
+const formattedRows = computed<FormattedRow<T>[]>(() => {
+  if (props.loading || !props.rows)
+    return []
+
+  return props.rows.map((row) => {
+    const formattedRow: Partial<FormattedRow<T>['formatted']> = {}
+
+    for (const column in computedColumns.value)
+      formattedRow[column] = formatCell(row, column)
+
+    return {
+      formatted: formattedRow as FormattedRow<T>['formatted'],
+      original: row,
+    }
+  })
+})
+
+function formatCell(row: T, key: keyof T) {
+  if (computedColumns.value[key]!.formatFunction)
+    return computedColumns.value[key]!.formatFunction(row[key])
+
+  const maybeDate = createDateIfPossible(row[key])
+  if (maybeDate)
+    return dayjs(maybeDate).format('YYYY-MM-DD')
+
+  return row[key]
+}
+
+const searcher = computed(() => {
+  if (props.loading)
+    return null
+
+  return new Fuse(formattedRows.value, {
+    includeScore: true,
+    keys: Object.keys(computedColumns.value).map(key => `formatted.${key}`),
+  })
+})
+const searchedRows = computed<FormattedRow<T>[]>(() => {
+  if (props.loading || !searcher.value || !searchTerm.value.length)
+    return formattedRows.value
+
+  const result = searcher.value.search(searchTerm.value)
+  return result.map(r => ({
+    formatted: { ...r.item.formatted, searchScore: r.score },
+    original: { ...r.item.original, searchScore: r.score },
+  }))
+})
+
 const sortColumn = ref<keyof T | null>(null) as Ref<keyof T | null>
 const sortAsc = ref(true)
+
+watch(searchTerm, () => {
+  if (searchTerm.value) {
+    sortColumn.value = 'searchScore'
+    sortAsc.value = false
+  }
+  else if (sortColumn.value === 'searchScore') {
+    sortColumn.value = null
+    sortAsc.value = true
+  }
+})
 
 const sortedRows = computed(() => {
   if (props.loading)
     return []
 
   if (!sortColumn.value)
-    return props.rows
+    return searchedRows.value
 
   const sortFunction = getSortFunction(sortColumn.value)
 
-  return [...props.rows || []].sort((a, b) => {
-    const first = sortAsc.value ? b[sortColumn.value!] : a[sortColumn.value!]
-    const second = sortAsc.value ? a[sortColumn.value!] : b[sortColumn.value!]
+  return [...searchedRows.value || []].sort((a, b) => {
+    const first = sortAsc.value ? a : b
+    const second = sortAsc.value ? b : a
 
-    if (first === undefined || first === null)
+    if (first.original[sortColumn.value!] === undefined || first.original[sortColumn.value!] === null)
       return -1
-    if (second === undefined || second === null)
+    if (second.original[sortColumn.value!] === undefined || second.original[sortColumn.value!] === null)
       return 1
 
     return sortFunction(first, second)
   })
 })
+function getSortFunction(key: keyof T): (a: FormattedRow<any>, b: FormattedRow<any>) => number {
+  if (computedColumns.value[key]!.sortFunction)
+    return computedColumns.value[key]!.sortFunction
 
-function getSortFunction(key: keyof T): (a: any, b: any) => number {
-  if (props.columns[key]!.sortFunction)
-    return props.columns[key]!.sortFunction
-
-  const data = props.rows!.find(row => row[key])
+  const data = searchedRows.value.find(row => row.original[key])
 
   if (!data)
     return () => 1
 
-  if (typeof data[key] === 'number')
-    return (a: number, b: number) => a - b
+  if (typeof data.original[key] === 'number')
+    return (a, b) => a.original[key] - b.original[key]
 
-  const maybeDate = createDateIfPossible(data[key])
+  const maybeDate = createDateIfPossible(data.original[key])
   if (maybeDate)
-    return (a: Date | string, b: Date | string) => new Date(a).getTime() - new Date(b).getTime()
+    return (a, b) => new Date(a.original[key]).getTime() - new Date(b.original[key]).getTime()
 
-  return (a: string, b: string) => a.localeCompare(b)
+  return (a, b) => a.formatted[key].localeCompare(b.formatted[key])
 }
 
-const paginationResult = ref<T[]>([]) as Ref<T[]>
+const paginationResult = ref<FormattedRow<T>[]>([]) as Ref<FormattedRow<T>[]>
 
-const computedBinds = computed(() => {
-  const binds: any = { ...props, ...useAttrs() }
-  delete binds.rows
+// const computedBinds = computed(() => {
+//   const binds: any = { ...props, ...useAttrs() }
+//   delete binds.rows
+//   delete binds.columns
 
-  return binds
+//   return binds
+// })
+
+const tableSlots = computed(() => {
+  const slots = useSlots()
+
+  const tableSlots: Record<string, any> = {}
+  for (const key in slots) {
+    if (key.startsWith('th-') || key.startsWith('td-') || key === 'td')
+      tableSlots[key] = slots[key]
+  }
+
+  return tableSlots
 })
 </script>
 
@@ -68,9 +158,19 @@ const computedBinds = computed(() => {
     v-model:sort-asc="sortAsc"
     v-model:sort-column="sortColumn"
     :rows="paginationResult"
-    v-bind="computedBinds"
+    :columns="computedColumns"
+    v-bind="$attrs"
   >
-    <template v-for="(_, slot) of $slots" #[slot]="scope">
+    {{ tableSlots }}
+    <template #header>
+      <div class="header">
+        <neb-search-input v-model="searchTerm" lazy class="search-input" />
+
+        <slot name="actions" />
+      </div>
+    </template>
+
+    <template v-for="(_, slot) of tableSlots" #[slot]="scope">
       <slot :name="slot" v-bind="scope" />
     </template>
 
@@ -81,3 +181,18 @@ const computedBinds = computed(() => {
     </template>
   </neb-table-frame>
 </template>
+
+<style scoped>
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+.search-input {
+  flex: 1;
+  min-width: 200px;
+  max-width: 500px;
+}
+</style>

@@ -1,6 +1,5 @@
 <script setup lang="ts" generic="T extends Record<string, any>">
 import type { RestoreProps } from '@nebula/composables/neb-restore'
-import dayjs from 'dayjs'
 
 export interface Column<T, Key extends keyof T = keyof T> {
   text: string
@@ -17,11 +16,14 @@ export interface RestoreState<T> {
   sortAsc: boolean
 }
 
+export interface FormattedRow<T> {
+  formatted: Record<keyof T, string>
+  original: T
+}
+
 export type Props<T> = {
   columns: Columns<T>
-  rows: T[] | null
-  sortColumn: keyof T | null
-  sortAsc: boolean
+  rows: FormattedRow<T>[] | null
   loading?: boolean
   error?: boolean
 } & RestoreProps<RestoreState<T>>
@@ -33,9 +35,7 @@ const props = withDefaults(defineProps<Props<T>>(), {
 })
 
 const emit = defineEmits<{
-  'click': [row: T]
-  'update:sortAsc': [sortAsc: typeof props.sortAsc]
-  'update:sortColumn': [sortColumn: typeof props.sortColumn]
+  click: [row: T]
 }>()
 
 // useNebLoading(props, () => {
@@ -43,7 +43,7 @@ const emit = defineEmits<{
 //   props,
 //   store: () => ({
 //     sortColumn: props.sortColumn,
-//     sortAsc: props.sortAsc,
+//     sortAsc: sortAsc.value,
 //   }),
 //   restore: (state) => {
 //     emit('update:sortColumn', state.sortColumn)
@@ -56,52 +56,27 @@ const modelValue = defineModel<null | T[]>({
   required: false,
   default: null,
 })
-
-interface FormattedRow {
-  formatted: Record<keyof T, string>
-  original: T
-}
-
-const formattedRows = computed<FormattedRow[]>(() => {
-  if (props.loading)
-    return []
-
-  return props.rows!.map((row: T) => {
-    const formattedRow: Partial<FormattedRow['formatted']> = {}
-
-    for (const column in props.columns)
-      formattedRow[column] = formatCell(row, column)
-
-    return {
-      formatted: formattedRow as FormattedRow['formatted'],
-      original: row,
-    }
-  })
+const sortColumn = defineModel<keyof T | null>('sortColumn', {
+  required: false,
+  default: null,
+})
+const sortAsc = defineModel('sortAsc', {
+  required: false,
+  default: true,
 })
 
-function formatCell(row: T, key: keyof T) {
-  if (props.columns[key]!.formatFunction)
-    return props.columns[key]!.formatFunction(row[key])
-
-  const maybeDate = createDateIfPossible(row[key])
-  if (maybeDate)
-    return dayjs(maybeDate).format('YYYY-MM-DD')
-
-  return row[key]
-}
-
 const sortIcon = computed(() => {
-  if (props.sortAsc)
+  if (sortAsc.value)
     return 'material-symbols:arrow-upward-alt'
   else
     return 'material-symbols:arrow-downward-alt'
 })
 
 function handleHeaderClick(key: keyof T) {
-  if (key === props.sortColumn)
-    emit('update:sortAsc', !props.sortAsc)
+  if (key === sortColumn.value)
+    sortAsc.value = !sortAsc.value
   else
-    emit('update:sortColumn', key)
+    sortColumn.value = key
 }
 
 const isAnyChecked = computed({
@@ -113,7 +88,7 @@ const isAnyChecked = computed({
   },
   set(value: boolean) {
     if (value)
-      modelValue.value = [...props.rows || []]
+      modelValue.value = (props.rows || []).map(r => r.original)
     else
       modelValue.value = []
   },
@@ -138,7 +113,7 @@ const isAnyChecked = computed({
         />
       </slot>
 
-      <slot v-else-if="!formattedRows.length" name="empty-state">
+      <slot v-else-if="!props.rows?.length" name="empty-state">
         <neb-empty-state
           :title="$t('nebula.table-frame.empty.title')"
           :description="$t('nebula.table-frame.empty.description')"
@@ -152,25 +127,27 @@ const isAnyChecked = computed({
               <neb-checkbox v-model="isAnyChecked" icon="material-symbols:remove-rounded" />
             </th>
 
-            <th v-for="(column, key) in columns" :key="`th-${key as string}`" @click="handleHeaderClick(key)">
-              <div class="th-slot-wrapper">
-                <slot :name="`th-${key as string}`" :column="column">
-                  {{ column!.text }}
-                </slot>
-              </div>
+            <th v-for="(column, key) in props.columns" :key="`th-${key as string}`" @click="handleHeaderClick(key)">
+              <div class="th-wrapper">
+                <div class="th-slot-wrapper">
+                  <slot :name="`th-${key as string}`" :column="column">
+                    {{ column!.text }}
+                  </slot>
+                </div>
 
-              <icon v-if="key === sortColumn" :name="sortIcon" />
+                <icon v-if="key === sortColumn" :name="sortIcon" />
+              </div>
             </th>
           </tr>
         </thead>
 
         <tbody>
-          <tr v-for="(row, index) in formattedRows" :key="index" @click="$emit('click', row.original)">
+          <tr v-for="(row, index) in props.rows" :key="index" @click="emit('click', row.original)">
             <td v-if="modelValue" class="checkbox-cell">
               <neb-checkbox v-model="modelValue" :value="row.original" @click.stop="" />
             </td>
 
-            <td v-for="(column, key) in columns" :key="`td-${key as string}`">
+            <td v-for="(column, key) in props.columns" :key="`td-${key as string}`">
               <slot name="td" :data="row" :original="row.original[key]" :formatted="row.formatted[key]" :column="column">
                 <slot :name="`td-${key as string}`" :data="row" :original="row.original[key]" :formatted="row.formatted[key]" :column="column">
                   {{ row.formatted[key] }}
@@ -249,6 +226,11 @@ th {
   cursor: pointer;
   user-select: none;
   line-height: 22px;
+
+  .th-wrapper {
+    display: flex;
+    align-items: center;
+  }
 
   .th-slot-wrapper {
     display: inline-block;

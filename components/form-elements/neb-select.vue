@@ -231,7 +231,7 @@ watch(searchTerm, orderOptions)
 </script>
 
 <template>
-  <NebDropdown ref="dropdown" class="neb-select" :floating-options="$props.floatingOptions" full-width>
+  <NebDropdown ref="dropdown" class="neb-select" :floating-options="$props.floatingOptions" full-width @close="searchTerm = ''">
     <template #trigger>
       <div class="neb-select-input-wrapper" @click="handleSelectClick()">
         <span v-if="$props.label">{{ $props.label }} <span v-if="$props.required" class="required-star">*</span></span>
