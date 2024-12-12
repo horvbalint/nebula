@@ -44,7 +44,7 @@ const formattedRows = computed<FormattedRow<T>[]>(() => {
   })
 })
 
-function formatCell(row: T, key: keyof T) {
+function formatCell(row: T, key: keyof T): string {
   if (computedColumns.value[key]!.formatFunction)
     return computedColumns.value[key]!.formatFunction(row[key])
 
@@ -52,7 +52,7 @@ function formatCell(row: T, key: keyof T) {
   if (maybeDate)
     return dayjs(maybeDate).format('YYYY-MM-DD')
 
-  return row[key]
+  return row[key].toString()
 }
 
 const searcher = computed(() => {
@@ -110,7 +110,7 @@ const sortedRows = computed(() => {
     return sortFunction(first, second)
   })
 })
-function getSortFunction(key: keyof T): (a: FormattedRow<any>, b: FormattedRow<any>) => number {
+function getSortFunction(key: keyof T): (a: FormattedRow<T>, b: FormattedRow<T>) => number {
   if (computedColumns.value[key]!.sortFunction)
     return computedColumns.value[key]!.sortFunction
 
