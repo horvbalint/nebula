@@ -7,7 +7,7 @@ interface Menu {
   icon?: string
   segment?: boolean
   disabled?: boolean
-  callback: () => void
+  callback: () => unknown
   desctructive?: boolean
 }
 

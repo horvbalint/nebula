@@ -52,6 +52,9 @@ function formatCell(row: T, key: keyof T): string {
   if (maybeDate)
     return dayjs(maybeDate).format('YYYY-MM-DD')
 
+  if (row[key] === undefined || row[key] === null)
+    return ''
+
   return row[key].toString()
 }
 

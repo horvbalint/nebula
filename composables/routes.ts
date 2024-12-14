@@ -11,7 +11,7 @@ export function generateNavTree() {
 
       return {
         path: route.path,
-        name: navSettings.name || route.name?.toString(),
+        name: navSettings.name || route.name?.toString() || '',
       }
     })
 }

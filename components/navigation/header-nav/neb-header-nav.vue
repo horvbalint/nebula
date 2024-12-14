@@ -168,7 +168,7 @@ const showMobileMenu = ref(false)
     height: 100vh;
     background: #fff;
     position: fixed;
-    z-index: 1;
+    z-index: 100;
     top: 0;
     left: 0;
     flex-direction: column;
