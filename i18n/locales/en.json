@@ -19,7 +19,7 @@
       "placeholder": "Select from the list...",
       "search": "Type here to search...",
       "empty": {
-        "title": "No result for the expression: '{term}'",
+        "title": "No result for: '{term}'",
         "description": "Try another keyword",
         "or": "Or",
         "newItem": "Add new item"

@@ -35,6 +35,7 @@ const props = withDefaults(defineProps<{
   noSearch?: boolean
   required?: boolean
   customLabel?: (option: T) => PropertyKey
+  onNew?: (searchTerm: string) => unknown
 }>(), {
   multiple: false,
   useOnlyTrackedKey: false,
@@ -297,13 +298,15 @@ watch(searchTerm, orderOptions)
           :title="$t('nebula.neb-select.empty.title', { term: searchTerm })"
           :description="$t('nebula.neb-select.empty.description')"
         >
-          <div class="create-button-wrapper">
-            <neb-content-separator :text="$t('nebula.neb-select.empty.or')" />
+          <template v-if="props.onNew" #default>
+            <div class="create-button-wrapper">
+              <neb-content-separator :text="$t('nebula.neb-select.empty.or')" />
 
-            <neb-button type="secondary" small @click="emit('new', searchTerm)">
-              <icon name="material-symbols:add-rounded" /> {{ $t('nebula.neb-select.empty.newItem') }}
-            </neb-button>
-          </div>
+              <neb-button type="secondary" small @click="emit('new', searchTerm)">
+                <icon name="material-symbols:add-rounded" /> {{ $t('nebula.neb-select.empty.newItem') }}
+              </neb-button>
+            </div>
+          </template>
         </neb-empty-state>
       </div>
     </template>
