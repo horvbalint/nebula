@@ -43,9 +43,13 @@ withDefaults(defineProps<{
 }
 .error-icon {
   background: var(--error-color-100);
-  padding: var(--space-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 50%;
   position: relative;
+  width: 48px;
+  height: 48px;
 
   &:before {
     content: '';

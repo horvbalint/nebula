@@ -264,6 +264,19 @@ export default defineComponent({
   &:disabled {
     color: var(--neutral-color-300);
   }
+  &.destructive {
+    color: var(--error-color);
+
+    &:hover {
+      background: var(--error-color-700);
+    }
+    &:focus {
+      background: var(--error-color-600);
+    }
+    &:disabled {
+      background: var(--error-color-200);
+    }
+  }
 }
 
 .dark-mode {
@@ -280,6 +293,19 @@ export default defineComponent({
       opacity: 0.6;
       background: var(--primary-color-950);
       color: var(--neutral-color-300);
+    }
+    &.destructive {
+      background: var(--error-color-900);
+
+      &:hover {
+        background: var(--error-color-800);
+      }
+      &:focus {
+        background: var(--error-color-700);
+      }
+      &:disabled {
+        background: var(--error-color-950);
+      }
     }
   }
   /* SECONDARY STYLES */
