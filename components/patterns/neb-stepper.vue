@@ -3,6 +3,7 @@ export interface Step {
   title: string
   text?: string
   unfinished?: boolean
+  icon?: string
 }
 
 const props = withDefaults(defineProps<{
@@ -53,7 +54,7 @@ watch(() => props.modelValue, () => {
       <div class="step-progress">
         <div class="circle">
           <template v-if="!hasWarning(step, index)">
-            <icon v-if="props.modelValue <= index" class="dot" name="octicon:dot-fill-24" />
+            <icon v-if="props.modelValue <= index" class="circle-icon" :name="step.icon || 'octicon:circle-icon-fill-24'" />
             <icon v-else class="check" name="mdi:check-bold" />
           </template>
 
@@ -126,6 +127,7 @@ watch(() => props.modelValue, () => {
   }
   &.unfinished {
     .circle {
+      background: var(--warning-color-50);
       border-color: var(--warning-color);
 
       .icon {
@@ -168,8 +170,8 @@ watch(() => props.modelValue, () => {
   }
 }
 .circle {
-  height: 32px;
-  width: 32px;
+  height: 36px;
+  width: 36px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -181,14 +183,14 @@ watch(() => props.modelValue, () => {
   align-items: center;
   justify-content: center;
   background: #fff;
-  border-radius: 50%;
-  border: 2px solid var(--neutral-color-200);
+  border-radius: var(--radius-default);
+  border: 1px solid var(--neutral-color-200);
   transition: all var(--duration-slow);
 
   .icon {
     width: 20px;
     height: 20px;
-    color: var(--neutral-color-200);
+    color: var(--neutral-color-500);
   }
 }
 .step-text {
@@ -254,6 +256,7 @@ watch(() => props.modelValue, () => {
     justify-content: flex-start;
     gap: var(--space-1);
     padding-bottom: var(--space-4);
+    padding-left: var(--space-1);
   }
 }
 
@@ -263,7 +266,7 @@ watch(() => props.modelValue, () => {
       background: var(--neutral-color-950);
       border-color: var(--neutral-color-700);
 
-      .dot {
+      .circle-icon {
         color: var(--neutral-color-700);
       }
     }
@@ -281,7 +284,7 @@ watch(() => props.modelValue, () => {
       box-shadow: none;
       border-color: var(--primary-color-800);
 
-      .dot {
+      .circle-icon {
         color: var(--primary-color-500);
       }
     }

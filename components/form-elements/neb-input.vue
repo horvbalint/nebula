@@ -100,7 +100,7 @@ defineExpose({ focus, blur })
           <icon
             v-if="errorsToShow.length"
             name="material-symbols:error-outline-rounded"
-            color="#F04438"
+            class="error-icon"
           />
 
           <icon v-else-if="$props.trailingIcon" :name="$props.trailingIcon" />
@@ -189,6 +189,10 @@ label {
   }
   .icon {
     color: var(--neutral-color-500);
+
+    &.error-icon {
+      color: var(--error-color-500);
+    }
   }
 }
 .hint {

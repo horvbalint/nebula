@@ -81,6 +81,9 @@ const isActive = computed(() => {
     white-space: nowrap;
   }
 }
+.icon {
+  font-size: 20px !important;
+}
 .dropdown {
   border: 1px solid var(--neutral-color-200);
   border-radius: var(--radius-default);
