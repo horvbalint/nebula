@@ -6,6 +6,7 @@ const props = withDefaults(defineProps<{
   maxSize?: number
   maxCount?: number
   disabled?: boolean
+  multiple?: boolean
 }>(), {
   required: false,
   multiple: false,
@@ -34,7 +35,7 @@ const formattedMaxSize = computed(() => {
 
 const selectedFiles = ref<File[]>([])
 
-const { open, onChange, reset } = useFileDialog()
+const { open, onChange, reset } = useFileDialog(({ multiple: props.multiple }))
 onChange((files) => {
   if (files)
     selectedFiles.value.push(...files)
@@ -130,6 +131,7 @@ label {
   color: var(--error-color-500);
 }
 .picker-area {
+  background: #fff;
   border: 1px solid var(--neutral-color-200);
   border-radius: var(--radius-default);
   padding: var(--space-5) var(--space-6);
