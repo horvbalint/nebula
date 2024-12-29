@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   title?: string
   subtitle?: string
   headerIcon?: string
@@ -13,13 +13,16 @@ withDefaults(defineProps<{
   centered: false,
 })
 
+const slots = useSlots()
+const hasHeader = computed(() => slots.header || props.title || props.subtitle)
+
 const modelValue = defineModel()
 </script>
 
 <template>
   <neb-pop-up v-model="modelValue" :center-content="centered" :closed-value="closedValue">
     <div class="neb-modal neb-overlay-transition" :style="{ 'max-width': maxWidth, 'min-width': minWidth }" :class="{ centered }">
-      <header>
+      <header v-if="hasHeader">
         <slot name="header">
           <div class="header">
             <div v-if="$props.headerIcon" class="header-icon">

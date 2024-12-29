@@ -11,6 +11,7 @@ const props = withDefaults(defineProps<{
   steps: Step[]
   vertical?: boolean
   skippable?: boolean
+  hasLine?: boolean
 }>(), {
   vertical: false,
 })
