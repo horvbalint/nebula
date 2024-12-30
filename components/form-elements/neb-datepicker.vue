@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { NebInput } from '#components'
 import type { Dayjs } from 'dayjs'
+import { NebInput } from '#components'
 import dayjs from 'dayjs'
-import 'dayjs/locale/hu'
 import localeData from 'dayjs/plugin/localeData'
+import 'dayjs/locale/hu'
 
 const props = withDefaults(defineProps<{
   modelValue: Date | string | undefined | null
@@ -283,6 +283,9 @@ const formattedDate = computed(() => {
 </template>
 
 <style scoped>
+.neb-datepicker {
+  width: 100%;
+}
 .dropdown {
   display: flex;
   flex-direction: column;
