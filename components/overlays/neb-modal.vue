@@ -38,7 +38,7 @@ const modelValue = defineModel()
           </div>
         </slot>
 
-        <neb-button type="tertiary-neutral" square small @click="modelValue = false">
+        <neb-button type="tertiary-neutral" square small @click="modelValue = $props.closedValue">
           <icon class="close-icon" name="material-symbols:close-rounded" />
         </neb-button>
       </header>

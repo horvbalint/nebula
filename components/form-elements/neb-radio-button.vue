@@ -1,6 +1,6 @@
 <script lang="ts" setup generic="T">
 defineProps<{
-  label: string
+  label?: string
   value: T
   disabled?: boolean
 }>()
