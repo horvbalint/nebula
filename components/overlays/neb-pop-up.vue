@@ -3,9 +3,11 @@ const props = withDefaults(defineProps<{
   modelValue: boolean | any
   closedValue?: boolean | any
   centerContent?: boolean
+  closeOnBackgroundClick?: boolean
 }>(), {
   closedValue: false,
   centerContent: false,
+  closeOnBackgroundClick: true,
 })
 
 const emit = defineEmits<{
@@ -15,6 +17,9 @@ const emit = defineEmits<{
 const popup = ref<null | HTMLElement>(null)
 
 function handleClick(event: MouseEvent) {
+  if (!props.closeOnBackgroundClick)
+    return
+
   if (event.target === popup.value)
     emit('update:modelValue', props.closedValue)
 }

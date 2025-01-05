@@ -7,10 +7,12 @@ const props = withDefaults(defineProps<{
   minWidth?: string
   centered?: boolean
   closedValue?: boolean | any
+  closeOnBackgroundClick?: boolean
 }>(), {
   maxWidth: '768px',
   minWidth: '375px',
   centered: false,
+  closeOnBackgroundClick: true,
 })
 
 const slots = useSlots()
@@ -20,7 +22,12 @@ const modelValue = defineModel()
 </script>
 
 <template>
-  <neb-pop-up v-model="modelValue" :center-content="centered" :closed-value="closedValue">
+  <neb-pop-up
+    v-model="modelValue"
+    :center-content="centered"
+    :closed-value="closedValue"
+    :close-on-background-click="closeOnBackgroundClick"
+  >
     <div class="neb-modal neb-overlay-transition" :style="{ 'max-width': maxWidth, 'min-width': minWidth }" :class="{ centered }">
       <header v-if="hasHeader">
         <slot name="header">
