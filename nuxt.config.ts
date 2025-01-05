@@ -28,7 +28,7 @@ export default defineNuxtConfig({
     neutralColor: '#667085',
     errorColor: '#F04438',
     warningColor: '#F79009',
-    successColor: '#17B26A',
+    successColor: '#198754',
   },
 
   vite: {

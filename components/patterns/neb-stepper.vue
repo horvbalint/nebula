@@ -35,7 +35,7 @@ watch(() => props.modelValue, () => {
   if (props.modelValue >= props.steps.length - 1)
     return emit('update:modelValue', props.steps.length - 1)
 
-  if (props.modelValue <= 0)
+  if (props.modelValue < 0)
     return emit('update:modelValue', 0)
 })
 </script>
