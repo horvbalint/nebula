@@ -77,7 +77,6 @@ const imageUrl = computed(() => {
 
   .icon {
     color: var(--neutral-color-400);
-    font-size: 28px !important;
   }
 }
 .file-text {
