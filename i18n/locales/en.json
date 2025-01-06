@@ -51,7 +51,15 @@
       "close": "Close"
     },
     "error-list": {
-      "badInput": "Invalid value!"
+      "badInput": "Invalid value!",
+      "patternMismatch": "The field does not match the required pattern!",
+      "rangeOverflow": "The value is too large!",
+      "rangeUnderflow": "The value is too small!",
+      "stepMismatch": "The value does not match the required step!",
+      "tooLong": "The text is too long!",
+      "tooShort": "The text is too short!",
+      "typeMismatch": "The field does not match the required type!",
+      "valueMissing": "This field is required!"
     }
   }
 }

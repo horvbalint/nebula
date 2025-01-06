@@ -7,7 +7,7 @@ defineProps<{
 <template>
   <ul v-if="errors.length" class="error-list">
     <li v-for="error in errors" :key="error">
-      {{ $t(`nebula.error-list${error}`) }}
+      {{ $t(`nebula.error-list.${error}`) }}
     </li>
   </ul>
 </template>
