@@ -34,6 +34,8 @@ const imageUrl = computed(() => {
       </div>
 
       <div class="actions">
+        <slot name="actions" />
+
         <neb-button v-if="props.onDownload" type="tertiary-neutral" small square @click="props.onDownload(file)">
           <icon name="material-symbols:download-rounded" />
         </neb-button>
@@ -54,14 +56,14 @@ const imageUrl = computed(() => {
   border: 1px solid var(--neutral-color-200);
   border-radius: var(--radius-default);
   background: #fff;
-  height: fit-content;
+  height: 55px;
 }
 .right-side {
   flex: 1;
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  padding: var(--space-2) var(--space-4);
+  padding: 0 var(--space-4);
 }
 .preview-image {
   width: 50px;
@@ -70,11 +72,12 @@ const imageUrl = computed(() => {
 .file-info {
   flex: 1;
   display: flex;
-  align-items: start;
+  align-items: center;
   gap: var(--space-2);
 
   .icon {
     color: var(--neutral-color-400);
+    font-size: 28px !important;
   }
 }
 .file-text {
