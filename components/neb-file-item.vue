@@ -90,6 +90,7 @@ const imageUrl = computed(() => {
     font-size: var(--text-sm);
     font-weight: 600;
     color: var(--neutral-color-700);
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
