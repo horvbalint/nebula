@@ -1,6 +1,7 @@
 <script setup lang="ts">
 interface Tab {
   text: string
+  description?: string
   icon?: string
   disabled?: boolean
   count?: number
@@ -10,9 +11,11 @@ const props = withDefaults(defineProps<{
   tabs: Record<string, Tab | string>
   vertical?: boolean
   fullWidth?: boolean
+  hierarchy?: 'primary' | 'tertiary'
 }>(), {
   vertical: false,
   fullWidth: false,
+  hierarchy: 'primary',
 })
 
 const modelValue = defineModel<string | null>({
@@ -41,23 +44,40 @@ const arrayTabs = computed(() => {
 <template>
   <neb-compact>
     <template #normal-mode="{ setNormalModeRef }">
-      <ul :ref="setNormalModeRef" class="neb-tabs" :class="{ 'vertical': props.vertical, 'full-width': props.fullWidth }">
-        <li
-          v-for="(tab, key) in computedTabs"
-          :key="key"
-          :class="{ active: modelValue === key, disabled: tab.disabled }"
+      <div :class="{ [props.hierarchy]: true }">
+        <ul
+          :ref="setNormalModeRef"
+          class="neb-tabs"
+          :class="{
+            'vertical': props.vertical,
+            'full-width': props.fullWidth,
+          }"
         >
-          <input v-model="modelValue" :disabled="tab.disabled" type="radio" :value="key" name="tabs">
+          <li
+            v-for="(tab, key) in computedTabs"
+            :key="key"
+            :class="{ active: modelValue === key, disabled: tab.disabled }"
+          >
+            <input v-model="modelValue" :disabled="tab.disabled" type="radio" :value="key" name="tabs">
 
-          <slot :key="key" :tab="tab">
-            <icon v-if="tab.icon" :name="tab.icon" />
-            <p>{{ tab.text }}</p>
-            <neb-badge v-if="tab.count" small>
-              {{ tab.count }}
-            </neb-badge>
-          </slot>
-        </li>
-      </ul>
+            <slot :key="key" :tab="tab">
+              <icon v-if="tab.icon" :name="tab.icon" />
+
+              <div class="tab-texts">
+                <span>{{ tab.text }}</span>
+
+                <p v-if="tab.description">
+                  {{ tab.description }}
+                </p>
+              </div>
+
+              <neb-badge v-if="tab.count" small>
+                {{ tab.count }}
+              </neb-badge>
+            </slot>
+          </li>
+        </ul>
+      </div>
     </template>
 
     <template #compact-mode>
@@ -74,107 +94,212 @@ const arrayTabs = computed(() => {
 </template>
 
 <style scoped>
-fieldset {
-  border: none;
-  padding: 0;
-  margin: 0;
-}
-ul {
-  margin: 0;
-  padding: var(--space-1);
-  list-style: none;
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  background: var(--neutral-color-50);
-  border: 1px solid var(--neutral-color-200);
-  border-radius: var(--radius-default);
-
-  &.full-width li {
-    flex: 1;
-  }
-  &.vertical {
-    flex-direction: column;
-    width: fit-content;
-
-    li {
-      width: 100%;
-      min-height: 36px;
-    }
-  }
-}
-li {
-  height: 36px;
-  justify-content: center;
-  position: relative;
-  display: flex;
-  flex-wrap: nowrap;
-  text-wrap: nowrap;
-  align-items: center;
-  gap: var(--space-2);
-  padding: 0 var(--space-3);
-  font-size: var(--text-sm);
-  font-weight: 600;
-  color: var(--neutral-color-500);
-  transition: all var(--duration-default);
-  border-radius: var(--radius-small);
-
-  &:hover {
-    color: var(--neutral-color-700);
-  }
-  input {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    cursor: pointer;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    opacity: 0;
-  }
-  .icon {
-    width: 20px;
-    height: 20px;
-  }
-  &.active {
-    color: var(--neutral-color-700);
-    background: #fff;
-    box-shadow: var(--shadow-sm);
-
-    &.disabled {
-      color: var(--neutral-color-400);
-    }
-  }
-  &.disabled {
-    color: var(--neutral-color-400);
-
-    input {
-      cursor: not-allowed;
-    }
-  }
-}
-
-.dark-mode {
+.primary {
   ul {
     margin: 0;
-    background: var(--neutral-color-900);
-    border: 1px solid var(--neutral-color-800);
+    padding: var(--space-1);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    background: var(--neutral-color-50);
+    border: 1px solid var(--neutral-color-200);
+    border-radius: var(--radius-default);
+
+    &.full-width li {
+      flex: 1;
+    }
+    &.vertical {
+      flex-direction: column;
+      width: fit-content;
+
+      li {
+        width: 100%;
+        min-height: 36px;
+      }
+    }
   }
   li {
-    color: var(--neutral-color-400);
+    height: 36px;
+    justify-content: center;
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+    text-wrap: nowrap;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0 var(--space-3);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--neutral-color-500);
+    transition: all var(--duration-default);
+    border-radius: var(--radius-small);
 
+    &:hover {
+      color: var(--neutral-color-700);
+    }
+    input {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      cursor: pointer;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      opacity: 0;
+    }
+    .icon {
+      width: 20px;
+      height: 20px;
+    }
     &.active {
-      color: var(--neutral-color-200);
-      background: var(--neutral-color-950);
+      color: var(--neutral-color-700);
+      background: #fff;
+      box-shadow: var(--shadow-sm);
 
       &.disabled {
-        color: var(--neutral-color-500);
-        background: var(--neutral-color-800);
+        color: var(--neutral-color-400);
       }
     }
     &.disabled {
-      color: var(--neutral-color-500);
+      color: var(--neutral-color-400);
+
+      input {
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .dark-mode {
+    ul {
+      margin: 0;
+      background: var(--neutral-color-900);
+      border: 1px solid var(--neutral-color-800);
+    }
+    li {
+      color: var(--neutral-color-400);
+
+      &.active {
+        color: var(--neutral-color-200);
+        background: var(--neutral-color-950);
+
+        &.disabled {
+          color: var(--neutral-color-500);
+          background: var(--neutral-color-800);
+        }
+      }
+      &.disabled {
+        color: var(--neutral-color-500);
+      }
+    }
+  }
+}
+
+.tertiary {
+  ul {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    border-bottom: 2px solid var(--neutral-color-200);
+
+    &.full-width li {
+      flex: 1;
+    }
+    &.vertical {
+      flex-direction: column;
+      width: fit-content;
+      border-bottom: 0;
+      gap: var(--space-1);
+      border-left: 3px solid var(--neutral-color-200);
+
+      li {
+        width: 100%;
+        padding: var(--space-2) var(--space-3);
+        border-left: 3px solid transparent;
+        margin-left: -6px;
+        border-bottom: none;
+        margin-bottom: 0;
+        justify-content: flex-start;
+        align-items: flex-start;
+
+        &.active {
+          background: linear-gradient(90deg, rgba(105, 65, 198, 0.15) 0%, rgba(105, 65, 198, 0) 90%);
+          color: var(--primary-color);
+          border-color: var(--primary-color);
+
+          &.disabled {
+            color: var(--neutral-color-400);
+          }
+        }
+        .icon {
+          width: 24px;
+          height: 24px;
+        }
+      }
+      .tab-texts {
+        gap: var(--space-1);
+      }
+    }
+  }
+  li {
+    padding: 0 var(--space-1) var(--space-3);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    position: relative;
+    flex-wrap: nowrap;
+    text-wrap: nowrap;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--neutral-color-500);
+    transition: all var(--duration-default);
+    border-bottom: 2px solid var(--neutral-color-200);
+    margin-bottom: -2px;
+
+    &:hover {
+      color: var(--neutral-color-700);
+    }
+    input {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      cursor: pointer;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      opacity: 0;
+    }
+    .icon {
+      width: 22px;
+      height: 22px;
+    }
+    &.active {
+      color: var(--primary-color);
+      border-color: var(--primary-color);
+
+      &.disabled {
+        color: var(--neutral-color-400);
+      }
+    }
+    &.disabled {
+      color: var(--neutral-color-400);
+
+      input {
+        cursor: not-allowed;
+      }
+    }
+  }
+  .tab-texts {
+    display: flex;
+    flex-direction: column;
+
+    p {
+      font-size: var(--text-sm);
+      font-weight: 400;
     }
   }
 }
