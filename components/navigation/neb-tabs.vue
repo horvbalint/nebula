@@ -71,7 +71,7 @@ const arrayTabs = computed(() => {
                 </p>
               </div>
 
-              <neb-badge v-if="tab.count" small>
+              <neb-badge v-if="tab.count" small class="count-badge">
                 {{ tab.count }}
               </neb-badge>
             </slot>
@@ -302,5 +302,9 @@ const arrayTabs = computed(() => {
       font-weight: 400;
     }
   }
+}
+.count-badge {
+  font-weight: 600;
+  color: var(--neutral-color-600);
 }
 </style>
