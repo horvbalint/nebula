@@ -170,30 +170,6 @@ const arrayTabs = computed(() => {
       }
     }
   }
-
-  .dark-mode {
-    ul {
-      margin: 0;
-      background: var(--neutral-color-900);
-      border: 1px solid var(--neutral-color-800);
-    }
-    li {
-      color: var(--neutral-color-400);
-
-      &.active {
-        color: var(--neutral-color-200);
-        background: var(--neutral-color-950);
-
-        &.disabled {
-          color: var(--neutral-color-500);
-          background: var(--neutral-color-800);
-        }
-      }
-      &.disabled {
-        color: var(--neutral-color-500);
-      }
-    }
-  }
 }
 
 .tertiary {
@@ -310,5 +286,31 @@ const arrayTabs = computed(() => {
 .count-badge {
   font-weight: 600;
   color: var(--neutral-color-600);
+}
+
+.dark-mode {
+  .primary {
+    ul {
+      margin: 0;
+      background: var(--neutral-color-900);
+      border: 1px solid var(--neutral-color-800);
+    }
+    li {
+      color: var(--neutral-color-400);
+
+      &.active {
+        color: var(--neutral-color-200);
+        background: var(--neutral-color-950);
+
+        &.disabled {
+          color: var(--neutral-color-500);
+          background: var(--neutral-color-800);
+        }
+      }
+      &.disabled {
+        color: var(--neutral-color-500);
+      }
+    }
+  }
 }
 </style>
