@@ -203,9 +203,6 @@ const arrayTabs = computed(() => {
     gap: var(--space-4);
     border-bottom: 2px solid var(--neutral-color-200);
 
-    &.full-width li {
-      flex: 1;
-    }
     &.vertical {
       flex-direction: column;
       width: fit-content;
@@ -241,6 +238,13 @@ const arrayTabs = computed(() => {
         gap: var(--space-1);
       }
     }
+    &.full-width {
+      width: 100%;
+
+      li {
+        flex: 1;
+      }
+    }
   }
   li {
     padding: 0 var(--space-1) var(--space-3);
@@ -254,7 +258,7 @@ const arrayTabs = computed(() => {
     gap: var(--space-3);
     font-size: var(--text-sm);
     font-weight: 600;
-    color: var(--neutral-color-500);
+    color: var(--neutral-color-600);
     transition: all var(--duration-default);
     border-bottom: 2px solid var(--neutral-color-200);
     margin-bottom: -2px;

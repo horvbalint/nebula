@@ -105,6 +105,7 @@ withDefaults(defineProps<{
   align-self: stretch;
 }
 .header-icon {
+  background: #fff;
   align-self: stretch;
   display: flex;
   align-items: center;
