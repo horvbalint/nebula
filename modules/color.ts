@@ -39,12 +39,12 @@ export default defineNuxtModule({
     colorsFileLines.push('}')
     colorComponentsFileLines.push('}')
 
-    const stylesheetsDirPath = resolve('./stylesheets')
+    const stylesheetsDirPath = resolve('./runtime/stylesheets')
     if (!fs.existsSync(stylesheetsDirPath))
-      await fs.promises.mkdir(stylesheetsDirPath)
+      await fs.promises.mkdir(stylesheetsDirPath, { recursive: true })
 
-    const colorsPath = resolve('./stylesheets/colors.css')
-    const colorComponentsPath = resolve('./stylesheets/colorComponents.css')
+    const colorsPath = resolve('./runtime/stylesheets/colors.css')
+    const colorComponentsPath = resolve('./runtime/stylesheets/colorComponents.css')
 
     await fs.promises.writeFile(colorsPath, colorsFileLines.join('\n'))
     await fs.promises.writeFile(colorComponentsPath, colorComponentsFileLines.join('\n'))
