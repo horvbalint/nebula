@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { NebToastAction, NebToastParams } from '@nebula/composables/neb-toast'
+import type { NebToastAction, NebToastParams } from '../../composables/neb-toast'
 
 const props = withDefaults(defineProps<{
   progress?: number

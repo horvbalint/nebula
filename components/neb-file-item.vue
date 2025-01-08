@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { MaybeFile } from '@nebula/composables/neb-file'
+import type { MaybeFile } from '../composables/neb-file'
 
 const props = defineProps<{
   file: MaybeFile

@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T extends Record<string, any>">
-import type { Columns, FormattedRow, Props } from '@nebula/components/table/neb-table-frame.vue'
+import type { Columns, FormattedRow, Props } from './neb-table-frame.vue'
 import dayjs from 'dayjs'
 import Fuse from 'fuse.js'
 

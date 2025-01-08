@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { h } from 'vue'
-import NebAvatar from '@nebula/components/avatar/neb-avatar.vue'
+import NebAvatar from '../avatar/neb-avatar.vue'
 
 const props = withDefaults(defineProps<{
   max?: number
