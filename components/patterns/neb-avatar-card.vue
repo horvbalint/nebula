@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { Props } from '@nebula/components/avatar/neb-avatar.vue'
+import type { Props } from '../avatar/neb-avatar.vue'
 
 defineProps<{
   avatar?: Props

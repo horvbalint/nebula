@@ -1,9 +1,9 @@
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import postcssGlobalData from '@csstools/postcss-global-data'
-import { createResolver } from '@nuxt/kit'
-
 import postcssPresetEnv from 'postcss-preset-env'
 
-const { resolve } = createResolver(import.meta.url)
+const currentDir = dirname(fileURLToPath(import.meta.url))
 
 export default defineNuxtConfig({
   devtools: {
@@ -11,12 +11,12 @@ export default defineNuxtConfig({
   },
 
   alias: {
-    '@nebula': resolve('./'),
+    '@nebula': join(currentDir, './'),
   },
 
   modulesDir: [
     'node_modules',
-    resolve('./node_modules'),
+    join(currentDir, './node_modules'),
   ],
 
   css: [
@@ -32,12 +32,20 @@ export default defineNuxtConfig({
   },
 
   vite: {
+    optimizeDeps: {
+      include: [
+        'dayjs',
+        'dayjs/plugin/localeData',
+        'dayjs/locale/hu',
+        'dayjs/plugin/isBetween',
+      ],
+    },
     css: {
       postcss: {
         plugins: [
           postcssGlobalData({
             files: [
-              resolve('./assets/viewports.css'),
+              join(currentDir, './assets/viewports.css'),
             ],
           }),
           postcssPresetEnv,
@@ -67,7 +75,7 @@ export default defineNuxtConfig({
     customCollections: [
       {
         prefix: 'nebula',
-        dir: resolve('./assets/icons/nebula'),
+        dir: join(currentDir, './assets/icons/nebula'),
       },
     ],
   },

@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T extends Record<string, any>">
-import type { RestoreProps } from '@nebula/composables/neb-restore'
+import type { RestoreProps } from '../../composables/neb-restore'
 
 export interface Column<T, Key extends keyof T = keyof T> {
   text: string
