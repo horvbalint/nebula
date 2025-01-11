@@ -117,6 +117,7 @@ const showMobileMenu = ref(false)
   justify-content: center;
   border-bottom: 1px solid var(--neutral-color-200);
   padding: var(--space-3) var(--space-6);
+  background: #fff;
 }
 .compact-wrapper {
   width: 100%;
