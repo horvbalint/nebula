@@ -8,7 +8,7 @@ const props = withDefaults(defineProps<{
   text?: string
   timing?: number
 }>(), {
-  timing: 1000,
+  timing: 500,
 })
 
 const timer = ref<ReturnType<typeof setTimeout> | undefined>(undefined)

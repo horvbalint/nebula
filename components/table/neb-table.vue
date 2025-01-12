@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T extends Record<string, any>">
-import type { Columns, FormattedRow, Props } from './neb-table-frame.vue'
+import type { Columns, FormattedRow, Props, Slots } from './neb-table-frame.vue'
 import dayjs from 'dayjs'
 import Fuse from 'fuse.js'
 
@@ -7,6 +7,12 @@ type TableProps = Omit<Props<T>, 'rows'> & {
   rows: T[] | null
 }
 const props = defineProps<TableProps>()
+
+const slots = defineSlots<Slots<T> & {
+  'actions'?: () => any
+  'footer-start'?: () => any
+  'footer-end'?: () => any
+}>()
 
 const modelValue = defineModel<null | T[]>({
   required: false,
@@ -134,20 +140,13 @@ function getSortFunction(key: keyof T): (a: FormattedRow<T>, b: FormattedRow<T>)
 
 const paginationResult = ref<FormattedRow<T>[]>([]) as Ref<FormattedRow<T>[]>
 
-// const computedBinds = computed(() => {
-//   const binds: any = { ...props, ...useAttrs() }
-//   delete binds.rows
-//   delete binds.columns
+const tableSlots = computed<Slots<T>>(() => {
+  const tableSlots = {} as Slots<T>
 
-//   return binds
-// })
-
-const tableSlots = computed(() => {
-  const slots = useSlots()
-
-  const tableSlots: Record<string, any> = {}
+  const simpleSlots = ['header', 'loading-state', 'empty-state', 'error-state', 'row-actions', 'last-column', 'footer']
   for (const key in slots) {
-    if (key.startsWith('th-') || key.startsWith('td-') || ['td', 'row-actions', 'last-column'].includes(key))
+    if (key.startsWith('th-') || key.startsWith('td-') || simpleSlots.includes(key))
+      // @ts-expect-error - type magic is too strong in this one
       tableSlots[key] = slots[key]
   }
 

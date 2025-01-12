@@ -21,6 +21,24 @@ export interface FormattedRow<T> {
   original: T
 }
 
+export type ThSlots<T> = {
+  [K in keyof T as `th-${K & string}`]: (props: { column: Column<T, K> }) => any
+}
+
+export type TdSlots<T> = {
+  [K in keyof T as `td-${K & string}`]: (props: { data: FormattedRow<T>, original: FormattedRow<T>['original'][K], formatted: FormattedRow<T>['formatted'][K], column: Column<T, K> }) => any
+}
+
+export type Slots<T> = ThSlots<T> & TdSlots<T> & {
+  'header'?: () => any
+  'loading-state'?: () => any
+  'empty-state'?: () => any
+  'error-state'?: () => any
+  'row-actions'?: (props: { data: FormattedRow<T> }) => any
+  'last-column'?: (props: { data: FormattedRow<T> }) => any
+  'footer'?: () => any
+}
+
 export type Props<T> = {
   columns: Columns<T>
   rows: FormattedRow<T>[] | null
@@ -37,6 +55,8 @@ const props = withDefaults(defineProps<Props<T>>(), {
 const emit = defineEmits<{
   click: [row: T]
 }>()
+
+defineSlots<Slots<T>>()
 
 // useNebLoading(props, () => {
 // useNebRestore<RestoreState>({
@@ -130,7 +150,7 @@ const isAnyChecked = computed({
             <th v-for="(column, key) in props.columns" :key="`th-${key as string}`" @click="handleHeaderClick(key)">
               <div class="th-wrapper">
                 <div class="th-slot-wrapper">
-                  <slot :name="`th-${key as string}`" :column="column">
+                  <slot :name="`th-${key as keyof Column<T>}`" :column="column!">
                     {{ column!.text }}
                   </slot>
                 </div>
@@ -152,10 +172,8 @@ const isAnyChecked = computed({
             </td>
 
             <td v-for="(column, key) in props.columns" :key="`td-${key as string}`">
-              <slot name="td" :data="row" :original="row.original[key]" :formatted="row.formatted[key]" :column="column">
-                <slot :name="`td-${key as string}`" :data="row" :original="row.original[key]" :formatted="row.formatted[key]" :column="column">
-                  {{ row.formatted[key] }}
-                </slot>
+              <slot :name="`td-${key as keyof Column<T>}`" :data="row" :original="row.original[key as string]" :formatted="row.formatted[key]" :column="column!">
+                {{ row.formatted[key] }}
               </slot>
             </td>
 
