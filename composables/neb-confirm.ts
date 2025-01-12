@@ -1,8 +1,10 @@
 export interface ConfirmModal {
   title: string
   description: string
-  ok?: string
-  cancel?: string
+  okText?: string
+  cancelText?: string
+  type?: 'info' | 'warning' | 'danger'
+  icon?: string
 }
 
 interface OpenModal {
@@ -18,6 +20,13 @@ export function useNebConfirm(config: ConfirmModal): Promise<boolean> {
   return new Promise((resolve) => {
     const modals = getConfirmModals()
 
-    modals.value.push({ config, resolve })
+    modals.value.push({
+      config: {
+        type: 'danger',
+        icon: 'material-symbols:delete-outline-rounded',
+        ...config,
+      },
+      resolve,
+    })
   })
 }

@@ -16,8 +16,8 @@ function answer(result: boolean) {
   >
     <template #body>
       <main>
-        <div class="danger-icon">
-          <icon name="material-symbols:delete-outline-rounded" />
+        <div v-if="modal.config.icon" class="icon-wrapper" :class="modal.config.type">
+          <icon :name="modal.config.icon" />
         </div>
 
         <div class="confirm-text-wrapper">
@@ -36,11 +36,11 @@ function answer(result: boolean) {
 
     <template #actions>
       <neb-button type="secondary-neutral" @click="answer(false)">
-        {{ modal.config.cancel || 'Cancel' }}
+        {{ modal.config.cancelText || 'Cancel' }}
       </neb-button>
 
-      <neb-button destructive @click="answer(true)">
-        {{ modal.config.ok || 'Ok' }}
+      <neb-button :destructive="modal.config.type !== 'info'" @click="answer(true)">
+        {{ modal.config.okText || 'Ok' }}
       </neb-button>
     </template>
   </neb-modal>
@@ -54,7 +54,7 @@ main {
   align-items: flex-start;
   gap: var(--space-6);
 }
-.danger-icon {
+.icon-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -90,6 +90,42 @@ main {
     left: 0px;
     border: 4px solid var(--error-color-50);
     border-radius: 50%;
+  }
+
+  &.danger {
+    color: var(--error-color-500);
+    background: var(--error-color-200);
+
+    &:before {
+      border-color: var(--error-color-100);
+    }
+    &:after {
+      border-color: var(--error-color-50);
+    }
+  }
+
+  &.warning {
+    color: var(--warning-color-500);
+    background: var(--warning-color-200);
+
+    &:before {
+      border-color: var(--warning-color-100);
+    }
+    &:after {
+      border-color: var(--warning-color-50);
+    }
+  }
+
+  &.success {
+    color: var(--success-color-500);
+    background: var(--success-color-200);
+
+    &:before {
+      border-color: var(--success-color-100);
+    }
+    &:after {
+      border-color: var(--success-color-50);
+    }
   }
 }
 .confirm-text-wrapper {
