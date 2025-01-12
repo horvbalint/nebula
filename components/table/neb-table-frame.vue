@@ -138,6 +138,10 @@ const isAnyChecked = computed({
                 <icon v-if="key === sortColumn" :name="sortIcon" />
               </div>
             </th>
+
+            <th v-if="$slots['row-actions'] || $slots['last-column']">
+              {{ $t('nebula.table-frame.actions') }}
+            </th>
           </tr>
         </thead>
 
@@ -152,6 +156,14 @@ const isAnyChecked = computed({
                 <slot :name="`td-${key as string}`" :data="row" :original="row.original[key]" :formatted="row.formatted[key]" :column="column">
                   {{ row.formatted[key] }}
                 </slot>
+              </slot>
+            </td>
+
+            <td v-if="$slots['row-actions'] || $slots['last-column']">
+              <slot name="last-column" :data="row">
+                <div class="actions-wrapper">
+                  <slot name="row-actions" :data="row" />
+                </div>
               </slot>
             </td>
           </tr>
@@ -266,6 +278,11 @@ tbody {
 .checkbox-cell {
   width: 0;
   padding: var(--space-3) var(--space-1) var(--space-3) var(--space-6);
+}
+.actions-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 }
 .dark-mode {
   .neb-table {

@@ -147,7 +147,7 @@ const tableSlots = computed(() => {
 
   const tableSlots: Record<string, any> = {}
   for (const key in slots) {
-    if (key.startsWith('th-') || key.startsWith('td-') || key === 'td')
+    if (key.startsWith('th-') || key.startsWith('td-') || ['td', 'row-actions', 'last-column'].includes(key))
       tableSlots[key] = slots[key]
   }
 
@@ -164,7 +164,6 @@ const tableSlots = computed(() => {
     :columns="computedColumns"
     v-bind="$attrs"
   >
-    {{ tableSlots }}
     <template #header>
       <div class="header">
         <neb-search-input v-model="searchTerm" lazy class="search-input" />

@@ -45,7 +45,8 @@
       "empty": {
         "title": "This table is empty!",
         "description": "There is nothing to show in this table currently."
-      }
+      },
+      "actions": "Actions"
     },
     "toast": {
       "close": "Close"
