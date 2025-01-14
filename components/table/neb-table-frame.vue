@@ -46,15 +46,17 @@ export type Props<T> = {
   error?: boolean
 } & RestoreProps<RestoreState<T>>
 
+export interface Emits<T> {
+  click: [row: T]
+}
+
 const props = withDefaults(defineProps<Props<T>>(), {
   loading: false,
   error: false,
   restore: false,
 })
 
-const emit = defineEmits<{
-  click: [row: T]
-}>()
+const emit = defineEmits<Emits<T>>()
 
 defineSlots<Slots<T>>()
 

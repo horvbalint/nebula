@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T extends Record<string, any>">
-import type { Columns, FormattedRow, Props, Slots } from './neb-table-frame.vue'
+import type { Columns, Emits, FormattedRow, Props, Slots } from './neb-table-frame.vue'
 import dayjs from 'dayjs'
 import Fuse from 'fuse.js'
 
@@ -7,6 +7,8 @@ type TableProps = Omit<Props<T>, 'rows'> & {
   rows: T[] | null
 }
 const props = defineProps<TableProps>()
+
+defineEmits<Emits<T>>()
 
 const slots = defineSlots<Slots<T> & {
   'actions'?: () => any
@@ -162,6 +164,7 @@ const tableSlots = computed<Slots<T>>(() => {
     :rows="paginationResult"
     :columns="computedColumns"
     v-bind="$attrs"
+    @click="($event) => $emit('click', $event)"
   >
     <template #header>
       <div class="header">
