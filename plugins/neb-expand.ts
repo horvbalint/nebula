@@ -9,6 +9,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       if (!value) {
         el.style.overflow = 'hidden'
         el.style.height = '0'
+        el.style.boxSizing = 'content-box'
       }
 
       el.dataset.nebExpandId = generateId()
