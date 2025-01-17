@@ -208,6 +208,7 @@ const arrayTabs = computed(() => {
         .icon {
           width: 24px;
           height: 24px;
+          flex-shrink: 0;
         }
       }
       .tab-texts {
