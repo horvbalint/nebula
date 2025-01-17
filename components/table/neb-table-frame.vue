@@ -124,7 +124,12 @@ const isAnyChecked = computed({
     </header>
 
     <div class="neb-table-wrapper" :class="{ 'no-header': !$slots.header }">
-      <neb-state-content :status="props.status" :refresh="props.refresh">
+      <neb-state-content
+        :status="props.status"
+        :refresh="props.refresh"
+        :error-title="$t('nebula.table-frame.error.title')"
+        :error-description="$t('nebula.table-frame.error.description')"
+      >
         <slot v-if="!props.rows?.length" name="empty-state">
           <neb-empty-state
             :title="$t('nebula.table-frame.empty.title')"
@@ -185,12 +190,7 @@ const isAnyChecked = computed({
         </template>
 
         <template #error>
-          <slot name="error-state">
-            <neb-error-state
-              :title="$t('nebula.table-frame.error.title')"
-              :description="$t('nebula.table-frame.error.description')"
-            />
-          </slot>
+          <slot name="error-state" />
         </template>
       </neb-state-content>
     </div>
