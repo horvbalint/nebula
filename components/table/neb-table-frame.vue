@@ -1,4 +1,5 @@
 <script setup lang="ts" generic="T extends Record<string, any>">
+import type { AsyncDataRequestStatus } from 'nuxt/app'
 import type { RestoreProps } from '../../composables/neb-restore'
 
 export interface Column<T, Key extends keyof T = keyof T> {
@@ -42,8 +43,8 @@ export type Slots<T> = ThSlots<T> & TdSlots<T> & {
 export type Props<T> = {
   columns: Columns<T>
   rows: FormattedRow<T>[] | null
-  loading?: boolean
-  error?: boolean
+  status?: AsyncDataRequestStatus
+  refresh?: () => Promise<void>
 } & RestoreProps<RestoreState<T>>
 
 export interface Emits<T> {
@@ -51,8 +52,7 @@ export interface Emits<T> {
 }
 
 const props = withDefaults(defineProps<Props<T>>(), {
-  loading: false,
-  error: false,
+  status: 'success',
   restore: false,
 })
 
@@ -124,71 +124,75 @@ const isAnyChecked = computed({
     </header>
 
     <div class="neb-table-wrapper" :class="{ 'no-header': !$slots.header }">
-      <slot v-if="loading" name="loading-state">
-        <neb-loading-state />
-      </slot>
+      <neb-state-content :status="props.status" :refresh="props.refresh">
+        <slot v-if="!props.rows?.length" name="empty-state">
+          <neb-empty-state
+            :title="$t('nebula.table-frame.empty.title')"
+            :description="$t('nebula.table-frame.empty.description')"
+          />
+        </slot>
 
-      <slot v-else-if="error" name="error-state">
-        <neb-error-state
-          :title="$t('nebula.table-frame.error.title')"
-          :description="$t('nebula.table-frame.error.description')"
-        />
-      </slot>
+        <table v-else>
+          <thead>
+            <tr>
+              <th v-if="modelValue" class="checkbox-cell">
+                <neb-checkbox v-model="isAnyChecked" icon="material-symbols:remove-rounded" />
+              </th>
 
-      <slot v-else-if="!props.rows?.length" name="empty-state">
-        <neb-empty-state
-          :title="$t('nebula.table-frame.empty.title')"
-          :description="$t('nebula.table-frame.empty.description')"
-        />
-      </slot>
+              <th v-for="(column, key) in props.columns" :key="`th-${key as string}`" @click="handleHeaderClick(key)">
+                <div class="th-wrapper">
+                  <div class="th-slot-wrapper">
+                    <slot :name="`th-${key as keyof Column<T>}`" :column="column!">
+                      {{ column!.text }}
+                    </slot>
+                  </div>
 
-      <table v-else>
-        <thead>
-          <tr>
-            <th v-if="modelValue" class="checkbox-cell">
-              <neb-checkbox v-model="isAnyChecked" icon="material-symbols:remove-rounded" />
-            </th>
-
-            <th v-for="(column, key) in props.columns" :key="`th-${key as string}`" @click="handleHeaderClick(key)">
-              <div class="th-wrapper">
-                <div class="th-slot-wrapper">
-                  <slot :name="`th-${key as keyof Column<T>}`" :column="column!">
-                    {{ column!.text }}
-                  </slot>
+                  <icon v-if="key === sortColumn" :name="sortIcon" />
                 </div>
+              </th>
 
-                <icon v-if="key === sortColumn" :name="sortIcon" />
-              </div>
-            </th>
+              <th v-if="$slots['row-actions'] || $slots['last-column']">
+                {{ $t('nebula.table-frame.actions') }}
+              </th>
+            </tr>
+          </thead>
 
-            <th v-if="$slots['row-actions'] || $slots['last-column']">
-              {{ $t('nebula.table-frame.actions') }}
-            </th>
-          </tr>
-        </thead>
+          <tbody>
+            <tr v-for="(row, index) in props.rows" :key="index" @click="emit('click', row.original)">
+              <td v-if="modelValue" class="checkbox-cell">
+                <neb-checkbox v-model="modelValue" :value="row.original" @click.stop="" />
+              </td>
 
-        <tbody>
-          <tr v-for="(row, index) in props.rows" :key="index" @click="emit('click', row.original)">
-            <td v-if="modelValue" class="checkbox-cell">
-              <neb-checkbox v-model="modelValue" :value="row.original" @click.stop="" />
-            </td>
+              <td v-for="(column, key) in props.columns" :key="`td-${key as string}`">
+                <slot :name="`td-${key as keyof Column<T>}`" :data="row" :original="row.original[key as string]" :formatted="row.formatted[key]" :column="column!">
+                  {{ row.formatted[key] }}
+                </slot>
+              </td>
 
-            <td v-for="(column, key) in props.columns" :key="`td-${key as string}`">
-              <slot :name="`td-${key as keyof Column<T>}`" :data="row" :original="row.original[key as string]" :formatted="row.formatted[key]" :column="column!">
-                {{ row.formatted[key] }}
-              </slot>
-            </td>
+              <td v-if="$slots['row-actions'] || $slots['last-column']">
+                <slot name="last-column" :data="row">
+                  <div class="actions-wrapper">
+                    <slot name="row-actions" :data="row" />
+                  </div>
+                </slot>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-            <td v-if="$slots['row-actions'] || $slots['last-column']">
-              <slot name="last-column" :data="row">
-                <div class="actions-wrapper">
-                  <slot name="row-actions" :data="row" />
-                </div>
-              </slot>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+        <template #loading>
+          <slot name="loading-state" />
+        </template>
+
+        <template #error>
+          <slot name="error-state">
+            <neb-error-state
+              :title="$t('nebula.table-frame.error.title')"
+              :description="$t('nebula.table-frame.error.description')"
+            />
+          </slot>
+        </template>
+      </neb-state-content>
     </div>
 
     <footer>

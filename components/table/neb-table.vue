@@ -36,7 +36,7 @@ const computedColumns = computed(() => {
 })
 
 const formattedRows = computed<FormattedRow<T>[]>(() => {
-  if (props.loading || !props.rows)
+  if (props.status === 'pending' || !props.rows)
     return []
 
   return props.rows.map((row) => {
@@ -67,7 +67,7 @@ function formatCell(row: T, key: keyof T): string {
 }
 
 const searcher = computed(() => {
-  if (props.loading)
+  if (props.status === 'pending')
     return null
 
   return new Fuse(formattedRows.value, {
@@ -76,7 +76,7 @@ const searcher = computed(() => {
   })
 })
 const searchedRows = computed<FormattedRow<T>[]>(() => {
-  if (props.loading || !searcher.value || !searchTerm.value.length)
+  if (props.status === 'pending' || !searcher.value || !searchTerm.value.length)
     return formattedRows.value
 
   const result = searcher.value.search(searchTerm.value)
@@ -101,7 +101,7 @@ watch(searchTerm, () => {
 })
 
 const sortedRows = computed(() => {
-  if (props.loading)
+  if (props.status === 'pending')
     return []
 
   if (!sortColumn.value)
@@ -163,6 +163,8 @@ const tableSlots = computed<Slots<T>>(() => {
     v-model:sort-column="sortColumn"
     :rows="paginationResult"
     :columns="computedColumns"
+    :status="props.status"
+    :refresh="props.refresh"
     v-bind="$attrs"
     @click="($event) => $emit('click', $event)"
   >

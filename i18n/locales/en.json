@@ -61,6 +61,11 @@
       "tooShort": "The text is too short!",
       "typeMismatch": "The field does not match the required type!",
       "valueMissing": "This field is required!"
+    },
+    "state-content": {
+      "error": {
+        "refresh": "Retry"
+      }
     }
   }
 }
