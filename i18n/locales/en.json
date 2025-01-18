@@ -15,6 +15,13 @@
       "click": "Click here",
       "drag": "or drag the files here to upload."
     },
+    "single-file-picker": {
+      "empty": {
+        "title": "No file selected",
+        "description": "Click the button or drag a file here"
+      },
+      "maxSize": "max. {size}"
+    },
     "neb-select": {
       "placeholder": "Select from the list...",
       "search": "Type here to search...",

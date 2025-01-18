@@ -6,10 +6,8 @@ const props = withDefaults(defineProps<{
   maxSize?: number
   maxCount?: number
   disabled?: boolean
-  multiple?: boolean
 }>(), {
   required: false,
-  multiple: false,
   disabled: false,
 })
 
@@ -30,12 +28,12 @@ const formattedMaxSize = computed(() => {
   if (!props.maxSize)
     return null
 
-  return nebBytesToSize(props.maxSize)
+  return nebFormatByteSize(props.maxSize)
 })
 
 const selectedFiles = ref<File[]>([])
 
-const { open, onChange, reset } = useFileDialog(({ multiple: props.multiple }))
+const { open, onChange, reset } = useFileDialog(({ multiple: true }))
 onChange((files) => {
   if (files)
     selectedFiles.value.push(...files)
@@ -90,7 +88,7 @@ watch(
           </template>
 
           <template v-if="maxSize">
-            (max: {{ formattedMaxSize }})
+            (max. {{ formattedMaxSize }})
           </template>
         </p>
       </div>

@@ -6,7 +6,7 @@ export interface FileLike {
 
 export type MaybeFile = File | FileLike
 
-export function nebBytesToSize(bytes: number) {
+export function nebFormatByteSize(bytes: number) {
   const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']
 
   if (bytes === 0)

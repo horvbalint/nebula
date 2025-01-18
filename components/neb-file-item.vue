@@ -9,7 +9,7 @@ const props = defineProps<{
 
 defineEmits(['remove', 'download'])
 
-const formattedFileSize = computed(() => nebBytesToSize(props.file.size))
+const formattedFileSize = computed(() => nebFormatByteSize(props.file.size))
 const isImage = computed(() => props.file.type.startsWith('image/'))
 const imageUrl = computed(() => {
   if (!isImage.value || !(props.file instanceof File))
