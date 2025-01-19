@@ -94,7 +94,7 @@ withDefaults(defineProps<{
 }
 .content-row-start {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--space-4);
 }
 .content-actions {
