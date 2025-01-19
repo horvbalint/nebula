@@ -70,7 +70,10 @@ watch(() => props.modelValue, async () => {
         />
       </div>
 
-      <p v-if="hint" class="hint">{{ $props.hint }}</p>
+      <footer>
+        <p v-if="hint" class="hint">{{ $props.hint }}</p>
+        <span>{{ $props.modelValue?.toString().length }}/{{ computedAttrs.maxlength }}</span>
+      </footer>
 
       <neb-error-list :errors="errorsToShow" />
     </label>
@@ -197,6 +200,16 @@ label {
   }
   .hint {
     color: var(--neutral-color-300);
+  }
+}
+footer {
+  display: flex;
+  justify-content: space-between;
+
+  span {
+    font-size: var(--text-sm);
+    color: var(--neutral-color-500);
+    font-weight: 500;
   }
 }
 </style>
