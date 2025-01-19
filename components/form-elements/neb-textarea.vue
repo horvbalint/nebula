@@ -72,7 +72,7 @@ watch(() => props.modelValue, async () => {
 
       <footer>
         <p v-if="hint" class="hint">{{ $props.hint }}</p>
-        <span>{{ $props.modelValue?.toString().length }}/{{ computedAttrs.maxlength }}</span>
+        <span v-if="computedAttrs.maxlength">{{ $props.modelValue?.toString().length }}/{{ computedAttrs.maxlength }}</span>
       </footer>
 
       <neb-error-list :errors="errorsToShow" />
