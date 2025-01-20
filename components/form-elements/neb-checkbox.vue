@@ -9,7 +9,16 @@ withDefaults(defineProps<{
   align: 'center',
 })
 
+const emit = defineEmits<{
+  click: []
+}>()
 const modelValue = defineModel<T[] | Set<T> | boolean>()
+const input = templateRef('input')
+
+function handleClick() {
+  input.value.click()
+  emit('click')
+}
 </script>
 
 <template>
@@ -21,12 +30,12 @@ const modelValue = defineModel<T[] | Set<T> | boolean>()
       type="checkbox"
       :value="$props.value"
     >
-    <div class="checkmark" @click="($refs.input as HTMLInputElement).click()">
+    <div class="checkmark" @click="handleClick()">
       <Icon :name="$props.icon!" />
     </div>
 
     <div class="right-side">
-      <div class="label-wrapper" @click="($refs.input as HTMLInputElement).click()">
+      <div class="label-wrapper" @click="handleClick()">
         <slot>
           <p v-if="label">
             {{ $props.label }}
