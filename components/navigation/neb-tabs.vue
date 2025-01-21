@@ -1,5 +1,5 @@
 <script setup lang="ts">
-interface Tab {
+export interface Tab {
   text: string
   description?: string
   icon?: string
