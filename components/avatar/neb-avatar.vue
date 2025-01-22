@@ -22,7 +22,7 @@ export default defineComponent({
   <div tabindex="0" class="neb-avatar" :style="{ width: $props.size, height: $props.size }">
     <img v-if="$props.src" :src="$props.src" :alt="alt || $t('nebula.avatar.alt')">
     <span v-else-if="$props.text">{{ $props.text }}</span>
-    <icon v-else-if="$props.icon" :name="icon" />
+    <Icon v-else-if="$props.icon" :name="icon" />
 
     <div v-if="$slots.badge" class="badge">
       <slot />
@@ -58,8 +58,7 @@ export default defineComponent({
     border-radius: 50%;
   }
   .icon {
-    width: 60%;
-    height: 60%;
+    font-size: 24px !important;
   }
   span {
     font-size: var(--text-sm);
