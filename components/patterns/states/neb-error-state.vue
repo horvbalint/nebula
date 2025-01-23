@@ -10,19 +10,23 @@ withDefaults(defineProps<{
 
 <template>
   <div class="neb-error-state">
-    <div class="error-icon">
-      <Icon :name="$props.icon!" />
-    </div>
+    <slot name="icon">
+      <div class="error-icon">
+        <Icon :name="$props.icon!" />
+      </div>
+    </slot>
 
-    <div class="error-state-text">
-      <h6 v-if="title">
-        {{ $props.title }}
-      </h6>
+    <slot name="text">
+      <div class="error-state-text">
+        <h6 v-if="title">
+          {{ $props.title }}
+        </h6>
 
-      <p v-if="description">
-        {{ $props.description }}
-      </p>
-    </div>
+        <p v-if="description">
+          {{ $props.description }}
+        </p>
+      </div>
+    </slot>
 
     <div v-if="$slots.default" class="call-to-action">
       <slot />
