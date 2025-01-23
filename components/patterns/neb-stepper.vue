@@ -66,7 +66,7 @@ watch(() => props.modelValue, () => {
       </div>
 
       <div class="step-text">
-        <div :class="{ 'step-text-hover-wrapper': skippable }" @click="handleClick(index)">
+        <div class="step-texts" :class="{ 'step-text-hover-wrapper': skippable }" @click="handleClick(index)">
           <h6>{{ step.title }}</h6>
           <p>{{ step.text }}</p>
         </div>
@@ -221,6 +221,11 @@ watch(() => props.modelValue, () => {
     color: var(--neutral-color-600);
     transition: all var(--duration-slow);
   }
+}
+.step-texts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
 }
 
 .vertical {

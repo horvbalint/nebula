@@ -16,15 +16,17 @@ withDefaults(defineProps<{
       </div>
     </slot>
 
-    <div class="success-state-text">
-      <h6 v-if="title">
-        {{ title }}
-      </h6>
+    <slot name="text">
+      <div class="success-state-text">
+        <h6 v-if="title">
+          {{ title }}
+        </h6>
 
-      <p v-if="description">
-        {{ description }}
-      </p>
-    </div>
+        <p v-if="description">
+          {{ description }}
+        </p>
+      </div>
+    </slot>
 
     <div v-if="$slots.default" class="call-to-action">
       <slot />
