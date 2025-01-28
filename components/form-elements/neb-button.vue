@@ -7,12 +7,14 @@ withDefaults(defineProps<{
   small?: boolean
   square?: boolean
   destructive?: boolean
+  adjective?: boolean
 }>(), {
   loading: false,
   type: 'primary',
   small: false,
   square: false,
   destructive: false,
+  adjective: false,
 })
 </script>
 
@@ -209,6 +211,41 @@ export default defineComponent({
   &:disabled {
     color: var(--neutral-color-300);
     background: none;
+  }
+
+  &.destructive {
+    color: var(--error-color-600);
+    background: none;
+    box-shadow: none;
+
+    &:hover {
+      background: var(--error-color-50);
+      color: var(--error-color-600);
+    }
+    &:focus {
+      color: var(--error-color-600);
+    }
+    &:disabled {
+      color: var(--neutral-color-300);
+      background: none;
+    }
+  }
+  &.adjective {
+    color: var(--success-color-600);
+    background: none;
+    box-shadow: none;
+
+    &:hover {
+      background: var(--success-color-50);
+      color: var(--success-color-700);
+    }
+    &:focus {
+      color: var(--success-color-600);
+    }
+    &:disabled {
+      color: var(--neutral-color-300);
+      background: none;
+    }
   }
 }
 
