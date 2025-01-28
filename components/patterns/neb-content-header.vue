@@ -2,7 +2,7 @@
 withDefaults(defineProps<{
   title: string
   description?: string
-  type?: 'section' | 'page'
+  type?: 'paragraph' | 'section' | 'page'
   hasSeparator?: boolean
   icon?: string
 }>(), {
@@ -70,6 +70,15 @@ withDefaults(defineProps<{
       }
       & p {
         font-size: var(--text-sm);
+      }
+    }
+  }
+  &.paragraph {
+    .content-text {
+      & h1 {
+        font-size: var(--text-sm);
+        font-weight: 600;
+        color: var(--neutral-color-600);
       }
     }
   }
