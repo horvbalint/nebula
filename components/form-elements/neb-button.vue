@@ -25,7 +25,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <button class="neb-button" :class="{ [type]: true, small, square, destructive }">
+  <button class="neb-button" :class="{ [type]: true, small, square, destructive, adjective }">
     <slot v-if="!loading" />
 
     <icon v-else name="eos-icons:loading" />
