@@ -114,8 +114,9 @@ export default defineComponent({
     color: var(--primary-color-700);
   }
   &:disabled {
-    background: var(--primary-color-50);
-    color: var(--primary-color-300);
+    background: var(--neutral-color-50);
+    color: var(--neutral-color-300);
+    border: 1px solid var(--neutral-color-100);
   }
   &.destructive {
     background: var(--error-color-50);

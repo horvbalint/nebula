@@ -9,15 +9,11 @@ withDefaults(defineProps<{
   align: 'center',
 })
 
-const emit = defineEmits<{
-  click: []
-}>()
 const modelValue = defineModel<T[] | Set<T> | boolean>()
 const input = templateRef('input')
 
 function handleClick() {
   input.value.click()
-  emit('click')
 }
 </script>
 
