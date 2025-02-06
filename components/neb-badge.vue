@@ -27,12 +27,12 @@ const props = withDefaults(defineProps<{
 .neb-badge {
   display: flex;
   align-items: center;
-  padding: var(--space-1) var(--space-3);
+  padding: var(--space-1) var(--space-2);
   background: var(--neutral-color-100);
   border: 1px solid var(--neutral-color-200);
-  border-radius: var(--radius-large);
+  border-radius: var(--radius-default);
   font-size: var(--text-sm);
-  font-weight: 500;
+  font-weight: 600;
   color: var(--neutral-color-700);
   width: fit-content;
 
@@ -43,27 +43,27 @@ const props = withDefaults(defineProps<{
   &.error {
     background: var(--error-color-100);
     border: 1px solid var(--error-color-200);
-    color: var(--error-color-700);
+    color: var(--error-color);
   }
   &.warning {
     background: var(--warning-color-100);
     border: 1px solid var(--warning-color-200);
-    color: var(--warning-color-700);
+    color: var(--warning-color);
   }
   &.success {
     background: var(--success-color-100);
     border: 1px solid var(--success-color-200);
-    color: var(--success-color-700);
+    color: var(--success-color);
   }
   &.info {
     background: var(--info-color-100);
     border: 1px solid var(--info-color-200);
-    color: var(--info-color-700);
+    color: var(--info-color);
   }
   &.primary {
     background: var(--primary-color-100);
     border: 1px solid var(--primary-color-200);
-    color: var(--primary-color-700);
+    color: var(--primary-color);
   }
 }
 
