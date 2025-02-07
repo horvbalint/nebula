@@ -27,6 +27,7 @@ interface ToolConfig {
   isVisible?: Ref<boolean>
 }
 
+const { t } = useI18n()
 const editor = ref<null | Editor>(null)
 const toolbar: { rows: ToolConfig[][][] } = {
   rows: [
@@ -34,13 +35,13 @@ const toolbar: { rows: ToolConfig[][][] } = {
       [
         {
           icon: 'material-symbols:undo-rounded',
-          name: 'Visszavonás',
+          name: t('tiptap.toolbar.undo'),
           onClick: () => editor.value!.chain().focus().undo().run(),
           isDisabled: computed(() => !editor.value?.can().undo()),
         },
         {
           icon: 'material-symbols:redo-rounded',
-          name: 'Ismétlés',
+          name: t('tiptap.toolbar.redo'),
           onClick: () => editor.value!.chain().focus().redo().run(),
           isDisabled: computed(() => !editor.value?.can().redo()),
         },
@@ -48,25 +49,25 @@ const toolbar: { rows: ToolConfig[][][] } = {
       [
         {
           icon: 'material-symbols:format-bold-rounded',
-          name: 'Félkövér',
+          name: t('tiptap.toolbar.bold'),
           onClick: () => editor.value!.chain().focus().toggleBold().run(),
           isActive: computed(() => !!editor.value?.isActive('bold')),
         },
         {
           icon: 'material-symbols:format-italic-rounded',
-          name: 'Olaszos',
+          name: t('tiptap.toolbar.italic'),
           onClick: () => editor.value!.chain().focus().toggleItalic().run(),
           isActive: computed(() => !!editor.value?.isActive('italic')),
         },
         {
           icon: 'material-symbols:format-underlined-rounded',
-          name: 'Aláhúzott',
+          name: t('tiptap.toolbar.underline'),
           onClick: () => editor.value!.chain().focus().toggleUnderline().run(),
           isActive: computed(() => !!editor.value?.isActive('underline')),
         },
         {
           icon: 'material-symbols:ink-highlighter-outline-rounded',
-          name: 'Kiemelt',
+          name: t('tiptap.toolbar.highlight'),
           onClick: () => editor.value!.chain().focus().toggleHighlight().run(),
           isActive: computed(() => !!editor.value?.isActive('highlight')),
         },
@@ -74,25 +75,25 @@ const toolbar: { rows: ToolConfig[][][] } = {
       [
         {
           icon: 'material-symbols:format-align-left-rounded',
-          name: 'Balra igazított',
+          name: t('tiptap.toolbar.align-left'),
           onClick: () => editor.value!.chain().focus().setTextAlign('left').run(),
           isActive: computed(() => !!editor.value?.isActive({ textAlign: 'left' })),
         },
         {
           icon: 'material-symbols:format-align-center-rounded',
-          name: 'Középre igazított',
+          name: t('tiptap.toolbar.align-center'),
           onClick: () => editor.value!.chain().focus().setTextAlign('center').run(),
           isActive: computed(() => !!editor.value?.isActive({ textAlign: 'center' })),
         },
         {
           icon: 'material-symbols:format-align-right-rounded',
-          name: 'Jobbra igazított',
+          name: t('tiptap.toolbar.align-right'),
           onClick: () => editor.value!.chain().focus().setTextAlign('right').run(),
           isActive: computed(() => !!editor.value?.isActive({ textAlign: 'right' })),
         },
         {
           icon: 'material-symbols:format-align-justify-rounded',
-          name: 'Sorkizárt',
+          name: t('tiptap.toolbar.align-justify'),
           onClick: () => editor.value!.chain().focus().setTextAlign('justify').run(),
           isActive: computed(() => !!editor.value?.isActive({ textAlign: 'justify' })),
         },
@@ -100,13 +101,13 @@ const toolbar: { rows: ToolConfig[][][] } = {
       [
         {
           icon: 'material-symbols:format-list-bulleted-rounded',
-          name: 'Lista',
+          name: t('tiptap.toolbar.bullet-list'),
           onClick: () => editor.value!.chain().focus().toggleBulletList().run(),
           isActive: computed(() => !!editor.value?.isActive('bulletList')),
         },
         {
           icon: 'material-symbols:format-list-numbered-rounded',
-          name: 'Sorszámozott lista',
+          name: t('tiptap.toolbar.ordered-list'),
           onClick: () => editor.value!.chain().focus().toggleOrderedList().run(),
           isActive: computed(() => !!editor.value?.isActive('orderedList')),
         },
@@ -114,79 +115,34 @@ const toolbar: { rows: ToolConfig[][][] } = {
       [
         {
           icon: 'material-symbols:horizontal-rule-rounded',
-          name: 'Vízszintes vonal',
+          name: t('tiptap.toolbar.horizontal-rule'),
           onClick: () => editor.value!.chain().focus().setHorizontalRule().run(),
         },
       ],
-    ],
-    [
       [
         {
           icon: 'material-symbols:format-h1-rounded',
-          name: 'Címsor 1',
+          name: t('tiptap.toolbar.heading-1'),
           onClick: () => editor.value!.chain().focus().toggleHeading({ level: 1 }).run(),
           isActive: computed(() => !!editor.value?.isActive('heading', { level: 1 })),
         },
         {
           icon: 'material-symbols:format-h2-rounded',
-          name: 'Címsor 2',
+          name: t('tiptap.toolbar.heading-2'),
           onClick: () => editor.value!.chain().focus().toggleHeading({ level: 2 }).run(),
           isActive: computed(() => !!editor.value?.isActive('heading', { level: 2 })),
         },
         {
           icon: 'material-symbols:format-h3-rounded',
-          name: 'Címsor 3',
+          name: t('tiptap.toolbar.heading-3'),
           onClick: () => editor.value!.chain().focus().toggleHeading({ level: 3 }).run(),
           isActive: computed(() => !!editor.value?.isActive('heading', { level: 3 })),
         },
         {
           icon: 'material-symbols:format-h4-rounded',
-          name: 'Címsor 4',
+          name: t('tiptap.toolbar.heading-4'),
           onClick: () => editor.value!.chain().focus().toggleHeading({ level: 4 }).run(),
           isActive: computed(() => !!editor.value?.isActive('heading', { level: 4 })),
-        },
-      ],
-      [
-        {
-          icon: 'material-symbols:table',
-          name: 'Táblázat',
-          onClick: () => editor.value!.chain().focus().insertTable({ rows: 1, cols: 2, withHeaderRow: false }).run(),
-        },
-        {
-          icon: 'material-symbols:splitscreen-add-outline-rounded',
-          name: 'Táblázat sor',
-          onClick: () => editor.value!.chain().focus().addRowAfter().run(),
-          isDisabled: computed(() => !editor.value?.can().addRowAfter()),
-        },
-        {
-          icon: 'material-symbols:splitscreen-vertical-add-outline-rounded',
-          name: 'Táblázat oszlop',
-          onClick: () => editor.value!.chain().focus().addColumnAfter().run(),
-          isDisabled: computed(() => !editor.value?.can().addColumnAfter()),
-        },
-        {
-          icon: 'fluent:table-delete-column-24-regular',
-          name: 'Oszlop törlés',
-          onClick: () => editor.value!.chain().focus().deleteColumn().run(),
-          isDisabled: computed(() => !editor.value?.can().deleteColumn()),
-        },
-        {
-          icon: 'fluent:table-delete-row-24-regular',
-          name: 'Sor törlés',
-          onClick: () => editor.value!.chain().focus().deleteRow().run(),
-          isDisabled: computed(() => !editor.value?.can().deleteRow()),
-        },
-        {
-          icon: 'material-symbols:cell-merge-rounded',
-          name: 'Cella egyesítés',
-          onClick: () => editor.value!.chain().focus().mergeCells().run(),
-          isVisible: computed(() => !!editor.value?.can().mergeCells()),
-        },
-        {
-          icon: 'ant-design:split-cells-outlined',
-          name: 'Cella szétválasztás',
-          onClick: () => editor.value!.chain().focus().splitCell().run(),
-          isVisible: computed(() => !!editor.value?.can().splitCell()),
         },
       ],
     ],
@@ -295,12 +251,14 @@ header {
 .toolbar-row {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-3);
+  align-items: center;
+  gap: var(--space-1);
 
   hr {
     border: none;
-    width: 2px;
-    background: var(--neutral-color-200);
+    width: 3px;
+    height: 20px;
+    background: var(--neutral-color-100);
 
     &:last-child {
       display: none;
