@@ -2,7 +2,7 @@
 import type { UseFloatingOptions } from '@floating-ui/vue'
 import NebDropdown from './neb-dropdown.vue'
 
-interface Menu {
+export interface Menu {
   text: string
   icon?: string
   segment?: boolean
