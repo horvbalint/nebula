@@ -12,6 +12,8 @@ import { Editor, EditorContent, type Extensions } from '@tiptap/vue-3'
 
 const props = defineProps<{
   modelValue: string
+  label?: string
+  required?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -161,7 +163,6 @@ watch(() => props.modelValue, (value) => {
 })
 
 onMounted(() => {
-  // @ts-expect-error these are the same type
   editor.value = new Editor({
     extensions: [
       StarterKit.configure({
@@ -191,33 +192,37 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="ath-rich-text-editor">
-    <header>
-      <div class="toolbar">
-        <div v-for="(row, rowIndex) in toolbar.rows" :key="`row-${rowIndex}`" class="toolbar-row">
-          <template v-for="(group, groupIndex) in row" :key="`group-${groupIndex}`">
-            <div class="toolbar-group">
-              <template v-for="tool in group" :key="tool.name">
-                <neb-tooltip v-show="!tool.isVisible || tool.isVisible.value" :title="tool.name">
-                  <neb-button
-                    :type="tool.isActive?.value ? 'tertiary' : 'tertiary-neutral'"
-                    :disabled="tool.isDisabled?.value"
-                    small
-                    @click="tool.onClick()"
-                  >
-                    <icon :name="tool.icon" />
-                  </neb-button>
-                </neb-tooltip>
-              </template>
-            </div>
+  <div class="editor-component">
+    <span v-if="label">{{ label }} <span v-if="$props.required" class="required-star">*</span></span>
 
-            <hr>
-          </template>
+    <div class="ath-rich-text-editor">
+      <header>
+        <div class="toolbar">
+          <div v-for="(row, rowIndex) in toolbar.rows" :key="`row-${rowIndex}`" class="toolbar-row">
+            <template v-for="(group, groupIndex) in row" :key="`group-${groupIndex}`">
+              <div class="toolbar-group">
+                <template v-for="tool in group" :key="tool.name">
+                  <neb-tooltip v-show="!tool.isVisible || tool.isVisible.value" :title="tool.name">
+                    <neb-button
+                      :type="tool.isActive?.value ? 'tertiary' : 'tertiary-neutral'"
+                      :disabled="tool.isDisabled?.value"
+                      small
+                      @click="tool.onClick()"
+                    >
+                      <icon :name="tool.icon" />
+                    </neb-button>
+                  </neb-tooltip>
+                </template>
+              </div>
+
+              <hr>
+            </template>
+          </div>
         </div>
-      </div>
-    </header>
-    <!-- @vue-expect-error these are the same types -->
-    <EditorContent :editor="editor" class="tip-tap-editor" />
+      </header>
+      <!-- @vue-expect-error these are the same types -->
+      <EditorContent :editor="editor" class="tip-tap-editor" />
+    </div>
   </div>
 </template>
 
@@ -226,9 +231,10 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   border-radius: var(--radius-default);
+  overflow: hidden;
   background: white;
   min-height: 300px;
-  border: 1px solid var(--neutral-color-200);
+  border: 1px solid var(--neutral-color-300);
   transition: all var(--duration-default);
 
   &:focus-within {
@@ -236,12 +242,25 @@ onBeforeUnmount(() => {
     box-shadow: var(--primary-focus-shadow-light);
   }
 }
+.editor-component {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  width: 100%;
+  color: var(--neutral-color-800);
+}
+.required-star {
+  color: var(--error-color-500);
+}
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--neutral-color-200);
   padding: var(--space-3);
+  background: var(--neutral-color-50);
 }
 .toolbar {
   display: flex;

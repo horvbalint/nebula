@@ -27,6 +27,7 @@ const props = withDefaults(defineProps<{
 .neb-badge {
   display: flex;
   align-items: center;
+  gap: var(--space-2);
   padding: var(--space-1) var(--space-2);
   background: var(--neutral-color-100);
   border: 1px solid var(--neutral-color-200);

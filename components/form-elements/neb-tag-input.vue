@@ -64,6 +64,8 @@ watch(() => props.modelValue, () => {
     @change="handleAdd()"
   >
     <template #leading>
+      <slot name="leading" />
+
       <neb-tag v-for="item in modelValue" :key="item" @remove="removeItem(item)">
         {{ item }}
       </neb-tag>

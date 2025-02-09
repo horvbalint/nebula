@@ -55,8 +55,9 @@ export default defineComponent({
     cursor: not-allowed;
   }
   &.small {
-    padding: var(--space-1) var(--space-2);
-    border-radius: var(--radius-small);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-default);
+    max-height: 40px;
   }
   &.square {
     padding: var(--space-3);

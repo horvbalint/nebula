@@ -153,6 +153,9 @@ label {
   border: 1px solid var(--neutral-color-300);
   transition: all var(--duration-default);
 
+  & input {
+    min-width: 100px;
+  }
   &.auto-height {
     height: auto;
     min-height: 40px;
