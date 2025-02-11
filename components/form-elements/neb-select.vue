@@ -34,17 +34,19 @@ const props = withDefaults(defineProps<{
   leadingIcon?: string
   noSearch?: boolean
   required?: boolean
+  deselectValue?: null | undefined
   customLabel?: (option: T) => PropertyKey
   onNew?: (searchTerm: string) => unknown
 }>(), {
   multiple: false,
   useOnlyTrackedKey: false,
+  deselectValue: null,
   noSearch: false,
   required: false,
 })
 
 const emit = defineEmits<{
-  'update:modelValue': [null | T | T[]]
+  'update:modelValue': [null | undefined | T | T[]]
   'new': [searchTerm: string]
 }>()
 
@@ -189,11 +191,11 @@ function deselectOption(option: ProcessedOption): void {
       emitValue((currentValue as PropertyKey[]).filter(o => o !== option.option as PropertyKey) as T[])
   }
   else {
-    emitValue(null)
+    emitValue(props.deselectValue)
   }
 }
 
-function emitValue(value: T | T[] | null) {
+function emitValue(value: T | T[] | null | undefined) {
   innerValue.value = value
   emit('update:modelValue', value)
 }
