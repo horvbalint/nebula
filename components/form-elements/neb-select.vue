@@ -34,13 +34,11 @@ const props = withDefaults(defineProps<{
   leadingIcon?: string
   noSearch?: boolean
   required?: boolean
-  deselectValue?: null | undefined
   customLabel?: (option: T) => PropertyKey
   onNew?: (searchTerm: string) => unknown
 }>(), {
   multiple: false,
   useOnlyTrackedKey: false,
-  deselectValue: null,
   noSearch: false,
   required: false,
 })
@@ -191,7 +189,7 @@ function deselectOption(option: ProcessedOption): void {
       emitValue((currentValue as PropertyKey[]).filter(o => o !== option.option as PropertyKey) as T[])
   }
   else {
-    emitValue(props.deselectValue)
+    emitValue(null)
   }
 }
 
