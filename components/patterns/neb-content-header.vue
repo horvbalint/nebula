@@ -67,6 +67,7 @@ withDefaults(defineProps<{
     .content-text {
       & h1 {
         font-size: var(--text-lg);
+        line-height: 1.6;
       }
       & p {
         font-size: var(--text-sm);
@@ -87,7 +88,6 @@ withDefaults(defineProps<{
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
-  gap: var(--space-1);
 
   & h1 {
     font-size: var(--title-sm);
