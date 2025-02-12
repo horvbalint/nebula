@@ -4,6 +4,7 @@ import type { RestoreProps } from '../../composables/neb-restore'
 
 export interface Column<T, Key extends keyof T = keyof T> {
   text: string
+  centered?: boolean
   sortFunction?: (a: any, b: any) => number
   formatFunction?: (value: T[Key]) => string
 }
@@ -144,7 +145,7 @@ const isAnyChecked = computed({
                 <neb-checkbox v-model="isAnyChecked" icon="material-symbols:remove-rounded" />
               </th>
 
-              <th v-for="(column, key) in props.columns" :key="`th-${key as string}`" @click="handleHeaderClick(key)">
+              <th v-for="(column, key) in props.columns" :key="`th-${key as string}`" :class="{ centered: column!.centered }" @click="handleHeaderClick(key)">
                 <div class="th-wrapper">
                   <div class="th-slot-wrapper">
                     <slot :name="`th-${key as keyof Column<T>}`" :column="column!">
@@ -257,21 +258,24 @@ th {
   color: var(--neutral-color-600);
   font-size: var(--text-xs);
   font-weight: 500;
-  text-align: left;
   white-space: nowrap;
   cursor: pointer;
   user-select: none;
   line-height: 22px;
 
+  &.centered {
+    .th-wrapper {
+      justify-content: center;
+    }
+  }
+
   .th-wrapper {
     display: flex;
     align-items: center;
   }
-
   .th-slot-wrapper {
     display: inline-block;
   }
-
   .icon {
     margin-left: var(--space-1);
     width: 18px;
