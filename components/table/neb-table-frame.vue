@@ -157,7 +157,7 @@ const isAnyChecked = computed({
                 </div>
               </th>
 
-              <th v-if="$slots['row-actions'] || $slots['last-column']">
+              <th v-if="$slots['row-actions'] || $slots['last-column']" class="last-column">
                 {{ $t('nebula.table-frame.actions') }}
               </th>
             </tr>
@@ -169,7 +169,7 @@ const isAnyChecked = computed({
                 <neb-checkbox v-model="modelValue" :value="row.original" @click.stop="" />
               </td>
 
-              <td v-for="(column, key) in props.columns" :key="`td-${key as string}`">
+              <td v-for="(column, key) in props.columns" :key="`td-${key as string}`" :class="{ centered: column!.centered }">
                 <slot :name="`td-${key as keyof Column<T>}`" :data="row" :original="row.original[key as string]" :formatted="row.formatted[key]" :column="column!">
                   {{ row.formatted[key] }}
                 </slot>
@@ -282,6 +282,9 @@ th {
     height: 18px;
   }
 }
+.last-column {
+  text-align: center;
+}
 tbody {
   tr {
     border-bottom: 1px solid var(--neutral-color-200);
@@ -301,6 +304,10 @@ tbody {
     color: var(--neutral-color-600);
     text-align: left;
     white-space: nowrap;
+
+    &.centered {
+      text-align: center;
+    }
   }
 }
 .checkbox-cell {
@@ -310,6 +317,7 @@ tbody {
 .actions-wrapper {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: var(--space-2);
 }
 .dark-mode {
