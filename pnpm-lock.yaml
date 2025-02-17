@@ -35,6 +35,9 @@ dependencies:
   '@tiptap/extension-image':
     specifier: ^2.2.4
     version: 2.11.5(@tiptap/core@2.11.5)
+  '@tiptap/extension-link':
+    specifier: ^2.11.5
+    version: 2.11.5(@tiptap/core@2.11.5)(@tiptap/pm@2.11.5)
   '@tiptap/extension-table':
     specifier: ^2.2.4
     version: 2.11.5(@tiptap/core@2.11.5)(@tiptap/pm@2.11.5)
@@ -2911,6 +2914,17 @@ packages:
       '@tiptap/core': ^2.7.0
     dependencies:
       '@tiptap/core': 2.11.5(@tiptap/pm@2.11.5)
+    dev: false
+
+  /@tiptap/extension-link@2.11.5(@tiptap/core@2.11.5)(@tiptap/pm@2.11.5):
+    resolution: {integrity: sha512-4Iu/aPzevbYpe50xDI0ZkqRa6nkZ9eF270Ue2qaF3Ab47nehj+9Jl78XXzo8+LTyFMnrETI73TAs1aC/IGySeQ==}
+    peerDependencies:
+      '@tiptap/core': ^2.7.0
+      '@tiptap/pm': ^2.7.0
+    dependencies:
+      '@tiptap/core': 2.11.5(@tiptap/pm@2.11.5)
+      '@tiptap/pm': 2.11.5
+      linkifyjs: 4.2.0
     dev: false
 
   /@tiptap/extension-list-item@2.11.5(@tiptap/core@2.11.5):
@@ -5880,6 +5894,10 @@ packages:
     resolution: {integrity: sha512-5aHCbzQRADcdP+ATqnDuhhJ/MRIqDkZX5pyjFHRRysS8vZ5AbqGEoFIb6pYHPZ+L/OC2Lc+xT8uHVVR5CAK/wQ==}
     dependencies:
       uc.micro: 2.1.0
+    dev: false
+
+  /linkifyjs@4.2.0:
+    resolution: {integrity: sha512-pCj3PrQyATaoTYKHrgWRF3SJwsm61udVh+vuls/Rl6SptiDhgE7ziUIudAedRY9QEfynmM7/RmLEfPUyw1HPCw==}
     dev: false
 
   /listhen@1.9.0:

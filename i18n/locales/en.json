@@ -93,7 +93,15 @@
       "heading-1": "Heading 1",
       "heading-2": "Heading 2",
       "heading-3": "Heading 3",
-      "heading-4": "Heading 4"
+      "heading-4": "Heading 4",
+      "link": "Link"
+    },
+    "link-modal": {
+      "title": "Insert link",
+      "cancel": "Remove link",
+      "save": "Save URL",
+      "url": "Link URL",
+      "url-placeholder": "E.g.: www.facebook.com"
     }
   }
 }

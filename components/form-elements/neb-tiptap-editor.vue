@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import Highlight from '@tiptap/extension-highlight'
 import Image from '@tiptap/extension-image'
+import Link from '@tiptap/extension-link'
 import Table from '@tiptap/extension-table'
 import TableCell from '@tiptap/extension-table-cell'
 import TableHeader from '@tiptap/extension-table-header'
@@ -60,6 +61,12 @@ const toolbar: { rows: ToolConfig[][][] } = {
           name: t('tiptap.toolbar.italic'),
           onClick: () => editor.value!.chain().focus().toggleItalic().run(),
           isActive: computed(() => !!editor.value?.isActive('italic')),
+        },
+        {
+          icon: 'material-symbols:link',
+          name: t('tiptap.toolbar.link'),
+          onClick: () => initLinkModal(),
+          isActive: computed(() => !!editor.value?.isActive('link')),
         },
         {
           icon: 'material-symbols:format-underlined-rounded',
@@ -175,6 +182,12 @@ onMounted(() => {
       TableCell,
       TableHeader,
       TableRow,
+      Link.configure({
+        openOnClick: false,
+        defaultProtocol: 'https',
+        autolink: true,
+        linkOnPaste: true,
+      }),
       TextAlign.configure({
         types: ['heading', 'paragraph'],
       }),
@@ -186,6 +199,41 @@ onMounted(() => {
   })
 })
 
+const url = ref('')
+const showLinkModal = ref(false)
+
+function initLinkModal() {
+  url.value = editor.value.getAttributes('link').href
+  showLinkModal.value = true
+}
+function setLink() {
+  if (url.value === null)
+    return
+
+  if (url.value === '') {
+    unsetLink()
+  }
+  else {
+    editor.value
+      .chain()
+      .focus()
+      .extendMarkRange('link')
+      .setLink({ href: url.value, target: '_blank' })
+      .run()
+  }
+
+  showLinkModal.value = false
+}
+function unsetLink() {
+  editor.value
+    .chain()
+    .focus()
+    .extendMarkRange('link')
+    .unsetLink()
+    .run()
+
+  showLinkModal.value = false
+}
 onBeforeUnmount(() => {
   editor.value!.destroy()
 })
@@ -220,10 +268,36 @@ onBeforeUnmount(() => {
           </div>
         </div>
       </header>
-      <!-- @vue-expect-error these are the same types -->
+
       <EditorContent :editor="editor" class="tip-tap-editor" />
     </div>
   </div>
+
+  <neb-modal
+    v-model="showLinkModal"
+    :title="t('tiptap.link-modal.title')"
+    header-icon="material-symbols:link"
+    min-width="550px"
+  >
+    <template #content>
+      <neb-input
+        v-model="url"
+        :required="true"
+        :label="t('tiptap.link-modal.url')"
+        :placeholder="t('tiptap.link-modal.url-placeholder')"
+      />
+    </template>
+
+    <template #actions>
+      <neb-button type="secondary-neutral" @click="unsetLink()">
+        {{ t('tiptap.link-modal.cancel') }}
+      </neb-button>
+
+      <neb-button :disabled="!url" @click="setLink()">
+        {{ t('tiptap.link-modal.save') }}
+      </neb-button>
+    </template>
+  </neb-modal>
 </template>
 
 <style scoped>
