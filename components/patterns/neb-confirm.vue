@@ -137,7 +137,7 @@ main {
     font-size: var(--text-sm);
     color: var(--neutral-color-500);
     line-height: 1.4;
-    white-space: pre;
+    white-space: pre-wrap;
   }
 }
 header {
