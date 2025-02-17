@@ -1,18 +1,19 @@
-type ValidityKey = keyof ValidityState
-type ComponentType = abstract new (...args: any) => any // This is the constraint on InstanceType's generic argument
+export type ValidityKey = keyof ValidityState
+
+type ValidatableElement = HTMLElement | ComponentPublicInstance
 
 export interface NebValidatorCallbacks {
-  init: (element: HTMLElement) => void
-  onValidityChange: (element: HTMLElement, errors: ValidityKey[]) => void
-  onDestroy: (element: HTMLElement) => void
+  init: (element: ValidatableElement) => void
+  onValidityChange: (element: ValidatableElement, errors: ValidityKey[]) => void
+  onDestroy: (element: ValidatableElement) => void
 }
 
 export const NebValidatorCallbacksInjectKey = Symbol('NebValidatorCallbacksInjectKey') as InjectionKey<NebValidatorCallbacks>
 export const NebValidatorErrorsToShowInjectKey = Symbol('NebValidatorErrorsToShowInjectKey') as InjectionKey<Ref<ValidityKey[]>>
 
-export function useNebValidate<T extends ComponentType>(
-  reference: Ref<HTMLElement | InstanceType<T> | null>,
-  collectErrors: (element: HTMLElement) => ValidityKey[],
+export function useNebValidate<T extends ValidatableElement>(
+  reference: Ref<T | null>,
+  collectErrors: (element: T) => ValidityKey[],
 ) {
   const injectedErrorsToShow = inject(NebValidatorErrorsToShowInjectKey, null)
 
@@ -51,21 +52,20 @@ export function useNebValidate<T extends ComponentType>(
   }
 }
 
-export function useNebValidateNative(reference: Ref<HTMLFormElement | null>) {
-  return useNebValidate(reference, (element) => {
-    const errors = [] as ValidityKey[]
-    const validity = (element as HTMLFormElement).validity
+export function useNebValidateNative<T extends HTMLInputElement | HTMLTextAreaElement>(reference: Ref<T | null>) {
+  return useNebValidate(reference, element => nebGetValidityErrorKeys(element.validity))
+}
 
-    for (const key in validity) {
-      const typedKey = key as ValidityKey // The loop variable can't be typed in TS currently
+export function nebGetValidityErrorKeys(validity: ValidityState) {
+  const errors = [] as ValidityKey[]
+  for (const key in validity) {
+    const typedKey = key as ValidityKey
+    if (typedKey === 'valid')
+      continue
 
-      if (typedKey === 'valid')
-        continue
+    if (validity[typedKey])
+      errors.push(typedKey)
+  }
 
-      if (validity[typedKey])
-        errors.push(typedKey)
-    }
-
-    return errors
-  })
+  return errors
 }

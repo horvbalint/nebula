@@ -20,7 +20,7 @@ const emit = defineEmits<{
   'update:modelValue': [id: typeof props.modelValue]
 }>()
 
-const input = ref<null | HTMLFormElement>(null)
+const input = useTemplateRef('input')
 const { errorsToShow, collectErrors } = useNebValidateNative(input)
 
 const attrs = useAttrs()
@@ -74,7 +74,7 @@ function blur() {
   input.value!.blur()
 }
 
-defineExpose({ focus, blur })
+defineExpose({ focus, blur, input })
 </script>
 
 <template>

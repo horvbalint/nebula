@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { ValidityKey } from '@nebula/composables/neb-validate'
+
 type Item = string | number
 
 const props = withDefaults(defineProps<{
@@ -18,7 +20,11 @@ const emit = defineEmits<{
 
 const currentValue = ref('')
 
+const input = templateRef('input')
 function handleAdd() {
+  if (!currentValue.value.length || !input.value?.input?.validity.valid)
+    return
+
   if (!props.modelValue.includes(currentValue.value))
     emitValue([...props.modelValue, currentValue.value])
 
@@ -30,12 +36,16 @@ function removeItem(item: Item) {
   emitValue(newValue)
 }
 
-const input = ref<null | HTMLInputElement>(null)
 const { collectErrors, errorsToShow } = useNebValidate(input, () => {
+  const errors: ValidityKey[] = []
+
+  if (input.value?.input)
+    errors.push(...nebGetValidityErrorKeys(input.value.input.validity))
+
   if (props.required && !props.modelValue.length)
-    return ['valueMissing']
-  else
-    return []
+    errors.push('valueMissing')
+
+  return errors
 })
 provide(NebValidatorErrorsToShowInjectKey, errorsToShow)
 
@@ -48,6 +58,8 @@ watch(() => props.modelValue, () => {
   const showErrors = lastEmitted.value === props.modelValue
   collectErrors(showErrors)
 })
+
+watch(currentValue, () => collectErrors())
 </script>
 
 <template>
@@ -55,12 +67,12 @@ watch(() => props.modelValue, () => {
     ref="input"
     v-model="currentValue"
     :label="label"
-    lazy
     auto-height
     :placeholder="$t('nebula.tag-input.placeholder')"
     :hint="$t('nebula.tag-input.hint')"
     :required="$props.required"
     :disabled="$props.disabled"
+    v-bind="$attrs"
     @change="handleAdd()"
   >
     <template #leading>

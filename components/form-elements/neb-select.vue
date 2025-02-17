@@ -48,8 +48,8 @@ const emit = defineEmits<{
   'new': [searchTerm: string]
 }>()
 
-const search = ref<null | InstanceType<typeof NebInput>>(null)
-const dropdown = ref<null | InstanceType<typeof NebDropdown>>(null)
+const search = templateRef('search')
+const dropdown = templateRef('dropdown')
 
 const { errorsToShow, collectErrors } = useNebValidate(dropdown, () => {
   if (props.required) {

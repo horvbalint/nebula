@@ -20,7 +20,7 @@ const emit = defineEmits<{
   'update:modelValue': [id: typeof props.modelValue]
 }>()
 
-const textarea = ref(null as null | HTMLFormElement)
+const textarea = templateRef('textarea')
 const { errorsToShow, collectErrors } = useNebValidateNative(textarea)
 
 const attrs = useAttrs()
