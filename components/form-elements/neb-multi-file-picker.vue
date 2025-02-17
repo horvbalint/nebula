@@ -130,7 +130,7 @@ label {
 }
 .picker-area {
   background: #fff;
-  border: 1px solid var(--neutral-color-200);
+  border: 1px solid var(--neutral-color-300);
   border-radius: var(--radius-default);
   padding: var(--space-5) var(--space-6);
   display: flex;
