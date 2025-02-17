@@ -25,7 +25,7 @@ export default defineComponent({
     <Icon v-else-if="$props.icon" :name="icon" />
 
     <div v-if="$slots.badge" class="badge">
-      <slot />
+      <slot name="badge" />
     </div>
   </div>
 </template>

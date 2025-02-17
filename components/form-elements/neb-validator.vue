@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import type { ValidatableElement } from '@nebula/composables/neb-validate'
+
 type ValidityKey = keyof ValidityState
 
 defineProps<{ modelValue: boolean }>()
@@ -8,7 +10,7 @@ const emit = defineEmits<{
   'update:errors': [errors: typeof readonlyErrorStates]
 }>()
 
-const errorStates = new Map<HTMLElement, ValidityKey[]>()
+const errorStates = new Map<ValidatableElement, ValidityKey[]>()
 const readonlyErrorStates = readonly(errorStates)
 
 function emitErrors() {
@@ -16,7 +18,7 @@ function emitErrors() {
   emit('update:errors', readonlyErrorStates)
 }
 
-function onValidityChange(element: HTMLElement, errors: ValidityKey[]) {
+function onValidityChange(element: ValidatableElement, errors: ValidityKey[]) {
   if (errors.length)
     errorStates.set(element, errors)
   else
@@ -25,12 +27,12 @@ function onValidityChange(element: HTMLElement, errors: ValidityKey[]) {
   emitErrors()
 }
 
-function onDestroy(element: HTMLElement) {
+function onDestroy(element: ValidatableElement) {
   errorStates.delete(element)
   emitErrors()
 }
 
-function init(element: HTMLElement) {
+function init(element: ValidatableElement) {
   onBeforeUnmount(() => onDestroy(element))
 }
 

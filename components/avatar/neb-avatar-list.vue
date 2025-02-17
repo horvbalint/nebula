@@ -10,7 +10,10 @@ const props = withDefaults(defineProps<{
   size: '40px',
 })
 
-const slots = useSlots()
+const slots = defineSlots<{
+  default: (props: object) => any
+}>()
+
 if (!slots || !slots.default)
   throw new Error('"neb-avatar-list" default slot can not be empty!')
 

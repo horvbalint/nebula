@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { h } from 'vue'
 import type { ButtonType } from './neb-button.vue'
+import { h } from 'vue'
 
 const props = withDefaults(defineProps<{
   type?: ButtonType
@@ -8,7 +8,10 @@ const props = withDefaults(defineProps<{
   type: 'secondary-neutral',
 })
 
-const slots = useSlots()
+const slots = defineSlots<{
+  default: (props: object) => any
+}>()
+
 if (!slots || !slots.default)
   throw new Error('"neb-button-group" default slot can not be empty!')
 

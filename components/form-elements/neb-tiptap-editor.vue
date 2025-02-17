@@ -203,6 +203,9 @@ const url = ref('')
 const showLinkModal = ref(false)
 
 function initLinkModal() {
+  if (!editor.value)
+    return
+
   url.value = editor.value.getAttributes('link').href
   showLinkModal.value = true
 }
@@ -214,8 +217,7 @@ function setLink() {
     unsetLink()
   }
   else {
-    editor.value
-      .chain()
+    editor.value?.chain()
       .focus()
       .extendMarkRange('link')
       .setLink({ href: url.value, target: '_blank' })
@@ -225,8 +227,7 @@ function setLink() {
   showLinkModal.value = false
 }
 function unsetLink() {
-  editor.value
-    .chain()
+  editor.value?.chain()
     .focus()
     .extendMarkRange('link')
     .unsetLink()

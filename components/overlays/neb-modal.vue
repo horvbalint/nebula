@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
   title?: string
   subtitle?: string
   headerIcon?: string
@@ -15,9 +15,6 @@ const props = withDefaults(defineProps<{
   closeOnBackgroundClick: true,
 })
 
-const slots = useSlots()
-const hasHeader = computed(() => slots.header || props.title || props.subtitle)
-
 const modelValue = defineModel()
 </script>
 
@@ -29,7 +26,7 @@ const modelValue = defineModel()
     :close-on-background-click="closeOnBackgroundClick"
   >
     <div class="neb-modal neb-overlay-transition" :style="{ 'max-width': maxWidth, 'min-width': minWidth }" :class="{ centered }">
-      <header v-if="hasHeader">
+      <header v-if="$slots.header || $props.title || $props.subtitle">
         <slot name="header">
           <div class="header">
             <div v-if="$props.headerIcon" class="header-icon">

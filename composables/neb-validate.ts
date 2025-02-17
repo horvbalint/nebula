@@ -1,6 +1,6 @@
 export type ValidityKey = keyof ValidityState
 
-type ValidatableElement = HTMLElement | ComponentPublicInstance
+export type ValidatableElement = HTMLElement | ComponentPublicInstance
 
 export interface NebValidatorCallbacks {
   init: (element: ValidatableElement) => void
