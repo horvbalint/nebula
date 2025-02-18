@@ -66,7 +66,6 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/fonts',
     '@nuxt/icon',
-    '@nuxtjs/color-mode',
     '@nuxtjs/i18n',
     '@vueuse/nuxt',
     'nuxt-typed-router',

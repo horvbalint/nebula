@@ -19,7 +19,6 @@
     "@iconify-json/material-symbols": "1.2.12",
     "@nuxt/fonts": "0.10.3",
     "@nuxt/icon": "1.10.3",
-    "@nuxtjs/color-mode": "3.5.2",
     "@nuxtjs/i18n": "9.1.1",
     "@tiptap/extension-highlight": "^2.2.4",
     "@tiptap/extension-image": "^2.2.4",
