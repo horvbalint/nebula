@@ -2,6 +2,7 @@
   "name": "nebula",
   "type": "module",
   "version": "0.0.1",
+  "packageManager": "pnpm@10.2.0",
   "main": "./nuxt.config.ts",
   "scripts": {
     "dev": "nuxi dev .playground",
