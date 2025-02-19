@@ -213,11 +213,17 @@ label {
 .dark-mode {
   .neb-input {
     &.has-error {
-      border-color: var(--error-color-700);
-
-      .input:focus-within {
-        box-shadow: var(--error-focus-shadow-dark);
+      label {
+        color: var(--error-color);
+      }
+      .input {
         border-color: var(--error-color-700);
+        background: var(--error-color-950);
+
+        &:focus-within {
+          box-shadow: var(--error-focus-shadow-light);
+          border-color: var(--error-color-700);
+        }
       }
     }
     &.disabled .input {
