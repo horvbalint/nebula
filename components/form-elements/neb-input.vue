@@ -78,11 +78,11 @@ defineExpose({ focus, blur, input })
 </script>
 
 <template>
-  <div class="neb-input" :class="{ disabled: $props.disabled }">
+  <div class="neb-input" :class="{ 'disabled': $props.disabled, 'has-error': errorsToShow.length }">
     <label>
       <span v-if="label">{{ label }} <span v-if="$props.required" class="required-star">*</span></span>
 
-      <div class="input" :class="{ 'has-error': errorsToShow.length, 'auto-height': autoHeight }">
+      <div class="input" :class="{ 'auto-height': autoHeight }">
         <slot name="leading">
           <icon v-if="computedLeadingIcon" :name="computedLeadingIcon" />
         </slot>
@@ -118,6 +118,20 @@ defineExpose({ focus, blur, input })
 .neb-input {
   width: 100%;
 
+  &.has-error {
+    label {
+      color: var(--error-color);
+    }
+    .input {
+      border-color: var(--error-color-300);
+      background: var(--error-color-50);
+
+      &:focus-within {
+        box-shadow: var(--error-focus-shadow-light);
+        border-color: var(--error-color-300);
+      }
+    }
+  }
   &.disabled .input {
     background: var(--neutral-color-50);
 
@@ -160,14 +174,6 @@ label {
     height: auto;
     min-height: 40px;
   }
-  &.has-error {
-    border-color: var(--error-color-300);
-
-    &:focus-within {
-      box-shadow: var(--error-focus-shadow-light);
-      border-color: var(--error-color-300);
-    }
-  }
   &:focus-within {
     border-color: var(--primary-color-300);
     box-shadow: var(--primary-focus-shadow-light);
@@ -206,6 +212,14 @@ label {
 
 .dark-mode {
   .neb-input {
+    &.has-error {
+      border-color: var(--error-color-700);
+
+      .input:focus-within {
+        box-shadow: var(--error-focus-shadow-dark);
+        border-color: var(--error-color-700);
+      }
+    }
     &.disabled .input {
       background: var(--neutral-color-900);
 
@@ -223,15 +237,6 @@ label {
   .input {
     background: var(--neutral-color-950);
     border: 1px solid var(--neutral-color-700);
-
-    &.has-error {
-      border-color: var(--error-color-700);
-
-      &:focus-within {
-        box-shadow: var(--error-focus-shadow-dark);
-        border-color: var(--error-color-700);
-      }
-    }
     &:focus-within {
       border-color: var(--primary-color-700);
       box-shadow: var(--primary-focus-shadow-dark);
