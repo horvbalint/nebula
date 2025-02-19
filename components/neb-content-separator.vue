@@ -5,7 +5,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="neb-content-separator">
+  <div class="neb-content-separator" :class="{ gapped: text || $slots.default }">
     <hr>
 
     <slot>
@@ -22,8 +22,10 @@ defineProps<{
 .neb-content-separator {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
 
+  &.gapped {
+    gap: var(--space-2);
+  }
   h6 {
     font-size: var(--text-sm);
     font-weight: 500;
