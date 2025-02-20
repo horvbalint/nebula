@@ -197,7 +197,11 @@ const arrayTabs = computed(() => {
         align-items: flex-start;
 
         &.active {
-          background: linear-gradient(90deg, rgba(105, 65, 198, 0.15) 0%, rgba(105, 65, 198, 0) 90%);
+          background: linear-gradient(
+            90deg,
+            rgba(var(--primary-color-component), 0.15) 0%,
+            rgba(var(--primary-color-component), 0) 90%
+          );
           color: var(--primary-color);
           border-color: var(--primary-color);
 
