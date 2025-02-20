@@ -1,15 +1,17 @@
 <script lang="ts" setup>
 withDefaults(defineProps<{
+  required?: boolean
   label?: string
   vertical?: boolean
 }>(), {
+  required: false,
   vertical: false,
 })
 </script>
 
 <template>
   <div class="neb-input-controll-wrapper">
-    <label>{{ label }}</label>
+    <label>{{ label }}<span v-if="$props.required" class="required-star">*</span></label>
 
     <div class="controlls" :class="{ vertical }">
       <slot />
@@ -38,5 +40,8 @@ withDefaults(defineProps<{
     align-items: flex-start;
     flex-direction: column;
   }
+}
+.required-star {
+  color: var(--error-color-500);
 }
 </style>
