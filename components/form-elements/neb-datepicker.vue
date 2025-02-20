@@ -47,7 +47,7 @@ const { collectErrors, errorsToShow } = useNebValidate(input, () => {
 provide(NebValidatorErrorsToShowInjectKey, errorsToShow)
 
 const lastEmitted = ref<Date | null>(null)
-watch(() => props.modelValue, () => collectErrors(showErrors()))
+watch(() => props.modelValue, () => collectErrors({ showErrors: showErrors() }))
 function showErrors() {
   if (lastEmitted.value === props.modelValue)
     return true

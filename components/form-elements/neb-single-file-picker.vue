@@ -42,7 +42,7 @@ watch(modelValue, () => {
   const showErrors = innerValue === modelValue.value
   innerValue = modelValue.value
 
-  collectErrors(showErrors)
+  collectErrors({ showErrors })
 })
 
 const formattedMaxSize = computed(() => {

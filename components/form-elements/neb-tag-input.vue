@@ -36,16 +36,18 @@ function removeItem(item: Item) {
   emitValue(newValue)
 }
 
-const { collectErrors, errorsToShow } = useNebValidate(input, () => {
-  const errors: ValidityKey[] = []
+const { collectErrors, errorsToShow } = useNebValidate(input, (params: { inputValidate: boolean } | undefined) => {
+  const errors = new Set<ValidityKey>()
 
-  if (input.value?.input)
-    errors.push(...nebGetValidityErrorKeys(input.value.input.validity))
+  if (input.value?.input) {
+    for (const key of nebGetValidityErrorKeys(input.value.input.validity))
+      errors.add(key)
+  }
 
-  if (props.required && !props.modelValue.length)
-    errors.push('valueMissing')
+  if (!params?.inputValidate && props.required && !props.modelValue.length)
+    errors.add('valueMissing')
 
-  return errors
+  return [...errors]
 })
 provide(NebValidatorErrorsToShowInjectKey, errorsToShow)
 
@@ -56,10 +58,10 @@ function emitValue(list: Item[]) {
 }
 watch(() => props.modelValue, () => {
   const showErrors = lastEmitted.value === props.modelValue
-  collectErrors(showErrors)
+  collectErrors({ showErrors })
 })
 
-watch(currentValue, () => collectErrors())
+watch(currentValue, () => collectErrors({ params: { inputValidate: true } }))
 </script>
 
 <template>

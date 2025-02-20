@@ -11,9 +11,9 @@ export interface NebValidatorCallbacks {
 export const NebValidatorCallbacksInjectKey = Symbol('NebValidatorCallbacksInjectKey') as InjectionKey<NebValidatorCallbacks>
 export const NebValidatorErrorsToShowInjectKey = Symbol('NebValidatorErrorsToShowInjectKey') as InjectionKey<Ref<ValidityKey[]>>
 
-export function useNebValidate<T extends ValidatableElement>(
+export function useNebValidate<T extends ValidatableElement, P>(
   reference: Ref<T | null>,
-  collectErrors: (element: T) => ValidityKey[],
+  collectErrors: (params?: P) => ValidityKey[],
 ) {
   const injectedErrorsToShow = inject(NebValidatorErrorsToShowInjectKey, null)
 
@@ -24,21 +24,21 @@ export function useNebValidate<T extends ValidatableElement>(
     const validatorCallbacks = inject(NebValidatorCallbacksInjectKey, null)
     const errorsToShow = ref([] as ValidityKey[])
 
-    function wrappedCollectErrors(show = true) {
+    function wrappedCollectErrors({ showErrors = true, params }: { showErrors?: boolean, params?: P } = {}) {
       if (!reference.value)
         throw new Error('useNebValidate: can not validate with "ref" that points "null"!')
 
-      const errors = collectErrors(reference.value)
+      const errors = collectErrors(params)
 
       if (validatorCallbacks)
         validatorCallbacks.onValidityChange(reference.value, errors)
 
-      if (show || !errors.length)
+      if (showErrors || !errors.length)
         errorsToShow.value = errors
     }
 
     onMounted(() => {
-      wrappedCollectErrors(false)
+      wrappedCollectErrors({ showErrors: false })
 
       if (validatorCallbacks) {
         if (reference.value === null)
@@ -53,7 +53,7 @@ export function useNebValidate<T extends ValidatableElement>(
 }
 
 export function useNebValidateNative<T extends HTMLInputElement | HTMLTextAreaElement>(reference: Ref<T | null>) {
-  return useNebValidate(reference, element => nebGetValidityErrorKeys(element.validity))
+  return useNebValidate(reference, () => nebGetValidityErrorKeys(reference.value!.validity))
 }
 
 export function nebGetValidityErrorKeys(validity: ValidityState) {

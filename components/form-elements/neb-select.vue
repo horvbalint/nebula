@@ -67,7 +67,7 @@ watch(() => props.modelValue, async () => {
   innerValue.value = props.modelValue
 
   await nextTick()
-  collectErrors(showErrors)
+  collectErrors({ showErrors })
 })
 
 interface ProcessedOption {
