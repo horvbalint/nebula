@@ -11,7 +11,7 @@ withDefaults(defineProps<{
 
 <template>
   <div class="neb-input-controll-wrapper">
-    <label>{{ label }}<span v-if="$props.required" class="required-star">*</span></label>
+    <label>{{ label }} <span v-if="$props.required" class="required-star">*</span></label>
 
     <div class="controlls" :class="{ vertical }">
       <slot />
