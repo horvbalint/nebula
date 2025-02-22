@@ -166,8 +166,9 @@ label {
   border-radius: var(--radius-default);
   border: 1px solid var(--neutral-color-300);
   transition: all var(--duration-default);
+  min-width: 100px;
 
-  & input {
+  & {
     min-width: 100px;
   }
   &.auto-height {
