@@ -49,6 +49,15 @@ input[type='radio'] {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &:disabled {
+    cursor: not-allowed;
+    background: var(--neutral-color-100);
+
+    + p {
+      color: var(--neutral-color-500);
+    }
+  }
 }
 
 input[type='radio']::before {
