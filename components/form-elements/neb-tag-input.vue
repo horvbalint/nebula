@@ -40,8 +40,10 @@ const { collectErrors, errorsToShow } = useNebValidate(input, (params: { inputVa
   const errors = new Set<ValidityKey>()
 
   if (input.value?.input) {
-    for (const key of nebGetValidityErrorKeys(input.value.input.validity))
-      errors.add(key)
+    for (const key of nebGetValidityErrorKeys(input.value.input.validity)) {
+      if (key !== 'valueMissing')
+        errors.add(key)
+    }
   }
 
   if (!params?.inputValidate && props.required && !props.modelValue.length)
