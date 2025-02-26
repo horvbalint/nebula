@@ -4,7 +4,7 @@ import type { RestoreProps } from '../../composables/neb-restore'
 
 export interface Column<T, Key extends keyof T = keyof T> {
   text: string
-  centered?: boolean
+  align?: 'left' | 'center' | 'right'
   sortFunction?: (a: any, b: any) => number
   formatFunction?: (value: T[Key]) => string
 }
@@ -145,7 +145,7 @@ const isAnyChecked = computed({
                 <neb-checkbox v-model="isAnyChecked" icon="material-symbols:remove-rounded" />
               </th>
 
-              <th v-for="(column, key) in props.columns" :key="`th-${key as string}`" :class="{ centered: column!.centered }" @click="handleHeaderClick(key)">
+              <th v-for="(column, key) in props.columns" :key="`th-${key as string}`" :class="column!.align || 'left'" @click="handleHeaderClick(key)">
                 <div class="th-wrapper">
                   <div class="th-slot-wrapper">
                     <slot :name="`th-${key as keyof Column<T>}`" :column="column!">
@@ -169,10 +169,12 @@ const isAnyChecked = computed({
                 <neb-checkbox v-model="modelValue" :value="row.original" @click.stop="" />
               </td>
 
-              <td v-for="(column, key) in props.columns" :key="`td-${key as string}`" :class="{ centered: column!.centered }">
-                <slot :name="`td-${key as keyof Column<T>}`" :data="row" :original="row.original[key as string]" :formatted="row.formatted[key]" :column="column!">
-                  {{ row.formatted[key] }}
-                </slot>
+              <td v-for="(column, key) in props.columns" :key="`td-${key as string}`" :class="column!.align || 'left'">
+                <div class="td-wrapper">
+                  <slot :name="`td-${key as keyof Column<T>}`" :data="row" :original="row.original[key as string]" :formatted="row.formatted[key]" :column="column!">
+                    {{ row.formatted[key] }}
+                  </slot>
+                </div>
               </td>
 
               <td v-if="$slots['row-actions'] || $slots['last-column']">
@@ -263,9 +265,21 @@ th {
   user-select: none;
   line-height: 22px;
 
-  &.centered {
+  &.left {
+    .th-wrapper {
+      justify-content: flex-start;
+    }
+  }
+
+  &.center {
     .th-wrapper {
       justify-content: center;
+    }
+  }
+
+  &.right {
+    .th-wrapper {
+      justify-content: flex-end;
     }
   }
 
@@ -307,6 +321,29 @@ tbody {
 
     &.centered {
       text-align: center;
+    }
+
+    &.left {
+      .td-wrapper {
+        justify-content: flex-start;
+      }
+    }
+
+    &.center {
+      .td-wrapper {
+        justify-content: center;
+      }
+    }
+
+    &.right {
+      .td-wrapper {
+        justify-content: flex-end;
+      }
+    }
+
+    .td-wrapper {
+      display: flex;
+      align-items: center;
     }
   }
 }
