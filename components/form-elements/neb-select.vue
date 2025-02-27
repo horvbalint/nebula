@@ -379,7 +379,7 @@ watch(searchTerm, orderOptions)
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: var(--neutral-color-500);
+  color: var(--neutral-color-400);
 }
 .selection {
   flex: 1;

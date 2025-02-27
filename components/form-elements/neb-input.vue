@@ -190,7 +190,7 @@ label {
     color: var(--neutral-color-900);
 
     &::placeholder {
-      color: var(--neutral-color-500);
+      color: var(--neutral-color-400);
     }
     &:-webkit-autofill,
     &:-webkit-autofill:focus {
