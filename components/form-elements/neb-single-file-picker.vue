@@ -91,8 +91,14 @@ const formattedMaxSize = computed(() => {
       </template>
     </neb-file-item>
 
-    <p v-if="hint" class="hint">
-      {{ $props.hint }}
+    <p class="hint">
+      <template v-if="hint">
+        {{ $props.hint }}&nbsp;
+      </template>
+
+      <template v-if="accept">
+        {{ $t('nebula.single-file-picker.accept', { acceptedFiles: $props.accept }) }}
+      </template>
     </p>
 
     <neb-error-list :errors="errorsToShow" />
@@ -150,5 +156,10 @@ const formattedMaxSize = computed(() => {
     font-size: var(--text-sm);
     color: var(--neutral-color-600);
   }
+}
+.hint {
+  font-size: var(--text-xs);
+  color: var(--neutral-color-600);
+  font-weight: 400;
 }
 </style>

@@ -20,7 +20,8 @@
         "title": "No file selected",
         "description": "Click the button or drag a file here"
       },
-      "maxSize": "max. {size}"
+      "maxSize": "max. {size}",
+      "accept": "Accepted files: {acceptedFiles}"
     },
     "neb-select": {
       "placeholder": "Select from the list...",
