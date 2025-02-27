@@ -32,13 +32,26 @@ const computedClasses = computed(() => {
 
   return classes
 })
+
+const iconByType = computed(() => {
+  switch (props.type) {
+    case 'error':
+      return 'material-symbols:report-outline-rounded'
+    case 'success':
+      return 'material-symbols:check-circle-outline-rounded'
+    case 'warning':
+      return 'material-symbols:report-outline-rounded'
+    default:
+      return 'material-symbols:info-outline-rounded'
+  }
+})
 </script>
 
 <template>
   <div class="neb-toast hide-action" :class="computedClasses">
     <div class="toast-wrapper">
       <div class="toast-type-icon">
-        <icon name="material-symbols:info-outline-rounded" />
+        <icon :name="iconByType" />
       </div>
 
       <div class="toast-content">
@@ -78,15 +91,15 @@ const computedClasses = computed(() => {
   gap: var(--space-4);
   padding: var(--space-4);
   position: relative;
-  border-radius: var(--radius-default);
+  border-radius: var(--radius-large);
   overflow: hidden;
   box-shadow: var(--shadow-md);
-  border: 1px solid var(--neutral-color-200);
+  border: 2px solid var(--neutral-color-200);
   animation: bottom-left var(--duration-default) forwards;
 
   &.info {
-    border: 1px solid var(--primary-color-300);
-    background: var(--primary-color-50);
+    border: 2px solid var(--primary-color);
+    background: var(--primary-color-100);
 
     .toast-type-icon {
       color: var(--primary-color-600);
@@ -96,14 +109,6 @@ const computedClasses = computed(() => {
       }
       &:after {
         border-color: var(--primary-color-200);
-      }
-    }
-    .toast-content {
-      h6 {
-        color: var(--primary-color-700);
-      }
-      p {
-        color: var(--primary-color-600);
       }
     }
     .close-icon {
@@ -121,8 +126,8 @@ const computedClasses = computed(() => {
     }
   }
   &.error {
-    border: 1px solid var(--error-color-300);
-    background: var(--error-color-50);
+    border: 2px solid var(--error-color);
+    background: var(--error-color-100);
 
     .toast-type-icon {
       color: var(--error-color-600);
@@ -132,14 +137,6 @@ const computedClasses = computed(() => {
       }
       &:after {
         border-color: var(--error-color-200);
-      }
-    }
-    .toast-content {
-      h6 {
-        color: var(--error-color-700);
-      }
-      p {
-        color: var(--error-color-600);
       }
     }
     .close-icon {
@@ -157,8 +154,8 @@ const computedClasses = computed(() => {
     }
   }
   &.success {
-    border: 1px solid var(--success-color-300);
-    background: var(--success-color-50);
+    border: 2px solid var(--success-color);
+    background: var(--success-color-100);
 
     .toast-type-icon {
       color: var(--success-color-500);
@@ -168,14 +165,6 @@ const computedClasses = computed(() => {
       }
       &:after {
         border-color: var(--success-color-200);
-      }
-    }
-    .toast-content {
-      h6 {
-        color: var(--success-color-600);
-      }
-      p {
-        color: var(--success-color-600);
       }
     }
     .close-icon {
@@ -193,8 +182,8 @@ const computedClasses = computed(() => {
     }
   }
   &.warning {
-    border: 1px solid var(--warning-color-300);
-    background: var(--warning-color-50);
+    border: 2px solid var(--warning-color);
+    background: var(--warning-color-100);
 
     .toast-type-icon {
       color: var(--warning-color-500);
@@ -204,14 +193,6 @@ const computedClasses = computed(() => {
       }
       &:after {
         border-color: var(--warning-color-200);
-      }
-    }
-    .toast-content {
-      h6 {
-        color: var(--warning-color-600);
-      }
-      p {
-        color: var(--warning-color-600);
       }
     }
     .close-icon {
@@ -245,11 +226,11 @@ const computedClasses = computed(() => {
 .toast-content-text {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--space-1);
 
   h6 {
     font-size: var(--text-sm);
-    font-weight: 600;
+    font-weight: 700;
     color: var(--neutral-color-900);
   }
   p {
