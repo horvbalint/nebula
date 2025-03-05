@@ -198,8 +198,10 @@ function emitValue(value: T | T[] | null | undefined) {
   emit('update:modelValue', value)
 }
 
+const focusIndex = ref(0)
 const orderedOptions = ref([]) as Ref<ProcessedOption[]>
 function orderOptions() {
+  focusIndex.value = 0
   const options = [...searchResults.value]
 
   orderedOptions.value = options.sort((a, b) => {
@@ -225,6 +227,27 @@ async function handleSelectClick() {
   if (search.value) {
     if (dropdown.value!.isOpen)
       search.value!.focus()
+  }
+}
+
+const optionRefs = useTemplateRefsList()
+function handleArrowUp() {
+  if (focusIndex.value > 0) {
+    focusIndex.value--
+    scrollToFocusedOption()
+  }
+}
+function handleArrowDown() {
+  if (focusIndex.value < orderedOptions.value.length - 1) {
+    focusIndex.value++
+    scrollToFocusedOption()
+  }
+}
+function scrollToFocusedOption() {
+  const focusedOption = optionRefs.value[focusIndex.value]
+
+  if (focusedOption) {
+    focusedOption.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
   }
 }
 
@@ -268,6 +291,9 @@ watch(searchTerm, orderOptions)
             ref="search"
             v-model="searchTerm"
             :placeholder="$t('nebula.neb-select.search')"
+            @keydown.up="handleArrowUp()"
+            @keydown.down="handleArrowDown()"
+            @keyup.enter="handleOptionClick(orderedOptions[focusIndex])"
           >
 
           <icon v-if="searchTerm" name="material-symbols:close-rounded" @click="searchTerm = ''" />
@@ -275,12 +301,12 @@ watch(searchTerm, orderOptions)
 
         <ul v-if="orderedOptions.length">
           <li
-            v-for="option in orderedOptions"
+            v-for="(option, index) in orderedOptions"
             :key="option.trackValue"
             @click="handleOptionClick(option)"
           >
             <div class="menu-row">
-              <div class="menu-row-content" :class="{ selected: selectedOptions.has(option.trackValue) }">
+              <div ref="optionRefs" class="menu-row-content" :class="{ selected: selectedOptions.has(option.trackValue), focus: index === focusIndex }">
                 <div class="menu-text-wrapper">
                   <slot name="option" :option="option.option" :label-value="option.labelValue" :track-value="option.trackValue">
                     <p>{{ option.labelValue }}</p>
@@ -472,9 +498,14 @@ li {
   transition: all var(--duration-default);
   cursor: pointer;
   border-radius: var(--radius-small);
+  scroll-margin-bottom: 8px;
+  scroll-margin-top: 160px;
 
   &:hover {
     background: var(--neutral-color-50);
+  }
+  &.focus {
+    background: var(--neutral-color-100);
   }
   &:active {
     background: var(--neutral-color-200);
@@ -484,6 +515,9 @@ li {
 
     &:hover {
       background: var(--neutral-color-100);
+    }
+    &.focus {
+      background: var(--primary-color-100);
     }
     &:active {
       background: var(--neutral-color-200);
