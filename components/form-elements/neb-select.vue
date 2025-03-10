@@ -8,7 +8,6 @@
   "
 >
 import type { UseFloatingOptions } from '@floating-ui/vue'
-import type NebInput from './neb-input.vue'
 import * as JsSearch from 'js-search'
 import NebDropdown from '../overlays/neb-dropdown.vue'
 
@@ -34,6 +33,7 @@ const props = withDefaults(defineProps<{
   leadingIcon?: string
   noSearch?: boolean
   required?: boolean
+  disabled?: boolean
   customLabel?: (option: T) => PropertyKey
   onNew?: (searchTerm: string) => unknown
 }>(), {
@@ -41,6 +41,7 @@ const props = withDefaults(defineProps<{
   useOnlyTrackedKey: false,
   noSearch: false,
   required: false,
+  disabled: false,
 })
 
 const emit = defineEmits<{
@@ -218,6 +219,9 @@ function orderOptions() {
 }
 
 async function handleSelectClick() {
+  if (props.disabled)
+    return
+
   if (!dropdown.value!.isOpen)
     orderOptions()
 
@@ -260,7 +264,7 @@ watch(searchTerm, orderOptions)
       <div class="neb-select-input-wrapper" @click="handleSelectClick()">
         <span v-if="$props.label">{{ $props.label }} <span v-if="$props.required" class="required-star">*</span></span>
 
-        <div class="neb-select-input" :class="{ 'has-error': errorsToShow.length, 'opened': dropdown?.isOpen }">
+        <div class="neb-select-input" :class="{ 'disabled': $props.disabled, 'has-error': errorsToShow.length, 'opened': dropdown?.isOpen }">
           <slot name="leading">
             <icon v-if="$props.leadingIcon" :name="$props.leadingIcon" />
           </slot>
@@ -365,6 +369,16 @@ watch(searchTerm, orderOptions)
   cursor: pointer;
   user-select: none;
 
+  &.disabled {
+    background: var(--neutral-color-50);
+
+    .icon {
+      color: var(--neutral-color-400);
+    }
+    & input {
+      color: var(--neutral-color-500);
+    }
+  }
   &.has-error {
     border-color: var(--error-color-300);
 
