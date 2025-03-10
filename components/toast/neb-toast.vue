@@ -60,7 +60,11 @@ const iconByType = computed(() => {
           <p>{{ props.description }}</p>
         </div>
 
-        <footer v-if="!hideActionRow">
+        <footer v-if="$slots.footer">
+          <slot name="footer" />
+        </footer>
+
+        <footer v-else-if="!hideActionRow">
           <neb-button class="toast-button" type="link" color @click="$emit('close')">
             {{ $t('nebula.toast.close') }}
           </neb-button>
