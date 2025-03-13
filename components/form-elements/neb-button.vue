@@ -71,6 +71,11 @@ export default defineComponent({
 .neb-button.primary {
   background: var(--primary-color);
   color: #fff;
+  border: 2px solid var(--primary-color-600);
+  box-shadow:
+    0 0 1px 2px rgba(var(--primary-color-component-600), 0.2),
+    inset 0 -4px 4px 0 var(--primary-color-600),
+    inset 0 0 0 2px rgba(var(--primary-color-component-400), 0.4);
 
   &:hover {
     background: var(--primary-color-600);
@@ -81,6 +86,8 @@ export default defineComponent({
   }
   &:disabled {
     background: var(--primary-color-200);
+    box-shadow: none;
+    border: none;
   }
   &.destructive {
     background: var(--error-color-600);
@@ -102,8 +109,12 @@ export default defineComponent({
 /* SECONDARY STYLES */
 .neb-button.secondary {
   background: var(--primary-color-50);
-  border: 1px solid var(--primary-color-300);
   color: var(--primary-color-600);
+  border: 2px solid var(--primary-color-200);
+  box-shadow:
+    0 0 1px 2px rgba(var(--primary-color-component-200), 0.2),
+    inset 0 -2px 2px 0 rgba(var(--primary-color-component-200), 0.6),
+    inset 0 0 0 2px #fff;
 
   &:hover {
     background: var(--primary-color-100);
@@ -115,9 +126,10 @@ export default defineComponent({
     color: var(--primary-color-700);
   }
   &:disabled {
-    background: var(--neutral-color-50);
+    background: var(--primary-color-50);
     color: var(--neutral-color-300);
     border: 1px solid var(--neutral-color-100);
+    box-shadow: none;
   }
   &.destructive {
     background: var(--error-color-50);
@@ -142,12 +154,16 @@ export default defineComponent({
 }
 
 .neb-button.secondary-neutral {
-  background: #fff;
-  border: 1px solid var(--neutral-color-300);
+  background: var(--neutral-color-50);
   color: var(--neutral-color-700);
+  border: 2px solid var(--neutral-color-200);
+  box-shadow:
+    0 0 1px 2px rgba(var(--neutral-color-component-200), 0.2),
+    inset 0 -2px 2px 0 rgba(var(--neutral-color-component-200), 0.6),
+    inset 0 0 0 2px #fff;
 
   &:hover {
-    background: var(--neutral-color-50);
+    background: var(--neutral-color-100);
     color: var(--neutral-color-800);
   }
   &:focus {
@@ -156,9 +172,10 @@ export default defineComponent({
     color: var(--neutral-color-700);
   }
   &:disabled {
-    background: #fff;
+    background: var(--neutral-color-50);
     color: var(--neutral-color-300);
-    border-color: var(--neutral-color-200);
+    border-color: var(--neutral-color-100);
+    box-shadow: none;
   }
 }
 
