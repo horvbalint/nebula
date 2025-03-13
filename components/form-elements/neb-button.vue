@@ -73,9 +73,9 @@ export default defineComponent({
   color: #fff;
   border: 2px solid var(--primary-color-600);
   box-shadow:
-    0 0 1px 2px rgba(var(--primary-color-component-600), 0.2),
+    0 0 1px 2px rgba(var(--primary-color-component-600), 0.1),
     inset 0 -4px 4px 0 var(--primary-color-600),
-    inset 0 0 0 2px rgba(var(--primary-color-component-400), 0.4);
+    inset 0 0 0 2px rgba(var(--primary-color-component-400), 0.2);
 
   &:hover {
     background: var(--primary-color-600);
@@ -112,7 +112,7 @@ export default defineComponent({
   color: var(--primary-color-600);
   border: 2px solid var(--primary-color-200);
   box-shadow:
-    0 0 1px 2px rgba(var(--primary-color-component-200), 0.2),
+    0 0 1px 1px rgba(var(--primary-color-component-200), 0.1),
     inset 0 -2px 2px 0 rgba(var(--primary-color-component-200), 0.6),
     inset 0 0 0 2px #fff;
 
@@ -158,8 +158,8 @@ export default defineComponent({
   color: var(--neutral-color-700);
   border: 2px solid var(--neutral-color-200);
   box-shadow:
-    0 0 1px 2px rgba(var(--neutral-color-component-200), 0.2),
-    inset 0 -2px 2px 0 rgba(var(--neutral-color-component-200), 0.6),
+    0 0 1px 2px rgba(var(--neutral-color-component-200), 0.1),
+    inset 0 -2px 2px 0 rgba(var(--neutral-color-component-200), 0.5),
     inset 0 0 0 2px #fff;
 
   &:hover {
