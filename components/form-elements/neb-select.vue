@@ -555,10 +555,14 @@ li {
   flex: 1;
   white-space: nowrap;
   overflow: hidden;
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
 
-  p {
+  :slotted(p) {
     text-overflow: ellipsis;
     overflow: hidden;
+    flex-shrink: 1;
   }
 }
 .create-button-wrapper {
