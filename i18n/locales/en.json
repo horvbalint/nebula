@@ -43,7 +43,10 @@
     "pagination": {
       "previous": "Previous",
       "next": "Next",
-      "page": "page"
+      "page": "page",
+      "showing": "Showing",
+      "of": "of",
+      "rows": "rows"
     },
     "table-frame": {
       "error": {

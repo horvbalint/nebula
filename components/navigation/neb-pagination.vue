@@ -1,29 +1,26 @@
 <script setup lang="ts" generic="T">
 const props = withDefaults(defineProps<{
-  modelValue?: T[]
-  page?: number
-  data?: T[] | null
+  data: T[] | null
   count?: number
-  itemsPerPage?: number
   radius?: number
   sideCount?: number
 }>(), {
-  itemsPerPage: 10,
   radius: 1,
   sideCount: 1,
 })
 
-const emit = defineEmits<{
-  'update:modelValue': [value: T[]]
-  'update:page': [value: number]
-}>()
-
-const page = ref(props.page || 0)
-
-watch(() => props.page, () => {
-  if (props.page)
-    page.value = props.page
+const modelValue = defineModel<T[]>({
+  required: false,
 })
+
+const page = defineModel('page', {
+  default: 0,
+})
+
+const itemsPerPage = defineModel('itemsPerPage', {
+  default: 10,
+})
+
 watch(page, emitPages)
 watch(() => props.data, emitPages)
 emitPages()
@@ -32,17 +29,16 @@ function emitPages() {
   if (!props.data)
     return
 
-  const startIndex = page.value * props.itemsPerPage
-  emit('update:modelValue', props.data.slice(startIndex, startIndex + props.itemsPerPage))
+  const startIndex = page.value * itemsPerPage.value
+  modelValue.value = props.data.slice(startIndex, startIndex + itemsPerPage.value)
 }
 
-const computedPageCount = computed(() => {
-  const itemCount = props.data?.length || props.count
+const itemCount = computed(() => props.data?.length || props.count || 0)
+const computedPageCount = computed(() => Math.ceil(itemCount.value / itemsPerPage.value))
 
-  if (!itemCount)
-    return 0
-  else
-    return Math.ceil(itemCount / props.itemsPerPage)
+watch(computedPageCount, () => {
+  if (page.value >= computedPageCount.value)
+    page.value = 0
 })
 
 const pageGroups = computed(() => {
@@ -116,7 +112,6 @@ function getNumberBetween(start: number, end: number): number[] {
 
 function handlePageClick(pageIndex: number) {
   page.value = pageIndex
-  emit('update:page', pageIndex)
 }
 
 function previous() {
@@ -138,32 +133,50 @@ function next() {
   <neb-compact>
     <template #normal-mode="{ setNormalModeRef }">
       <div :ref="setNormalModeRef" class="neb-pagination">
-        <neb-button type="secondary-neutral" :disabled="page === 0" @click="previous()">
-          <icon name="material-symbols:arrow-left-alt-rounded" />
-          {{ $t('nebula.pagination.previous') }}
-        </neb-button>
+        <section>
+          <neb-select
+            v-model="itemsPerPage"
+            :options="[10, 20, 50, 100, 200]"
+            no-search
+          />
 
-        <div class="page-numbers">
-          <template v-for="(group, index) in pageGroups" :key="index">
-            <neb-button
-              v-for="pageNumber in group"
-              :key="pageNumber"
-              :type="pageNumber - 1 === page ? 'secondary-neutral' : 'tertiary-neutral'"
-              @click="handlePageClick(pageNumber - 1)"
-            >
-              {{ pageNumber }}
-            </neb-button>
+          <p class="shown-range">
+            {{ $t('nebula.pagination.showing') }}
+            <b>{{ page * itemsPerPage + 1 }}-{{ Math.min(page * itemsPerPage + itemsPerPage, itemCount || 0) }}</b>
+            {{ $t('nebula.pagination.of') }} <b>{{ itemCount }}</b>
+            {{ $t('nebula.pagination.rows') }}
+          </p>
+        </section>
 
-            <div class="truncated">
-              ...
-            </div>
-          </template>
-        </div>
+        <section>
+          <neb-button type="secondary-neutral" :disabled="page === 0" small @click="previous()">
+            <icon name="material-symbols:arrow-left-alt-rounded" />
+            {{ $t('nebula.pagination.previous') }}
+          </neb-button>
 
-        <neb-button type="secondary-neutral" :disabled="page >= computedPageCount - 1" @click="next()">
-          {{ $t('nebula.pagination.next') }}
-          <icon name="material-symbols:arrow-right-alt-rounded" />
-        </neb-button>
+          <div class="page-numbers">
+            <template v-for="(group, index) in pageGroups" :key="index">
+              <neb-button
+                v-for="pageNumber in group"
+                :key="pageNumber"
+                :type="pageNumber - 1 === page ? 'secondary-neutral' : 'tertiary-neutral'"
+                small
+                @click="handlePageClick(pageNumber - 1)"
+              >
+                {{ pageNumber }}
+              </neb-button>
+
+              <div class="truncated">
+                ...
+              </div>
+            </template>
+          </div>
+
+          <neb-button type="secondary-neutral" :disabled="page >= computedPageCount - 1" small @click="next()">
+            {{ $t('nebula.pagination.next') }}
+            <icon name="material-symbols:arrow-right-alt-rounded" />
+          </neb-button>
+        </section>
       </div>
     </template>
 
@@ -191,6 +204,25 @@ function next() {
   justify-content: space-between;
   align-items: center;
   gap: var(--space-4);
+
+  section {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+
+    .neb-select {
+      width: 90px;
+    }
+
+    .shown-range {
+      font-size: var(--text-sm);
+      color: var(--neutral-color-500);
+      font-weight: 500;
+    }
+    b {
+      font-weight: 600;
+    }
+  }
 }
 .page-numbers {
   display: flex;

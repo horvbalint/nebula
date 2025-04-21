@@ -39,7 +39,10 @@
     "pagination": {
       "next": "Következő",
       "page": "oldal",
-      "previous": "Előző"
+      "previous": "Előző",
+      "showing": "Megjelenítve",
+      "of": "a(z)",
+      "rows": "sorból"
     },
     "table-frame": {
       "empty": {

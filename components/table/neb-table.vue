@@ -81,18 +81,20 @@ const searchedRows = computed<FormattedRow<T>[]>(() => {
 
   const result = searcher.value.search(searchTerm.value)
   return result.map(r => ({
-    formatted: { ...r.item.formatted, searchScore: r.score },
+    formatted: { ...r.item.formatted, searchScore: `${Math.round((1 - r.score!) * 100)}%` },
     original: { ...r.item.original, searchScore: r.score },
   }))
 })
 
+const page = ref(0)
 const sortColumn = ref<keyof T | null>(null) as Ref<keyof T | null>
 const sortAsc = ref(true)
 
 watch(searchTerm, () => {
   if (searchTerm.value) {
     sortColumn.value = 'searchScore'
-    sortAsc.value = false
+    sortAsc.value = true
+    page.value = 0
   }
   else if (sortColumn.value === 'searchScore') {
     sortColumn.value = null
@@ -182,7 +184,7 @@ const tableSlots = computed<Slots<T>>(() => {
 
     <template #footer>
       <slot name="footer-start" />
-      <neb-pagination v-model="paginationResult" :data="sortedRows" />
+      <neb-pagination v-model="paginationResult" v-model:page="page" :data="sortedRows" />
       <slot name="footer-end" />
     </template>
   </neb-table-frame>
