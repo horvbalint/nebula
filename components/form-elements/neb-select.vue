@@ -34,6 +34,7 @@ const props = withDefaults(defineProps<{
   noSearch?: boolean
   required?: boolean
   disabled?: boolean
+  allowEmpty?: boolean
   customLabel?: (option: T) => PropertyKey
   onNew?: (searchTerm: string) => unknown
 }>(), {
@@ -42,6 +43,7 @@ const props = withDefaults(defineProps<{
   noSearch: false,
   required: false,
   disabled: false,
+  allowEmpty: true,
 })
 
 const emit = defineEmits<{
@@ -181,16 +183,20 @@ function selectOption(option: ProcessedOption): void {
 function deselectOption(option: ProcessedOption): void {
   if (props.multiple === true) {
     const currentValue = props.modelValue || []
+    const newValue = props.useOnlyTrackedKey
+      ? (currentValue as PropertyKey[]).filter(o => o !== option.trackValue) as T[]
+      : props.trackByKey
+        ? (currentValue as ObjectOption<TrackByKey, LabelKey>[]).filter(o => o[props.trackByKey!] !== option.trackValue) as T[]
+        : (currentValue as PropertyKey[]).filter(o => o !== option.option as PropertyKey) as T[]
 
-    if (props.useOnlyTrackedKey)
-      emitValue((currentValue as PropertyKey[]).filter(o => o !== option.trackValue) as T[])
-    else if (props.trackByKey)
-      emitValue((currentValue as ObjectOption<TrackByKey, LabelKey>[]).filter(o => o[props.trackByKey!] !== option.trackValue) as T[])
-    else
-      emitValue((currentValue as PropertyKey[]).filter(o => o !== option.option as PropertyKey) as T[])
+    if (newValue.length)
+      emitValue(newValue)
+    else if (props.allowEmpty)
+      emitValue(null)
   }
   else {
-    emitValue(null)
+    if (props.allowEmpty)
+      emitValue(null)
   }
 }
 

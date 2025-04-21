@@ -21,17 +21,13 @@ const itemsPerPage = defineModel('itemsPerPage', {
   default: 10,
 })
 
-watch(page, emitPages)
-watch(() => props.data, emitPages)
-emitPages()
-
-function emitPages() {
+watchEffect(() => {
   if (!props.data)
     return
 
   const startIndex = page.value * itemsPerPage.value
   modelValue.value = props.data.slice(startIndex, startIndex + itemsPerPage.value)
-}
+})
 
 const itemCount = computed(() => props.data?.length || props.count || 0)
 const computedPageCount = computed(() => Math.ceil(itemCount.value / itemsPerPage.value))
@@ -138,6 +134,7 @@ function next() {
             v-model="itemsPerPage"
             :options="[10, 20, 50, 100, 200]"
             no-search
+            :allow-empty="false"
           />
 
           <p class="shown-range">
