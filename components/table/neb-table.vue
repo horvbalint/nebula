@@ -86,19 +86,28 @@ const searchedRows = computed<FormattedRow<T>[]>(() => {
   }))
 })
 
-const page = ref(0)
-const sortColumn = ref<keyof T | null>(null) as Ref<keyof T | null>
-const sortAsc = ref(true)
+const page = defineModel<number>('page', {
+  required: false,
+  default: 0,
+})
+const sortColumn = defineModel<keyof T | null>('sortColumn', {
+  required: false,
+  default: null,
+})
+const sortDirection = defineModel<'asc' | 'desc'>('sortDirection', {
+  required: false,
+  default: 'asc',
+})
 
 watch(searchTerm, () => {
   if (searchTerm.value) {
     sortColumn.value = 'searchScore'
-    sortAsc.value = true
+    sortDirection.value = 'asc'
     page.value = 0
   }
   else if (sortColumn.value === 'searchScore') {
     sortColumn.value = null
-    sortAsc.value = true
+    sortDirection.value = 'asc'
   }
 })
 
@@ -112,8 +121,7 @@ const sortedRows = computed(() => {
   const sortFunction = getSortFunction(sortColumn.value)
 
   return [...searchedRows.value || []].sort((a, b) => {
-    const first = sortAsc.value ? a : b
-    const second = sortAsc.value ? b : a
+    const [first, second] = sortDirection.value === 'asc' ? [a, b] : [b, a]
 
     if (first.original[sortColumn.value!] === undefined || first.original[sortColumn.value!] === null)
       return -1
@@ -161,7 +169,7 @@ const tableSlots = computed<Slots<T>>(() => {
 <template>
   <neb-table-frame
     v-model="modelValue"
-    v-model:sort-asc="sortAsc"
+    v-model:sort-direction="sortDirection"
     v-model:sort-column="sortColumn"
     :rows="paginationResult"
     :columns="computedColumns"

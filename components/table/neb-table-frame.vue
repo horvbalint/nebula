@@ -83,21 +83,21 @@ const sortColumn = defineModel<keyof T | null>('sortColumn', {
   required: false,
   default: null,
 })
-const sortAsc = defineModel('sortAsc', {
+const sortDirection = defineModel<'asc' | 'desc'>('sortDirection', {
   required: false,
-  default: true,
+  default: 'asc',
 })
 
 const sortIcon = computed(() => {
-  if (sortAsc.value)
-    return 'material-symbols:arrow-upward-alt'
+  if (sortDirection.value === 'asc')
+    return 'carbon:sort-ascending'
   else
-    return 'material-symbols:arrow-downward-alt'
+    return 'carbon:sort-descending'
 })
 
 function handleHeaderClick(key: keyof T) {
   if (key === sortColumn.value)
-    sortAsc.value = !sortAsc.value
+    sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc'
   else
     sortColumn.value = key
 }
@@ -153,7 +153,7 @@ const isAnyChecked = computed({
                     </slot>
                   </div>
 
-                  <icon v-if="key === sortColumn" :name="sortIcon" />
+                  <icon v-if="key === sortColumn" class="sort-icon" :name="sortIcon" />
                 </div>
               </th>
 
@@ -291,7 +291,7 @@ th {
     display: inline-block;
   }
   .icon {
-    margin-left: var(--space-1);
+    margin-left: var(--space-2);
     width: 18px;
     height: 18px;
   }
