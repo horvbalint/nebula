@@ -98,6 +98,9 @@ const sortDirection = defineModel<'asc' | 'desc'>('sortDirection', {
   required: false,
   default: 'asc',
 })
+const itemsPerPage = defineModel<number>('itemsPerPage', {
+  required: false,
+})
 
 watch(searchTerm, () => {
   if (searchTerm.value) {
@@ -192,7 +195,7 @@ const tableSlots = computed<Slots<T>>(() => {
 
     <template #footer>
       <slot name="footer-start" />
-      <neb-pagination v-model="paginationResult" v-model:page="page" :data="sortedRows" />
+      <neb-pagination v-model="paginationResult" v-model:page="page" v-model:items-per-page="itemsPerPage" :data="sortedRows" />
       <slot name="footer-end" />
     </template>
   </neb-table-frame>
