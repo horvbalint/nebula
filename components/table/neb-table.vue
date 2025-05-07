@@ -103,15 +103,22 @@ const itemsPerPage = defineModel<number>('itemsPerPage', {
   required: false,
 })
 
-watch(searchTerm, () => {
+const sortColumnBeforeSearch = ref<null | keyof T>(null)
+const sortDirectionBeforeSearch = ref<'asc' | 'desc'>('asc')
+watch(searchTerm, (newVal, oldVal) => {
+  if (!oldVal && newVal) {
+    sortColumnBeforeSearch.value = sortColumn.value
+    sortDirectionBeforeSearch.value = sortDirection.value
+  }
+
   if (searchTerm.value) {
     sortColumn.value = 'searchScore'
     sortDirection.value = 'asc'
     page.value = 0
   }
   else if (sortColumn.value === 'searchScore') {
-    sortColumn.value = null
-    sortDirection.value = 'asc'
+    sortColumn.value = sortColumnBeforeSearch.value
+    sortDirection.value = sortDirectionBeforeSearch.value
   }
 })
 
@@ -170,6 +177,7 @@ const tableSlots = computed<Slots<T>>(() => {
 })
 
 useNebSaveRestore('neb-table', props, {
+  searchTerm,
   sortColumn,
   sortDirection,
 })
@@ -208,6 +216,7 @@ useNebSaveRestore('neb-table', props, {
         :data="sortedRows"
         :enable-save-restore="props.enableSaveRestore"
         :save-key="props.saveKey"
+        :status="props.status"
       />
       <slot name="footer-end" />
     </template>

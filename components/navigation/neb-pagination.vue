@@ -1,4 +1,5 @@
 <script setup lang="ts" generic="T">
+import type { AsyncDataRequestStatus } from '#app'
 import type { NebSaveRestoreProps } from '../../composables/neb-save-restore'
 
 const props = withDefaults(defineProps<NebSaveRestoreProps & {
@@ -6,6 +7,7 @@ const props = withDefaults(defineProps<NebSaveRestoreProps & {
   count?: number
   radius?: number
   sideCount?: number
+  status?: AsyncDataRequestStatus
 }>(), {
   radius: 1,
   sideCount: 1,
@@ -40,7 +42,7 @@ const itemCount = computed(() => props.data?.length || props.count || 0)
 const computedPageCount = computed(() => Math.ceil(itemCount.value / itemsPerPage.value))
 
 watch(computedPageCount, () => {
-  if (page.value >= computedPageCount.value)
+  if (props.status === 'success' && page.value >= computedPageCount.value)
     page.value = 0
 })
 

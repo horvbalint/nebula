@@ -15,9 +15,8 @@ export function useNebSaveRestore<T extends Record<string, Ref<any>>>(name: stri
     try {
       const parsedState = JSON.parse(savedState)
       for (const key in parsedState) {
-        if (key in refsObject) {
+        if (key in refsObject)
           refsObject[key].value = parsedState[key]
-        }
       }
     }
     catch (e) {
