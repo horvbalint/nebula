@@ -1,6 +1,5 @@
 <script setup lang="ts" generic="T extends Record<string, any>">
 import type { AsyncDataRequestStatus } from 'nuxt/app'
-import type { RestoreProps } from '../../composables/neb-restore'
 
 export interface Column<T, Key extends keyof T = keyof T> {
   text: string
@@ -12,11 +11,6 @@ export interface Column<T, Key extends keyof T = keyof T> {
 export type Columns<T> = Partial<{
   [K in keyof T]: Column<T, K>
 }>
-
-export interface RestoreState<T> {
-  sortColumn: keyof T | null
-  sortAsc: boolean
-}
 
 export interface FormattedRow<T> {
   formatted: Record<keyof T, string>
@@ -41,12 +35,12 @@ export type Slots<T> = ThSlots<T> & TdSlots<T> & {
   'footer'?: () => any
 }
 
-export type Props<T> = {
+export interface Props<T> {
   columns: Columns<T>
   rows: FormattedRow<T>[] | null
   status?: AsyncDataRequestStatus
   refresh?: () => Promise<void>
-} & RestoreProps<RestoreState<T>>
+}
 
 export interface Emits<T> {
   click: [row: T]
@@ -54,26 +48,11 @@ export interface Emits<T> {
 
 const props = withDefaults(defineProps<Props<T>>(), {
   status: 'success',
-  restore: false,
 })
 
 const emit = defineEmits<Emits<T>>()
 
 defineSlots<Slots<T>>()
-
-// useNebLoading(props, () => {
-// useNebRestore<RestoreState>({
-//   props,
-//   store: () => ({
-//     sortColumn: props.sortColumn,
-//     sortAsc: sortAsc.value,
-//   }),
-//   restore: (state) => {
-//     emit('update:sortColumn', state.sortColumn)
-//     emit('update:sortAsc', state.sortAsc)
-//   },
-// })
-// })
 
 const modelValue = defineModel<null | T[]>({
   required: false,

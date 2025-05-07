@@ -1,4 +1,5 @@
 <script setup lang="ts" generic="T extends Record<string, any>">
+import type { NebSaveRestoreProps } from '#imports'
 import type { Columns, Emits, FormattedRow, Props, Slots } from './neb-table-frame.vue'
 import dayjs from 'dayjs'
 import Fuse from 'fuse.js'
@@ -6,7 +7,7 @@ import Fuse from 'fuse.js'
 type TableProps = Omit<Props<T>, 'rows'> & {
   rows: T[] | null
 }
-const props = defineProps<TableProps>()
+const props = defineProps<NebSaveRestoreProps & TableProps>()
 
 defineEmits<Emits<T>>()
 
@@ -167,6 +168,11 @@ const tableSlots = computed<Slots<T>>(() => {
 
   return tableSlots
 })
+
+useNebSaveRestore('neb-table', props, {
+  sortColumn,
+  sortDirection,
+})
 </script>
 
 <template>
@@ -195,7 +201,14 @@ const tableSlots = computed<Slots<T>>(() => {
 
     <template #footer>
       <slot name="footer-start" />
-      <neb-pagination v-model="paginationResult" v-model:page="page" v-model:items-per-page="itemsPerPage" :data="sortedRows" />
+      <neb-pagination
+        v-model="paginationResult"
+        v-model:page="page"
+        v-model:items-per-page="itemsPerPage"
+        :data="sortedRows"
+        :enable-save-restore="props.enableSaveRestore"
+        :save-key="props.saveKey"
+      />
       <slot name="footer-end" />
     </template>
   </neb-table-frame>

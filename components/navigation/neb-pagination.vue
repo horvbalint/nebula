@@ -1,5 +1,7 @@
 <script setup lang="ts" generic="T">
-const props = withDefaults(defineProps<{
+import type { NebSaveRestoreProps } from '#imports'
+
+const props = withDefaults(defineProps<NebSaveRestoreProps & {
   data: T[] | null
   count?: number
   radius?: number
@@ -19,6 +21,11 @@ const page = defineModel('page', {
 
 const itemsPerPage = defineModel('itemsPerPage', {
   default: 10,
+})
+
+useNebSaveRestore('neb-pagination', props, {
+  page,
+  itemsPerPage,
 })
 
 watchEffect(() => {
