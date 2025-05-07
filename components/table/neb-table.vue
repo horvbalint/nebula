@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T extends Record<string, any>">
-import type { NebSaveRestoreProps } from '#imports'
+import type { NebSaveRestoreProps } from '@nebula/composables/neb-save-restore'
 import type { Columns, Emits, FormattedRow, Props, Slots } from './neb-table-frame.vue'
 import dayjs from 'dayjs'
 import Fuse from 'fuse.js'

@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T">
-import type { NebSaveRestoreProps } from '#imports'
+import type { NebSaveRestoreProps } from '@nebula/composables/neb-save-restore'
 
 const props = withDefaults(defineProps<NebSaveRestoreProps & {
   data: T[] | null
