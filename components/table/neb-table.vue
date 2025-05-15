@@ -105,13 +105,13 @@ const itemsPerPage = defineModel<number>('itemsPerPage', {
 
 const sortColumnBeforeSearch = ref<null | keyof T>(null)
 const sortDirectionBeforeSearch = ref<'asc' | 'desc'>('asc')
-watch(searchTerm, (newVal, oldVal) => {
-  if (!oldVal && newVal) {
-    sortColumnBeforeSearch.value = sortColumn.value
-    sortDirectionBeforeSearch.value = sortDirection.value
-  }
-
+watch(searchTerm, (_, oldVal) => {
   if (searchTerm.value) {
+    if (!oldVal) {
+      sortColumnBeforeSearch.value = sortColumn.value
+      sortDirectionBeforeSearch.value = sortDirection.value
+    }
+
     sortColumn.value = 'searchScore'
     sortDirection.value = 'asc'
     page.value = 0
@@ -120,6 +120,8 @@ watch(searchTerm, (newVal, oldVal) => {
     sortColumn.value = sortColumnBeforeSearch.value
     sortDirection.value = sortDirectionBeforeSearch.value
   }
+}, {
+  flush: 'sync',
 })
 
 const sortedRows = computed(() => {
@@ -177,9 +179,11 @@ const tableSlots = computed<Slots<T>>(() => {
 })
 
 useNebSaveRestore('neb-table', props, {
-  searchTerm,
+  searchTerm, // order of the keys is important because of the 'sync' flushed watcher
   sortColumn,
   sortDirection,
+}, {
+  sortColumn: column => !!column && !!props.columns[column],
 })
 </script>
 

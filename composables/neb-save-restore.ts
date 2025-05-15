@@ -3,7 +3,16 @@ export interface NebSaveRestoreProps {
   saveKey?: string
 }
 
-export function useNebSaveRestore<T extends Record<string, Ref<any>>>(name: string, props: NebSaveRestoreProps, refsObject: T): void {
+type Validators<T extends Record<string, Ref<any>>> = {
+  [K in keyof T]?: (value: T[K]['value']) => boolean
+}
+
+export function useNebSaveRestore<T extends Record<string, Ref<any>>>(
+  name: string,
+  props: NebSaveRestoreProps,
+  refsObject: T,
+  validators: Validators<T> = {},
+): void {
   if (!props.enableSaveRestore || !props.saveKey)
     return
 
@@ -14,9 +23,13 @@ export function useNebSaveRestore<T extends Record<string, Ref<any>>>(name: stri
   if (savedState) {
     try {
       const parsedState = JSON.parse(savedState)
-      for (const key in parsedState) {
-        if (key in refsObject)
+      for (const key in refsObject) {
+        if (key in parsedState) {
+          if (validators[key] && !validators[key](parsedState[key]))
+            continue
+
           refsObject[key].value = parsedState[key]
+        }
       }
     }
     catch (e) {
