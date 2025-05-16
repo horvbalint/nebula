@@ -3,6 +3,8 @@ import type { Dayjs } from 'dayjs'
 import { NebInput } from '#components'
 import dayjs from 'dayjs'
 import localeData from 'dayjs/plugin/localeData'
+import timezone from 'dayjs/plugin/timezone.js'
+import utc from 'dayjs/plugin/utc.js'
 import 'dayjs/locale/hu'
 
 const props = withDefaults(defineProps<{
@@ -14,6 +16,7 @@ const props = withDefaults(defineProps<{
   closeOnSelect?: boolean
   from?: Date | string
   to?: Date | string
+  timezone?: string
 }>(), {
   disabled: false,
   required: false,
@@ -25,18 +28,21 @@ const emit = defineEmits<{
 }>()
 
 dayjs.extend(localeData)
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 const { locale } = useI18n()
 dayjs.locale(locale.value)
+dayjs.tz.setDefault(props.timezone)
 
 const input = templateRef('input')
 
-const selectedDay = computed(() => dayjs(props.modelValue || null)) // if modelValue is undefined, we don't want to default to the current date (which dayjs would do by default)
+const selectedDay = computed(() => dayjs(props.modelValue || null).tz()) // if modelValue is undefined, we don't want to default to the current date (which dayjs would do by default)
 if (selectedDay.value.isValid())
   onMounted(() => emitValue(selectedDay.value))
 
 const calendarView = ref<'day' | 'month' | 'year'>('day')
-const viewDay = ref(selectedDay.value.isValid() ? selectedDay.value.clone() : dayjs())
+const viewDay = ref(selectedDay.value.isValid() ? selectedDay.value.clone() : dayjs().tz())
 
 const { collectErrors, errorsToShow } = useNebValidate(input, () => {
   if (props.required && !selectedDay.value.isValid())
@@ -144,19 +150,19 @@ function getDayButtonType(day: Dayjs) {
   if (day.isSame(selectedDay.value, 'day'))
     return 'primary'
 
-  if (day.date() === dayjs().date() && day.month() === viewDay.value.month())
+  if (day.date() === dayjs().tz().date() && day.month() === viewDay.value.month())
     return 'secondary-neutral'
 
   return 'tertiary-neutral'
 }
 function getMonthButtonType(month: Dayjs) {
-  if (month.month() === dayjs().month())
+  if (month.month() === dayjs().tz().month())
     return 'secondary-neutral'
   else
     return 'tertiary-neutral'
 }
 function getYearButtonType(year: Dayjs) {
-  if (year.year() === dayjs().year())
+  if (year.year() === dayjs().tz().year())
     return 'secondary-neutral'
   else
     return 'tertiary-neutral'
@@ -173,7 +179,7 @@ function isOutOfRange(day: Dayjs, granularity: 'day' | 'month' | 'year') {
 }
 
 function handleInput(value: string) {
-  const date = dayjs(value)
+  const date = dayjs(value).tz()
 
   if (!date.isValid() || isOutOfRange(date, 'day'))
     emitValue(null)
