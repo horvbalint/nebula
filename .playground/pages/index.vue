@@ -2,10 +2,13 @@
 const { locale } = useI18n()
 
 const temp = ref()
+const alma = ref(0)
 </script>
 
 <template>
   <div class="wrapper">
+    <neb-pagination :data="null" :count="150" :radius="1" />
+
     <neb-button type="primary">
       Test button text
     </neb-button>
@@ -42,9 +45,10 @@ const temp = ref()
 
 <style scoped>
 .wrapper {
+  align-items: stretch;
+  padding: var(--space-10);
   display: flex;
   justify-content: center;
-  align-items: center;
   flex-direction: column;
   gap: var(--space-10);
   width: 100%;

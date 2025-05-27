@@ -39,81 +39,95 @@ watchEffect(() => {
 })
 
 const itemCount = computed(() => props.data?.length || props.count || 0)
-const computedPageCount = computed(() => Math.ceil(itemCount.value / itemsPerPage.value))
+const pageCount = computed(() => Math.ceil(itemCount.value / itemsPerPage.value))
 
-watch(computedPageCount, () => {
-  if (props.status === 'success' && page.value >= computedPageCount.value)
+watch(pageCount, () => {
+  if (props.status === 'success' && page.value >= pageCount.value)
     page.value = 0
 })
 
-const pageGroups = computed(() => {
-  if (!computedPageCount.value)
+const desiredButtonCount = computed(() => {
+  // This is the max number of buttons that can occur in the pagination component, we always try to show this many buttons
+  const maxButtonCount = props.sideCount * 2
+    + props.radius * 2
+    + 2 // separators
+    + 1 // current page
+
+  return Math.min(maxButtonCount, pageCount.value)
+})
+
+const buttons = computed(() => {
+  if (!pageCount.value)
     return []
 
-  const startGroup = generateStartGroup()
-  const middleGroup = generateMiddleGroup()
-  const endGroup = generateEndGroup()
+  const state = {
+    left: 0,
+    right: 0,
+    middle: {
+      start: 0,
+      end: 0,
+    },
+  }
 
-  const firstGroups = mergeGroupsIfNeeded(startGroup, middleGroup)
-  const lastGroups = mergeGroupsIfNeeded(firstGroups[firstGroups.length - 1], endGroup)
+  // radius around the current page
+  state.middle.start = Math.max(1, page.value + 1 - props.radius)
+  state.middle.end = Math.min(pageCount.value, page.value + 1 + props.radius)
 
-  firstGroups.splice(firstGroups.length - 1, 1, ...lastGroups)
+  // left side
+  const distanceFromRadiusStart = state.middle.start - props.sideCount
+  if (distanceFromRadiusStart >= 3)
+    state.left = props.sideCount
+  else
+    state.middle.start = 1
 
-  return firstGroups
+  // // right side
+  const distanceFromRadiusEnd = (pageCount.value - props.sideCount + 1) - state.middle.end
+  if (distanceFromRadiusEnd >= 3)
+    state.right = props.sideCount
+  else
+    state.middle.end = pageCount.value
+
+  const buttonCount = state.left + state.right + (state.middle.end - state.middle.start + 1) + Number(!!state.left) + Number(!!state.right)
+  const missingButtonCount = desiredButtonCount.value - buttonCount
+
+  if (missingButtonCount > 0) {
+    if (page.value < pageCount.value / 2)
+      state.middle.end += missingButtonCount
+    else
+      state.middle.start -= missingButtonCount
+  }
+
+  if (state.left + 2 >= state.middle.start) {
+    state.middle.start = 1
+    state.left = 0
+  }
+
+  if (state.middle.end + 1 >= pageCount.value - state.right) {
+    state.middle.end = pageCount.value
+    state.right = 0
+  }
+
+  const buttons: (number | '...')[] = []
+
+  if (state.left) {
+    for (let i = 1; i <= state.left; i++)
+      buttons.push(i)
+
+    buttons.push('...')
+  }
+
+  for (let i = state.middle.start; i <= state.middle.end; i++)
+    buttons.push(i)
+
+  if (state.right) {
+    buttons.push('...')
+
+    for (let i = state.right - 1; i >= 0; i--)
+      buttons.push(pageCount.value - i)
+  }
+
+  return buttons
 })
-
-function generateStartGroup() {
-  const startNumber = 1
-  const endNumber = Math.min(startNumber + props.sideCount - 1, computedPageCount.value)
-  return getNumberBetween(startNumber, endNumber)
-}
-
-const sideGroupLength = computed(() => {
-  const self = 1
-  const separator = 1
-  const buttonCount = (props.sideCount * 2) + (props.radius * 2) + (separator * 2) + self
-
-  return buttonCount - props.sideCount - separator
-})
-
-function generateMiddleGroup() {
-  const currentPageNumber = page.value + 1
-
-  const distanceFromStart = page.value
-  const distanceFromEnd = (computedPageCount.value - 1) - page.value
-  const distance = Math.min(distanceFromStart, distanceFromEnd)
-  const radius = distance < sideGroupLength.value - props.radius ? sideGroupLength.value - distance : props.radius
-
-  const startNumber = Math.max(currentPageNumber - radius, 1)
-  const endNumber = Math.min(currentPageNumber + radius, computedPageCount.value)
-  return getNumberBetween(startNumber, endNumber)
-}
-
-function generateEndGroup() {
-  const endNumber = computedPageCount.value
-  const startNumber = Math.max(endNumber - props.sideCount + 1, 1)
-  return getNumberBetween(startNumber, endNumber)
-}
-
-function mergeGroupsIfNeeded(first: number[], second: number[]): number[][] {
-  const lastFromFirstGroup = first[first.length - 1]
-  const firstFromSecondGroup = second[0]
-
-  if (lastFromFirstGroup + 1 < firstFromSecondGroup)
-    return [first, second]
-
-  const set = new Set([...first, ...second])
-  return [[...set]]
-}
-
-function getNumberBetween(start: number, end: number): number[] {
-  const numbers = []
-
-  for (let i = start; i <= end; ++i)
-    numbers.push(i)
-
-  return numbers
-}
 
 function handlePageClick(pageIndex: number) {
   page.value = pageIndex
@@ -127,7 +141,7 @@ function previous() {
 }
 
 function next() {
-  if (page.value === computedPageCount.value)
+  if (page.value === pageCount.value)
     return
 
   handlePageClick(page.value + 1)
@@ -161,24 +175,24 @@ function next() {
           </neb-button>
 
           <div class="page-numbers">
-            <template v-for="(group, index) in pageGroups" :key="index">
-              <neb-button
-                v-for="pageNumber in group"
-                :key="pageNumber"
-                :type="pageNumber - 1 === page ? 'secondary-neutral' : 'tertiary-neutral'"
-                small
-                @click="handlePageClick(pageNumber - 1)"
-              >
-                {{ pageNumber }}
-              </neb-button>
-
-              <div class="truncated">
+            <template v-for="button in buttons" :key="button">
+              <div v-if="button === '...'" class="separator">
                 ...
               </div>
+
+              <neb-button
+                v-else
+                class="page-number"
+                :type="button - 1 === page ? 'secondary-neutral' : 'tertiary-neutral'"
+                small
+                @click="handlePageClick(button - 1)"
+              >
+                {{ button }}
+              </neb-button>
             </template>
           </div>
 
-          <neb-button type="secondary-neutral" :disabled="page >= computedPageCount - 1" small @click="next()">
+          <neb-button type="secondary-neutral" :disabled="page >= pageCount - 1" small @click="next()">
             {{ $t('nebula.pagination.next') }}
             <icon name="material-symbols:arrow-right-alt-rounded" />
           </neb-button>
@@ -193,10 +207,10 @@ function next() {
         </neb-button>
 
         <div class="page-stats">
-          {{ page! + 1 }}/{{ computedPageCount }} {{ $t('nebula.pagination.page') }}
+          {{ page! + 1 }}/{{ pageCount }} {{ $t('nebula.pagination.page') }}
         </div>
 
-        <neb-button type="secondary-neutral" :disabled="page >= computedPageCount - 1" @click="next()">
+        <neb-button type="secondary-neutral" :disabled="page >= pageCount - 1" @click="next()">
           <icon name="material-symbols:arrow-right-alt-rounded" />
         </neb-button>
       </div>
@@ -239,12 +253,10 @@ function next() {
   font-size: var(--text-sm);
   color: var(--neutral-color-900);
 }
-.truncated {
-  padding: var(--space-3);
-
-  &:last-child {
-    display: none;
-  }
+.separator,
+.page-number {
+  width: 35px;
+  text-align: center;
 }
 
 .dark-mode {
