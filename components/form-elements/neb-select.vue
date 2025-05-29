@@ -192,7 +192,7 @@ function deselectOption(option: ProcessedOption): void {
     if (newValue.length)
       emitValue(newValue)
     else if (props.allowEmpty)
-      emitValue(null)
+      emitValue([])
   }
   else {
     if (props.allowEmpty)
