@@ -4,6 +4,7 @@ export interface Route {
   path: string
   subRoutes?: Route[]
   icon?: string
+  group?: string
 }
 
 const props = withDefaults(defineProps<{

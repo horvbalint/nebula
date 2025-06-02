@@ -4,6 +4,7 @@ interface NebulaNavSettings {
   name?: string
   skipFromMenu?: boolean
   icon?: string
+  group?: string
 }
 
 declare module 'vue-router' {

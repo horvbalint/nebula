@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { Route } from './neb-header-nav.vue'
+import { useRouteGrouping } from '@nebula/composables/routes'
 
 const props = defineProps<{
   route: Route
@@ -17,6 +18,8 @@ const isActive = computed(() => {
 
   return currUrlParts.includes(propsRouteUrlName)
 })
+
+const groupedRoutes = useRouteGrouping(props.route.subRoutes || [])
 </script>
 
 <template>
@@ -39,7 +42,23 @@ const isActive = computed(() => {
 
     <template #content="{ close }">
       <div class="dropdown">
-        <neb-header-nav-item v-for="r in $props.route.subRoutes" :key="r.name" :route="r" @close="close(); emit('close')" />
+        <neb-header-nav-item
+          v-for="r in groupedRoutes.ungrouped"
+          :key="r.name"
+          :route="r"
+          @close="close(); emit('close')"
+        />
+
+        <div v-for="groupName in groupedRoutes.groupNames" :key="groupName" class="group">
+          <header>
+            <neb-content-header
+              :title="groupName"
+              type="subtitle"
+            />
+          </header>
+
+          <neb-header-nav-item v-for="r in groupedRoutes.groups[groupName]" :key="r.name" :route="r" @close="close(); emit('close')" />
+        </div>
       </div>
     </template>
   </neb-dropdown>
@@ -90,6 +109,13 @@ const isActive = computed(() => {
   box-shadow: var(--shadow-lg);
   padding: var(--space-1) 0;
   background: #fff;
+}
+.group {
+  border-top: 1px solid var(--neutral-color-200);
+
+  header {
+    padding: var(--space-2) var(--space-4) 0 var(--space-4);
+  }
 }
 
 @media only screen and (max-width: var(--tablet)) {
