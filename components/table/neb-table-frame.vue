@@ -5,7 +5,7 @@ export interface Column<T, Key extends keyof T = keyof T> {
   text: string
   align?: 'left' | 'center' | 'right'
   sortFunction?: (a: any, b: any) => number
-  formatFunction?: (value: T[Key]) => string
+  formatFunction?: (value: T[Key], row: T) => string
 }
 
 export type Columns<T> = Partial<{
