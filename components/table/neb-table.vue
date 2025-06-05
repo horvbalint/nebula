@@ -55,7 +55,7 @@ const formattedRows = computed<FormattedRow<T>[]>(() => {
 
 function formatCell(row: T, key: keyof T): string {
   if (computedColumns.value[key]!.formatFunction)
-    return computedColumns.value[key]!.formatFunction(row[key])
+    return computedColumns.value[key]!.formatFunction(row[key], row)
 
   const maybeDate = createDateIfPossible(row[key])
   if (maybeDate)
