@@ -1,4 +1,5 @@
 import type { Route } from '@nebula/components/navigation/header-nav/neb-header-nav.vue'
+import { computed } from 'vue'
 
 export function generateNavTree() {
   const router = useRouter()
