@@ -6,6 +6,7 @@ export interface Column<T, Key extends keyof T = keyof T> {
   align?: 'left' | 'center' | 'right'
   sortFunction?: (a: any, b: any) => number
   formatFunction?: (value: T[Key], row: T) => string
+  notSortable?: boolean
 }
 
 export type Columns<T> = Partial<{
@@ -75,6 +76,9 @@ const sortIcon = computed(() => {
 })
 
 function handleHeaderClick(key: keyof T) {
+  if (props.columns[key]?.notSortable)
+    return
+
   if (key === sortColumn.value)
     sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc'
   else
