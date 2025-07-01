@@ -7,6 +7,7 @@ withDefaults(defineProps<{
   small?: boolean
   square?: boolean
   destructive?: boolean
+  fullWidth?: boolean
   adjective?: boolean
 }>(), {
   loading: false,
@@ -25,7 +26,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <button class="neb-button" :class="{ [type]: true, small, square, destructive, adjective }">
+  <button class="neb-button" :class="{ [type]: true, small, square, destructive, adjective, 'full-width': fullWidth }">
     <slot v-if="!loading" />
 
     <icon v-else name="eos-icons:loading" />
@@ -53,6 +54,9 @@ export default defineComponent({
 
   &:disabled {
     cursor: not-allowed;
+  }
+  &.full-width {
+    width: 100%;
   }
   &.small {
     padding: var(--space-2) var(--space-3);
