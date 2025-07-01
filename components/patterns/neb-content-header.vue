@@ -141,9 +141,13 @@ withDefaults(defineProps<{
 }
 
 @media (--tablet-viewport) {
-  .content-text {
-    & h1 {
-      font-size: var(--title-xs);
+  .neb-content-wrapper {
+    &.section {
+      .content-text {
+        & h1 {
+          font-size: var(--text-lg);
+        }
+      }
     }
   }
 }
@@ -154,6 +158,7 @@ withDefaults(defineProps<{
       border-bottom: 1px solid var(--neutral-color-700);
     }
   }
+
   .content-text {
     & h1 {
       color: var(--neutral-color-300);

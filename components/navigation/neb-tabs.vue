@@ -18,7 +18,7 @@ const props = withDefaults(defineProps<{
   hierarchy: 'primary',
 })
 
-const modelValue = defineModel<string | null>({
+const modelValue = defineModel<string>({
   required: true,
 })
 
@@ -88,7 +88,21 @@ const arrayTabs = computed(() => {
         track-by-key="key"
         use-only-tracked-key
         no-search
-      />
+        :allow-empty="false"
+      >
+        <template v-if="computedTabs[modelValue].icon" #leading>
+          <icon class="mobile-icon" :name="computedTabs[modelValue].icon!" />
+        </template>
+
+        <template #option="{ option }">
+          <!-- TODO: -->
+          <icon v-if="option.icon" :name="option.icon" class="mobile-icon" />
+
+          <div :class="{ 'option-text': !option.icon }">
+            {{ option.text }}
+          </div>
+        </template>
+      </neb-select>
     </template>
   </neb-compact>
 </template>
@@ -292,7 +306,12 @@ const arrayTabs = computed(() => {
   font-weight: 600;
   color: var(--neutral-color-600);
 }
-
+.mobile-icon {
+  font-size: 20px !important;
+}
+.option-text {
+  margin-left: 28px;
+}
 .dark-mode {
   .primary {
     ul {

@@ -15,6 +15,21 @@ const emit = defineEmits<{
 }>()
 
 const popup = ref<null | HTMLElement>(null)
+let oldOverflowValue = ''
+
+watch(() => props.modelValue, (newValue) => {
+  if (newValue) {
+    oldOverflowValue = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+  }
+  else {
+    document.body.style.overflow = oldOverflowValue
+  }
+}, { immediate: true })
+
+onBeforeUnmount(() => {
+  document.body.style.overflow = oldOverflowValue
+})
 
 function handleClick(event: MouseEvent) {
   if (!props.closeOnBackgroundClick)
