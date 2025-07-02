@@ -182,4 +182,10 @@ input:checked + .slider:before {
     }
   }
 }
+
+@media (--tablet-viewport) {
+  .toggle-text {
+    font-size: var(--text-sm) !important;
+  }
+}
 </style>
