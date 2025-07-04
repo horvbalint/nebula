@@ -133,4 +133,19 @@ withDefaults(defineProps<{
     }
   }
 }
+
+@media (--tablet-viewport) {
+  .neb-success-state {
+    padding: var(--space-4) var(--space-6);
+    text-align: center;
+  }
+  .success-state-text {
+    h6 {
+      font-size: var(--text-md);
+    }
+    p {
+      font-size: var(--text-sm);
+    }
+  }
+}
 </style>

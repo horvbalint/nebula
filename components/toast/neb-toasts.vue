@@ -33,4 +33,11 @@ const toasts = useNebToasts()
   align-items: flex-start;
   gap: var(--space-2);
 }
+
+@media (--tablet-viewport) {
+  .neb-toasts {
+    left: 0;
+    bottom: 0;
+  }
+}
 </style>
