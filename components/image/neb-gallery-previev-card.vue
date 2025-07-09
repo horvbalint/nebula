@@ -4,9 +4,55 @@ const props = defineProps<{
 }>()
 
 const currentSourceIndex = ref(0)
-const currentSource = computed(() => props.sources[currentSourceIndex.value])
-const dotCount = computed(() => {
-  return props.sources.length
+const dotCount = computed(() => props.sources.length)
+const isTransitioning = ref(false)
+const slideDirection = ref<'next' | 'prev'>('next')
+
+let autoAdvanceInterval: NodeJS.Timeout | null = null
+
+function changeImage(newIndex: number, direction: 'next' | 'prev' = 'next') {
+  if (isTransitioning.value)
+    return
+
+  slideDirection.value = direction
+  isTransitioning.value = true
+  currentSourceIndex.value = newIndex
+
+  setTimeout(() => {
+    return isTransitioning.value = false
+  }, 500)
+}
+
+function startAutoAdvance() {
+  if (props.sources.length <= 1)
+    return
+
+  autoAdvanceInterval = setInterval(() => {
+    const nextIndex = (currentSourceIndex.value + 1) % props.sources.length
+    changeImage(nextIndex)
+  }, 5000)
+}
+
+function stopAutoAdvance() {
+  if (autoAdvanceInterval) {
+    clearInterval(autoAdvanceInterval)
+    autoAdvanceInterval = null
+  }
+}
+
+function handleDotClick(index: number) {
+  const direction = index > currentSourceIndex.value ? 'next' : 'prev'
+  changeImage(index, direction)
+
+  stopAutoAdvance()
+  startAutoAdvance()
+}
+
+onMounted(() => {
+  startAutoAdvance()
+})
+onUnmounted(() => {
+  stopAutoAdvance()
 })
 </script>
 
@@ -16,7 +62,20 @@ const dotCount = computed(() => {
       <icon name="material-symbols:open-in-new-rounded" />
     </div>
 
-    <img :src="currentSource" alt="Preview image card" onerror="this.style.display = 'none'">
+    <div class="image-container">
+      <div
+        class="image-slider"
+        :style="{ transform: `translateX(-${currentSourceIndex * 100}%)` }"
+      >
+        <img
+          v-for="(source, index) in sources"
+          :key="index"
+          :src="source"
+          :alt="`Preview image ${index + 1}`"
+          onerror="this.style.display = 'none'"
+        >
+      </div>
+    </div>
 
     <div class="source-counter">
       <icon
@@ -24,7 +83,7 @@ const dotCount = computed(() => {
         :key="count"
         name="oui:dot"
         :class="{ active: currentSourceIndex === (count - 1) }"
-        @click="currentSourceIndex = count - 1"
+        @click="handleDotClick(count - 1)"
       />
     </div>
   </div>
@@ -39,11 +98,8 @@ const dotCount = computed(() => {
   cursor: pointer;
 
   &:hover .open-indicator {
-    background: linear-gradient(
-      to top,
-      rgba(var(--neutral-color-component-900), 0),
-      rgba(var(--neutral-color-component-900), 0.7)
-    );
+    transform: translateY(0);
+    opacity: 1;
 
     .icon {
       opacity: 1;
@@ -61,16 +117,42 @@ const dotCount = computed(() => {
   top: 0;
   right: 0;
   color: #fff;
+  background: linear-gradient(
+    to top,
+    rgba(var(--neutral-color-component-900), 0),
+    rgba(var(--neutral-color-component-900), 0.85)
+  );
+  transform: translateY(-100%);
+  opacity: 0;
+  transition: all var(--duration-default) ease-in-out;
+  z-index: 2;
 
   .icon {
     opacity: 0;
     font-size: 20px !important;
+    transition: opacity var(--duration-default) ease-in-out;
   }
 }
-.preview-card img {
+.image-container {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.image-slider {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s ease-in-out;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
 }
 .source-counter {
   width: 100%;
@@ -84,9 +166,11 @@ const dotCount = computed(() => {
   height: 40px;
   background: linear-gradient(
     to top,
-    rgba(var(--neutral-color-component-900), 0.7),
-    rgba(var(--neutral-color-component-900), 0)
+    rgba(var(--neutral-color-component-900), 0.85),
+    rgba(var(--neutral-color-component-900), 0.65),
+    rgba(var(--neutral-color-component-900), 0.1)
   );
+  z-index: 2;
 
   .icon {
     font-size: 11px !important;
