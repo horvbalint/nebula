@@ -77,6 +77,13 @@
       "error": {
         "refresh": "Retry"
       }
+    },
+    "imageViewer": {
+      "zoomOut": "Zoom out",
+      "zoomIn": "Zoom in",
+      "resetZoom": "Reset zoom",
+      "rotateLeft": "Rotate left",
+      "rotateRight": "Rotate right"
     }
   },
   "tiptap": {
