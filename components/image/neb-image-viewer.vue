@@ -135,7 +135,7 @@ onUnmounted(() => {
       </header>
 
       <main>
-        <neb-button type="link-neutral" class="controll-button" @click="currentSourceIndex = prevSourceIndex">
+        <neb-button type="link-neutral" class="controll-button desktop" @click="currentSourceIndex = prevSourceIndex">
           <icon name="material-symbols:chevron-left-rounded" />
         </neb-button>
 
@@ -146,9 +146,19 @@ onUnmounted(() => {
           >
         </div>
 
-        <neb-button type="link-neutral" class="controll-button" @click="currentSourceIndex = nextSourceIndex">
+        <neb-button type="link-neutral" class="controll-button desktop" @click="currentSourceIndex = nextSourceIndex">
           <icon name="material-symbols:chevron-right-rounded" />
         </neb-button>
+
+        <div class="mobile-arrows">
+          <neb-button type="link-neutral" class="controll-button" @click="currentSourceIndex = prevSourceIndex">
+            <icon name="material-symbols:chevron-left-rounded" />
+          </neb-button>
+
+          <neb-button type="link-neutral" class="controll-button" @click="currentSourceIndex = nextSourceIndex">
+            <icon name="material-symbols:chevron-right-rounded" />
+          </neb-button>
+        </div>
       </main>
     </div>
   </neb-pop-up>
@@ -187,17 +197,6 @@ header {
   gap: var(--space-6);
   background: rgba(var(--neutral-color-component-950), 0.85);
   padding: var(--space-5) var(--space-8);
-
-  h6 {
-    font-size: var(--text-lg);
-    font-weight: 500;
-    color: var(--neutral-color-200);
-    margin: 0;
-  }
-
-  .icon {
-    color: var(--neutral-color-200);
-  }
 }
 
 main {
@@ -230,6 +229,16 @@ img {
   display: flex;
   align-items: center;
   gap: var(--space-2);
+
+  h6 {
+    font-size: var(--text-lg);
+    font-weight: 500;
+    color: var(--neutral-color-200);
+    margin: 0;
+  }
+  .icon {
+    color: var(--neutral-color-200);
+  }
 }
 .zoom-controls {
   display: flex;
@@ -261,5 +270,44 @@ img {
 }
 .zoom-select {
   width: 120px;
+}
+.mobile-arrows {
+  display: none;
+}
+@media (--tablet-viewport) {
+  header {
+    padding: var(--space-4) var(--space-3);
+  }
+  .zoom-controls {
+    display: none;
+  }
+  .title-wrapper {
+    h6 {
+      font-size: var(--text-sm);
+    }
+    .icon {
+      display: none;
+    }
+  }
+  main {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 var(--space-3);
+  }
+  .mobile-arrows {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: var(--space-3);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-12);
+  }
+  .desktop {
+    display: none;
+  }
 }
 </style>

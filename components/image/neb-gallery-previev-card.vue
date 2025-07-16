@@ -83,7 +83,7 @@ onUnmounted(() => {
         :key="count"
         name="oui:dot"
         :class="{ active: currentSourceIndex === (count - 1) }"
-        @click="handleDotClick(count - 1)"
+        @click.stop="handleDotClick(count - 1)"
       />
     </div>
   </div>
@@ -151,6 +151,7 @@ onUnmounted(() => {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
     flex-shrink: 0;
   }
 }
