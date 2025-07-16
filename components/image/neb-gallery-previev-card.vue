@@ -3,6 +3,7 @@ const props = defineProps<{
   sources: string[]
 }>()
 
+defineEmits(['click'])
 const currentSourceIndex = ref(0)
 const dotCount = computed(() => props.sources.length)
 const isTransitioning = ref(false)
@@ -57,7 +58,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="preview-card">
+  <div class="preview-card" @click="$emit('click', currentSourceIndex)">
     <div class="open-indicator">
       <icon name="material-symbols:open-in-new-rounded" />
     </div>
