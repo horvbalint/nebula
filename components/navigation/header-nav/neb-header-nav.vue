@@ -86,6 +86,7 @@ const { isMobile } = useAppBreakpoints()
                     v-for="route in computedRoutes"
                     :key="route.path"
                     :route="route"
+                    @close="showMobileMenu = false"
                   />
                 </div>
               </div>
