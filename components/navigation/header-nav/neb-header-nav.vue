@@ -29,8 +29,8 @@ const computedRoutes = computed(() => {
   return generateNavTree()
 })
 
-const mobileMode = ref(false)
 const showMobileMenu = ref(false)
+const { isMobile } = useAppBreakpoints()
 </script>
 
 <template>
@@ -72,7 +72,13 @@ const showMobileMenu = ref(false)
             <div v-if="showMobileMenu" class="header-content-main">
               <div class="mobile-logo-wrapper">
                 <slot name="mobile-logo">
-                  <slot name="logo" />
+                  <div class="mobile-logo-flex">
+                    <slot name="logo" />
+
+                    <neb-button v-if="showMobileMenu" type="tertiary-neutral" @click="showMobileMenu = false">
+                      <icon name="material-symbols:close-rounded" color="#fff" />
+                    </neb-button>
+                  </div>
                 </slot>
 
                 <div class="nav-items">
@@ -86,8 +92,8 @@ const showMobileMenu = ref(false)
 
               <div class="secondary-actions">
                 <slot name="secondary-actions">
-                  <neb-button type="tertiary-neutral" class="log-out" @click="$emit('logout')">
-                    <icon name="material-symbols:logout-rounded" /> <span v-if="mobileMode">{{ $t('nebula.header-nav.logout') }}</span>
+                  <neb-button class="log-out" type="tertiary-neutral" destructive :full-width="isMobile" @click="$emit('logout')">
+                    <icon name="material-symbols:logout-rounded" /> <span v-if="isMobile">{{ $t('nebula.header-nav.logout') }}</span>
                   </neb-button>
                 </slot>
               </div>
@@ -97,12 +103,6 @@ const showMobileMenu = ref(false)
           <div v-if="!showMobileMenu" class="open-mobile-menu">
             <neb-button type="tertiary-neutral" @click="showMobileMenu = true">
               <icon name="material-symbols:menu-rounded" />
-            </neb-button>
-          </div>
-
-          <div v-else class="close-mobile-menu">
-            <neb-button type="tertiary-neutral" @click="showMobileMenu = false">
-              <icon name="material-symbols:close-rounded" color="#fff" />
             </neb-button>
           </div>
         </header>
@@ -168,6 +168,7 @@ const showMobileMenu = ref(false)
   }
   .header-content-main {
     height: 100vh;
+    width: 100vw;
     background: #fff;
     position: fixed;
     z-index: 100;
@@ -175,7 +176,6 @@ const showMobileMenu = ref(false)
     left: 0;
     flex-direction: column;
     align-items: flex-start;
-    width: 85vw;
     padding: var(--space-6);
     animation: fade var(--duration-default) forwards;
     border-right: var(--neutral-color-300);
@@ -185,6 +185,13 @@ const showMobileMenu = ref(false)
     display: flex;
     flex-direction: column;
     gap: var(--space-6);
+    overflow: auto;
+  }
+  .mobile-logo-flex {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   .nav-items,
   .secondary-actions {
@@ -194,10 +201,6 @@ const showMobileMenu = ref(false)
   .log-out {
     width: 100%;
     justify-content: flex-start;
-
-    & span {
-      color: var(--neutral-color-600);
-    }
   }
 }
 .slide-enter-active {

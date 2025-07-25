@@ -20,6 +20,7 @@ const isActive = computed(() => {
 })
 
 const groupedRoutes = useRouteGrouping(props.route.subRoutes || [])
+const { isMobile } = useAppBreakpoints()
 </script>
 
 <template>
@@ -32,7 +33,7 @@ const groupedRoutes = useRouteGrouping(props.route.subRoutes || [])
     </slot>
   </NuxtLink>
 
-  <neb-dropdown v-else>
+  <neb-dropdown v-else-if="!isMobile">
     <template #trigger="{ toggle }">
       <neb-button :type="isActive ? 'tertiary' : 'tertiary-neutral'" @click="toggle()">
         <icon name="material-symbols:keyboard-arrow-down-rounded" />
@@ -62,6 +63,28 @@ const groupedRoutes = useRouteGrouping(props.route.subRoutes || [])
       </div>
     </template>
   </neb-dropdown>
+
+  <neb-header-nav-expand-items v-else :trigger-text="route.name" :active="isActive">
+    <div class="mobile-expand-menu">
+      <neb-header-nav-item
+        v-for="r in groupedRoutes.ungrouped"
+        :key="r.name"
+        :route="r"
+        @close="emit('close')"
+      />
+
+      <div v-for="groupName in groupedRoutes.groupNames" :key="groupName" class="group">
+        <header>
+          <neb-content-header
+            :title="groupName"
+            type="subtitle"
+          />
+        </header>
+
+        <neb-header-nav-item v-for="r in groupedRoutes.groups[groupName]" :key="r.name" :route="r" @close="emit('close')" />
+      </div>
+    </div>
+  </neb-header-nav-expand-items>
 </template>
 
 <style scoped>
@@ -118,8 +141,20 @@ const groupedRoutes = useRouteGrouping(props.route.subRoutes || [])
   }
 }
 
-@media only screen and (max-width: var(--tablet)) {
+@media (--tablet-viewport) {
   .neb-header-nav-item {
+    width: 100%;
+  }
+  .full-width {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .mobile-expand-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     width: 100%;
   }
 }
