@@ -30,7 +30,7 @@ const radioNode = ref<HTMLInputElement[]>([])
       :key="index"
       class="button"
       :type="getButtonType(option)"
-      @click="radioNode[index].click()"
+      @click="radioNode[index]!.click()"
     >
       <input ref="radioNode" v-model="modelValue" tabindex="-1" :value="option.value" type="radio" class="radio">
 

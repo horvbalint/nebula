@@ -25,10 +25,15 @@ export default defineNuxtConfig({
   ],
   nebula: {
     primaryColor: '#7c4ddb',
-    neutralColor: '#667085',
     errorColor: '#F04438',
     warningColor: '#F79009',
     successColor: '#198754',
+  },
+
+  fonts: {
+    defaults: {
+      weights: [400, 500, 600, 700, 800],
+    },
   },
 
   vite: {
@@ -95,6 +100,4 @@ export default defineNuxtConfig({
     ],
     strategy: 'no_prefix',
   },
-
-  compatibilityDate: '2024-08-15',
 })

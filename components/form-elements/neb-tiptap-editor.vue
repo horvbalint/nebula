@@ -1,15 +1,10 @@
 <script lang="ts" setup>
 import Highlight from '@tiptap/extension-highlight'
 import Image from '@tiptap/extension-image'
-import Link from '@tiptap/extension-link'
-import Table from '@tiptap/extension-table'
-import TableCell from '@tiptap/extension-table-cell'
-import TableHeader from '@tiptap/extension-table-header'
-import TableRow from '@tiptap/extension-table-row'
+import { Table, TableCell, TableHeader, TableRow } from '@tiptap/extension-table'
 import TextAlign from '@tiptap/extension-text-align'
-import Underline from '@tiptap/extension-underline'
 import StarterKit from '@tiptap/starter-kit'
-import { Editor, EditorContent, type Extensions } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue-3'
 
 const props = defineProps<{
   modelValue: string
@@ -158,7 +153,7 @@ const toolbar: { rows: ToolConfig[][][] } = {
   ],
 }
 
-watch(() => props.modelValue, (value) => {
+watch(() => props.modelValue, (value: string) => {
   if (!editor.value)
     return
 
@@ -166,7 +161,9 @@ watch(() => props.modelValue, (value) => {
   if (isSame)
     return
 
-  editor.value.commands.setContent(value, false)
+  editor.value.commands.setContent(value, {
+    emitUpdate: false,
+  })
 })
 
 onMounted(() => {
@@ -176,22 +173,18 @@ onMounted(() => {
         heading: {
           levels: [1, 2, 3, 4],
         },
+        link: {
+          openOnClick: false,
+        },
       }),
       Image,
       Table,
       TableCell,
       TableHeader,
       TableRow,
-      Link.configure({
-        openOnClick: false,
-        defaultProtocol: 'https',
-        autolink: true,
-        linkOnPaste: true,
-      }),
       TextAlign.configure({
         types: ['heading', 'paragraph'],
       }),
-      Underline,
       Highlight,
     ],
     content: props.modelValue,
@@ -270,7 +263,7 @@ onBeforeUnmount(() => {
         </div>
       </header>
 
-      <EditorContent :editor="editor" class="tip-tap-editor" />
+      <EditorContent :editor="editor!" class="tip-tap-editor" @click="editor!.commands.focus()" />
     </div>
   </div>
 

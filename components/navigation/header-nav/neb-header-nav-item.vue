@@ -14,7 +14,7 @@ const currentRoute = useRoute()
 const isActive = computed(() => {
   const currUrlParts = currentRoute.path.split('/')
   const propUrlParts = props.route.path.split('/')
-  const propsRouteUrlName = propUrlParts[propUrlParts.length - 1]
+  const propsRouteUrlName = propUrlParts[propUrlParts.length - 1]!
 
   return currUrlParts.includes(propsRouteUrlName)
 })

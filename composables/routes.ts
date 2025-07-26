@@ -30,7 +30,7 @@ export function useRouteGrouping(routes: Route[]) {
         if (!groups[route.group])
           groups[route.group] = []
 
-        groups[route.group].push(route)
+        groups[route.group]!.push(route)
       }
       else {
         ungrouped.push(route)

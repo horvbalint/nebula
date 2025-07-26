@@ -90,8 +90,8 @@ const arrayTabs = computed(() => {
         no-search
         :allow-empty="false"
       >
-        <template v-if="computedTabs[modelValue].icon" #leading>
-          <icon class="mobile-icon" :name="computedTabs[modelValue].icon!" />
+        <template v-if="computedTabs[modelValue]!.icon" #leading>
+          <icon class="mobile-icon" :name="computedTabs[modelValue]!.icon!" />
         </template>
 
         <template #option="{ option }">

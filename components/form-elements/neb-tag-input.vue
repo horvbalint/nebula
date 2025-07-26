@@ -4,7 +4,7 @@ import type { ValidityKey } from '@nebula/composables/neb-validate'
 type Item = string | number
 
 const props = withDefaults(defineProps<{
-  modelValue: Item[] | undefined
+  modelValue?: Item[]
   label: string
   disabled?: boolean
   required?: boolean

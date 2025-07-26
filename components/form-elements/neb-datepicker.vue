@@ -76,7 +76,7 @@ const daysInView = computed(() => {
   for (let i = 0; i < dayCount; ++i)
     daysInView.push(viewDay.value.clone().date(i + 1))
 
-  const shiftedDayOfWeek = daysInView[0].day() - 1
+  const shiftedDayOfWeek = daysInView[0]!.day() - 1
   const cellsToAddBefore = shiftedDayOfWeek < 0 ? 6 : shiftedDayOfWeek
   const lastMonth = viewDay.value.subtract(1, 'month')
   for (let i = 0; i < cellsToAddBefore; i++)
