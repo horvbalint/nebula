@@ -30,6 +30,12 @@ export default defineNuxtConfig({
     successColor: '#198754',
   },
 
+  fonts: {
+    defaults: {
+      weights: [400, 500, 600, 700, 800],
+    },
+  },
+
   vite: {
     optimizeDeps: {
       include: [
