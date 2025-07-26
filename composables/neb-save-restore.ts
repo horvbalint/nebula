@@ -28,7 +28,7 @@ export function useNebSaveRestore<T extends Record<string, Ref<any>>>(
           if (validators[key] && !validators[key](parsedState[key]))
             continue
 
-          refsObject[key].value = parsedState[key]
+          refsObject[key]!.value = parsedState[key]
         }
       }
     }
@@ -43,7 +43,7 @@ export function useNebSaveRestore<T extends Record<string, Ref<any>>>(
     () => {
       const stateToSave: Record<string, any> = {}
       for (const key in refsObject) {
-        stateToSave[key] = refsObject[key].value
+        stateToSave[key] = refsObject[key]!.value
       }
       try {
         localStorage.setItem(fullSaveKey, JSON.stringify(stateToSave))

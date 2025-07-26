@@ -25,7 +25,6 @@ export default defineNuxtConfig({
   ],
   nebula: {
     primaryColor: '#7c4ddb',
-    neutralColor: '#667085',
     errorColor: '#F04438',
     warningColor: '#F79009',
     successColor: '#198754',
@@ -95,6 +94,4 @@ export default defineNuxtConfig({
     ],
     strategy: 'no_prefix',
   },
-
-  compatibilityDate: '2024-08-15',
 })

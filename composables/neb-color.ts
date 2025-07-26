@@ -60,8 +60,8 @@ export function useNebColorPalette(sources: Partial<ColorPaletteSources>) {
   const { colorPalette, colorComponents } = calcColorPalette(paletteSource)
 
   for (const name in colorPalette)
-    document.documentElement.style.setProperty(`--${name}`, colorPalette[name])
+    document.documentElement.style.setProperty(`--${name}`, colorPalette[name]!)
 
   for (const name in colorComponents)
-    document.documentElement.style.setProperty(`--${name}`, colorComponents[name])
+    document.documentElement.style.setProperty(`--${name}`, colorComponents[name]!)
 }

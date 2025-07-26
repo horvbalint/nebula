@@ -35,7 +35,7 @@ function emitValue(value: File | null) {
 const { open, onChange } = useFileDialog({ multiple: false, accept: props.accept })
 onChange((files) => {
   if (files?.length)
-    emitValue(files[0])
+    emitValue(files[0]!)
 })
 
 watch(modelValue, () => {

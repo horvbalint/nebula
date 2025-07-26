@@ -19,7 +19,7 @@ const formattedAccept = computed(() => {
     return null
 
   return props.accept
-    .map(type => type.split('/')[1].toUpperCase())
+    .map(type => type.split('/')[1]!.toUpperCase())
     .filter(type => type !== '*')
     .join(', ')
 })

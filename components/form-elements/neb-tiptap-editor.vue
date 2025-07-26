@@ -9,7 +9,7 @@ import TableRow from '@tiptap/extension-table-row'
 import TextAlign from '@tiptap/extension-text-align'
 import Underline from '@tiptap/extension-underline'
 import StarterKit from '@tiptap/starter-kit'
-import { Editor, EditorContent, type Extensions } from '@tiptap/vue-3'
+import { Editor, EditorContent } from '@tiptap/vue-3'
 
 const props = defineProps<{
   modelValue: string
@@ -158,7 +158,7 @@ const toolbar: { rows: ToolConfig[][][] } = {
   ],
 }
 
-watch(() => props.modelValue, (value) => {
+watch(() => props.modelValue, (value: string) => {
   if (!editor.value)
     return
 
@@ -270,7 +270,7 @@ onBeforeUnmount(() => {
         </div>
       </header>
 
-      <EditorContent :editor="editor" class="tip-tap-editor" />
+      <EditorContent :editor="editor!" class="tip-tap-editor" />
     </div>
   </div>
 

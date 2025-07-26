@@ -8,7 +8,7 @@ export default defineNuxtModule({
   meta: {
     name: 'nebula',
     compatibility: {
-      nuxt: '^3.0.0',
+      nuxt: '^4.0.0',
     },
   },
   defaults: nebDefaultColorPalette,

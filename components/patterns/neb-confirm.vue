@@ -2,7 +2,7 @@
 const modals = getConfirmModals()
 
 function answer(result: boolean) {
-  modals.value[0].resolve(result)
+  modals.value[0]!.resolve(result)
   modals.value.shift()
 }
 </script>

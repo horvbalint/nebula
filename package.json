@@ -2,7 +2,6 @@
   "name": "nebula",
   "type": "module",
   "version": "0.0.1",
-  "packageManager": "pnpm@10.6.1",
   "main": "./nuxt.config.ts",
   "scripts": {
     "dev": "nuxi dev .playground",
@@ -13,13 +12,13 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@antfu/eslint-config": "4.8.1",
+    "@antfu/eslint-config": "5.0.0",
     "@csstools/postcss-global-data": "3.0.0",
     "@floating-ui/vue": "1.1.6",
     "@iconify-json/material-symbols": "1.2.15",
-    "@nuxt/fonts": "0.10.3",
-    "@nuxt/icon": "1.10.3",
-    "@nuxtjs/i18n": "9.3.0",
+    "@nuxt/fonts": "0.11.4",
+    "@nuxt/icon": "1.15.0",
+    "@nuxtjs/i18n": "10.0.3",
     "@tiptap/extension-highlight": "2.11.5",
     "@tiptap/extension-image": "2.11.5",
     "@tiptap/extension-link": "2.11.5",
@@ -34,24 +33,24 @@
     "@tiptap/vue-3": "2.11.5",
     "@types/color": "4.2.0",
     "@types/js-search": "1.4.4",
-    "@vueuse/components": "12.8.2",
-    "@vueuse/core": "12.8.2",
-    "@vueuse/nuxt": "12.8.2",
+    "@vueuse/components": "13.5.0",
+    "@vueuse/core": "13.5.0",
+    "@vueuse/nuxt": "13.5.0",
     "color": "5.0.0",
     "dayjs": "1.11.13",
     "eslint": "9.22.0",
     "eslint-plugin-format": "1.0.1",
     "fuse.js": "7.1.0",
     "js-search": "2.0.1",
-    "nuxt-typed-router": "3.7.3",
+    "nuxt-typed-router": "4.0.1",
     "postcss": "8.5.3",
     "postcss-preset-env": "10.1.5",
     "theme-colors": "0.1.0",
     "typescript": "5.8.2",
-    "vue-tsc": "2.2.8"
+    "vue-tsc": "3.0.4"
   },
   "devDependencies": {
-    "nuxt": "3.16.0"
+    "nuxt": "4.0.1"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

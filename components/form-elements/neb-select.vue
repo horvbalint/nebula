@@ -303,7 +303,7 @@ watch(searchTerm, orderOptions)
             :placeholder="$t('nebula.neb-select.search')"
             @keydown.up="handleArrowUp()"
             @keydown.down="handleArrowDown()"
-            @keyup.enter="handleOptionClick(orderedOptions[focusIndex])"
+            @keyup.enter="handleOptionClick(orderedOptions[focusIndex]!)"
           >
 
           <icon v-if="searchTerm" name="material-symbols:close-rounded" @click="searchTerm = ''" />
