@@ -375,4 +375,11 @@ tbody {
     }
   }
 }
+
+@media (--tablet-viewport) {
+  .header-slot,
+  footer {
+    padding: var(--space-3);
+  }
+}
 </style>
