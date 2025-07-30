@@ -18,11 +18,10 @@ const prevSourceIndex = computed(() => (currentSourceIndex.value - 1 + props.sou
 
 const zoomLevel = ref(1)
 const rotation = ref(0)
-const minZoom = 0.5
+const minZoom = 1
 const maxZoom = 2
 const zoomStep = 0.5
 const zoomOptions = [
-  { label: '50%', value: 0.5 },
   { label: '100%', value: 1 },
   { label: '150%', value: 1.5 },
   { label: '200%', value: 2 },
@@ -60,6 +59,15 @@ function handleKeydown(event: KeyboardEvent) {
     case 'ArrowRight':
       currentSourceIndex.value = nextSourceIndex.value
       break
+  }
+}
+
+function toggleZoom() {
+  if (zoomLevel.value === 1) {
+    zoomLevel.value = 2
+  }
+  else {
+    zoomLevel.value = 1
   }
 }
 
@@ -103,6 +111,7 @@ onUnmounted(() => {
               label-key="label"
               track-by-key="value"
               use-only-tracked-key
+              no-search
             />
           </div>
 
@@ -139,7 +148,7 @@ onUnmounted(() => {
           <icon name="material-symbols:chevron-left-rounded" />
         </neb-button>
 
-        <div class="image-container">
+        <div class="image-container" @dblclick="toggleZoom()">
           <img
             :src="currentSource"
             :style="{ transform: `scale(${zoomLevel}) rotate(${rotation}deg)` }"
@@ -182,7 +191,8 @@ onUnmounted(() => {
   z-index: 0;
   width: 100%;
   height: 100%;
-  backdrop-filter: blur(30px);
+  backdrop-filter: blur(60px);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 .title-container {
   display: flex;
@@ -260,6 +270,7 @@ img {
 }
 .close-button {
   .icon {
+    color: #fff;
     font-size: 24px !important;
   }
 }

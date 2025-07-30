@@ -58,7 +58,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="preview-card" @click="$emit('click', currentSourceIndex)">
+  <div class="gallery-card" @click="$emit('click', currentSourceIndex)">
     <div class="open-indicator">
       <icon name="material-symbols:open-in-new-rounded" />
     </div>
@@ -92,10 +92,11 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-.preview-card {
+.gallery-card {
   width: 100%;
   height: 100%;
   position: relative;
+  display: flex;
   transition: background-color var(--duration-default) ease-in-out;
   cursor: pointer;
 
@@ -136,8 +137,7 @@ onUnmounted(() => {
   }
 }
 .image-container {
-  width: 100%;
-  height: 100%;
+  flex: 1;
   overflow: hidden;
   position: relative;
   z-index: 1;
