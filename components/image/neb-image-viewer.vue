@@ -143,6 +143,7 @@ onUnmounted(() => {
           <img
             :src="currentSource"
             :style="{ transform: `scale(${zoomLevel}) rotate(${rotation}deg)` }"
+            loading="lazy"
           >
         </div>
 

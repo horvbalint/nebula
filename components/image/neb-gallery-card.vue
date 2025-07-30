@@ -73,6 +73,7 @@ onUnmounted(() => {
           :key="index"
           :src="source"
           :alt="`Preview image ${index + 1}`"
+          loading="lazy"
           onerror="this.style.display = 'none'"
         >
       </div>
