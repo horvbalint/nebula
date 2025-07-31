@@ -1,71 +1,118 @@
 {
   "nebula": {
-    "loading": "Betöltés...",
     "avatar": {
-      "alt": "Avatár kép"
+      "alt": "Profilkép"
     },
     "datepicker": {
       "placeholder": "Válassz egy dátumot...",
       "selectYear": "Év kiválasztás"
     },
     "error-list": {
-      "badInput": "Hibás érték!",
+      "badInput": "Érvénytelen érték!",
       "patternMismatch": "A mező nem megfelelő formátumú!",
-      "rangeOverflow": "A megadott érték túl nagy!",
-      "rangeUnderflow": "A megadott érték túl alacsony!",
+      "rangeOverflow": "Az érték túl nagy!",
+      "rangeUnderflow": "Az érték túl kicsi!",
       "stepMismatch": "A lépésköz nem megfelelő!",
-      "tooLong": "A megadott szöveg túl hosszú!",
-      "tooShort": "A megadott szöveg túl rövid!",
+      "tooLong": "A szöveg túl hosszú!",
+      "tooShort": "A szöveg túl rövid!",
       "typeMismatch": "A mező nem megfelelő formátumú!",
       "valueMissing": "A mező kitöltése kötelező!"
     },
     "header-nav": {
       "logout": "Kijelentkezés"
     },
+    "imageViewer": {
+      "resetZoom": "Nagyítás visszaállítása",
+      "rotateLeft": "Forgatás balra",
+      "rotateRight": "Forgatás jobbra",
+      "zoomIn": "Nagyítás",
+      "zoomOut": "Kicsinyítés"
+    },
+    "loading": "Betöltés...",
     "multi-file-picker": {
       "click": "Kattints a feltöltéshez",
       "drag": "vagy húzd ide a fájlokat."
     },
+    "neb-search-input": {
+      "placeholder": "Írj ide a kereséshez..."
+    },
     "neb-select": {
       "empty": {
-        "description": "Próbálkozzon másik kulcsszóval.",
-        "newItem": "Új elem felvitele",
+        "description": "Próbálj egy másik kulcsszót",
+        "newItem": "Új elem hozzáadása",
         "or": "Vagy",
-        "title": "A(z) '{term}' nem találtható"
+        "title": "Nincs találat: '{term}'"
       },
       "placeholder": "Válassz a listából...",
       "search": "Írj ide a kereséshez..."
     },
     "pagination": {
       "next": "Következő",
+      "of": "a(z)",
       "page": "oldal",
       "previous": "Előző",
-      "showing": "Megjelenítve",
-      "of": "a(z)",
-      "rows": "sorból"
+      "rows": "sorból",
+      "showing": "Megjelenítve"
     },
-    "table-frame": {
+    "single-file-picker": {
+      "accept": "Elfogadott fájlok: {acceptedFiles}",
       "empty": {
-        "description": "Jelenleg nem áll rendelkezésre megjeleníthető adat ebben a táblázatban.",
-        "title": "Nincsenek rendelkezésre álló adatok!"
+        "description": "Kattints a gombra vagy húzz ide egy fájlt",
+        "title": "Nincs fájl kiválasztva"
       },
-      "error": {
-        "description": "Nem sikerült betölteni a táblázat adatait, próbálkozzon újra később.",
-        "title": "Hoppá! Ez nem sikerült!"
-      },
-      "actions": "Műveletek"
-    },
-    "tag-input": {
-      "hint": "Új elem hozzáadásához nyomja meg az „enter” gombot",
-      "placeholder": "Írj ide..."
-    },
-    "toast": {
-      "close": "Bezárás"
+      "maxSize": "max. {size}"
     },
     "state-content": {
       "error": {
         "refresh": "Újrapróbálkozás"
       }
+    },
+    "table-frame": {
+      "actions": "Műveletek",
+      "empty": {
+        "description": "Jelenleg nincs mit megjeleníteni ebben a táblázatban.",
+        "title": "Ez a táblázat üres!"
+      },
+      "error": {
+        "description": "Nem sikerült betölteni a táblázat adatait, próbáld újra később.",
+        "title": "Hoppá! Valami hiba történt!"
+      }
+    },
+    "tag-input": {
+      "hint": "Nyomd meg az 'enter'-t új elem hozzáadásához",
+      "placeholder": "Írj ide..."
+    },
+    "toast": {
+      "close": "Bezárás"
+    }
+  },
+  "tiptap": {
+    "link-modal": {
+      "cancel": "Link eltávolítása",
+      "save": "URL mentése",
+      "title": "Link beszúrása",
+      "url": "Link URL",
+      "url-placeholder": "Pl.: www.facebook.com"
+    },
+    "toolbar": {
+      "align-center": "Középre igazítás",
+      "align-justify": "Sorkizárt",
+      "align-left": "Balra igazítás",
+      "align-right": "Jobbra igazítás",
+      "bold": "Félkövér",
+      "bullet-list": "Felsorolás",
+      "heading-1": "Címsor 1",
+      "heading-2": "Címsor 2",
+      "heading-3": "Címsor 3",
+      "heading-4": "Címsor 4",
+      "highlight": "Kiemelés",
+      "horizontal-rule": "Vízszintes vonal",
+      "italic": "Dőlt",
+      "link": "Link",
+      "ordered-list": "Számozott lista",
+      "redo": "Újra",
+      "underline": "Aláhúzott",
+      "undo": "Visszavonás"
     }
   }
 }

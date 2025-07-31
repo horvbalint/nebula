@@ -1,66 +1,11 @@
 {
   "nebula": {
-    "loading": "Loading...",
     "avatar": {
       "alt": "Avatar image"
-    },
-    "neb-search-input": {
-      "placeholder": "Type here to search..."
     },
     "datepicker": {
       "placeholder": "Choose a date...",
       "selectYear": "Select year"
-    },
-    "multi-file-picker": {
-      "click": "Click here",
-      "drag": "or drag the files here to upload."
-    },
-    "single-file-picker": {
-      "empty": {
-        "title": "No file selected",
-        "description": "Click the button or drag a file here"
-      },
-      "maxSize": "max. {size}",
-      "accept": "Accepted files: {acceptedFiles}"
-    },
-    "neb-select": {
-      "placeholder": "Select from the list...",
-      "search": "Type here to search...",
-      "empty": {
-        "title": "No result for: '{term}'",
-        "description": "Try another keyword",
-        "or": "Or",
-        "newItem": "Add new item"
-      }
-    },
-    "tag-input": {
-      "placeholder": "Type here...",
-      "hint": "Press 'enter' to add a new entry"
-    },
-    "header-nav": {
-      "logout": "Logout"
-    },
-    "pagination": {
-      "previous": "Previous",
-      "next": "Next",
-      "page": "page",
-      "showing": "Showing",
-      "of": "of",
-      "rows": "rows"
-    },
-    "table-frame": {
-      "error": {
-        "title": "Oh-oh! Something went wrong!",
-        "description": "Failed to load the table data, try again later."
-      },
-      "empty": {
-        "title": "This table is empty!",
-        "description": "There is nothing to show in this table currently."
-      },
-      "actions": "Actions"
-    },
-    "toast": {
-      "close": "Close"
     },
     "error-list": {
       "badInput": "Invalid value!",
@@ -73,46 +18,101 @@
       "typeMismatch": "The field does not match the required type!",
       "valueMissing": "This field is required!"
     },
+    "header-nav": {
+      "logout": "Logout"
+    },
+    "imageViewer": {
+      "resetZoom": "Reset zoom",
+      "rotateLeft": "Rotate left",
+      "rotateRight": "Rotate right",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out"
+    },
+    "loading": "Loading...",
+    "multi-file-picker": {
+      "click": "Click here",
+      "drag": "or drag the files here to upload."
+    },
+    "neb-search-input": {
+      "placeholder": "Type here to search..."
+    },
+    "neb-select": {
+      "empty": {
+        "description": "Try another keyword",
+        "newItem": "Add new item",
+        "or": "Or",
+        "title": "No result for: '{term}'"
+      },
+      "placeholder": "Select from the list...",
+      "search": "Type here to search..."
+    },
+    "pagination": {
+      "next": "Next",
+      "of": "of",
+      "page": "page",
+      "previous": "Previous",
+      "rows": "rows",
+      "showing": "Showing"
+    },
+    "single-file-picker": {
+      "accept": "Accepted files: {acceptedFiles}",
+      "empty": {
+        "description": "Click the button or drag a file here",
+        "title": "No file selected"
+      },
+      "maxSize": "max. {size}"
+    },
     "state-content": {
       "error": {
         "refresh": "Retry"
       }
     },
-    "imageViewer": {
-      "zoomOut": "Zoom out",
-      "zoomIn": "Zoom in",
-      "resetZoom": "Reset zoom",
-      "rotateLeft": "Rotate left",
-      "rotateRight": "Rotate right"
+    "table-frame": {
+      "actions": "Actions",
+      "empty": {
+        "description": "There is nothing to show in this table currently.",
+        "title": "This table is empty!"
+      },
+      "error": {
+        "description": "Failed to load the table data, try again later.",
+        "title": "Oh-oh! Something went wrong!"
+      }
+    },
+    "tag-input": {
+      "hint": "Press 'enter' to add a new entry",
+      "placeholder": "Type here..."
+    },
+    "toast": {
+      "close": "Close"
     }
   },
   "tiptap": {
+    "link-modal": {
+      "cancel": "Remove link",
+      "save": "Save URL",
+      "title": "Insert link",
+      "url": "Link URL",
+      "url-placeholder": "E.g.: www.facebook.com"
+    },
     "toolbar": {
-      "undo": "Undo",
-      "redo": "Redo",
-      "bold": "Bold",
-      "italic": "Italic",
-      "underline": "Underline",
-      "highlight": "Highlight",
-      "align-left": "Align left",
       "align-center": "Align center",
-      "align-right": "Align right",
       "align-justify": "Justify",
+      "align-left": "Align left",
+      "align-right": "Align right",
+      "bold": "Bold",
       "bullet-list": "Bullet list",
-      "ordered-list": "Ordered list",
-      "horizontal-rule": "Horizontal rule",
       "heading-1": "Heading 1",
       "heading-2": "Heading 2",
       "heading-3": "Heading 3",
       "heading-4": "Heading 4",
-      "link": "Link"
-    },
-    "link-modal": {
-      "title": "Insert link",
-      "cancel": "Remove link",
-      "save": "Save URL",
-      "url": "Link URL",
-      "url-placeholder": "E.g.: www.facebook.com"
+      "highlight": "Highlight",
+      "horizontal-rule": "Horizontal rule",
+      "italic": "Italic",
+      "link": "Link",
+      "ordered-list": "Ordered list",
+      "redo": "Redo",
+      "underline": "Underline",
+      "undo": "Undo"
     }
   }
 }

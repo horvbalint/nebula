@@ -79,7 +79,7 @@ onUnmounted(() => {
       </div>
     </div>
 
-    <div class="source-counter">
+    <div v-if="dotCount > 1" class="source-counter">
       <icon
         v-for="count in dotCount"
         :key="count"

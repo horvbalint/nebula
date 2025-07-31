@@ -5,7 +5,7 @@ import dayjs from 'dayjs'
 import Fuse from 'fuse.js'
 
 type TableProps = Omit<Props<T>, 'rows'> & {
-  rows: T[] | null
+  rows: T[] | null | undefined
 }
 const props = defineProps<NebSaveRestoreProps & TableProps>()
 
@@ -197,7 +197,7 @@ useNebSaveRestore('neb-table', props, {
     :status="props.status"
     :refresh="props.refresh"
     v-bind="$attrs"
-    @click="($event) => $emit('click', $event)"
+    @click="$emit('click', $event)"
   >
     <template #header>
       <div class="header">
