@@ -84,6 +84,9 @@
     },
     "toast": {
       "close": "Bezárás"
+    },
+    "neb-form-list": {
+      "add": "Hozzáadás"
     }
   },
   "tiptap": {

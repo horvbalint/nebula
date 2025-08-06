@@ -52,7 +52,7 @@ function addItem() {
     </template>
 
     <neb-button class="add-btn" small type="secondary-neutral" @click="addItem()">
-      <icon name="material-symbols:add-rounded" />Add
+      <icon name="material-symbols:add-rounded" />{{ $t('nebula.neb-form-list.add') }}
     </neb-button>
   </div>
 </template>

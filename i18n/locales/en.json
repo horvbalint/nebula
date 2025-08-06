@@ -84,6 +84,9 @@
     },
     "toast": {
       "close": "Close"
+    },
+    "neb-form-list": {
+      "add": "Add"
     }
   },
   "tiptap": {
