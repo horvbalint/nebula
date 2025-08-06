@@ -11,7 +11,10 @@ const props = withDefaults(defineProps<{
   disabled: false,
 })
 
-const emit = defineEmits(['update:modelValue'])
+const modelValue = defineModel<MaybeFile[] | File[]>({
+  default: () => [],
+})
+
 const isDraging = ref(false)
 
 const formattedAccept = computed(() => {
@@ -31,12 +34,10 @@ const formattedMaxSize = computed(() => {
   return nebFormatByteSize(props.maxSize)
 })
 
-const selectedFiles = ref<File[]>([])
-
 const { open, onChange, reset } = useFileDialog(({ multiple: true }))
 onChange((files) => {
   if (files)
-    selectedFiles.value.push(...files)
+    modelValue.value.push(...files)
 
   reset()
 })
@@ -45,18 +46,17 @@ function handleDrop(event: DragEvent) {
   isDraging.value = false
 
   if (event.dataTransfer)
-    selectedFiles.value.push(...event.dataTransfer.files)
+    modelValue.value.push(...event.dataTransfer.files)
 }
 
 function handleRemove(index: number) {
-  selectedFiles.value.splice(index, 1)
+  modelValue.value.splice(index, 1)
 }
 
-watch(
-  selectedFiles,
-  () => emit('update:modelValue', [...selectedFiles.value]),
-  { deep: true },
-)
+const fileLists = computed(() => ({
+  files: modelValue.value.filter(file => file instanceof File) as File[],
+  fileDescriptors: modelValue.value.filter(file => !(file instanceof File)),
+}))
 </script>
 
 <template>
@@ -96,11 +96,18 @@ watch(
 
     <div class="selected-files">
       <neb-file-item
-        v-for="(file, index) in selectedFiles"
+        v-for="(file, index) in fileLists.files"
         :key="`${file.name} - ${index}`"
         :file="file"
         @remove="handleRemove(index)"
         @download="nebDownloadFile(file)"
+      />
+
+      <neb-file-item
+        v-for="(file, index) in fileLists.fileDescriptors"
+        :key="`${file.name} - ${index}`"
+        :file="file"
+        @remove="handleRemove(index)"
       />
     </div>
   </div>
