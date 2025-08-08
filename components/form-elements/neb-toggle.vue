@@ -38,6 +38,7 @@ const modelValue = defineModel()
   display: inline-block;
   width: 36px;
   height: 20px;
+  flex-shrink: 0;
 
   &.normal {
     width: 45px;
