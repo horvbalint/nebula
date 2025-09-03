@@ -1,18 +1,26 @@
 <script setup lang="ts" generic="T">
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   label?: string
-}>()
+  withInitialItem?: boolean
+  factory?: () => T
+}>(), {
+  withInitialItem: false,
+  factory: () => ({} as T)
+})
 
 const modelValue = defineModel<T[] | undefined>({
   required: true,
 })
 
-function addItem() {
-  if (!modelValue.value)
-    modelValue.value = []
+if (!modelValue.value)
+  modelValue.value = []
 
-  modelValue.value.push({} as T)
+function addItem() {
+  modelValue.value!.push(props.factory())
 }
+
+if(props.withInitialItem)
+  addItem()
 </script>
 
 <template>
@@ -46,7 +54,7 @@ function addItem() {
         </div>
 
         <div class="slot-wrapper">
-          <slot :item />
+          <slot :item :index />
         </div>
       </div>
     </template>
