@@ -5,7 +5,7 @@ const props = withDefaults(defineProps<{
   factory?: () => T
 }>(), {
   withInitialItem: false,
-  factory: () => ({} as T)
+  factory: () => ({} as T),
 })
 
 const modelValue = defineModel<T[] | undefined>({
@@ -19,7 +19,7 @@ function addItem() {
   modelValue.value!.push(props.factory())
 }
 
-if(props.withInitialItem)
+if (!modelValue.value.length && props.withInitialItem)
   addItem()
 </script>
 
@@ -35,17 +35,6 @@ if(props.withInitialItem)
     <p v-if="!modelValue?.length" class="empty-list-text">
       Use the button below to add an item to this list.
     </p>
-
-    <!-- <neb-empty-state
-      v-if="!modelValue?.length"
-      :icon="null"
-      title="This list is empty"
-      description="Use the button below to add a new item to it."
-    >
-      <neb-button class="add-btn" small type="secondary" @click="addItem">
-        <icon name="material-symbols:add-rounded" />Add
-      </neb-button>
-    </neb-empty-state> -->
 
     <template v-else>
       <div v-for="(item, index) in modelValue" :key="index" class="item">
@@ -115,5 +104,19 @@ label {
 
 .add-btn {
   align-self: flex-start;
+}
+
+.dark-mode {
+  .delete-button {
+    background: var(--neutral-color-800);
+
+    &:hover {
+      background: var(--neutral-color-700);
+    }
+
+    .icon {
+      color: var(--neutral-color-300);
+    }
+  }
 }
 </style>

@@ -240,6 +240,13 @@ async function handleSelectClick() {
   }
 }
 
+function handleOnEnter() {
+  if (orderedOptions.value.length)
+    handleOptionClick(orderedOptions.value[focusIndex.value]!)
+  else if (props.onNew)
+    emit('new', searchTerm.value)
+}
+
 const optionRefs = useTemplateRefsList()
 function handleArrowUp() {
   if (focusIndex.value > 0) {
@@ -303,7 +310,7 @@ watch(searchTerm, orderOptions)
             :placeholder="$t('nebula.neb-select.search')"
             @keydown.up="handleArrowUp()"
             @keydown.down="handleArrowDown()"
-            @keyup.enter="handleOptionClick(orderedOptions[focusIndex]!)"
+            @keyup.enter="handleOnEnter()"
           >
 
           <icon v-if="searchTerm" name="material-symbols:close-rounded" @click="searchTerm = ''" />
@@ -637,6 +644,15 @@ li {
     }
   }
   .menu-row-content {
+    &:hover {
+      background: var(--neutral-color-900);
+    }
+    &.focus {
+      background: var(--neutral-color-800);
+    }
+    &:active {
+      background: var(--neutral-color-800);
+    }
     &.selected {
       background: var(--neutral-color-900);
 
@@ -646,12 +662,6 @@ li {
       &:active {
         background: var(--neutral-color-900);
       }
-    }
-    &:hover {
-      background: var(--neutral-color-900);
-    }
-    &:active {
-      background: var(--neutral-color-800);
     }
     p {
       color: var(--neutral-color-300);
