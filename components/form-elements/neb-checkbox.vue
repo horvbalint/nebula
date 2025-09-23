@@ -15,6 +15,10 @@ const input = templateRef('input')
 function handleClick() {
   input.value.click()
 }
+
+defineExpose({
+  handleClick,
+})
 </script>
 
 <template>
