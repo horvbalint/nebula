@@ -44,6 +44,7 @@ function open(el: HTMLElement) {
   const callback = () => {
     el.style.transition = backupTransition
     el.style.height = 'unset'
+    el.style.overflow = 'unset'
   }
 
   el.addEventListener('transitionend', callback, { once: true })

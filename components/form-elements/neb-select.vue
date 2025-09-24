@@ -76,22 +76,22 @@ watch(() => props.modelValue, async () => {
 interface ProcessedOption {
   trackValue: PropertyKey
   labelValue: PropertyKey
-  option: PropertyKey | ObjectOption<TrackByKey, LabelKey>
+  option: T
 }
 
-const processedOptions = computed(() => {
+const processedOptions = computed<ProcessedOption[]>(() => {
   if (props.trackByKey) {
     return (props.options as ObjectOption<TrackByKey, LabelKey>[]).map(option => ({
       trackValue: option[props.trackByKey!],
       labelValue: props.customLabel ? props.customLabel(option as T) : option[props.labelKey!],
-      option,
+      option: option as T,
     }))
   }
   else {
     return (props.options as PropertyKey[]).map(option => ({
       trackValue: option,
       labelValue: option,
-      option,
+      option: option as T,
     }))
   }
 })
@@ -205,10 +205,10 @@ function emitValue(value: T | T[] | null | undefined) {
   emit('update:modelValue', value)
 }
 
-const focusIndex = ref(0)
+const focusIndex = ref<number | null>(null)
 const orderedOptions = ref([]) as Ref<ProcessedOption[]>
 function orderOptions() {
-  focusIndex.value = 0
+  focusIndex.value = null
   const options = [...searchResults.value]
 
   orderedOptions.value = options.sort((a, b) => {
@@ -242,26 +242,32 @@ async function handleSelectClick() {
 
 function handleOnEnter() {
   if (orderedOptions.value.length)
-    handleOptionClick(orderedOptions.value[focusIndex.value]!)
+    handleOptionClick(orderedOptions.value[focusIndex.value || 0]!)
   else if (props.onNew)
     emit('new', searchTerm.value)
 }
 
 const optionRefs = useTemplateRefsList()
 function handleArrowUp() {
+  if (focusIndex.value === null)
+    focusIndex.value = 1
+
   if (focusIndex.value > 0) {
     focusIndex.value--
     scrollToFocusedOption()
   }
 }
 function handleArrowDown() {
+  if (focusIndex.value === null)
+    focusIndex.value = -1
+
   if (focusIndex.value < orderedOptions.value.length - 1) {
     focusIndex.value++
     scrollToFocusedOption()
   }
 }
 function scrollToFocusedOption() {
-  const focusedOption = optionRefs.value[focusIndex.value]
+  const focusedOption = optionRefs.value[focusIndex.value || 0]
 
   if (focusedOption) {
     focusedOption.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
@@ -287,7 +293,9 @@ watch(searchTerm, orderOptions)
           </p>
 
           <div v-else class="selection">
-            {{ selectionText }}
+            <slot name="selection" :selected="selectedOptions.values()" :selection-text="selectionText">
+              {{ selectionText }}
+            </slot>
           </div>
 
           <icon class="chevron" name="material-symbols:keyboard-arrow-down" />
@@ -436,6 +444,8 @@ watch(searchTerm, orderOptions)
 }
 .selection {
   flex: 1;
+  display: flex;
+  gap: var(--space-1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
