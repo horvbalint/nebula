@@ -12,10 +12,14 @@ import * as JsSearch from 'js-search'
 import NebDropdown from '../overlays/neb-dropdown.vue'
 
 export type ObjectOption<TrackByKey extends PropertyKey, LabelKey extends PropertyKey> = {
-  [x in TrackByKey | LabelKey]: PropertyKey;
+  [K in TrackByKey]: any;
+} & {
+  [K in LabelKey]: PropertyKey;
 }
 
-type ModelValue = PropertyKey | ObjectOption<TrackByKey, LabelKey>
+type TrackValue = T extends PropertyKey ? PropertyKey : T extends ObjectOption<TrackByKey, LabelKey> ? T[TrackByKey] : never
+
+type ModelValue = TrackValue | T
 
 defineOptions({ inheritAttrs: false })
 
@@ -36,6 +40,7 @@ const props = withDefaults(defineProps<{
   disabled?: boolean
   allowEmpty?: boolean
   customLabel?: (option: T) => PropertyKey
+  compareFun?: (a: TrackValue, b: TrackValue) => boolean
   onNew?: (searchTerm: string) => unknown
 }>(), {
   multiple: false,
@@ -47,7 +52,7 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'update:modelValue': [null | undefined | T | T[]]
+  'update:modelValue': [null | undefined | ModelValue | ModelValue[]]
   'new': [searchTerm: string]
 }>()
 
@@ -74,7 +79,7 @@ watch(() => props.modelValue, async () => {
 })
 
 interface ProcessedOption {
-  trackValue: PropertyKey
+  trackValue: TrackValue
   labelValue: PropertyKey
   option: T
 }
@@ -89,7 +94,7 @@ const processedOptions = computed<ProcessedOption[]>(() => {
   }
   else {
     return (props.options as PropertyKey[]).map(option => ({
-      trackValue: option,
+      trackValue: option as TrackValue,
       labelValue: option,
       option: option as T,
     }))
@@ -113,7 +118,7 @@ const searchResults = computed<ProcessedOption[]>(() => {
 })
 
 const selectedOptions = computed(() => {
-  const selectedOptions = new Map<PropertyKey, ProcessedOption>()
+  const selectedOptions = new Map<TrackValue, ProcessedOption>()
 
   for (const option of processedOptions.value) {
     if (isSelected(option))
@@ -128,30 +133,32 @@ const selectionText = computed(() => {
   return options.map(option => option.labelValue).join(', ')
 })
 
+const compareTrackValuesFun = props.compareFun || ((a: TrackValue, b: TrackValue) => a === b)
+
 function isSelected(option: ProcessedOption): boolean {
   if (props.modelValue === null || props.modelValue === undefined)
     return false
 
   if (props.multiple === true) {
     if (props.useOnlyTrackedKey)
-      return (props.modelValue as PropertyKey[]).includes(option.trackValue)
+      return (props.modelValue as PropertyKey[]).some(value => compareTrackValuesFun(value as TrackValue, option.trackValue))
     else if (props.trackByKey)
-      return !!(props.modelValue as ObjectOption<TrackByKey, LabelKey>[]).find(o => o[props.trackByKey!] === option.trackValue)
+      return !!(props.modelValue as ObjectOption<TrackByKey, LabelKey>[]).find(o => compareTrackValuesFun(o[props.trackByKey!], option.trackValue))
     else
-      return (props.modelValue as PropertyKey[]).includes(option.option as PropertyKey)
+      return (props.modelValue as PropertyKey[]).some(value => compareTrackValuesFun(value as TrackValue, option.option as TrackValue))
   }
   else {
     if (props.useOnlyTrackedKey)
-      return (props.modelValue as PropertyKey) === option.trackValue
+      return compareTrackValuesFun(props.modelValue as TrackValue, option.trackValue)
     else if (props.trackByKey)
-      return (props.modelValue as ObjectOption<TrackByKey, LabelKey>)[props.trackByKey!] === option.trackValue
+      return compareTrackValuesFun((props.modelValue as ObjectOption<TrackByKey, LabelKey>)[props.trackByKey!], option.trackValue)
     else
-      return (props.modelValue as PropertyKey) === option.option as PropertyKey
+      return compareTrackValuesFun(props.modelValue as TrackValue, option.option as TrackValue)
   }
 }
 
 function handleOptionClick(option: ProcessedOption): void {
-  if (selectedOptions.value.has(option.trackValue))
+  if (selectedOptions.value.keys().some(k => compareTrackValuesFun(k, option.trackValue)))
     deselectOption(option)
   else
     selectOption(option)
@@ -183,11 +190,12 @@ function selectOption(option: ProcessedOption): void {
 function deselectOption(option: ProcessedOption): void {
   if (props.multiple === true) {
     const currentValue = props.modelValue || []
+
     const newValue = props.useOnlyTrackedKey
-      ? (currentValue as PropertyKey[]).filter(o => o !== option.trackValue) as T[]
+      ? (currentValue as TrackValue[]).filter(o => !compareTrackValuesFun(o, option.trackValue)) as T[]
       : props.trackByKey
-        ? (currentValue as ObjectOption<TrackByKey, LabelKey>[]).filter(o => o[props.trackByKey!] !== option.trackValue) as T[]
-        : (currentValue as PropertyKey[]).filter(o => o !== option.option as PropertyKey) as T[]
+        ? (currentValue as ObjectOption<TrackByKey, LabelKey>[]).filter(o => !compareTrackValuesFun(o[props.trackByKey!], option.trackValue)) as T[]
+        : (currentValue as PropertyKey[]).filter(o => !compareTrackValuesFun(o as TrackValue, option.option as TrackValue)) as T[]
 
     if (newValue.length)
       emitValue(newValue)
@@ -200,7 +208,7 @@ function deselectOption(option: ProcessedOption): void {
   }
 }
 
-function emitValue(value: T | T[] | null | undefined) {
+function emitValue(value: ModelValue | ModelValue[] | null | undefined) {
   innerValue.value = value
   emit('update:modelValue', value)
 }
