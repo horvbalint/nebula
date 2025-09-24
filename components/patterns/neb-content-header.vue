@@ -167,5 +167,14 @@ withDefaults(defineProps<{
       color: var(--neutral-color-400);
     }
   }
+
+  .header-icon {
+    background: var(--neutral-color-800);
+    border: 1px solid var(--neutral-color-700);
+
+    .icon {
+      color: var(--neutral-color-300);
+    }
+  }
 }
 </style>
