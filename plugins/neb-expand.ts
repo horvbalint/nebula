@@ -3,9 +3,13 @@ type Id = string
 const expandIds = new Set<Id>()
 const callbacks = new Map<Id, () => void>()
 
+const backupOverflowKey = 'nebExpandDefaultOverflow'
+
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.directive('neb-expand', {
     created(el: HTMLElement, { value }) {
+      el.dataset[backupOverflowKey] = el.style.overflow
+
       if (!value) {
         el.style.overflow = 'hidden'
         el.style.height = '0'
@@ -37,14 +41,14 @@ export default defineNuxtPlugin((nuxtApp) => {
 function open(el: HTMLElement) {
   const backupTransition = el.style.transition
 
+  el.style.height = `${el.scrollHeight}px`
   el.style.transition = 'height .2s'
   el.style.overflow = 'hidden'
-  el.style.height = `${el.scrollHeight}px`
 
   const callback = () => {
-    el.style.transition = backupTransition
     el.style.height = 'unset'
-    el.style.overflow = 'unset'
+    el.style.transition = backupTransition
+    el.style.overflow = el.dataset[backupOverflowKey]!
   }
 
   el.addEventListener('transitionend', callback, { once: true })
