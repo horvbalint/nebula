@@ -122,6 +122,7 @@ const formattedMaxSize = computed(() => {
   overflow: hidden;
   display: flex;
   align-items: stretch;
+  gap: var(--space-1);
   border: 1px solid var(--neutral-color-200);
   border-radius: var(--radius-default);
   background: #fff;
@@ -149,17 +150,46 @@ const formattedMaxSize = computed(() => {
     font-size: var(--text-sm);
     font-weight: 600;
     color: var(--neutral-color-700);
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
   span {
     font-size: var(--text-sm);
     color: var(--neutral-color-600);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 .hint {
   font-size: var(--text-xs);
   color: var(--neutral-color-600);
   font-weight: 400;
+}
+
+.dark-mode {
+  .single-file-picker {
+    color: var(--neutral-color-200);
+  }
+  .empty-picker {
+    border: 1px solid var(--neutral-color-700);
+    background: var(--neutral-color-950);
+
+    .icon {
+      color: var(--neutral-color-400);
+    }
+  }
+  .file-text {
+    p {
+      color: var(--neutral-color-300);
+    }
+    span {
+      color: var(--neutral-color-400);
+    }
+  }
+  .hint {
+    color: var(--neutral-color-400);
+  }
 }
 </style>
