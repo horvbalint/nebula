@@ -24,7 +24,7 @@ type ModelValue = TrackValue | T
 defineOptions({ inheritAttrs: false })
 
 const props = withDefaults(defineProps<{
-  modelValue: undefined | null | ModelValue | ModelValue[]
+  modelValue: undefined | null | unknown | unknown[]
   options: T[]
   trackByKey?: TrackByKey
   labelKey?: LabelKey
@@ -40,7 +40,7 @@ const props = withDefaults(defineProps<{
   disabled?: boolean
   allowEmpty?: boolean
   customLabel?: (option: T) => PropertyKey
-  compareFun?: (a: TrackValue, b: TrackValue) => boolean
+  transformFun?: (a: TrackValue) => PropertyKey
   onNew?: (searchTerm: string) => unknown
 }>(), {
   multiple: false,
@@ -79,14 +79,18 @@ watch(() => props.modelValue, async () => {
 })
 
 interface ProcessedOption {
+  transformedTrackValue: PropertyKey
   trackValue: TrackValue
   labelValue: PropertyKey
   option: T
 }
 
+const transformTrackValueFun = props.transformFun || ((b: TrackValue) => b)
+
 const processedOptions = computed<ProcessedOption[]>(() => {
   if (props.trackByKey) {
     return (props.options as ObjectOption<TrackByKey, LabelKey>[]).map(option => ({
+      transformedTrackValue: transformTrackValueFun(option[props.trackByKey!]),
       trackValue: option[props.trackByKey!],
       labelValue: props.customLabel ? props.customLabel(option as T) : option[props.labelKey!],
       option: option as T,
@@ -94,6 +98,7 @@ const processedOptions = computed<ProcessedOption[]>(() => {
   }
   else {
     return (props.options as PropertyKey[]).map(option => ({
+      transformedTrackValue: transformTrackValueFun(option as TrackValue),
       trackValue: option as TrackValue,
       labelValue: option,
       option: option as T,
@@ -102,7 +107,7 @@ const processedOptions = computed<ProcessedOption[]>(() => {
 })
 
 const searcher = computed(() => {
-  const searcher = new JsSearch.Search('trackValue')
+  const searcher = new JsSearch.Search('transformedTrackValue')
   searcher.addIndex('labelValue')
   searcher.addDocuments(processedOptions.value)
 
@@ -118,11 +123,11 @@ const searchResults = computed<ProcessedOption[]>(() => {
 })
 
 const selectedOptions = computed(() => {
-  const selectedOptions = new Map<TrackValue, ProcessedOption>()
+  const selectedOptions = new Map<PropertyKey, ProcessedOption>()
 
   for (const option of processedOptions.value) {
     if (isSelected(option))
-      selectedOptions.set(option.trackValue, option)
+      selectedOptions.set(option.transformedTrackValue, option)
   }
 
   return selectedOptions
@@ -133,32 +138,30 @@ const selectionText = computed(() => {
   return options.map(option => option.labelValue).join(', ')
 })
 
-const compareTrackValuesFun = props.compareFun || ((a: TrackValue, b: TrackValue) => a === b)
-
 function isSelected(option: ProcessedOption): boolean {
   if (props.modelValue === null || props.modelValue === undefined)
     return false
 
   if (props.multiple === true) {
     if (props.useOnlyTrackedKey)
-      return (props.modelValue as PropertyKey[]).some(value => compareTrackValuesFun(value as TrackValue, option.trackValue))
+      return (props.modelValue as PropertyKey[]).some(value => transformTrackValueFun(value as TrackValue) === option.transformedTrackValue)
     else if (props.trackByKey)
-      return !!(props.modelValue as ObjectOption<TrackByKey, LabelKey>[]).find(o => compareTrackValuesFun(o[props.trackByKey!], option.trackValue))
+      return !!(props.modelValue as ObjectOption<TrackByKey, LabelKey>[]).find(o => transformTrackValueFun(o[props.trackByKey!]) === option.transformedTrackValue)
     else
-      return (props.modelValue as PropertyKey[]).some(value => compareTrackValuesFun(value as TrackValue, option.option as TrackValue))
+      return (props.modelValue as PropertyKey[]).some(value => transformTrackValueFun(value as TrackValue) === option.transformedTrackValue)
   }
   else {
     if (props.useOnlyTrackedKey)
-      return compareTrackValuesFun(props.modelValue as TrackValue, option.trackValue)
+      return transformTrackValueFun(props.modelValue as TrackValue) === option.transformedTrackValue
     else if (props.trackByKey)
-      return compareTrackValuesFun((props.modelValue as ObjectOption<TrackByKey, LabelKey>)[props.trackByKey!], option.trackValue)
+      return transformTrackValueFun((props.modelValue as ObjectOption<TrackByKey, LabelKey>)[props.trackByKey!]) === option.transformedTrackValue
     else
-      return compareTrackValuesFun(props.modelValue as TrackValue, option.option as TrackValue)
+      return transformTrackValueFun(props.modelValue as TrackValue) === option.transformedTrackValue
   }
 }
 
 function handleOptionClick(option: ProcessedOption): void {
-  if (selectedOptions.value.keys().some(k => compareTrackValuesFun(k, option.trackValue)))
+  if (selectedOptions.value.has(option.transformedTrackValue))
     deselectOption(option)
   else
     selectOption(option)
@@ -192,10 +195,10 @@ function deselectOption(option: ProcessedOption): void {
     const currentValue = props.modelValue || []
 
     const newValue = props.useOnlyTrackedKey
-      ? (currentValue as TrackValue[]).filter(o => !compareTrackValuesFun(o, option.trackValue)) as T[]
+      ? (currentValue as TrackValue[]).filter(o => transformTrackValueFun(o) !== option.transformedTrackValue) as T[]
       : props.trackByKey
-        ? (currentValue as ObjectOption<TrackByKey, LabelKey>[]).filter(o => !compareTrackValuesFun(o[props.trackByKey!], option.trackValue)) as T[]
-        : (currentValue as PropertyKey[]).filter(o => !compareTrackValuesFun(o as TrackValue, option.option as TrackValue)) as T[]
+        ? (currentValue as ObjectOption<TrackByKey, LabelKey>[]).filter(o => transformTrackValueFun(o[props.trackByKey!]) !== option.transformedTrackValue) as T[]
+        : (currentValue as PropertyKey[]).filter(o => transformTrackValueFun(o as TrackValue) !== option.transformedTrackValue) as T[]
 
     if (newValue.length)
       emitValue(newValue)
@@ -220,8 +223,8 @@ function orderOptions() {
   const options = [...searchResults.value]
 
   orderedOptions.value = options.sort((a, b) => {
-    if (selectedOptions.value.keys().some(k => compareTrackValuesFun(k, a.trackValue))) {
-      if (selectedOptions.value.keys().some(k => compareTrackValuesFun(k, b.trackValue)))
+    if (selectedOptions.value.has(a.transformedTrackValue)) {
+      if (selectedOptions.value.has(b.transformedTrackValue))
         return 0
       else
         return -1
@@ -335,18 +338,18 @@ watch(searchTerm, orderOptions)
         <ul v-if="orderedOptions.length">
           <li
             v-for="(option, index) in orderedOptions"
-            :key="option.trackValue"
+            :key="option.transformedTrackValue"
             @click="handleOptionClick(option)"
           >
             <div class="menu-row">
-              <div ref="optionRefs" class="menu-row-content" :class="{ selected: selectedOptions.has(option.trackValue), focus: index === focusIndex }">
+              <div ref="optionRefs" class="menu-row-content" :class="{ selected: selectedOptions.has(option.transformedTrackValue), focus: index === focusIndex }">
                 <div class="menu-text-wrapper">
-                  <slot name="option" :option="option.option" :label-value="option.labelValue" :track-value="option.trackValue">
+                  <slot name="option" :option="option.option" :label-value="option.labelValue" :track-value="option.trackValue" :transformed-track-value="option.transformedTrackValue">
                     <p>{{ option.labelValue }}</p>
                   </slot>
                 </div>
 
-                <icon v-if="selectedOptions.has(option.trackValue)" class="success-icon" name="material-symbols:done-rounded" />
+                <icon v-if="selectedOptions.has(option.transformedTrackValue)" class="success-icon" name="material-symbols:done-rounded" />
               </div>
             </div>
           </li>
