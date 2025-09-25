@@ -148,7 +148,8 @@ footer {
 
 .dark-mode {
   .neb-modal,
-  header {
+  header,
+  footer {
     background: var(--neutral-color-950);
   }
   header,
@@ -172,20 +173,31 @@ footer {
 }
 
 @media (--tablet-viewport) {
+  @keyframes modal-slide {
+    0% {
+      opacity: 0.5;
+      transform: translateY(min(100%, 200px));
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   .neb-modal {
     margin: auto 0 0;
     width: 100%;
     min-width: auto !important;
-    overflow: auto;
-    max-height: 90vh;
     max-width: none !important;
     border-radius: var(--radius-large) var(--radius-large) 0 0;
+    animation: modal-slide var(--duration-default) forwards;
 
     &.centered {
       border-radius: var(--radius-large);
       margin: auto;
     }
   }
+
   header,
   .body,
   .footer {
