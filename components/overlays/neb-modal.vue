@@ -148,8 +148,7 @@ footer {
 
 .dark-mode {
   .neb-modal,
-  header,
-  footer {
+  header {
     background: var(--neutral-color-950);
   }
   header,
