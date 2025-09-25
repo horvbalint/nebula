@@ -220,8 +220,8 @@ function orderOptions() {
   const options = [...searchResults.value]
 
   orderedOptions.value = options.sort((a, b) => {
-    if (selectedOptions.value.has(a.trackValue)) {
-      if (selectedOptions.value.has(b.trackValue))
+    if (selectedOptions.value.keys().some(k => compareTrackValuesFun(k, a.trackValue))) {
+      if (selectedOptions.value.keys().some(k => compareTrackValuesFun(k, b.trackValue)))
         return 0
       else
         return -1
