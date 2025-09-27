@@ -116,15 +116,15 @@ main {
     }
   }
 
-  &.success {
-    color: var(--success-color-500);
-    background: var(--success-color-200);
+  &.info {
+    color: var(--primary-color-500);
+    background: var(--primary-color-200);
 
     &:before {
-      border-color: var(--success-color-100);
+      border-color: var(--primary-color-100);
     }
     &:after {
-      border-color: var(--success-color-50);
+      border-color: var(--primary-color-50);
     }
   }
 }
@@ -149,6 +149,65 @@ header {
   h1 {
     font-size: var(--text-lg);
     font-weight: 600;
+  }
+}
+
+.dark-mode {
+  .icon-wrapper {
+    &:before {
+      border-color: var(--error-color-800);
+    }
+    &:after {
+      border-color: var(--error-color-900);
+    }
+
+    &.danger {
+      color: var(--error-color-300);
+      background: var(--error-color-700);
+
+      &:before {
+        border-color: var(--error-color-800);
+      }
+      &:after {
+        border-color: var(--error-color-900);
+      }
+    }
+
+    &.warning {
+      color: var(--warning-color-300);
+      background: var(--warning-color-700);
+
+      &:before {
+        border-color: var(--warning-color-800);
+      }
+      &:after {
+        border-color: var(--warning-color-900);
+      }
+    }
+
+    &.info {
+      color: var(--primary-color-300);
+      background: var(--primary-color-700);
+
+      &:before {
+        border-color: var(--primary-color-800);
+      }
+      &:after {
+        border-color: var(--primary-color-900);
+      }
+    }
+  }
+
+  .confirm-text-wrapper {
+    p {
+      color: var(--neutral-color-400);
+    }
+  }
+
+  header {
+    h1 {
+      color: var(--neutral-color-200);
+    }
   }
 }
 </style>
