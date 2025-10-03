@@ -159,6 +159,15 @@ withDefaults(defineProps<{
     }
   }
 
+  .neb-content-wrapper {
+    &.paragraph {
+      .content-text {
+        & h1 {
+          color: var(--neutral-color-300);
+        }
+      }
+    }
+  }
   .content-text {
     & h1 {
       color: var(--neutral-color-300);
