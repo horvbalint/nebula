@@ -39,6 +39,7 @@ const props = withDefaults(defineProps<{
   required?: boolean
   disabled?: boolean
   allowEmpty?: boolean
+  emptyValue?: null | undefined
   customLabel?: (option: T) => PropertyKey
   transformFun?: (a: TrackValue) => PropertyKey
   onNew?: (searchTerm: string) => unknown
@@ -49,6 +50,7 @@ const props = withDefaults(defineProps<{
   required: false,
   disabled: false,
   allowEmpty: true,
+  emptyValue: useAppConfig().nebula.nebSelect.emptyValue,
 })
 
 const emit = defineEmits<{
@@ -68,7 +70,7 @@ const { errorsToShow, collectErrors } = useNebValidate(dropdown, () => {
   return []
 })
 
-const innerValue = ref(null) as Ref<undefined | null | ModelValue | ModelValue[]>
+const innerValue = ref(props.emptyValue) as Ref<undefined | null | ModelValue | ModelValue[]>
 
 watch(() => props.modelValue, async () => {
   const showErrors = innerValue.value === props.modelValue // if the value was modified from the outside, we don't show the error to the users
@@ -207,7 +209,7 @@ function deselectOption(option: ProcessedOption): void {
   }
   else {
     if (props.allowEmpty)
-      emitValue(null)
+      emitValue(props.emptyValue)
   }
 }
 

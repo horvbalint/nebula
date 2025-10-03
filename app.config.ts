@@ -6,6 +6,9 @@ export default defineAppConfig({
         maxWait: 100,
       },
     },
+    nebSelect: {
+      emptyValue: null,
+    },
     homePath: '/',
   },
   icon: {
