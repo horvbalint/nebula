@@ -5,9 +5,11 @@ withDefaults(defineProps<{
   type?: 'paragraph' | 'section' | 'page' | 'subtitle'
   hasSeparator?: boolean
   icon?: string
+  verticalGap?: string
 }>(), {
   type: 'page',
   hasSeparator: false,
+  verticalGap: 'var(--space-6)',
 })
 </script>
 
@@ -47,7 +49,7 @@ withDefaults(defineProps<{
 .neb-content-header {
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
+  gap: v-bind('$props.verticalGap');
   padding: 0;
 
   &.has-separator {
