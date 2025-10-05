@@ -306,7 +306,7 @@ watch(searchTerm, orderOptions)
           </p>
 
           <div v-else class="selection">
-            <slot name="selection" :selected="selectedOptions.values()" :selection-text="selectionText">
+            <slot name="selection" :selected="[...selectedOptions.values()]" :selection-text="selectionText">
               {{ selectionText }}
             </slot>
           </div>
