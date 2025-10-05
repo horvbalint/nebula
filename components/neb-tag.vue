@@ -1,7 +1,10 @@
 <script lang="ts" setup>
-defineProps<{
+withDefaults(defineProps<{
+  small: boolean
   onRemove?: () => void
-}>()
+}>(), {
+  small: false,
+})
 
 defineEmits<{
   remove: []
@@ -9,7 +12,7 @@ defineEmits<{
 </script>
 
 <template>
-  <div class="neb-tag" @click.middle="$emit('remove')">
+  <div class="neb-tag" :class="{ small }" @click.middle="$emit('remove')">
     <slot />
 
     <icon v-if="onRemove" name="material-symbols:close-rounded" @click="$emit('remove')" />
@@ -28,6 +31,11 @@ defineEmits<{
   font-size: var(--text-sm);
   font-weight: 500;
   color: var(--neutral-color-700);
+
+  &.small {
+    padding: 2px var(--space-2);
+    font-size: var(--text-xs);
+  }
 
   .icon {
     width: 16px;
