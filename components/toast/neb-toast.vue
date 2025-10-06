@@ -100,6 +100,7 @@ const iconByType = computed(() => {
   box-shadow: var(--shadow-md);
   border: 2px solid var(--neutral-color-200);
   animation: bottom-left var(--duration-default) forwards;
+  min-width: 250px;
 
   &.info {
     border: 2px solid var(--primary-color);

@@ -7,13 +7,13 @@ export interface NebToastParams {
   type: 'neutral' | 'info' | 'success' | 'warning' | 'error'
   title: string
   description?: string
-  timeout?: number
+  timeout?: number | null
   actions?: NebToastAction[]
 }
 
 let toastId = 0
 
-class NebToast {
+export class NebToast {
   id: number
   type: NebToastParams['type']
   title: string
@@ -33,7 +33,7 @@ class NebToast {
     this.description = toast.description
     this.actions = toast.actions || []
 
-    if (toast.type !== 'error')
+    if (toast.timeout === undefined && toast.type !== 'error')
       toast.timeout = 5000
 
     if (toast.timeout) {
@@ -68,7 +68,7 @@ class NebToast {
     this.timeout.paused = true
   }
 
-  loop() {
+  private loop() {
     if (!this.timeout)
       throw new Error('NebToast: error during timeout loop, timeout was removed.')
 
@@ -103,4 +103,6 @@ export function useNebToast(toastParams: NebToastParams) {
 
   const toast = new NebToast(toastParams)
   toasts.value.push(toast)
+
+  return toast
 }

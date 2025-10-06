@@ -8,7 +8,6 @@ const toasts = useNebToasts()
       <neb-toast
         v-for="toast in toasts"
         :key="toast.id"
-        class="toast-move"
         :type="toast.type"
         :title="toast.title"
         :description="toast.description"
@@ -36,7 +35,10 @@ const toasts = useNebToasts()
 
 @media (--tablet-viewport) {
   .neb-toasts {
+    align-items: stretch;
+    padding: 0 var(--space-2) var(--space-2);
     left: 0;
+    right: 0;
     bottom: 0;
   }
 }
