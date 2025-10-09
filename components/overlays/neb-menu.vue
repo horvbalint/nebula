@@ -11,10 +11,13 @@ export interface Menu {
   desctructive?: boolean
 }
 
-defineProps<{
+withDefaults(defineProps<{
   menus: Menu[]
   floatingOptions?: UseFloatingOptions
-}>()
+  small?: boolean
+}>(), {
+  small: false,
+})
 
 const nebDropdown = ref<InstanceType<typeof NebDropdown> | null>(null)
 
@@ -46,6 +49,7 @@ function handleClick(menu: Menu) {
             v-for="menu in menus"
             :key="menu.text"
             :class="{
+              small,
               segment: menu.segment,
               disabled: menu.disabled,
               desctructive: menu.desctructive,
@@ -90,6 +94,11 @@ li {
     height: 1px;
     background: var(--neutral-color-200);
     display: none;
+  }
+  &.small {
+    .menu-row-content {
+      padding: var(--space-1) var(--space-2);
+    }
   }
   &.segment {
     hr {
