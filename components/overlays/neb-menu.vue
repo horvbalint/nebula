@@ -36,8 +36,8 @@ function handleClick(menu: Menu) {
     class="neb-menu"
     :floating-options="floatingOptions"
   >
-    <template #trigger="{ toggle }">
-      <slot name="trigger" :toggle="toggle" />
+    <template #trigger="{ toggle, isOpen }">
+      <slot name="trigger" :toggle="toggle" :is-open />
     </template>
 
     <template #content>

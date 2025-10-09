@@ -52,18 +52,20 @@ function close(event?: PointerEvent) {
   emit('close')
 }
 
+const readOnlyIsOpen = readonly(isOpen)
+
 defineExpose({
   toggle,
   open,
   close,
-  isOpen: readonly(isOpen),
+  isOpen: readOnlyIsOpen,
 })
 </script>
 
 <template>
   <div class="neb-dropdown" :class="{ 'full-width': fullWidth }">
     <div ref="trigger" class="trigger-wrapper">
-      <slot name="trigger" :toggle="toggle" :open="open" :close="close" />
+      <slot name="trigger" :toggle :open :close :is-open="readOnlyIsOpen" />
     </div>
 
     <div
@@ -74,7 +76,7 @@ defineExpose({
       class="dropdown"
     >
       <div class="neb-overlay-transition">
-        <slot name="content" :toggle="toggle" :open="open" :close="close" />
+        <slot name="content" :toggle :open :close :is-open="readOnlyIsOpen" />
       </div>
     </div>
   </div>
