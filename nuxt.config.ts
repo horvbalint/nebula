@@ -43,6 +43,10 @@ export default defineNuxtConfig({
         'dayjs/plugin/localeData',
         'dayjs/locale/hu',
         'dayjs/plugin/isBetween',
+        'dayjs/plugin/relativeTime',
+        'js-search',
+        'fuse.js',
+        '@floating-ui/vue',
       ],
     },
     css: {
