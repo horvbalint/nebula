@@ -4,7 +4,7 @@ import type { AsyncDataRequestStatus } from 'nuxt/app'
 export interface Column<T, Key extends keyof T = keyof T> {
   text: string
   align?: 'left' | 'center' | 'right'
-  sortFunction?: (a: any, b: any) => number
+  sortFunction?: (a: FormattedRow<T>, b: FormattedRow<T>) => number
   formatFunction?: (value: T[Key], row: T) => string
   notSortable?: boolean
 }
