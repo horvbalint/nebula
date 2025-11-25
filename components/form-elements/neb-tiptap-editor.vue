@@ -26,7 +26,7 @@ interface ToolConfig {
 }
 
 const { t } = useI18n()
-const editor = ref<null | Editor>(null)
+const editor = shallowRef<null | Editor>(null)
 const toolbar: { rows: ToolConfig[][][] } = {
   rows: [
     [

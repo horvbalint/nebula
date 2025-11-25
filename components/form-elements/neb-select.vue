@@ -58,8 +58,8 @@ const emit = defineEmits<{
   'new': [searchTerm: string]
 }>()
 
-const search = templateRef('search')
-const dropdown = templateRef('dropdown')
+const search = useTemplateRef('search')
+const dropdown = useTemplateRef('dropdown')
 
 const { errorsToShow, collectErrors } = useNebValidate(dropdown, () => {
   if (props.required) {
@@ -74,7 +74,7 @@ const innerValue = ref(props.emptyValue) as Ref<undefined | null | ModelValue | 
 
 watch(() => props.modelValue, async () => {
   const showErrors = innerValue.value === props.modelValue // if the value was modified from the outside, we don't show the error to the users
-  innerValue.value = props.modelValue
+  innerValue.value = props.modelValue as undefined | null | ModelValue | ModelValue[]
 
   await nextTick()
   collectErrors({ showErrors })

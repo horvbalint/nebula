@@ -10,10 +10,10 @@ withDefaults(defineProps<{
 })
 
 const modelValue = defineModel<T[] | Set<T> | boolean>()
-const input = templateRef('input')
+const input = useTemplateRef('input')
 
 function handleClick() {
-  input.value.click()
+  input.value!.click()
 }
 
 defineExpose({

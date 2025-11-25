@@ -1,6 +1,8 @@
+import type { ComponentInstance } from 'vue'
+
 export type ValidityKey = keyof ValidityState
 
-export type ValidatableElement = HTMLElement | ComponentPublicInstance
+export type ValidatableElement = HTMLElement | ComponentInstance<any>
 
 export interface NebValidatorCallbacks {
   init: (element: ValidatableElement) => void

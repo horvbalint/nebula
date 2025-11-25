@@ -35,7 +35,7 @@ const { locale } = useI18n()
 dayjs.locale(locale.value)
 dayjs.tz.setDefault(props.timezone)
 
-const input = templateRef('input')
+const input = useTemplateRef('input')
 
 const selectedDay = computed(() => dayjs(props.modelValue || null).tz()) // if modelValue is undefined, we don't want to default to the current date (which dayjs would do by default)
 if (selectedDay.value.isValid())

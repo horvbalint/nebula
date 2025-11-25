@@ -20,7 +20,7 @@ const emit = defineEmits<{
 
 const currentValue = ref('')
 
-const input = templateRef('input')
+const input = useTemplateRef('input')
 function handleAdd() {
   if (!currentValue.value.length || !input.value?.input?.validity.valid)
     return
