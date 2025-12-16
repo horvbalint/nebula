@@ -10,11 +10,18 @@ const props = defineProps<{
   modelValue: string
   label?: string
   required?: boolean
+  placeholder?: string
 }>()
 
 const emit = defineEmits<{
   'update:modelValue': [value: string]
 }>()
+
+const BR_TAG_REGEX = /(<p\s?((style=")([a-zA-Z0-9:;.\s()\-,]*)("))?>)<br>(<\/p>)/g
+const EMPTY_P_TAG_REGEX = /(<p\s?((style=")([a-zA-Z0-9:;.\s()\-,]*)("))?>)(<\/p>)/g
+
+const innerValue = ref(props.modelValue.replaceAll(BR_TAG_REGEX, '$1$6'))
+watch(innerValue, value => emit('update:modelValue', value.replaceAll(EMPTY_P_TAG_REGEX, '$1<br>$6')))
 
 interface ToolConfig {
   icon: string
@@ -157,11 +164,13 @@ watch(() => props.modelValue, (value: string) => {
   if (!editor.value)
     return
 
-  const isSame = editor.value.getHTML() === value
+  innerValue.value = value.replaceAll(BR_TAG_REGEX, '$1$6')
+
+  const isSame = editor.value.getHTML() === innerValue.value
   if (isSame)
     return
 
-  editor.value.commands.setContent(value, {
+  editor.value.commands.setContent(innerValue.value, {
     emitUpdate: false,
   })
 })
@@ -187,8 +196,8 @@ onMounted(() => {
       }),
       Highlight,
     ],
-    content: props.modelValue,
-    onUpdate: () => emit('update:modelValue', editor.value!.getHTML()),
+    content: innerValue.value,
+    onUpdate: () => innerValue.value = editor.value!.getHTML(),
   })
 })
 
