@@ -50,13 +50,14 @@ const props = withDefaults(defineProps<{
   required: false,
   disabled: false,
   allowEmpty: true,
-  emptyValue: useAppConfig().nebula.nebSelect.emptyValue,
 })
 
 const emit = defineEmits<{
   'update:modelValue': [null | undefined | ModelValue | ModelValue[]]
   'new': [searchTerm: string]
 }>()
+
+const computedEmptyValue = computed(() => props.emptyValue ?? useAppConfig().nebula.nebSelect.emptyValue)
 
 const search = useTemplateRef('search')
 const dropdown = useTemplateRef('dropdown')
@@ -70,7 +71,7 @@ const { errorsToShow, collectErrors } = useNebValidate(dropdown, () => {
   return []
 })
 
-const innerValue = ref(props.emptyValue) as Ref<undefined | null | ModelValue | ModelValue[]>
+const innerValue = ref(computedEmptyValue.value) as Ref<undefined | null | ModelValue | ModelValue[]>
 
 watch(() => props.modelValue, async () => {
   const showErrors = innerValue.value === props.modelValue // if the value was modified from the outside, we don't show the error to the users
@@ -209,7 +210,7 @@ function deselectOption(option: ProcessedOption): void {
   }
   else {
     if (props.allowEmpty)
-      emitValue(props.emptyValue)
+      emitValue(computedEmptyValue.value)
   }
 }
 
