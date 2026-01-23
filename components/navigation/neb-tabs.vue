@@ -56,25 +56,26 @@ const arrayTabs = computed(() => {
           <li
             v-for="(tab, key) in computedTabs"
             :key="key"
-            :class="{ active: modelValue === key, disabled: tab.disabled }"
           >
-            <input v-model="modelValue" :disabled="tab.disabled" type="radio" :value="key">
+            <label :class="{ active: modelValue === key, disabled: tab.disabled }">
+              <input v-model="modelValue" :disabled="tab.disabled" type="radio" :value="key">
 
-            <slot :key="key" :tab="tab">
-              <icon v-if="tab.icon" :name="tab.icon" />
+              <slot :key="key" :tab="tab">
+                <icon v-if="tab.icon" :name="tab.icon" />
 
-              <div class="tab-texts">
-                <span>{{ tab.text }}</span>
+                <div class="tab-texts">
+                  <span>{{ tab.text }}</span>
 
-                <p v-if="tab.description">
-                  {{ tab.description }}
-                </p>
-              </div>
+                  <p v-if="tab.description">
+                    {{ tab.description }}
+                  </p>
+                </div>
 
-              <neb-badge v-if="tab.count" small class="count-badge">
-                {{ tab.count }}
-              </neb-badge>
-            </slot>
+                <neb-badge v-if="tab.count" small class="count-badge">
+                  {{ tab.count }}
+                </neb-badge>
+              </slot>
+            </label>
           </li>
         </ul>
       </div>
@@ -108,11 +109,19 @@ const arrayTabs = computed(() => {
 </template>
 
 <style scoped>
+ul {
+  list-style: none;
+}
+
+li label {
+  width: 100%;
+  height: 100%;
+}
+
 .primary {
   ul {
     margin: 0;
     padding: var(--space-1);
-    list-style: none;
     display: flex;
     align-items: center;
     gap: var(--space-2);
@@ -135,23 +144,43 @@ const arrayTabs = computed(() => {
   }
   li {
     height: 36px;
-    justify-content: center;
-    position: relative;
-    display: flex;
-    flex-wrap: nowrap;
-    text-wrap: nowrap;
-    align-items: center;
-    gap: var(--space-2);
-    padding: 0 var(--space-3);
-    font-size: var(--text-sm);
-    font-weight: 600;
-    color: var(--neutral-color-500);
-    transition: all var(--duration-default);
-    border-radius: var(--radius-small);
 
-    &:hover {
-      color: var(--neutral-color-700);
+    label {
+      justify-content: center;
+      position: relative;
+      display: flex;
+      flex-wrap: nowrap;
+      text-wrap: nowrap;
+      align-items: center;
+      gap: var(--space-2);
+      padding: 0 var(--space-3);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--neutral-color-500);
+      transition: all var(--duration-default);
+      border-radius: var(--radius-small);
+
+      &:hover {
+        color: var(--neutral-color-700);
+      }
+      &.active {
+        color: var(--neutral-color-700);
+        background: #fff;
+        box-shadow: var(--shadow-sm);
+
+        &.disabled {
+          color: var(--neutral-color-400);
+        }
+      }
+      &.disabled {
+        color: var(--neutral-color-400);
+
+        input {
+          cursor: not-allowed;
+        }
+      }
     }
+
     input {
       width: 100%;
       height: 100%;
@@ -166,22 +195,6 @@ const arrayTabs = computed(() => {
     .icon {
       width: 20px;
       height: 20px;
-    }
-    &.active {
-      color: var(--neutral-color-700);
-      background: #fff;
-      box-shadow: var(--shadow-sm);
-
-      &.disabled {
-        color: var(--neutral-color-400);
-      }
-    }
-    &.disabled {
-      color: var(--neutral-color-400);
-
-      input {
-        cursor: not-allowed;
-      }
     }
   }
 }
@@ -202,27 +215,31 @@ const arrayTabs = computed(() => {
 
       li {
         width: 100%;
-        padding: var(--space-2) var(--space-3);
-        border-left: 3px solid transparent;
-        margin-left: -6px;
-        border-bottom: none;
-        margin-bottom: 0;
-        justify-content: flex-start;
-        align-items: flex-start;
 
-        &.active {
-          background: linear-gradient(
-            90deg,
-            rgba(var(--primary-color-component), 0.15) 0%,
-            rgba(var(--primary-color-component), 0) 90%
-          );
-          color: var(--primary-color);
-          border-color: var(--primary-color);
+        label {
+          padding: var(--space-2) var(--space-3);
+          border-left: 3px solid transparent;
+          margin-left: -3px;
+          border-bottom: none;
+          margin-bottom: 0;
+          justify-content: flex-start;
+          align-items: flex-start;
 
-          &.disabled {
-            color: var(--neutral-color-400);
+          &.active {
+            background: linear-gradient(
+              90deg,
+              rgba(var(--primary-color-component), 0.15) 0%,
+              rgba(var(--primary-color-component), 0) 90%
+            );
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+
+            &.disabled {
+              color: var(--neutral-color-400);
+            }
           }
         }
+
         .icon {
           width: 24px;
           height: 24px;
@@ -242,25 +259,43 @@ const arrayTabs = computed(() => {
     }
   }
   li {
-    padding: 0 var(--space-1) var(--space-3);
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    position: relative;
-    flex-wrap: nowrap;
-    text-wrap: nowrap;
-    align-items: center;
-    gap: var(--space-3);
-    font-size: var(--text-sm);
-    font-weight: 600;
-    color: var(--neutral-color-600);
-    transition: all var(--duration-default);
-    border-bottom: 2px solid var(--neutral-color-200);
-    margin-bottom: -2px;
+    label {
+      padding: 0 var(--space-1) var(--space-3);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      position: relative;
+      flex-wrap: nowrap;
+      text-wrap: nowrap;
+      align-items: center;
+      gap: var(--space-3);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--neutral-color-600);
+      transition: all var(--duration-default);
+      border-bottom: 2px solid var(--neutral-color-200);
+      margin-bottom: -2px;
 
-    &:hover {
-      color: var(--neutral-color-700);
+      &:hover {
+        color: var(--neutral-color-700);
+      }
+      &.active {
+        color: var(--primary-color);
+        border-color: var(--primary-color);
+
+        &.disabled {
+          color: var(--neutral-color-400);
+        }
+      }
+      &.disabled {
+        color: var(--neutral-color-400);
+
+        input {
+          cursor: not-allowed;
+        }
+      }
     }
+
     input {
       width: 100%;
       height: 100%;
@@ -275,21 +310,6 @@ const arrayTabs = computed(() => {
     .icon {
       width: 22px;
       height: 22px;
-    }
-    &.active {
-      color: var(--primary-color);
-      border-color: var(--primary-color);
-
-      &.disabled {
-        color: var(--neutral-color-400);
-      }
-    }
-    &.disabled {
-      color: var(--neutral-color-400);
-
-      input {
-        cursor: not-allowed;
-      }
     }
   }
   .tab-texts {
@@ -320,19 +340,21 @@ const arrayTabs = computed(() => {
       border: 1px solid var(--neutral-color-800);
     }
     li {
-      color: var(--neutral-color-400);
+      label {
+        color: var(--neutral-color-400);
 
-      &.active {
-        color: var(--neutral-color-200);
-        background: var(--neutral-color-950);
+        &.active {
+          color: var(--neutral-color-200);
+          background: var(--neutral-color-950);
 
+          &.disabled {
+            color: var(--neutral-color-500);
+            background: var(--neutral-color-800);
+          }
+        }
         &.disabled {
           color: var(--neutral-color-500);
-          background: var(--neutral-color-800);
         }
-      }
-      &.disabled {
-        color: var(--neutral-color-500);
       }
     }
   }
