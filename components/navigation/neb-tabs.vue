@@ -58,23 +58,25 @@ const arrayTabs = computed(() => {
             :key="key"
             :class="{ active: modelValue === key, disabled: tab.disabled }"
           >
-            <input v-model="modelValue" :disabled="tab.disabled" type="radio" :value="key" name="tabs">
+            <label>
+              <input v-model="modelValue" :disabled="tab.disabled" type="radio" :value="key">
 
-            <slot :key="key" :tab="tab">
-              <icon v-if="tab.icon" :name="tab.icon" />
+              <slot :key="key" :tab="tab">
+                <icon v-if="tab.icon" :name="tab.icon" />
 
-              <div class="tab-texts">
-                <span>{{ tab.text }}</span>
+                <div class="tab-texts">
+                  <span>{{ tab.text }}</span>
 
-                <p v-if="tab.description">
-                  {{ tab.description }}
-                </p>
-              </div>
+                  <p v-if="tab.description">
+                    {{ tab.description }}
+                  </p>
+                </div>
 
-              <neb-badge v-if="tab.count" small class="count-badge">
-                {{ tab.count }}
-              </neb-badge>
-            </slot>
+                <neb-badge v-if="tab.count" small class="count-badge">
+                  {{ tab.count }}
+                </neb-badge>
+              </slot>
+            </label>
           </li>
         </ul>
       </div>
