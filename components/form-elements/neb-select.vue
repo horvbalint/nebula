@@ -21,8 +21,6 @@ type TrackValue = T extends PropertyKey ? PropertyKey : T extends ObjectOption<T
 
 type ModelValue = TrackValue | T
 
-defineOptions({ inheritAttrs: false })
-
 const props = withDefaults(defineProps<{
   modelValue: undefined | null | unknown | unknown[]
   options: T[]
