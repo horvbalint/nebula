@@ -48,9 +48,13 @@ if (!modelValue.value.length && props.withInitialItem)
       </div>
     </template>
 
-    <neb-button class="add-btn" small type="secondary-neutral" @click="addItem()">
-      <icon name="material-symbols:add-rounded" />{{ $t('nebula.neb-form-list.add') }}
-    </neb-button>
+    <div class="actions">
+      <neb-button small type="secondary-neutral" @click="addItem()">
+        <icon name="material-symbols:add-rounded" />{{ $t('nebula.neb-form-list.add') }}
+      </neb-button>
+
+      <slot name="actions" />
+    </div>
   </div>
 </template>
 
@@ -102,8 +106,10 @@ label {
   }
 }
 
-.add-btn {
-  align-self: flex-start;
+.actions {
+  display: flex;
+  gap: var(--space-2);
+  align-items: end;
 }
 
 .dark-mode {
