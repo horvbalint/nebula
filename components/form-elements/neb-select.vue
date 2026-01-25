@@ -321,8 +321,8 @@ watch(searchTerm, orderOptions)
       </div>
     </template>
 
-    <template #content>
-      <div class="select-options">
+    <template #content="{ placement }">
+      <div class="select-options" :class="placement">
         <div v-if="!$props.noSearch" class="select-search" @click="search!.focus()">
           <input
             ref="search"
@@ -697,6 +697,31 @@ li {
   }
   .menu-text-wrapper {
     color: var(--neutral-color-300);
+  }
+}
+
+@media (--tablet-viewport) {
+  .select-options.top {
+    flex-direction: column-reverse;
+
+    ul {
+      flex-direction: column-reverse;
+    }
+
+    .select-search {
+      top: unset;
+      bottom: 0;
+      border-bottom: none;
+      border-top: 1px solid var(--neutral-color-200);
+    }
+  }
+
+  .dark-mode {
+    .select-options.top {
+      .select-search {
+        border-top: 1px solid var(--neutral-color-800);
+      }
+    }
   }
 }
 </style>
