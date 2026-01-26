@@ -101,7 +101,7 @@ const processedOptions = computed<ProcessedOption[]>(() => {
     return (props.options as PropertyKey[]).map(option => ({
       transformedTrackValue: transformTrackValueFun(option as TrackValue),
       trackValue: option as TrackValue,
-      labelValue: option,
+      labelValue: props.customLabel ? props.customLabel(option as T) : option,
       option: option as T,
     }))
   }
