@@ -33,7 +33,7 @@ if (!modelValue.value.length && props.withInitialItem)
     />
 
     <p v-if="!modelValue?.length" class="empty-list-text">
-      Use the button below to add an item to this list.
+      {{ $t('nebula.neb-form-list.empty') }}
     </p>
 
     <template v-else>
