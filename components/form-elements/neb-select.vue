@@ -290,9 +290,15 @@ watch(searchTerm, orderOptions)
 </script>
 
 <template>
-  <NebDropdown ref="dropdown" class="neb-select" :floating-options="$props.floatingOptions" full-width @close="searchTerm = ''">
+  <NebDropdown ref="dropdown" class="neb-select" :floating-options="$props.floatingOptions" full-width @mousedown.prevent @close="searchTerm = ''">
     <template #trigger>
-      <div class="neb-select-input-wrapper" @click="handleSelectClick()">
+      <div
+        class="neb-select-input-wrapper"
+        tabindex="0"
+        @click="handleSelectClick()"
+        @keydown.enter="handleSelectClick()"
+        @keydown.space.prevent="handleSelectClick()"
+      >
         <span v-if="$props.label">{{ $props.label }} <span v-if="$props.required" class="required-star">*</span></span>
 
         <div class="neb-select-input" :class="{ 'disabled': $props.disabled, 'has-error': errorsToShow.length, 'opened': dropdown?.isOpen }">
@@ -331,6 +337,7 @@ watch(searchTerm, orderOptions)
             @keydown.up="handleArrowUp()"
             @keydown.down="handleArrowDown()"
             @keyup.enter="handleOnEnter()"
+            @blur="dropdown?.close()"
           >
 
           <icon v-if="searchTerm" name="material-symbols:close-rounded" @click="searchTerm = ''" />
@@ -388,6 +395,12 @@ watch(searchTerm, orderOptions)
   font-weight: 500;
   width: 100%;
   color: var(--neutral-color-800);
+  outline: none;
+
+  &:focus .neb-select-input {
+    border-color: var(--primary-color-300);
+    box-shadow: var(--primary-focus-shadow-light);
+  }
 }
 .neb-select-input {
   background: #fff;

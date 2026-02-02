@@ -78,7 +78,7 @@ defineExpose({ focus, blur, input })
 </script>
 
 <template>
-  <div class="neb-input" :class="{ 'disabled': $props.disabled, 'has-error': errorsToShow.length }">
+  <div class="neb-input" :class="{ 'disabled': $props.disabled, 'has-error': errorsToShow.length }" tabindex="-1" @focus="input?.focus()">
     <label>
       <span v-if="label">{{ label }} <span v-if="$props.required" class="required-star">*</span></span>
 
