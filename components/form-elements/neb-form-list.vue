@@ -33,7 +33,9 @@ if (!modelValue.value.length && props.withInitialItem)
     />
 
     <p v-if="!modelValue?.length" class="empty-list-text">
-      {{ $t('nebula.neb-form-list.empty') }}
+      <slot name="empty">
+        {{ $t('nebula.neb-form-list.empty') }}
+      </slot>
     </p>
 
     <template v-else>
