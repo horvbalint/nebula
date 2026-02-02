@@ -86,7 +86,8 @@
       "close": "Close"
     },
     "neb-form-list": {
-      "add": "Add"
+      "add": "Add",
+      "empty": "Use the button below to add an item to this list."
     }
   },
   "tiptap": {
