@@ -8,7 +8,7 @@
   "
 >
 import type { UseFloatingOptions } from '@floating-ui/vue'
-import * as JsSearch from 'js-search'
+import Fuse from 'fuse.js'
 import NebDropdown from '../overlays/neb-dropdown.vue'
 
 export type ObjectOption<TrackByKey extends PropertyKey, LabelKey extends PropertyKey> = {
@@ -108,11 +108,10 @@ const processedOptions = computed<ProcessedOption[]>(() => {
 })
 
 const searcher = computed(() => {
-  const searcher = new JsSearch.Search('transformedTrackValue')
-  searcher.addIndex('labelValue')
-  searcher.addDocuments(processedOptions.value)
-
-  return searcher
+  return new Fuse(processedOptions.value, {
+    includeScore: false,
+    keys: ['labelValue'],
+  })
 })
 
 const searchTerm = ref('')
@@ -120,7 +119,7 @@ const searchResults = computed<ProcessedOption[]>(() => {
   if (!searchTerm.value.length)
     return processedOptions.value
   else
-    return searcher.value.search(searchTerm.value) as ProcessedOption[]
+    return searcher.value.search(searchTerm.value).map(r => r.item)
 })
 
 const selectedOptions = computed(() => {

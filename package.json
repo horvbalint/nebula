@@ -32,7 +32,6 @@
     "@tiptap/starter-kit": "3.11.0",
     "@tiptap/vue-3": "3.11.0",
     "@types/color": "4.2.0",
-    "@types/js-search": "1.4.4",
     "@vueuse/components": "14.0.0",
     "@vueuse/core": "14.0.0",
     "@vueuse/nuxt": "14.0.0",
@@ -41,17 +40,16 @@
     "eslint": "9.39.1",
     "eslint-plugin-format": "1.0.2",
     "fuse.js": "7.1.0",
-    "js-search": "2.0.1",
     "nuxt-typed-router": "4.0.2",
     "postcss": "8.5.6",
     "postcss-preset-env": "11.1.1",
     "theme-colors": "0.1.0",
     "typescript": "5.9.3",
-    "vue": "3.5.25",
+    "vue": "3.5.29",
     "vue-tsc": "3.1.5"
   },
   "devDependencies": {
-    "nuxt": "4.2.1"
+    "nuxt": "4.3.1"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
