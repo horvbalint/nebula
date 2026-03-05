@@ -8,6 +8,11 @@ const props = withDefaults(defineProps<{
   factory: () => ({} as T),
 })
 
+const emit = defineEmits<{
+  remove: [index: number]
+  add: []
+}>()
+
 const modelValue = defineModel<T[] | undefined>({
   required: true,
 })
@@ -17,6 +22,12 @@ if (!modelValue.value)
 
 function addItem() {
   modelValue.value!.push(props.factory())
+  emit('add')
+}
+
+function removeItem(index: number) {
+  modelValue.value!.splice(index, 1)
+  emit('remove', index)
 }
 
 if (!modelValue.value.length && props.withInitialItem)
@@ -40,7 +51,7 @@ if (!modelValue.value.length && props.withInitialItem)
 
     <template v-else>
       <div v-for="(item, index) in modelValue" :key="index" class="item">
-        <div class="delete-button" @click="modelValue.splice(index, 1)">
+        <div class="delete-button" @click="removeItem(index)">
           <icon name="material-symbols:delete-outline-rounded" />
         </div>
 
