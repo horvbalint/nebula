@@ -49,6 +49,10 @@ watch(() => props.modelValue, async () => {
   await nextTick()
   collectErrors({ showErrors })
 })
+
+defineExpose({
+  textarea,
+})
 </script>
 
 <template>
@@ -70,7 +74,7 @@ watch(() => props.modelValue, async () => {
         />
       </div>
 
-      <footer>
+      <footer v-if="hint || computedAttrs.maxlength">
         <p v-if="hint" class="hint">{{ $props.hint }}</p>
         <span v-if="computedAttrs.maxlength">{{ $props.modelValue?.toString().length }}/{{ computedAttrs.maxlength }}</span>
       </footer>
