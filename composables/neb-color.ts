@@ -54,7 +54,7 @@ function createColorShades(colorPalette: Record<string, string>, colorComponents
   }
 }
 
-export function useNebColorPalette(sources: Partial<ColorPaletteSources>) {
+export function setNebColorPalette(sources: Partial<ColorPaletteSources>) {
   const paletteSource = { ...nebDefaultColorPalette, ...sources }
 
   const { colorPalette, colorComponents } = calcColorPalette(paletteSource)
