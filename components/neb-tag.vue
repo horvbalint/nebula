@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 withDefaults(defineProps<{
-  small: boolean
+  small?: boolean
   onRemove?: () => void
 }>(), {
   small: false,

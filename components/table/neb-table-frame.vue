@@ -5,7 +5,7 @@ export interface Column<T, Key extends keyof T = keyof T> {
   text: string
   align?: 'left' | 'center' | 'right'
   sortFunction?: (a: FormattedRow<T>, b: FormattedRow<T>) => number
-  formatFunction?: (value: T[Key], row: T) => string
+  formatFunction?: (value: T[Key], row: T) => string | undefined
   notSortable?: boolean
 }
 

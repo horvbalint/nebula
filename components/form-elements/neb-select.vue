@@ -8,7 +8,7 @@
   "
 >
 import type { UseFloatingOptions } from '@floating-ui/vue'
-import * as JsSearch from 'js-search'
+import Fuse from 'fuse.js'
 import NebDropdown from '../overlays/neb-dropdown.vue'
 
 export type ObjectOption<TrackByKey extends PropertyKey, LabelKey extends PropertyKey> = {
@@ -20,8 +20,6 @@ export type ObjectOption<TrackByKey extends PropertyKey, LabelKey extends Proper
 type TrackValue = T extends PropertyKey ? PropertyKey : T extends ObjectOption<TrackByKey, LabelKey> ? T[TrackByKey] : never
 
 type ModelValue = TrackValue | T
-
-defineOptions({ inheritAttrs: false })
 
 const props = withDefaults(defineProps<{
   modelValue: undefined | null | unknown | unknown[]
@@ -50,7 +48,6 @@ const props = withDefaults(defineProps<{
   required: false,
   disabled: false,
   allowEmpty: true,
-  emptyValue: useAppConfig().nebula.nebSelect.emptyValue,
 })
 
 const emit = defineEmits<{
@@ -58,8 +55,10 @@ const emit = defineEmits<{
   'new': [searchTerm: string]
 }>()
 
-const search = templateRef('search')
-const dropdown = templateRef('dropdown')
+const computedEmptyValue = computed(() => props.emptyValue ?? useAppConfig().nebula.nebSelect.emptyValue)
+
+const search = useTemplateRef('search')
+const dropdown = useTemplateRef('dropdown')
 
 const { errorsToShow, collectErrors } = useNebValidate(dropdown, () => {
   if (props.required) {
@@ -70,11 +69,11 @@ const { errorsToShow, collectErrors } = useNebValidate(dropdown, () => {
   return []
 })
 
-const innerValue = ref(props.emptyValue) as Ref<undefined | null | ModelValue | ModelValue[]>
+const innerValue = ref(computedEmptyValue.value) as Ref<undefined | null | ModelValue | ModelValue[]>
 
 watch(() => props.modelValue, async () => {
   const showErrors = innerValue.value === props.modelValue // if the value was modified from the outside, we don't show the error to the users
-  innerValue.value = props.modelValue
+  innerValue.value = props.modelValue as undefined | null | ModelValue | ModelValue[]
 
   await nextTick()
   collectErrors({ showErrors })
@@ -102,18 +101,17 @@ const processedOptions = computed<ProcessedOption[]>(() => {
     return (props.options as PropertyKey[]).map(option => ({
       transformedTrackValue: transformTrackValueFun(option as TrackValue),
       trackValue: option as TrackValue,
-      labelValue: option,
+      labelValue: props.customLabel ? props.customLabel(option as T) : option,
       option: option as T,
     }))
   }
 })
 
 const searcher = computed(() => {
-  const searcher = new JsSearch.Search('transformedTrackValue')
-  searcher.addIndex('labelValue')
-  searcher.addDocuments(processedOptions.value)
-
-  return searcher
+  return new Fuse(processedOptions.value, {
+    includeScore: false,
+    keys: ['labelValue'],
+  })
 })
 
 const searchTerm = ref('')
@@ -121,7 +119,7 @@ const searchResults = computed<ProcessedOption[]>(() => {
   if (!searchTerm.value.length)
     return processedOptions.value
   else
-    return searcher.value.search(searchTerm.value) as ProcessedOption[]
+    return searcher.value.search(searchTerm.value).map(r => r.item)
 })
 
 const selectedOptions = computed(() => {
@@ -209,7 +207,7 @@ function deselectOption(option: ProcessedOption): void {
   }
   else {
     if (props.allowEmpty)
-      emitValue(props.emptyValue)
+      emitValue(computedEmptyValue.value)
   }
 }
 
@@ -291,9 +289,15 @@ watch(searchTerm, orderOptions)
 </script>
 
 <template>
-  <NebDropdown ref="dropdown" class="neb-select" :floating-options="$props.floatingOptions" full-width @close="searchTerm = ''">
+  <NebDropdown ref="dropdown" class="neb-select" :floating-options="$props.floatingOptions" full-width @mousedown.prevent @close="searchTerm = ''">
     <template #trigger>
-      <div class="neb-select-input-wrapper" @click="handleSelectClick()">
+      <div
+        class="neb-select-input-wrapper"
+        tabindex="0"
+        @click="handleSelectClick()"
+        @keydown.enter="handleSelectClick()"
+        @keydown.space.prevent="handleSelectClick()"
+      >
         <span v-if="$props.label">{{ $props.label }} <span v-if="$props.required" class="required-star">*</span></span>
 
         <div class="neb-select-input" :class="{ 'disabled': $props.disabled, 'has-error': errorsToShow.length, 'opened': dropdown?.isOpen }">
@@ -322,8 +326,8 @@ watch(searchTerm, orderOptions)
       </div>
     </template>
 
-    <template #content>
-      <div class="select-options">
+    <template #content="{ placement }">
+      <div class="select-options" :class="placement">
         <div v-if="!$props.noSearch" class="select-search" @click="search!.focus()">
           <input
             ref="search"
@@ -332,6 +336,7 @@ watch(searchTerm, orderOptions)
             @keydown.up="handleArrowUp()"
             @keydown.down="handleArrowDown()"
             @keyup.enter="handleOnEnter()"
+            @blur="dropdown?.close()"
           >
 
           <icon v-if="searchTerm" name="material-symbols:close-rounded" @click="searchTerm = ''" />
@@ -389,6 +394,12 @@ watch(searchTerm, orderOptions)
   font-weight: 500;
   width: 100%;
   color: var(--neutral-color-800);
+  outline: none;
+
+  &:focus .neb-select-input {
+    border-color: var(--primary-color-300);
+    box-shadow: var(--primary-focus-shadow-light);
+  }
 }
 .neb-select-input {
   background: #fff;
@@ -698,6 +709,31 @@ li {
   }
   .menu-text-wrapper {
     color: var(--neutral-color-300);
+  }
+}
+
+@media (--tablet-viewport) {
+  .select-options.top {
+    flex-direction: column-reverse;
+
+    ul {
+      flex-direction: column-reverse;
+    }
+
+    .select-search {
+      top: unset;
+      bottom: 0;
+      border-bottom: none;
+      border-top: 1px solid var(--neutral-color-200);
+    }
+  }
+
+  .dark-mode {
+    .select-options.top {
+      .select-search {
+        border-top: 1px solid var(--neutral-color-800);
+      }
+    }
   }
 }
 </style>

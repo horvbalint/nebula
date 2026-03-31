@@ -22,7 +22,7 @@ const floatingOptions: UseFloatingOptions = {
 const trigger = ref<HTMLElement | null>(null)
 const dropdown = ref<HTMLElement | null>(null)
 
-const { floatingStyles } = useFloating(trigger, dropdown, floatingOptions)
+const { floatingStyles, placement } = useFloating(trigger, dropdown, floatingOptions)
 
 const clickOutsideOptions: OnClickOutsideOptions = {
   ignore: [trigger],
@@ -76,7 +76,7 @@ defineExpose({
       class="dropdown"
     >
       <div class="neb-overlay-transition">
-        <slot name="content" :toggle :open :close :is-open="readOnlyIsOpen" />
+        <slot name="content" :placement :toggle :open :close :is-open="readOnlyIsOpen" />
       </div>
     </div>
   </div>

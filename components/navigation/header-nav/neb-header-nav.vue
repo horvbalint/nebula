@@ -228,7 +228,8 @@ const { isMobile } = useAppBreakpoints()
 }
 
 .dark-mode {
-  & .neb-header-nav {
+  .neb-header-nav {
+    background: var(--neutral-color-900);
     border-color: var(--neutral-color-800);
   }
 
@@ -238,7 +239,7 @@ const { isMobile } = useAppBreakpoints()
       border-color: var(--neutral-color-800);
     }
     .log-out {
-      & span {
+      span {
         color: var(--neutral-color-600);
       }
     }

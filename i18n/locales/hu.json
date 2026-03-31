@@ -86,7 +86,8 @@
       "close": "Bezárás"
     },
     "neb-form-list": {
-      "add": "Hozzáadás"
+      "add": "Hozzáadás",
+      "empty": "Használd az alábbi gombot egy elem hozzáadásához."
     }
   },
   "tiptap": {

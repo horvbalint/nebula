@@ -8,6 +8,11 @@ const props = withDefaults(defineProps<{
   factory: () => ({} as T),
 })
 
+const emit = defineEmits<{
+  remove: [index: number]
+  add: []
+}>()
+
 const modelValue = defineModel<T[] | undefined>({
   required: true,
 })
@@ -17,6 +22,12 @@ if (!modelValue.value)
 
 function addItem() {
   modelValue.value!.push(props.factory())
+  emit('add')
+}
+
+function removeItem(index: number) {
+  modelValue.value!.splice(index, 1)
+  emit('remove', index)
 }
 
 if (!modelValue.value.length && props.withInitialItem)
@@ -33,12 +44,14 @@ if (!modelValue.value.length && props.withInitialItem)
     />
 
     <p v-if="!modelValue?.length" class="empty-list-text">
-      Use the button below to add an item to this list.
+      <slot name="empty">
+        {{ $t('nebula.neb-form-list.empty') }}
+      </slot>
     </p>
 
     <template v-else>
       <div v-for="(item, index) in modelValue" :key="index" class="item">
-        <div class="delete-button" @click="modelValue.splice(index, 1)">
+        <div class="delete-button" @click="removeItem(index)">
           <icon name="material-symbols:delete-outline-rounded" />
         </div>
 
@@ -48,9 +61,13 @@ if (!modelValue.value.length && props.withInitialItem)
       </div>
     </template>
 
-    <neb-button class="add-btn" small type="secondary-neutral" @click="addItem()">
-      <icon name="material-symbols:add-rounded" />{{ $t('nebula.neb-form-list.add') }}
-    </neb-button>
+    <div class="actions">
+      <neb-button small type="secondary-neutral" @click="addItem()">
+        <icon name="material-symbols:add-rounded" />{{ $t('nebula.neb-form-list.add') }}
+      </neb-button>
+
+      <slot name="actions" />
+    </div>
   </div>
 </template>
 
@@ -102,8 +119,10 @@ label {
   }
 }
 
-.add-btn {
-  align-self: flex-start;
+.actions {
+  display: flex;
+  gap: var(--space-2);
+  align-items: end;
 }
 
 .dark-mode {

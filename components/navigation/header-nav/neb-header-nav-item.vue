@@ -175,5 +175,14 @@ const { isMobile } = useAppBreakpoints()
       box-shadow: var(--primary-focus-shadow-dark);
     }
   }
+
+  .dropdown {
+    background: var(--neutral-color-900);
+    border-color: var(--neutral-color-800);
+  }
+
+  .group {
+    border-top-color: var(--neutral-color-800);
+  }
 }
 </style>

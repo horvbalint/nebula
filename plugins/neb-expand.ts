@@ -7,6 +7,13 @@ const backupOverflowKey = 'nebExpandDefaultOverflow'
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.directive('neb-expand', {
+    getSSRProps({ value }) {
+      if (!value) {
+        return {
+          style: 'overflow: hidden; height: 0; box-sizing: content-box;',
+        }
+      }
+    },
     created(el: HTMLElement, { value }) {
       el.dataset[backupOverflowKey] = el.style.overflow
 

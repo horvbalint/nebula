@@ -20,7 +20,7 @@ const emit = defineEmits<{
   'update:modelValue': [id: typeof props.modelValue]
 }>()
 
-const textarea = templateRef('textarea')
+const textarea = useTemplateRef('textarea')
 const { errorsToShow, collectErrors } = useNebValidateNative(textarea)
 
 const attrs = useAttrs()
@@ -49,6 +49,10 @@ watch(() => props.modelValue, async () => {
   await nextTick()
   collectErrors({ showErrors })
 })
+
+defineExpose({
+  textarea,
+})
 </script>
 
 <template>
@@ -70,7 +74,7 @@ watch(() => props.modelValue, async () => {
         />
       </div>
 
-      <footer>
+      <footer v-if="hint || computedAttrs.maxlength">
         <p v-if="hint" class="hint">{{ $props.hint }}</p>
         <span v-if="computedAttrs.maxlength">{{ $props.modelValue?.toString().length }}/{{ computedAttrs.maxlength }}</span>
       </footer>

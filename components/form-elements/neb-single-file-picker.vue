@@ -13,7 +13,7 @@ const modelValue = defineModel<MaybeFile | File | null>({
   default: null,
 })
 
-const singleFilePicker = templateRef('singleFilePicker')
+const singleFilePicker = useTemplateRef('singleFilePicker')
 const { errorsToShow, collectErrors } = useNebValidate(singleFilePicker, () => {
   const errors: (keyof ValidityState)[] = []
 
