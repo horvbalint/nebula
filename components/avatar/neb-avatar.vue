@@ -89,6 +89,10 @@ export default defineComponent({
     &:focus {
       outline: 4px solid var(--neutral-color-700);
     }
+
+    span {
+      color: var(--neutral-color-300);
+    }
   }
   .badge {
     background: var(--neutral-color-800);
