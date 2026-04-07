@@ -41,7 +41,9 @@ const props = withDefaults(defineProps<{
   customLabel?: (option: T) => PropertyKey
   transformFun?: (a: TrackValue) => PropertyKey
   onNew?: (searchTerm: string) => unknown
+  alwaysShowCreate?: boolean
 }>(), {
+  alwaysShowCreate: false,
   multiple: false,
   useOnlyTrackedKey: false,
   noSearch: false,
@@ -281,7 +283,7 @@ function scrollToFocusedOption() {
   const focusedOption = optionRefs.value[focusIndex.value || 0]
 
   if (focusedOption) {
-    focusedOption.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+    focusedOption.scrollIntoView({ block: 'start', behavior: 'smooth' })
   }
 }
 
@@ -377,6 +379,12 @@ watch(searchTerm, orderOptions)
             </div>
           </template>
         </neb-empty-state>
+
+        <div v-if="orderedOptions.length && props.alwaysShowCreate && props.onNew && searchTerm" class="create-footer" @click="emit('new', searchTerm)">
+          <neb-button type="link" small>
+            <icon name="material-symbols:add-rounded" /> {{ $t('nebula.neb-select.create', { term: searchTerm }) }}
+          </neb-button>
+        </div>
       </div>
     </template>
   </NebDropdown>
@@ -616,6 +624,21 @@ li {
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
+}
+.create-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  padding: var(--space-2) var(--space-3);
+  border-top: 1px solid var(--neutral-color-200);
+  background: #fff;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--neutral-color-50);
+  }
 }
 
 .dark-mode {

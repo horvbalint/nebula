@@ -37,6 +37,7 @@
       "placeholder": "Írj ide a kereséshez..."
     },
     "neb-select": {
+      "create": "Létrehozás: \"{term}\"",
       "empty": {
         "description": "Próbálj egy másik kulcsszót",
         "newItem": "Új elem hozzáadása",
