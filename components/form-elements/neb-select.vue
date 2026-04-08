@@ -339,8 +339,8 @@ watch(searchTerm, orderOptions)
             ref="search"
             v-model="searchTerm"
             :placeholder="$t('nebula.neb-select.search')"
-            @keydown.up="handleArrowUp()"
-            @keydown.down="handleArrowDown()"
+            @keydown.up.prevent="handleArrowUp()"
+            @keydown.down.prevent="handleArrowDown()"
             @keyup.enter="handleOnEnter()"
             @blur="dropdown?.close()"
           >
