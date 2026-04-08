@@ -260,7 +260,6 @@ function handleOnEnter() {
     emit('new', searchTerm.value)
 }
 
-const optionRefs = useTemplateRef('optionRefs')
 function handleArrowUp() {
   if (focusIndex.value === null)
     focusIndex.value = 1
@@ -279,8 +278,10 @@ function handleArrowDown() {
     scrollToFocusedOption()
   }
 }
+
+const ul = useTemplateRef('ul')
 function scrollToFocusedOption() {
-  const focusedOption = optionRefs.value?.[focusIndex.value || 0]
+  const focusedOption = ul.value?.children[focusIndex.value || 0]
   if (focusedOption) {
     focusedOption.scrollIntoView({
       block: 'center',
@@ -348,14 +349,14 @@ watch(searchTerm, orderOptions)
           <icon v-if="searchTerm" name="material-symbols:close-rounded" @click="searchTerm = ''" />
         </div>
 
-        <ul v-if="orderedOptions.length">
+        <ul v-if="orderedOptions.length" ref="ul">
           <li
             v-for="(option, index) in orderedOptions"
             :key="option.transformedTrackValue"
             @click="handleOptionClick(option)"
           >
             <div class="menu-row">
-              <div ref="optionRefs" class="menu-row-content" :class="{ selected: selectedOptions.has(option.transformedTrackValue), focus: index === focusIndex }">
+              <div class="menu-row-content" :class="{ selected: selectedOptions.has(option.transformedTrackValue), focus: index === focusIndex }">
                 <div class="menu-text-wrapper">
                   <slot name="option" :option="option.option" :label-value="option.labelValue" :track-value="option.trackValue" :transformed-track-value="option.transformedTrackValue">
                     <p>{{ option.labelValue }}</p>
