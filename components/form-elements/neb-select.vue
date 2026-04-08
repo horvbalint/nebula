@@ -260,7 +260,7 @@ function handleOnEnter() {
     emit('new', searchTerm.value)
 }
 
-const optionRefs = useTemplateRefsList()
+const optionRefs = useTemplateRef('optionRefs')
 function handleArrowUp() {
   if (focusIndex.value === null)
     focusIndex.value = 1
@@ -280,10 +280,14 @@ function handleArrowDown() {
   }
 }
 function scrollToFocusedOption() {
-  const focusedOption = optionRefs.value[focusIndex.value || 0]
-
+  const focusedOption = optionRefs.value?.[focusIndex.value || 0]
   if (focusedOption) {
-    focusedOption.scrollIntoView({ block: 'start', behavior: 'smooth' })
+    focusedOption.scrollIntoView({
+      block: 'center',
+      behavior: 'smooth',
+      // @ts-expect-error - this does exist: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView#container
+      container: 'nearest',
+    })
   }
 }
 
@@ -567,8 +571,6 @@ li {
   transition: all var(--duration-default);
   cursor: pointer;
   border-radius: var(--radius-small);
-  scroll-margin-bottom: 8px;
-  scroll-margin-top: 160px;
 
   &:hover {
     background: var(--neutral-color-50);
