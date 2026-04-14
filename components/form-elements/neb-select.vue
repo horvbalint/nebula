@@ -41,9 +41,7 @@ const props = withDefaults(defineProps<{
   customLabel?: (option: T) => PropertyKey
   transformFun?: (a: TrackValue) => PropertyKey
   onNew?: (searchTerm: string) => unknown
-  alwaysShowCreate?: boolean
 }>(), {
-  alwaysShowCreate: false,
   multiple: false,
   useOnlyTrackedKey: false,
   noSearch: false,
@@ -385,7 +383,7 @@ watch(searchTerm, orderOptions)
           </template>
         </neb-empty-state>
 
-        <div v-if="orderedOptions.length && props.alwaysShowCreate && props.onNew && searchTerm" class="create-footer" @click="emit('new', searchTerm)">
+        <div v-if="orderedOptions.length && props.onNew && searchTerm" class="create-footer" @click="emit('new', searchTerm)">
           <neb-button type="link" small>
             <icon name="material-symbols:add-rounded" /> {{ $t('nebula.neb-select.create', { term: searchTerm }) }}
           </neb-button>
