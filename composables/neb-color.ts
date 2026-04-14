@@ -32,7 +32,6 @@ export function calcColorPalette(sources: ColorPaletteSources) {
   createColorShades(colorPalette, colorComponents, 'warning-color', sources.warningColor)
   createColorShades(colorPalette, colorComponents, 'info-color', sources.infoColor)
   const neutralColor = new Color(sources.primaryColor).saturationl(5).lightness(45)
-  console.log(sources.primaryColor, neutralColor.hex())
   createColorShades(colorPalette, colorComponents, 'neutral-color', neutralColor.hex())
 
   return {
@@ -59,8 +58,6 @@ export function setNebColorPalette(sources: Partial<ColorPaletteSources>) {
   const paletteSource = { ...nebDefaultColorPalette, ...sources }
 
   const { colorPalette, colorComponents } = calcColorPalette(paletteSource)
-
-  console.log(colorPalette['neutral-color'])
 
   for (const name in colorPalette)
     document.documentElement.style.setProperty(`--${name}`, colorPalette[name]!)
