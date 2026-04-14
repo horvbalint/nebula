@@ -37,6 +37,7 @@
       "placeholder": "Type here to search..."
     },
     "neb-select": {
+      "create": "Create \"{term}\"",
       "empty": {
         "description": "Try another keyword",
         "newItem": "Add new item",

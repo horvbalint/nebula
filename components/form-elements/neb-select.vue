@@ -258,7 +258,6 @@ function handleOnEnter() {
     emit('new', searchTerm.value)
 }
 
-const optionRefs = useTemplateRefsList()
 function handleArrowUp() {
   if (focusIndex.value === null)
     focusIndex.value = 1
@@ -277,11 +276,17 @@ function handleArrowDown() {
     scrollToFocusedOption()
   }
 }
-function scrollToFocusedOption() {
-  const focusedOption = optionRefs.value[focusIndex.value || 0]
 
+const ul = useTemplateRef('ul')
+function scrollToFocusedOption() {
+  const focusedOption = ul.value?.children[focusIndex.value || 0]
   if (focusedOption) {
-    focusedOption.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+    focusedOption.scrollIntoView({
+      block: 'center',
+      behavior: 'smooth',
+      // @ts-expect-error - this does exist: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView#container
+      container: 'nearest',
+    })
   }
 }
 
@@ -333,8 +338,8 @@ watch(searchTerm, orderOptions)
             ref="search"
             v-model="searchTerm"
             :placeholder="$t('nebula.neb-select.search')"
-            @keydown.up="handleArrowUp()"
-            @keydown.down="handleArrowDown()"
+            @keydown.up.prevent="handleArrowUp()"
+            @keydown.down.prevent="handleArrowDown()"
             @keyup.enter="handleOnEnter()"
             @blur="dropdown?.close()"
           >
@@ -342,14 +347,14 @@ watch(searchTerm, orderOptions)
           <icon v-if="searchTerm" name="material-symbols:close-rounded" @click="searchTerm = ''" />
         </div>
 
-        <ul v-if="orderedOptions.length">
+        <ul v-if="orderedOptions.length" ref="ul">
           <li
             v-for="(option, index) in orderedOptions"
             :key="option.transformedTrackValue"
             @click="handleOptionClick(option)"
           >
             <div class="menu-row">
-              <div ref="optionRefs" class="menu-row-content" :class="{ selected: selectedOptions.has(option.transformedTrackValue), focus: index === focusIndex }">
+              <div class="menu-row-content" :class="{ selected: selectedOptions.has(option.transformedTrackValue), focus: index === focusIndex }">
                 <div class="menu-text-wrapper">
                   <slot name="option" :option="option.option" :label-value="option.labelValue" :track-value="option.trackValue" :transformed-track-value="option.transformedTrackValue">
                     <p>{{ option.labelValue }}</p>
@@ -377,6 +382,12 @@ watch(searchTerm, orderOptions)
             </div>
           </template>
         </neb-empty-state>
+
+        <div v-if="orderedOptions.length && props.onNew && searchTerm" class="create-footer" @click="emit('new', searchTerm)">
+          <neb-button type="link" small>
+            <icon name="material-symbols:add-rounded" /> {{ $t('nebula.neb-select.create', { term: searchTerm }) }}
+          </neb-button>
+        </div>
       </div>
     </template>
   </NebDropdown>
@@ -559,8 +570,6 @@ li {
   transition: all var(--duration-default);
   cursor: pointer;
   border-radius: var(--radius-small);
-  scroll-margin-bottom: 8px;
-  scroll-margin-top: 160px;
 
   &:hover {
     background: var(--neutral-color-50);
@@ -616,6 +625,21 @@ li {
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
+}
+.create-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  padding: var(--space-2) var(--space-3);
+  border-top: 1px solid var(--neutral-color-200);
+  background: #fff;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--neutral-color-50);
+  }
 }
 
 .dark-mode {
