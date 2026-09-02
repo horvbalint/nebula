@@ -74,7 +74,7 @@ li {
   .separator {
     width: 12px;
     height: 12px;
-    color: var(--neutral-color-400);
+    color: var(--neb-text-subtle);
   }
   .crumb-icon {
     width: 18px;

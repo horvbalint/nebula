@@ -58,34 +58,21 @@ const floatingOptions: UseFloatingOptions = {
   gap: var(--space-1);
   white-space: pre-line;
   line-height: 18px;
-  background: #fff;
-  border: 1px solid var(--neutral-color-100);
+  background: var(--neb-bg);
+  border: 1px solid var(--neb-border-subtle);
   padding: var(--space-2) var(--space-3);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--neb-shadow-lg);
   border-radius: var(--radius-default);
 
   h6 {
-    color: var(--neutral-color-700);
+    color: var(--neb-text);
     font-weight: 600;
     font-size: var(--text-xs);
   }
   p {
     font-weight: 500;
-    color: var(--neutral-color-500);
+    color: var(--neb-text-muted);
     font-size: var(--text-xs);
-  }
-}
-.dark-mode {
-  .tooltip-animation-wrapper {
-    background: var(--neutral-color-950);
-    border: 1px solid var(--neutral-color-800);
-
-    h6 {
-      color: var(--neutral-color-300);
-    }
-    p {
-      color: var(--neutral-color-400);
-    }
   }
 }
 </style>

@@ -46,7 +46,7 @@ withDefaults(defineProps<{
   gap: var(--space-6);
 }
 .error-icon {
-  background: var(--error-color-100);
+  background: var(--neb-bg-error);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -64,7 +64,7 @@ withDefaults(defineProps<{
     right: 0px;
     bottom: 0px;
     left: 0px;
-    border: 4px solid var(--error-color-50);
+    border: 4px solid var(--neb-bg-error-subtle);
     border-radius: 50%;
   }
   &:after {
@@ -76,13 +76,13 @@ withDefaults(defineProps<{
     right: 0px;
     bottom: 0px;
     left: 0px;
-    border: 1px solid var(--error-color-50);
+    border: 1px solid var(--neb-bg-error-subtle);
     border-radius: 50%;
   }
   .icon {
     width: 32px;
     height: 32px;
-    color: var(--error-color-600);
+    color: var(--neb-text-error);
   }
 }
 .error-state-text {
@@ -93,44 +93,17 @@ withDefaults(defineProps<{
   max-width: 350px;
 
   h6 {
-    font-size: var(--text-md);
-    font-weight: 600;
-    color: var(--neutral-color-900);
+    font: var(--neb-font-heading);
+    color: var(--neb-text);
   }
   p {
-    font-size: var(--text-sm);
-    font-weight: 400;
-    color: var(--neutral-color-600);
-    line-height: 20px;
+    font: var(--neb-font-body-sm);
+    color: var(--neb-text-muted);
   }
 }
 .call-to-action {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-}
-
-.dark-mode {
-  .error-icon {
-    background: var(--error-color-950);
-
-    &:before {
-      border: 4px solid var(--error-color-950);
-    }
-    &:after {
-      border: 1px solid var(--error-color-950);
-    }
-    .icon {
-      color: var(--error-color-500);
-    }
-  }
-  .error-state-text {
-    h6 {
-      color: var(--neutral-color-300);
-    }
-    p {
-      color: var(--neutral-color-400);
-    }
-  }
 }
 </style>

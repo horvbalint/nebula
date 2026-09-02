@@ -81,11 +81,11 @@ if (!modelValue.value.length && props.withInitialItem)
 label {
   font-size: var(--text-md);
   font-weight: 500;
-  color: var(--neutral-color-800);
+  color: var(--neb-text);
 }
 
 .empty-list-text {
-  color: var(--neutral-color-600);
+  color: var(--neb-text-muted);
   font-size: var(--text-sm);
 }
 
@@ -95,21 +95,21 @@ label {
   gap: var(--space-3);
 
   .delete-button {
-    background: var(--neutral-color-100);
+    background: var(--neb-bg-muted);
     border-radius: var(--radius-small);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: var(--space-2);
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background var(--duration-slow);
 
     &:hover {
-      background: var(--neutral-color-200);
+      background: var(--neb-border-subtle);
     }
 
     .icon {
-      color: var(--neutral-color-700);
+      color: var(--neb-text);
       font-size: var(--text-lg) !important;
     }
   }
@@ -123,19 +123,5 @@ label {
   display: flex;
   gap: var(--space-2);
   align-items: end;
-}
-
-.dark-mode {
-  .delete-button {
-    background: var(--neutral-color-800);
-
-    &:hover {
-      background: var(--neutral-color-700);
-    }
-
-    .icon {
-      color: var(--neutral-color-300);
-    }
-  }
 }
 </style>

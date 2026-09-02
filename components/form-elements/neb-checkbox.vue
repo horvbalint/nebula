@@ -80,7 +80,7 @@ defineExpose({
 .neb-checkbox p {
   font-size: var(--text-sm);
   font-weight: 500;
-  color: var(--neutral-color-800);
+  color: var(--neb-text);
   user-select: none;
 }
 .checkmark {
@@ -89,61 +89,35 @@ defineExpose({
   justify-content: center;
   height: 20px;
   width: 20px;
-  background-color: #fff;
-  border: 1px solid var(--neutral-color-300);
+  background-color: var(--neb-bg);
+  border: 1px solid var(--neb-border);
   border-radius: var(--radius-small);
   cursor: pointer;
 }
 .neb-checkbox:hover input ~ .checkmark {
-  background: var(--primary-color-100);
-  border-color: var(--primary-color-600);
+  background: var(--neb-bg-primary-hover);
+  border-color: var(--neb-text-primary);
   transition: all var(--duration-default);
 }
 .neb-checkbox:focus-within input ~ .checkmark {
-  background: #fff;
-  border-color: var(--primary-color-300);
-  box-shadow: var(--primary-focus-shadow-light);
+  background: var(--neb-bg);
+  border-color: var(--neb-border-focus);
+  box-shadow: var(--neb-ring-primary);
   transition: all var(--duration-default);
 }
 .neb-checkbox input:checked ~ .checkmark {
-  background: var(--primary-color-50);
-  border-color: var(--primary-color-600);
+  background: var(--neb-bg-primary-subtle);
+  border-color: var(--neb-text-primary);
   transition: all var(--duration-default);
 }
 .checkmark .icon {
   display: none;
-  color: var(--primary-color-600);
+  color: var(--neb-text-primary);
 }
 .neb-checkbox input:checked ~ .checkmark .icon {
   display: block;
 }
 .label-wrapper {
   cursor: pointer;
-}
-
-.dark-mode {
-  .neb-checkbox p {
-    color: var(--neutral-color-300);
-  }
-  .checkmark {
-    background-color: var(--neutral-color-950);
-    border: 1px solid var(--neutral-color-700);
-  }
-  .neb-checkbox:hover input ~ .checkmark {
-    background: var(--primary-color-900);
-    border-color: var(--primary-color-600);
-  }
-  .neb-checkbox:focus-within input ~ .checkmark {
-    background-color: var(--neutral-color-950);
-    border-color: var(--primary-color-700);
-    box-shadow: var(--primary-focus-shadow-dark);
-  }
-  .neb-checkbox input:checked ~ .checkmark {
-    background: var(--primary-color-800);
-    border-color: var(--primary-color-600);
-  }
-  .neb-checkbox .checkmark .icon {
-    color: var(--primary-color-100);
-  }
 }
 </style>

@@ -1,0 +1,269 @@
+/*
+ * SEMANTIC TOKENS
+ *
+ * Role-based tokens layered on top of the primitives in tokens.css and the
+ * generated color scales. Every token here resolves to a different primitive
+ * under `.dark-mode`, so components reference it once and never need a
+ * `.dark-mode` block of their own.
+ *
+ * NAMING — the prefix is the CSS property the token goes in:
+ *   --neb-bg-*      -> background
+ *   --neb-text-*    -> color
+ *   --neb-border-*  -> border / border-color
+ *   --neb-font-*    -> font
+ *   --neb-shadow-*  -> box-shadow
+ *   --neb-ring-*    -> box-shadow  (focus rings)
+ *
+ * Within a prefix, the bare token is the neutral default and an intent segment
+ * opts into a hue: `--neb-text` vs `--neb-text-error`, `--neb-bg-subtle` vs
+ * `--neb-bg-primary-subtle`.
+ *
+ * `:root` and `.dark-mode` have equal specificity, so the `.dark-mode` block
+ * below wins by source order when the class sits on <html>, and wins by
+ * custom-property inheritance when it sits on any other ancestor. Every token
+ * here points straight at a color scale or primitive (no token is an alias of
+ * another `--neb-*` token), so each is simply declared twice with a different
+ * value — there are no cross-token aliases needing careful re-declaration.
+ */
+
+:root {
+  /* BACKGROUNDS — neutral */
+  --neb-bg-page: var(--white);
+  --neb-bg: var(--white);
+  --neb-bg-raised: var(--white);
+  --neb-bg-subtle: var(--neutral-color-50);
+  --neb-bg-muted: var(--neutral-color-100);
+  --neb-bg-hover: var(--neutral-color-50);
+  --neb-bg-active: var(--neutral-color-100);
+  --neb-bg-selected: var(--primary-color-50);
+  --neb-bg-disabled: var(--neutral-color-50);
+  --neb-bg-backdrop: rgba(var(--neutral-color-component), 0.7);
+  --neb-bg-neutral-solid: var(--neutral-color);
+  --neb-bg-neutral-solid-hover: var(--neutral-color-600);
+  --neb-bg-neutral-solid-disabled: var(--neutral-color-200);
+
+  /* BACKGROUNDS — intent */
+  --neb-bg-primary: var(--primary-color-100);
+  --neb-bg-primary-subtle: var(--primary-color-50);
+  --neb-bg-primary-hover: var(--primary-color-200);
+  --neb-bg-primary-solid: var(--primary-color);
+  --neb-bg-primary-solid-hover: var(--primary-color-600);
+  --neb-bg-primary-solid-disabled: var(--primary-color-200);
+
+  --neb-bg-success: var(--success-color-100);
+  --neb-bg-success-subtle: var(--success-color-50);
+  --neb-bg-success-hover: var(--success-color-200);
+  --neb-bg-success-solid: var(--success-color);
+  --neb-bg-success-solid-hover: var(--success-color-600);
+  --neb-bg-success-solid-disabled: var(--success-color-200);
+
+  --neb-bg-error: var(--error-color-100);
+  --neb-bg-error-subtle: var(--error-color-50);
+  --neb-bg-error-hover: var(--error-color-200);
+  --neb-bg-error-solid: var(--error-color);
+  --neb-bg-error-solid-hover: var(--error-color-600);
+  --neb-bg-error-solid-disabled: var(--error-color-200);
+
+  --neb-bg-warning: var(--warning-color-100);
+  --neb-bg-warning-subtle: var(--warning-color-50);
+  --neb-bg-warning-hover: var(--warning-color-200);
+  --neb-bg-warning-solid: var(--warning-color);
+  --neb-bg-warning-solid-hover: var(--warning-color-600);
+  --neb-bg-warning-solid-disabled: var(--warning-color-200);
+
+  --neb-bg-info: var(--info-color-100);
+  --neb-bg-info-subtle: var(--info-color-50);
+  --neb-bg-info-hover: var(--info-color-200);
+  --neb-bg-info-solid: var(--info-color);
+  --neb-bg-info-solid-hover: var(--info-color-600);
+  --neb-bg-info-solid-disabled: var(--info-color-200);
+
+  /* TEXT — neutral */
+  --neb-text: var(--neutral-color-900);
+  --neb-text-muted: var(--neutral-color-600);
+  --neb-text-subtle: var(--neutral-color-400);
+  --neb-text-disabled: var(--neutral-color-400);
+  --neb-text-on-solid: var(--white);
+
+  /* TEXT — intent */
+  --neb-text-primary: var(--primary-color-600);
+  --neb-text-primary-hover: var(--primary-color-700);
+  --neb-text-success: var(--success-color-600);
+  --neb-text-success-hover: var(--success-color-700);
+  --neb-text-error: var(--error-color-600);
+  --neb-text-error-hover: var(--error-color-700);
+  --neb-text-warning: var(--warning-color-600);
+  --neb-text-warning-hover: var(--warning-color-700);
+  --neb-text-info: var(--info-color-600);
+  --neb-text-info-hover: var(--info-color-700);
+
+  /* BORDERS — neutral */
+  --neb-border-subtle: var(--neutral-color-200);
+  --neb-border: var(--neutral-color-300);
+  --neb-border-strong: var(--neutral-color-400);
+  --neb-border-disabled: var(--neutral-color-200);
+  --neb-border-focus: var(--primary-color-300);
+  --neb-border-error: var(--error-color-300);
+
+  /* BORDERS — intent */
+  --neb-border-primary: var(--primary-color-200);
+  --neb-border-primary-strong: var(--primary-color-300);
+  --neb-border-primary-alert: 2px solid var(--primary-color);
+  --neb-border-success: var(--success-color-200);
+  --neb-border-success-strong: var(--success-color-300);
+  --neb-border-success-alert: 2px solid var(--success-color);
+  --neb-border-error-strong: var(--error-color-300);
+  --neb-border-error-alert: 2px solid var(--error-color);
+  --neb-border-warning: var(--warning-color-200);
+  --neb-border-warning-strong: var(--warning-color-300);
+  --neb-border-warning-alert: 2px solid var(--warning-color);
+  --neb-border-info: var(--info-color-200);
+  --neb-border-info-strong: var(--info-color-300);
+  --neb-border-info-alert: 2px solid var(--info-color);
+
+  /* FOCUS RINGS — box-shadow, resolve light/dark automatically */
+  --neb-ring-primary: var(--primary-focus-shadow-light);
+  --neb-ring-error: var(--error-focus-shadow-light);
+  --neb-ring-neutral: var(--neutral-focus-shadow-light);
+
+  /* ELEVATION */
+  --neb-shadow-xs: var(--shadow-xs);
+  --neb-shadow-sm: var(--shadow-sm);
+  --neb-shadow-md: var(--shadow-md);
+  --neb-shadow-lg: var(--shadow-lg);
+  --neb-shadow-xl: var(--shadow-xl);
+  --neb-shadow-2xl: var(--shadow-2xl);
+  --neb-shadow-3xl: var(--shadow-3xl);
+
+  /* TYPOGRAPHY — `font` shorthands. Pair with a `--neb-text-*` colour:
+   *   font: var(--neb-font-label);
+   *   color: var(--neb-text);
+   * The shorthand resets font-style/variant/stretch to initial by design, and
+   * --neb-font-family must stay last in the value.
+   */
+  --neb-font-family: 'Inter', system-ui, sans-serif;
+  --neb-font-title-lg: var(--font-semibold) var(--title-sm) / var(--leading-tight) var(--neb-font-family);
+  --neb-font-title: var(--font-semibold) var(--text-lg) / var(--leading-normal) var(--neb-font-family);
+  --neb-font-heading: var(--font-semibold) var(--text-md) / var(--leading-normal) var(--neb-font-family);
+  --neb-font-body: var(--font-regular) var(--text-md) / var(--leading-relaxed) var(--neb-font-family);
+  --neb-font-body-sm: var(--font-regular) var(--text-sm) / var(--leading-normal) var(--neb-font-family);
+  --neb-font-label: var(--font-medium) var(--text-sm) / var(--leading-normal) var(--neb-font-family);
+  --neb-font-label-strong: var(--font-semibold) var(--text-sm) / var(--leading-normal) var(--neb-font-family);
+  --neb-font-hint: var(--font-regular) var(--text-xs) / var(--leading-normal) var(--neb-font-family);
+  --neb-font-caption: var(--font-medium) var(--text-xs) / var(--leading-normal) var(--neb-font-family);
+}
+
+.dark-mode {
+  /* BACKGROUNDS — neutral */
+  --neb-bg-page: var(--neutral-color-950);
+  --neb-bg: var(--neutral-color-950);
+  --neb-bg-raised: var(--neutral-color-900);
+  --neb-bg-subtle: var(--neutral-color-900);
+  --neb-bg-muted: var(--neutral-color-800);
+  --neb-bg-hover: var(--neutral-color-900);
+  --neb-bg-active: var(--neutral-color-800);
+  --neb-bg-selected: var(--primary-color-950);
+  --neb-bg-disabled: var(--neutral-color-800);
+  --neb-bg-backdrop: rgba(var(--neutral-color-component-800), 0.7);
+  --neb-bg-neutral-solid: var(--neutral-color-700);
+  --neb-bg-neutral-solid-hover: var(--neutral-color-600);
+  --neb-bg-neutral-solid-disabled: var(--neutral-color-800);
+
+  /* BACKGROUNDS — intent */
+  --neb-bg-primary: var(--primary-color-950);
+  --neb-bg-primary-subtle: var(--primary-color-950);
+  --neb-bg-primary-hover: var(--primary-color-900);
+  --neb-bg-primary-solid: var(--primary-color-700);
+  --neb-bg-primary-solid-hover: var(--primary-color-600);
+  --neb-bg-primary-solid-disabled: var(--primary-color-800);
+
+  --neb-bg-success: var(--success-color-950);
+  --neb-bg-success-subtle: var(--success-color-950);
+  --neb-bg-success-hover: var(--success-color-900);
+  --neb-bg-success-solid: var(--success-color-700);
+  --neb-bg-success-solid-hover: var(--success-color-600);
+  --neb-bg-success-solid-disabled: var(--success-color-800);
+
+  --neb-bg-error: var(--error-color-950);
+  --neb-bg-error-subtle: var(--error-color-950);
+  --neb-bg-error-hover: var(--error-color-900);
+  --neb-bg-error-solid: var(--error-color-700);
+  --neb-bg-error-solid-hover: var(--error-color-600);
+  --neb-bg-error-solid-disabled: var(--error-color-800);
+
+  --neb-bg-warning: var(--warning-color-950);
+  --neb-bg-warning-subtle: var(--warning-color-950);
+  --neb-bg-warning-hover: var(--warning-color-900);
+  --neb-bg-warning-solid: var(--warning-color-700);
+  --neb-bg-warning-solid-hover: var(--warning-color-600);
+  --neb-bg-warning-solid-disabled: var(--warning-color-800);
+
+  --neb-bg-info: var(--info-color-950);
+  --neb-bg-info-subtle: var(--info-color-950);
+  --neb-bg-info-hover: var(--info-color-900);
+  --neb-bg-info-solid: var(--info-color-700);
+  --neb-bg-info-solid-hover: var(--info-color-600);
+  --neb-bg-info-solid-disabled: var(--info-color-800);
+
+  /* TEXT — neutral */
+  --neb-text: var(--neutral-color-300);
+  --neb-text-muted: var(--neutral-color-400);
+  --neb-text-subtle: var(--neutral-color-500);
+  --neb-text-disabled: var(--neutral-color-500);
+  --neb-text-on-solid: var(--white);
+
+  /* TEXT — intent */
+  --neb-text-primary: var(--primary-color-300);
+  --neb-text-primary-hover: var(--primary-color-200);
+  --neb-text-success: var(--success-color-300);
+  --neb-text-success-hover: var(--success-color-200);
+  --neb-text-error: var(--error-color-300);
+  --neb-text-error-hover: var(--error-color-200);
+  --neb-text-warning: var(--warning-color-300);
+  --neb-text-warning-hover: var(--warning-color-200);
+  --neb-text-info: var(--info-color-300);
+  --neb-text-info-hover: var(--info-color-200);
+
+  /* BORDERS — neutral */
+  --neb-border-subtle: var(--neutral-color-800);
+  --neb-border: var(--neutral-color-700);
+  --neb-border-strong: var(--neutral-color-600);
+  --neb-border-disabled: var(--neutral-color-800);
+  --neb-border-focus: var(--primary-color-700);
+  --neb-border-error: var(--error-color-700);
+
+  /* BORDERS — intent */
+  --neb-border-primary: var(--primary-color-800);
+  --neb-border-primary-strong: var(--primary-color-800);
+  --neb-border-primary-alert: 1px solid var(--primary-color-800);
+  --neb-border-success: var(--success-color-800);
+  --neb-border-success-strong: var(--success-color-800);
+  --neb-border-success-alert: 1px solid var(--success-color-800);
+  --neb-border-error-strong: var(--error-color-800);
+  --neb-border-error-alert: 1px solid var(--error-color-800);
+  --neb-border-warning: var(--warning-color-800);
+  --neb-border-warning-strong: var(--warning-color-800);
+  --neb-border-warning-alert: 1px solid var(--warning-color-800);
+  --neb-border-info: var(--info-color-800);
+  --neb-border-info-strong: var(--info-color-800);
+  --neb-border-info-alert: 1px solid var(--info-color-800);
+
+  /* FOCUS RINGS */
+  --neb-ring-primary: var(--primary-focus-shadow-dark);
+  --neb-ring-error: var(--error-focus-shadow-dark);
+  --neb-ring-neutral: var(--neutral-focus-shadow-dark);
+
+  /* ELEVATION — same geometry, higher alpha on black, since the light shadows
+   * are built on neutral-900 and vanish against a neutral-950 page. */
+  --neb-shadow-xs: 0px 1px 2px 0px rgba(var(--black-component), 0.3);
+  --neb-shadow-sm:
+    0px 1px 2px 0px rgba(var(--black-component), 0.32), 0px 1px 3px 0px rgba(var(--black-component), 0.4);
+  --neb-shadow-md:
+    0px 2px 4px -2px rgba(var(--black-component), 0.32), 0px 4px 8px -2px rgba(var(--black-component), 0.4);
+  --neb-shadow-lg:
+    0px 4px 6px -2px rgba(var(--black-component), 0.24), 0px 12px 16px -4px rgba(var(--black-component), 0.4);
+  --neb-shadow-xl:
+    0px 8px 8px -4px rgba(var(--black-component), 0.24), 0px 20px 24px -4px rgba(var(--black-component), 0.4);
+  --neb-shadow-2xl: 0px 24px 48px -12px rgba(var(--black-component), 0.55);
+  --neb-shadow-3xl: 0px 32px 64px -12px rgba(var(--black-component), 0.5);
+}

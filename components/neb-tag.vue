@@ -27,10 +27,9 @@ defineEmits<{
   width: fit-content;
   padding: var(--space-1) var(--space-2);
   border-radius: var(--radius-default);
-  border: 1px solid var(--neutral-color-200);
-  font-size: var(--text-sm);
-  font-weight: 500;
-  color: var(--neutral-color-700);
+  border: 1px solid var(--neb-border);
+  font: var(--neb-font-label);
+  color: var(--neb-text);
 
   &.small {
     padding: 2px var(--space-2);
@@ -40,27 +39,12 @@ defineEmits<{
   .icon {
     width: 16px;
     height: 16px;
-    color: var(--neutral-color-500);
+    color: var(--neb-text-muted);
     cursor: pointer;
     transition: color var(--duration-default);
 
     &:hover {
-      color: var(--neutral-color-800);
-    }
-  }
-}
-
-.dark-mode {
-  .neb-tag {
-    border: 1px solid var(--neutral-color-700);
-    color: var(--neutral-color-300);
-
-    .icon {
-      color: var(--neutral-color-500);
-
-      &:hover {
-        color: var(--neutral-color-200);
-      }
+      color: var(--neb-text);
     }
   }
 }

@@ -30,7 +30,7 @@ const modelValue = defineModel()
 .toggle-text {
   font-size: var(--text-sm);
   font-weight: 500;
-  color: var(--neutral-color-800);
+  color: var(--neb-text);
   user-select: none;
 }
 .neb-toggle-switch {
@@ -87,10 +87,10 @@ const modelValue = defineModel()
     }
   }
   &:hover .slider {
-    background: var(--neutral-color-300);
+    background: var(--neb-border-strong);
   }
   &:focus-within .slider {
-    box-shadow: var(--primary-focus-shadow-light);
+    box-shadow: var(--neb-ring-primary);
   }
 }
 .neb-toggle-switch input {
@@ -106,7 +106,7 @@ const modelValue = defineModel()
   left: 0;
   right: 0;
   bottom: 0;
-  background: var(--neutral-color-200);
+  background: var(--neb-border);
   -webkit-transition: var(--duration-default);
   transition: var(--duration-default);
 }
@@ -118,25 +118,25 @@ const modelValue = defineModel()
   width: 16px;
   left: 2px;
   bottom: 2px;
-  background: #fff;
-  box-shadow: var(--shadow-sm);
+  background: var(--neb-bg);
+  box-shadow: var(--neb-shadow-sm);
   -webkit-transition: var(--duration-default);
   transition: var(--duration-default);
 }
 input:checked + .slider {
-  background: var(--primary-color);
+  background: var(--neb-bg-primary-solid);
 
   &:hover {
-    background: var(--primary-color-600);
+    background: var(--neb-bg-primary-solid-hover);
   }
 }
 input:disabled {
   & + .slider {
     &:before {
-      background: var(--neutral-color-50);
+      background: var(--neb-bg-disabled);
     }
     &:hover {
-      background: var(--neutral-color-200);
+      background: var(--neb-border);
     }
   }
 }
@@ -144,44 +144,6 @@ input:checked + .slider:before {
   -webkit-transform: translateX(16px);
   -ms-transform: translateX(16px);
   transform: translateX(16px);
-}
-
-.dark-mode {
-  .neb-toggle {
-    p {
-      color: var(--neutral-color-300);
-    }
-  }
-
-  .neb-toggle-switch {
-    &:hover .slider {
-      background: var(--neutral-color-600);
-    }
-    &:focus-within .slider {
-      box-shadow: var(--primary-focus-shadow-dark);
-    }
-  }
-  .slider {
-    background: var(--neutral-color-700);
-  }
-  .slider:before {
-    background: var(--neutral-color-950);
-  }
-  input:checked + .slider {
-    &:hover {
-      background: var(--primary-color-500);
-    }
-  }
-  input:disabled {
-    & + .slider {
-      &:before {
-        background: var(--neutral-color-950);
-      }
-      &:hover {
-        background: var(--neutral-color-700);
-      }
-    }
-  }
 }
 
 @media (--tablet-viewport) {

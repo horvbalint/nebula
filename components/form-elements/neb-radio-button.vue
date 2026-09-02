@@ -32,19 +32,19 @@ const modelValue = defineModel()
   p {
     font-size: var(--text-sm);
     font-weight: 500;
-    color: var(--neutral-color-800);
+    color: var(--neb-text);
     user-select: none;
   }
 }
 input[type='radio'] {
   -webkit-appearance: none;
   appearance: none;
-  background: #fff;
+  background: var(--neb-bg);
   margin: 0;
 
   width: 20px;
   height: 20px;
-  border: 1px solid var(--neutral-color-300);
+  border: 1px solid var(--neb-border);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -52,10 +52,10 @@ input[type='radio'] {
 
   &:disabled {
     cursor: not-allowed;
-    background: var(--neutral-color-100);
+    background: var(--neb-bg-muted);
 
     + p {
-      color: var(--neutral-color-500);
+      color: var(--neb-text-subtle);
     }
   }
 }
@@ -67,13 +67,13 @@ input[type='radio']::before {
   border-radius: 50%;
   transform: scale(0);
   transition: var(--duration-default) transform ease-in-out;
-  background: var(--primary-color-600);
+  background: var(--neb-bg-primary-solid);
   flex-shrink: 0;
 }
 
 input[type='radio']:checked {
-  border-color: var(--primary-color-600);
-  background: var(--primary-color-100);
+  border-color: var(--neb-text-primary);
+  background: var(--neb-bg-primary);
 
   &::before {
     transform: scale(0.4);
@@ -81,23 +81,6 @@ input[type='radio']:checked {
 }
 input[type='radio']:focus {
   outline: none;
-  box-shadow: var(--primary-focus-shadow-light);
-}
-
-.dark-mode {
-  .neb-radio-button {
-    color: var(--neutral-color-300);
-
-    p {
-      color: var(--neutral-color-300);
-    }
-  }
-  input[type='radio'] {
-    background: var(--neutral-color-950);
-    border: 1px solid var(--neutral-color-700);
-  }
-  input[type='radio']:focus {
-    box-shadow: var(--primary-focus-shadow-dark);
-  }
+  box-shadow: var(--neb-ring-primary);
 }
 </style>

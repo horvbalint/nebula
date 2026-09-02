@@ -68,13 +68,13 @@ const modelValue = defineModel()
 
 <style scoped>
 .neb-modal {
-  background: #fff;
+  background: var(--neb-bg-raised);
   border-radius: var(--radius-large);
-  box-shadow: var(--shadow-xl);
+  box-shadow: var(--neb-shadow-xl);
   margin: var(--space-12) 0;
 }
 header {
-  border-bottom: 1px solid var(--neutral-color-200);
+  border-bottom: 1px solid var(--neb-border-subtle);
   padding: var(--space-5) var(--space-6);
   display: flex;
   align-items: center;
@@ -84,12 +84,12 @@ header {
   position: sticky;
   top: 0;
   left: 0;
-  background: #fff;
+  background: var(--neb-bg-raised);
   border-radius: var(--radius-large) var(--radius-large) 0 0;
   z-index: 2;
 }
 .close-icon {
-  color: var(--neutral-color-500);
+  color: var(--neb-text-muted);
 }
 .header {
   height: 100%;
@@ -104,12 +104,12 @@ header {
   width: 48px;
   height: 48px;
   flex-shrink: 0;
-  border: 1px solid var(--neutral-color-200);
-  box-shadow: var(--shadow-xs);
+  border: 1px solid var(--neb-border-subtle);
+  box-shadow: var(--neb-shadow-xs);
   border-radius: var(--radius-default);
 
   .icon {
-    color: var(--neutral-color-700);
+    color: var(--neb-text);
   }
 }
 .header-titles {
@@ -120,14 +120,12 @@ header {
   gap: var(--space-1);
 
   h4 {
-    font-size: var(--text-lg);
-    font-weight: 600;
-    color: var(--neutral-color-900);
+    font: var(--neb-font-title);
+    color: var(--neb-text);
   }
   p {
-    font-size: var(--text-sm);
-    font-weight: 400;
-    color: var(--neutral-color-600);
+    font: var(--neb-font-body-sm);
+    color: var(--neb-text-muted);
   }
 }
 .body {
@@ -137,38 +135,13 @@ header {
   gap: var(--space-4);
 }
 footer {
-  border-top: 1px solid var(--neutral-color-200);
+  border-top: 1px solid var(--neb-border-subtle);
 }
 .footer {
   display: flex;
   padding: var(--space-5) var(--space-6);
   gap: var(--space-3);
   justify-content: flex-end;
-}
-
-.dark-mode {
-  .neb-modal,
-  header {
-    background: var(--neutral-color-950);
-  }
-  header,
-  footer,
-  .header-icon {
-    border-color: var(--neutral-color-700);
-  }
-  .header-titles {
-    h4 {
-      color: var(--neutral-color-300);
-    }
-    p {
-      color: var(--neutral-color-500);
-    }
-  }
-  .header-icon {
-    .icon {
-      color: var(--neutral-color-300);
-    }
-  }
 }
 
 @media (--tablet-viewport) {

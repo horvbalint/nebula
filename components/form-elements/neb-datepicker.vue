@@ -215,7 +215,7 @@ const formattedDate = computed(() => {
         leading-icon="material-symbols:calendar-month-outline-rounded"
         lazy
         @update:model-value="handleInput($event as string)"
-        @focus="open()"
+        @focus="!disabled && open()"
         @blur="close()"
       />
     </template>
@@ -223,21 +223,21 @@ const formattedDate = computed(() => {
     <template #content>
       <div class="dropdown" @mousedown.prevent="input!.focus()">
         <header>
-          <neb-button :disabled="calendarView === 'month'" type="tertiary-neutral" square @click="handleSubtract()">
+          <neb-button :disabled="disabled || calendarView === 'month'" type="tertiary-neutral" square @click="handleSubtract()">
             <icon name="material-symbols:chevron-left-rounded" />
           </neb-button>
 
           <div class="current-date">
-            <neb-button type="tertiary-neutral" small @click="calendarView = 'year'">
+            <neb-button :disabled="disabled" type="tertiary-neutral" small @click="calendarView = 'year'">
               {{ calendarView === 'year' ? $t('nebula.datepicker.selectYear') : viewDay.year() }}
             </neb-button>
 
-            <neb-button v-if="calendarView === 'day'" type="tertiary-neutral" small @click="calendarView = 'month'">
+            <neb-button v-if="calendarView === 'day'" :disabled="disabled" type="tertiary-neutral" small @click="calendarView = 'month'">
               {{ viewDay.format('MMMM') }}
             </neb-button>
           </div>
 
-          <neb-button :disabled="calendarView === 'month'" type="tertiary-neutral" square @click="handleAdd()">
+          <neb-button :disabled="disabled || calendarView === 'month'" type="tertiary-neutral" square @click="handleAdd()">
             <icon name="material-symbols:chevron-right-rounded" />
           </neb-button>
         </header>
@@ -249,7 +249,7 @@ const formattedDate = computed(() => {
             v-for="day in daysInView"
             :key="day.toString()"
             :type="getDayButtonType(day)"
-            :disabled="isOutOfRange(day, 'day')"
+            :disabled="disabled || isOutOfRange(day, 'day')"
             :class="{ 'not-curr-month': day.month() !== viewDay.month() }"
             square
             @click="handleDayClick(day)"
@@ -263,7 +263,7 @@ const formattedDate = computed(() => {
             v-for="month in monthsInView"
             :key="month.toString()"
             :type="getMonthButtonType(month)"
-            :disabled="isOutOfRange(month, 'month')"
+            :disabled="disabled || isOutOfRange(month, 'month')"
             square
             @click="handleMonthClick(month)"
           >
@@ -276,7 +276,7 @@ const formattedDate = computed(() => {
             v-for="year in yearInView"
             :key="year.toString()"
             :type="getYearButtonType(year)"
-            :disabled="isOutOfRange(year, 'year')"
+            :disabled="disabled || isOutOfRange(year, 'year')"
             square
             @click="handleYearClick(year)"
           >
@@ -297,10 +297,10 @@ const formattedDate = computed(() => {
   flex-direction: column;
   padding: var(--space-2);
   gap: var(--space-3);
-  border: 1px solid var(--neutral-color-200);
+  border: 1px solid var(--neb-border-subtle);
   border-radius: var(--radius-default);
-  box-shadow: var(--shadow-lg);
-  background: #fff;
+  box-shadow: var(--neb-shadow-lg);
+  background: var(--neb-bg-raised);
 }
 .calendar {
   display: grid;
@@ -314,7 +314,7 @@ const formattedDate = computed(() => {
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--neutral-color-400);
+      color: var(--neb-text-subtle);
       margin-bottom: var(--space-2);
       text-transform: capitalize;
     }
@@ -341,11 +341,5 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.dark-mode {
-  .dropdown {
-    border: 1px solid var(--neutral-color-800);
-    background: var(--neutral-color-950);
-  }
 }
 </style>

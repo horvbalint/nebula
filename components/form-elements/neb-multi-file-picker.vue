@@ -120,24 +120,24 @@ const fileLists = computed(() => ({
   gap: var(--space-2);
 
   &.disabled .picker-area {
-    background: var(--neutral-color-50);
+    background: var(--neb-bg-disabled);
   }
   &.is-draging .picker-area {
-    outline: 2px solid var(--primary-color);
+    outline: 2px solid var(--neb-text-primary);
   }
 }
 label {
   font-size: var(--text-sm);
   font-weight: 500;
-  color: var(--neutral-color-800);
+  color: var(--neb-text);
 }
 .required-star {
   margin-left: var(--space-1);
-  color: var(--error-color-500);
+  color: var(--neb-text-error);
 }
 .picker-area {
-  background: #fff;
-  border: 1px solid var(--neutral-color-300);
+  background: var(--neb-bg);
+  border: 1px solid var(--neb-border);
   border-radius: var(--radius-default);
   padding: var(--space-5) var(--space-6);
   display: flex;
@@ -150,7 +150,7 @@ label {
   flex-direction: column;
   gap: var(--space-1);
   text-align: center;
-  color: var(--neutral-color-600);
+  color: var(--neb-text-muted);
   font-size: var(--text-sm);
 }
 .description {
@@ -166,17 +166,5 @@ label {
   flex-direction: column;
   gap: var(--space-3);
   margin-top: var(--space-4);
-}
-
-.dark-mode {
-  label {
-    color: var(--neutral-color-300);
-  }
-  .picker {
-    border: 1px solid var(--neutral-color-700);
-  }
-  .text {
-    color: var(--neutral-color-400);
-  }
 }
 </style>

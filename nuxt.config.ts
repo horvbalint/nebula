@@ -22,6 +22,7 @@ export default defineNuxtConfig({
   css: [
     '@nebula/assets/main.css',
     '@nebula/assets/tokens.css',
+    '@nebula/assets/semantic.css',
   ],
   nebula: {
     primaryColor: '#7c4ddb',

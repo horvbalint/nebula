@@ -113,19 +113,19 @@ const formattedMaxSize = computed(() => {
   font-size: var(--text-sm);
   font-weight: 500;
   width: 100%;
-  color: var(--neutral-color-800);
+  color: var(--neb-text);
 }
 .required-star {
-  color: var(--error-color-500);
+  color: var(--neb-text-error);
 }
 .empty-picker {
   overflow: hidden;
   display: flex;
   align-items: stretch;
   gap: var(--space-1);
-  border: 1px solid var(--neutral-color-200);
+  border: 1px solid var(--neb-border-subtle);
   border-radius: var(--radius-default);
-  background: #fff;
+  background: var(--neb-bg);
   height: 55px;
   padding: var(--space-2) var(--space-4);
 }
@@ -136,7 +136,7 @@ const formattedMaxSize = computed(() => {
   gap: var(--space-2);
 
   .icon {
-    color: var(--neutral-color-400);
+    color: var(--neb-text-subtle);
   }
 }
 .file-text {
@@ -149,14 +149,14 @@ const formattedMaxSize = computed(() => {
   p {
     font-size: var(--text-sm);
     font-weight: 600;
-    color: var(--neutral-color-700);
+    color: var(--neb-text);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
   span {
     font-size: var(--text-sm);
-    color: var(--neutral-color-600);
+    color: var(--neb-text-muted);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -164,32 +164,7 @@ const formattedMaxSize = computed(() => {
 }
 .hint {
   font-size: var(--text-xs);
-  color: var(--neutral-color-600);
+  color: var(--neb-text-muted);
   font-weight: 400;
-}
-
-.dark-mode {
-  .single-file-picker {
-    color: var(--neutral-color-200);
-  }
-  .empty-picker {
-    border: 1px solid var(--neutral-color-700);
-    background: var(--neutral-color-950);
-
-    .icon {
-      color: var(--neutral-color-400);
-    }
-  }
-  .file-text {
-    p {
-      color: var(--neutral-color-300);
-    }
-    span {
-      color: var(--neutral-color-400);
-    }
-  }
-  .hint {
-    color: var(--neutral-color-400);
-  }
 }
 </style>

@@ -42,6 +42,21 @@ defineNuxtConfig({
 })
 ```
 
+## Design tokens
+
+Component styling is driven by a three-layer token system (primitives → generated
+color scales → semantic tokens). Components consume only the **semantic** layer,
+which is what makes dark mode a zero-per-component concern.
+
+The semantic tokens are named so the prefix tells you which CSS property they go
+in — `--neb-bg-*` for `background`, `--neb-text-*` for `color`, `--neb-border-*`,
+`--neb-font-*`, `--neb-shadow-*`, `--neb-ring-*` — with a bare token for the
+neutral default and an intent segment (`-primary`, `-error`, …) for a hue.
+
+See [docs/semantic-tokens.md](docs/semantic-tokens.md) for the full explanation of
+how the tokens in [`assets/semantic.css`](assets/semantic.css) are grouped, why,
+and how to use them.
+
 ## Development Server
 
 Start the development server on http://localhost:3000

@@ -74,11 +74,11 @@ function handleClick(menu: Menu) {
 
 <style scoped>
 .dropdown {
-  border: 1px solid var(--neutral-color-200);
+  border: 1px solid var(--neb-border-subtle);
   border-radius: var(--radius-default);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--neb-shadow-lg);
   padding: var(--space-1) 0;
-  background: #fff;
+  background: var(--neb-bg);
 }
 ul {
   display: flex;
@@ -92,7 +92,7 @@ li {
     margin: var(--space-1) 0;
     border: none;
     height: 1px;
-    background: var(--neutral-color-200);
+    background: var(--neb-border-subtle);
     display: none;
   }
   &.small {
@@ -117,7 +117,7 @@ li {
     .menu-row-content {
       p,
       .icon {
-        color: var(--error-color);
+        color: var(--neb-text-error);
       }
     }
   }
@@ -138,47 +138,21 @@ li {
   border-radius: var(--radius-small);
 
   &:hover {
-    background: var(--neutral-color-50);
+    background: var(--neb-bg-hover);
   }
   &:active {
-    background: var(--neutral-color-200);
+    background: var(--neb-bg-active);
   }
   p {
     font-weight: 500;
     font-size: var(--text-sm);
-    color: var(--neutral-color-800);
+    color: var(--neb-text);
     white-space: nowrap;
   }
   .icon {
     width: var(--space-5);
     height: var(--space-5);
-    color: var(--neutral-color-600);
-  }
-}
-
-.dark-mode {
-  .dropdown {
-    border: 1px solid var(--neutral-color-800);
-    background: var(--neutral-color-950);
-  }
-  li {
-    hr {
-      background: var(--neutral-color-800);
-    }
-  }
-  .menu-row-content {
-    &:hover {
-      background: var(--neutral-color-900);
-    }
-    &:active {
-      background: var(--neutral-color-800);
-    }
-    p {
-      color: var(--neutral-color-300);
-    }
-    .icon {
-      color: var(--neutral-color-400);
-    }
+    color: var(--neb-text-muted);
   }
 }
 </style>

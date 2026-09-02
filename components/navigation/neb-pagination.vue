@@ -236,7 +236,7 @@ function next() {
 
     .shown-range {
       font-size: var(--text-sm);
-      color: var(--neutral-color-500);
+      color: var(--neb-text-muted);
       font-weight: 500;
     }
     b {
@@ -251,17 +251,11 @@ function next() {
 }
 .page-stats {
   font-size: var(--text-sm);
-  color: var(--neutral-color-900);
+  color: var(--neb-text);
 }
 .separator,
 .page-number {
   width: 35px;
   text-align: center;
-}
-
-.dark-mode {
-  .page-stats {
-    color: var(--neutral-color-300);
-  }
 }
 </style>

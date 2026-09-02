@@ -33,25 +33,14 @@ defineProps<{
   h6 {
     font-size: var(--text-sm);
     font-weight: 500;
-    color: var(--neutral-color-700);
+    color: var(--neb-text);
     width: fit-content;
   }
   p {
     font-size: var(--text-sm);
     font-weight: 400;
-    color: var(--neutral-color-500);
+    color: var(--neb-text-subtle);
     width: fit-content;
-  }
-}
-
-.dark-mode {
-  .texts {
-    h6 {
-      color: var(--neutral-color-300);
-    }
-    p {
-      color: var(--neutral-color-400);
-    }
   }
 }
 </style>

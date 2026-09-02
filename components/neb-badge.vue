@@ -25,16 +25,19 @@ const props = withDefaults(defineProps<{
 
 <style scoped>
 .neb-badge {
+  --badge-bg: var(--neb-bg-muted);
+  --badge-border: var(--neb-border-subtle);
+  --badge-text: var(--neb-text);
+
   display: flex;
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-1) var(--space-2);
-  background: var(--neutral-color-100);
-  border: 1px solid var(--neutral-color-200);
+  background: var(--badge-bg);
+  border: 1px solid var(--badge-border);
   border-radius: var(--radius-default);
-  font-size: var(--text-sm);
-  font-weight: 600;
-  color: var(--neutral-color-700);
+  font: var(--neb-font-label-strong);
+  color: var(--badge-text);
   width: fit-content;
 
   &.small {
@@ -42,63 +45,29 @@ const props = withDefaults(defineProps<{
     font-size: var(--text-xs);
   }
   &.error {
-    background: var(--error-color-100);
-    border: 1px solid var(--error-color-200);
-    color: var(--error-color);
+    --badge-bg: var(--neb-bg-error);
+    --badge-border: var(--neb-border-error);
+    --badge-text: var(--neb-text-error);
   }
   &.warning {
-    background: var(--warning-color-100);
-    border: 1px solid var(--warning-color-200);
-    color: var(--warning-color);
+    --badge-bg: var(--neb-bg-warning);
+    --badge-border: var(--neb-border-warning);
+    --badge-text: var(--neb-text-warning);
   }
   &.success {
-    background: var(--success-color-100);
-    border: 1px solid var(--success-color-200);
-    color: var(--success-color);
+    --badge-bg: var(--neb-bg-success);
+    --badge-border: var(--neb-border-success);
+    --badge-text: var(--neb-text-success);
   }
   &.info {
-    background: var(--info-color-100);
-    border: 1px solid var(--info-color-200);
-    color: var(--info-color);
+    --badge-bg: var(--neb-bg-info);
+    --badge-border: var(--neb-border-info);
+    --badge-text: var(--neb-text-info);
   }
   &.primary {
-    background: var(--primary-color-100);
-    border: 1px solid var(--primary-color-200);
-    color: var(--primary-color);
-  }
-}
-
-.dark-mode {
-  .neb-badge {
-    background: var(--neutral-color-900);
-    border: 1px solid var(--neutral-color-800);
-    color: var(--neutral-color-300);
-
-    &.error {
-      background: var(--error-color-950);
-      border: 1px solid var(--error-color-800);
-      color: var(--error-color-300);
-    }
-    &.warning {
-      background: var(--warning-color-950);
-      border: 1px solid var(--warning-color-800);
-      color: var(--warning-color-300);
-    }
-    &.success {
-      background: var(--success-color-950);
-      border: 1px solid var(--success-color-800);
-      color: var(--success-color-300);
-    }
-    &.info {
-      background: var(--info-color-950);
-      border: 1px solid var(--info-color-800);
-      color: var(--info-color-300);
-    }
-    &.primary {
-      background: var(--primary-color-950);
-      border: 1px solid var(--primary-color-800);
-      color: var(--primary-color-300);
-    }
+    --badge-bg: var(--neb-bg-primary);
+    --badge-border: var(--neb-border-primary);
+    --badge-text: var(--neb-text-primary);
   }
 }
 </style>

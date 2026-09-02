@@ -6,7 +6,9 @@
 }
 
 body {
-  background: var(--light-color);
+  background: var(--neb-bg-page);
+  color: var(--neb-text);
+  line-height: var(--leading-normal);
 }
 
 .dark-mode {

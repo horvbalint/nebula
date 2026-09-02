@@ -53,9 +53,9 @@ const imageUrl = computed(() => {
   overflow: hidden;
   display: flex;
   align-items: stretch;
-  border: 1px solid var(--neutral-color-200);
+  border: 1px solid var(--neb-border-subtle);
   border-radius: var(--radius-default);
-  background: #fff;
+  background: var(--neb-bg);
   height: 55px;
 }
 .right-side {
@@ -76,7 +76,7 @@ const imageUrl = computed(() => {
   gap: var(--space-2);
 
   .icon {
-    color: var(--neutral-color-400);
+    color: var(--neb-text-subtle);
   }
 }
 .file-text {
@@ -87,16 +87,15 @@ const imageUrl = computed(() => {
   gap: var(--space-1);
 
   p {
-    font-size: var(--text-sm);
-    font-weight: 600;
-    color: var(--neutral-color-700);
+    font: var(--neb-font-label-strong);
+    color: var(--neb-text);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
   span {
     font-size: var(--text-sm);
-    color: var(--neutral-color-600);
+    color: var(--neb-text-muted);
   }
 }
 .actions {
@@ -105,21 +104,6 @@ const imageUrl = computed(() => {
 
   .icon {
     cursor: pointer;
-  }
-}
-
-.dark-mode {
-  .neb-file-item {
-    border: 1px solid var(--neutral-color-700);
-    background: var(--neutral-color-950);
-  }
-  .file-text {
-    p {
-      color: var(--neutral-color-300);
-    }
-    span {
-      color: var(--neutral-color-400);
-    }
   }
 }
 </style>

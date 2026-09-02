@@ -89,13 +89,13 @@ defineExpose({
   width: 100%;
 
   &.disabled .textarea-wrapper {
-    background: var(--neutral-color-50);
+    background: var(--neb-bg-disabled);
 
     .icon {
-      color: var(--neutral-color-400);
+      color: var(--neb-text-disabled);
     }
     & textarea {
-      color: var(--neutral-color-500);
+      color: var(--neb-text-subtle);
     }
   }
 }
@@ -103,35 +103,34 @@ label {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  font-size: var(--text-sm);
-  font-weight: 500;
+  font: var(--neb-font-label);
   width: 100%;
-  color: var(--neutral-color-800);
+  color: var(--neb-text);
 }
 .required-star {
-  color: var(--error-color-500);
+  color: var(--neb-text-error);
 }
 .textarea-wrapper {
-  background: #fff;
+  background: var(--neb-bg);
   display: flex;
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-default);
-  border: 1px solid var(--neutral-color-300);
+  border: 1px solid var(--neb-border);
   transition: all var(--duration-default);
 
   &.has-error {
-    border-color: var(--error-color-300);
+    border-color: var(--neb-border-error);
 
     &:focus-within {
-      box-shadow: var(--error-focus-shadow-light);
-      border-color: var(--error-color-300);
+      box-shadow: var(--neb-ring-error);
+      border-color: var(--neb-border-error);
     }
   }
   &:focus-within {
-    border-color: var(--primary-color-300);
-    box-shadow: var(--primary-focus-shadow-light);
+    border-color: var(--neb-border-focus);
+    box-shadow: var(--neb-ring-primary);
   }
   & textarea {
     flex: 1;
@@ -139,72 +138,24 @@ label {
     background: inherit;
     font-size: var(--text-sm);
     outline: none;
-    color: var(--neutral-color-900);
+    color: var(--neb-text);
 
     &::placeholder {
-      color: var(--neutral-color-400);
+      color: var(--neb-text-subtle);
     }
     &:-webkit-autofill,
     &:-webkit-autofill:focus {
-      -webkit-box-shadow: 0 0 0 50px white inset; /* Change the color to your own background color */
+      -webkit-box-shadow: 0 0 0 50px var(--neb-bg) inset; /* Change the color to your own background color */
+      -webkit-text-fill-color: var(--neb-text);
     }
   }
   .icon {
-    color: var(--neutral-color-500);
+    color: var(--neb-text-muted);
   }
 }
 .hint {
-  font-size: var(--text-xs);
-  color: var(--neutral-color-600);
-  font-weight: 400;
-}
-
-.dark-mode {
-  .neb-textarea {
-    &.disabled .textarea-wrapper {
-      background: var(--neutral-color-900);
-
-      .icon {
-        color: var(--neutral-color-600);
-      }
-      & textarea {
-        color: var(--neutral-color-500);
-      }
-    }
-  }
-  & label {
-    color: var(--neutral-color-300);
-  }
-  .textarea-wrapper {
-    background: var(--neutral-color-950);
-    border: 1px solid var(--neutral-color-700);
-
-    &.has-error {
-      border-color: var(--error-color-700);
-
-      &:focus-within {
-        box-shadow: var(--error-focus-shadow-dark);
-        border-color: var(--error-color-700);
-      }
-    }
-    &:focus-within {
-      border-color: var(--primary-color-700);
-      box-shadow: var(--primary-focus-shadow-dark);
-    }
-    & textarea {
-      color: var(--neutral-color-300);
-    }
-    & textarea:-webkit-autofill,
-    & textarea:-webkit-autofill:focus {
-      -webkit-box-shadow: 0 0 0 50px var(--neutral-color-950) inset; /* Change the color to your own background color */
-    }
-    .icon {
-      color: var(--neutral-color-400);
-    }
-  }
-  .hint {
-    color: var(--neutral-color-300);
-  }
+  font: var(--neb-font-hint);
+  color: var(--neb-text-muted);
 }
 footer {
   display: flex;
@@ -212,7 +163,7 @@ footer {
 
   span {
     font-size: var(--text-sm);
-    color: var(--neutral-color-500);
+    color: var(--neb-text-muted);
     font-weight: 500;
   }
 }

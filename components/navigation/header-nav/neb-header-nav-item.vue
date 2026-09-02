@@ -98,7 +98,7 @@ const { isMobile } = useAppBreakpoints()
   height: 40px;
   line-height: 40px;
   font-weight: 600;
-  color: var(--neutral-color-600);
+  color: var(--neb-text-muted);
   background: inherit;
   transition: all var(--duration-default);
   cursor: pointer;
@@ -106,14 +106,15 @@ const { isMobile } = useAppBreakpoints()
   text-decoration: none;
 
   &.active {
-    color: var(--primary-color);
+    background: var(--neb-bg-selected);
+    color: var(--neb-text-primary);
   }
   &:hover {
-    background: var(--neutral-color-50);
+    background: var(--neb-bg-hover);
   }
   &:focus {
-    background: var(--neutral-color-50);
-    box-shadow: var(--primary-focus-shadow-light);
+    background: var(--neb-bg-hover);
+    box-shadow: var(--neb-ring-primary);
   }
 
   .slot-text {
@@ -127,14 +128,14 @@ const { isMobile } = useAppBreakpoints()
   font-size: 20px !important;
 }
 .dropdown {
-  border: 1px solid var(--neutral-color-200);
+  border: 1px solid var(--neb-border-subtle);
   border-radius: var(--radius-default);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--neb-shadow-lg);
   padding: var(--space-1) 0;
-  background: #fff;
+  background: var(--neb-bg-raised);
 }
 .group {
-  border-top: 1px solid var(--neutral-color-200);
+  border-top: 1px solid var(--neb-border-subtle);
 
   header {
     padding: var(--space-2) var(--space-4) 0 var(--space-4);
@@ -156,33 +157,6 @@ const { isMobile } = useAppBreakpoints()
     flex-direction: column;
     justify-content: flex-start;
     width: 100%;
-  }
-}
-
-.dark-mode {
-  .neb-header-nav-item {
-    color: var(--neutral-color-300);
-
-    &.active {
-      background: var(--neutral-color-800);
-      color: #fff;
-    }
-    &:hover {
-      background: var(--neutral-color-900);
-    }
-    &:focus {
-      background: var(--neutral-color-900);
-      box-shadow: var(--primary-focus-shadow-dark);
-    }
-  }
-
-  .dropdown {
-    background: var(--neutral-color-900);
-    border-color: var(--neutral-color-800);
-  }
-
-  .group {
-    border-top-color: var(--neutral-color-800);
   }
 }
 </style>

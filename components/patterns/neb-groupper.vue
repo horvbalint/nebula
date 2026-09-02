@@ -64,6 +64,7 @@ export default defineNuxtComponent({
   },
   data() {
     return {
+      openGroups: {} as Record<string, boolean>,
     }
   },
   computed: {
@@ -114,6 +115,12 @@ export default defineNuxtComponent({
 
       return groups
     },
+    isGroupOpen(groupId: string) {
+      return this.openGroups[groupId] ?? true
+    },
+    toggleGroup(groupId: string) {
+      this.openGroups = { ...this.openGroups, [groupId]: !this.isGroupOpen(groupId) }
+    },
   },
 })
 </script>
@@ -127,15 +134,23 @@ export default defineNuxtComponent({
       :class="{ 'neb-groupper-group-line': hasLine }"
     >
       <slot name="group" :group="group" :group-id="groupId">
-        <neb-expansion :title="group.label">
-          <template #body>
-            <div class="neb-groupper-group-items" :style="{ gap: itemGap }" :class="{ grid }">
-              <div v-for="(item, index) in group.items" :key="index">
-                <slot name="item" :item="item" />
-              </div>
+        <div class="neb-groupper-group-title" @click="toggleGroup(String(groupId))">
+          <p>{{ group.label }}</p>
+
+          <icon
+            name="material-symbols:keyboard-arrow-down-rounded"
+            class="neb-groupper-group-chevron"
+            :class="{ open: isGroupOpen(String(groupId)) }"
+          />
+        </div>
+
+        <div v-neb-expand="isGroupOpen(String(groupId))" class="neb-groupper-group-body">
+          <div class="neb-groupper-group-items" :style="{ gap: itemGap }" :class="{ grid }">
+            <div v-for="(item, index) in group.items" :key="index">
+              <slot name="item" :item="item" />
             </div>
-          </template>
-        </neb-expansion>
+          </div>
+        </div>
       </slot>
     </div>
   </div>
@@ -146,6 +161,27 @@ export default defineNuxtComponent({
   position: relative;
   display: flex;
   flex-direction: column;
+}
+.neb-groupper-group-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
+  cursor: pointer;
+  font: var(--neb-font-label-strong);
+  color: var(--neb-text);
+}
+.neb-groupper-group-chevron {
+  color: var(--neb-text-muted);
+  transition: transform var(--duration-fast);
+
+  &.open {
+    transform: rotate(180deg);
+  }
+}
+.neb-groupper-group-body {
+  padding-top: var(--space-2);
 }
 .neb-groupper-group-items {
   position: relative;
@@ -170,7 +206,7 @@ export default defineNuxtComponent({
     display: block;
     width: 2px;
     height: calc(100% + 8px);
-    background: var(--neutral-color-200);
+    background: var(--neb-border-subtle);
   }
   &:after {
     content: '';
@@ -182,30 +218,13 @@ export default defineNuxtComponent({
     justify-content: center;
     width: var(--space-3);
     height: var(--space-3);
-    background: var(--neutral-color-200);
+    background: var(--neb-border-subtle);
     border-radius: 50%;
-    border: 4px solid #fff;
+    border: 4px solid var(--neb-bg-page);
   }
   &:last-child {
     &:before {
       height: calc(100% - 16px);
-    }
-  }
-}
-
-.dark-mode {
-  .neb-groupper-group-line {
-    &:before {
-      background: var(--neutral-color-700);
-    }
-    &:after {
-      background: var(--neutral-color-700);
-      border: 4px solid var(--neutral-color-950);
-    }
-    &:last-child {
-      &:before {
-        height: calc(100% - 16px);
-      }
     }
   }
 }

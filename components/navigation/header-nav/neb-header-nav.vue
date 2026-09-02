@@ -76,7 +76,7 @@ const { isMobile } = useAppBreakpoints()
                     <slot name="logo" />
 
                     <neb-button v-if="showMobileMenu" type="tertiary-neutral" @click="showMobileMenu = false">
-                      <icon name="material-symbols:close-rounded" color="#fff" />
+                      <icon name="material-symbols:close-rounded" />
                     </neb-button>
                   </div>
                 </slot>
@@ -117,9 +117,9 @@ const { isMobile } = useAppBreakpoints()
   width: 100%;
   display: flex;
   justify-content: center;
-  border-bottom: 1px solid var(--neutral-color-200);
+  border-bottom: 1px solid var(--neb-border-subtle);
   padding: var(--space-3) var(--space-6);
-  background: #fff;
+  background: var(--neb-bg-raised);
 }
 .compact-wrapper {
   width: 100%;
@@ -170,7 +170,7 @@ const { isMobile } = useAppBreakpoints()
   .header-content-main {
     height: 100vh;
     width: 100vw;
-    background: #fff;
+    background: var(--neb-bg);
     position: fixed;
     z-index: 100;
     top: 0;
@@ -179,7 +179,7 @@ const { isMobile } = useAppBreakpoints()
     align-items: flex-start;
     padding: var(--space-6);
     animation: fade var(--duration-default) forwards;
-    border-right: var(--neutral-color-300);
+    border-right: var(--neb-border);
   }
   .mobile-logo-wrapper {
     width: 100%;
@@ -202,6 +202,10 @@ const { isMobile } = useAppBreakpoints()
   .log-out {
     width: 100%;
     justify-content: flex-start;
+
+    span {
+      color: var(--neb-text-muted);
+    }
   }
 }
 .slide-enter-active {
@@ -224,25 +228,6 @@ const { isMobile } = useAppBreakpoints()
   }
   100% {
     box-shadow: 15vw 0px 0px 0px var(--neutral-color-500);
-  }
-}
-
-.dark-mode {
-  .neb-header-nav {
-    background: var(--neutral-color-900);
-    border-color: var(--neutral-color-800);
-  }
-
-  .mobile-mode {
-    .header-content-main {
-      background: var(--neutral-color-950);
-      border-color: var(--neutral-color-800);
-    }
-    .log-out {
-      span {
-        color: var(--neutral-color-600);
-      }
-    }
   }
 }
 </style>

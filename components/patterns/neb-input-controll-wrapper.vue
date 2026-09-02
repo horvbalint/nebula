@@ -26,9 +26,8 @@ withDefaults(defineProps<{
   gap: var(--space-2);
 
   label {
-    font-size: var(--text-sm);
-    font-weight: 500;
-    color: var(--neutral-color-800);
+    font: var(--neb-font-label);
+    color: var(--neb-text);
   }
 }
 .controlls {
@@ -42,6 +41,6 @@ withDefaults(defineProps<{
   }
 }
 .required-star {
-  color: var(--error-color-500);
+  color: var(--neb-text-error);
 }
 </style>

@@ -94,58 +94,51 @@ watch(() => props.modelValue, () => {
   align-items: center;
   text-align: center;
 
-  &.active {
+  &.active,
+  &.done {
     .circle {
-      border-color: var(--primary-color);
-      background: var(--primary-color-50);
-      box-shadow: var(--primary-focus-shadow-light);
+      border-color: var(--neb-border-primary-strong);
+      background: var(--neb-bg-primary-subtle);
 
       .icon {
-        color: var(--primary-color);
+        color: var(--neb-text-primary);
       }
     }
     .step-text {
       h6 {
-        color: var(--primary-color-700);
+        color: var(--neb-text-primary);
       }
       p {
-        color: var(--primary-color-600);
+        color: var(--neb-text-primary);
       }
     }
   }
-  &.done {
-    .circle {
-      border-color: var(--primary-color);
-      background: var(--primary-color-50);
-
-      .icon {
-        color: var(--primary-color);
-      }
-    }
-    .step-progress hr {
-      background-position: 0;
-    }
+  &.active .circle {
+    box-shadow: var(--neb-ring-primary);
+  }
+  &.done .step-progress hr {
+    background-position: 0;
   }
   &.unfinished {
     .circle {
-      background: var(--warning-color-50);
-      border-color: var(--warning-color);
+      background: var(--neb-bg-warning-subtle);
+      border-color: var(--neb-border-warning-strong);
 
       .icon {
-        color: var(--warning-color);
+        color: var(--neb-text-warning);
       }
     }
     .step-progress {
       hr {
-        background-image: linear-gradient(90deg, var(--warning-color) 50%, var(--neutral-color-200) 50%);
+        background-image: linear-gradient(90deg, var(--neb-bg-warning-solid) 50%, var(--neb-border-subtle) 50%);
       }
     }
     .step-text {
       h6 {
-        color: var(--warning-color);
+        color: var(--neb-text-warning);
       }
       p {
-        color: var(--warning-color-400);
+        color: var(--neb-text-warning);
       }
     }
   }
@@ -164,7 +157,7 @@ watch(() => props.modelValue, () => {
     width: 100%;
     border: none;
     height: 2px;
-    background-image: linear-gradient(90deg, var(--primary-color) 50%, var(--neutral-color-200) 50%);
+    background-image: linear-gradient(90deg, var(--neb-bg-primary-solid) 50%, var(--neb-border-subtle) 50%);
     background-position: 100%;
     background-size: 200% 100%;
     transition: all var(--duration-default);
@@ -183,15 +176,15 @@ watch(() => props.modelValue, () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fff;
+  background: var(--neb-bg);
   border-radius: var(--radius-default);
-  border: 1px solid var(--neutral-color-200);
+  border: 1px solid var(--neb-border-subtle);
   transition: all var(--duration-slow);
 
   .icon {
     width: 20px;
     height: 20px;
-    color: var(--neutral-color-500);
+    color: var(--neb-text-muted);
   }
 }
 .step-text {
@@ -206,19 +199,19 @@ watch(() => props.modelValue, () => {
     cursor: pointer;
 
     &:hover {
-      background: var(--neutral-color-100);
+      background: var(--neb-bg-hover);
     }
   }
   h6 {
     font-size: var(--text-sm);
     font-weight: 600;
-    color: var(--neutral-color-700);
+    color: var(--neb-text);
     transition: all var(--duration-slow);
   }
   p {
     font-size: var(--text-sm);
     font-weight: 400;
-    color: var(--neutral-color-600);
+    color: var(--neb-text-muted);
     transition: all var(--duration-slow);
   }
 }
@@ -263,55 +256,6 @@ watch(() => props.modelValue, () => {
     gap: var(--space-1);
     padding-bottom: var(--space-4);
     padding-left: var(--space-1);
-  }
-}
-
-.dark-mode {
-  .step {
-    .circle {
-      background: var(--neutral-color-950);
-      border-color: var(--neutral-color-700);
-
-      .circle-icon {
-        color: var(--neutral-color-700);
-      }
-    }
-    &.done {
-      .step-progress hr {
-        background-position: 0;
-      }
-      .circle {
-        background: var(--primary-color-950);
-        border-color: var(--primary-color-800);
-      }
-    }
-    &.active .circle {
-      background: var(--primary-color-950);
-      box-shadow: none;
-      border-color: var(--primary-color-800);
-
-      .circle-icon {
-        color: var(--primary-color-500);
-      }
-    }
-    .step-text {
-      .step-text-hover-wrapper {
-        &:hover {
-          background: var(--neutral-color-900);
-        }
-      }
-      h6 {
-        color: var(--neutral-color-300);
-      }
-      p {
-        color: var(--neutral-color-400);
-      }
-    }
-    .step-progress {
-      hr {
-        background-image: linear-gradient(90deg, var(--primary-color) 50%, var(--neutral-color-900) 50%);
-      }
-    }
   }
 }
 </style>

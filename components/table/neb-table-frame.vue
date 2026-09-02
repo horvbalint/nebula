@@ -189,20 +189,20 @@ const isAnyChecked = computed({
 
 <style scoped>
 .neb-table {
-  background: #fff;
-  border: 1px solid var(--neutral-color-200);
+  background: var(--neb-bg);
+  border: 1px solid var(--neb-border-subtle);
   border-radius: var(--radius-default);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--neb-shadow-sm);
   display: flex;
   flex-direction: column;
 }
 .header-slot {
   border-radius: var(--radius-default) var(--radius-default) 0 0;
-  border-bottom: 1px solid var(--neutral-color-200);
+  border-bottom: 1px solid var(--neb-border-subtle);
 }
 footer {
   border-radius: 0 0 var(--radius-default) var(--radius-default);
-  border-top: 1px solid var(--neutral-color-200);
+  border-top: 1px solid var(--neb-border-subtle);
 }
 .header-slot,
 footer {
@@ -233,14 +233,14 @@ thead {
   top: 0;
   left: 0;
   height: 44px;
-  box-shadow: 0 1px 0 0 var(--neutral-color-200);
-  background: var(--neutral-color-50);
+  box-shadow: 0 1px 0 0 var(--neb-border-subtle);
+  background: var(--neb-bg-subtle);
 }
 th {
   flex: 1;
   padding: var(--space-3) var(--space-6);
   text-align: left;
-  color: var(--neutral-color-600);
+  color: var(--neb-text-muted);
   font-size: var(--text-xs);
   font-weight: 500;
   white-space: nowrap;
@@ -284,13 +284,13 @@ th {
 }
 tbody {
   tr {
-    border-bottom: 1px solid var(--neutral-color-200);
+    border-bottom: 1px solid var(--neb-border-subtle);
 
     &:last-child {
       border-bottom: none;
     }
     &:hover {
-      background: var(--primary-color-50);
+      background: var(--neb-bg-primary-subtle);
     }
   }
 
@@ -298,7 +298,7 @@ tbody {
     padding: var(--space-3) var(--space-6);
     font-size: var(--text-sm);
     font-weight: 400;
-    color: var(--neutral-color-600);
+    color: var(--neb-text-muted);
     text-align: left;
     white-space: nowrap;
 
@@ -340,42 +340,6 @@ tbody {
   justify-content: center;
   gap: var(--space-2);
 }
-.dark-mode {
-  .neb-table {
-    background: var(--neutral-color-950);
-    border: 1px solid var(--neutral-color-700);
-  }
-  .header-slot {
-    border-bottom: 1px solid var(--neutral-color-700);
-  }
-  footer {
-    border-top: 1px solid var(--neutral-color-700);
-  }
-  thead {
-    box-shadow: 0 1px 0 0 var(--neutral-color-700);
-    background: var(--neutral-color-900);
-  }
-  th {
-    color: var(--neutral-color-300);
-  }
-  tbody {
-    tr {
-      border-bottom: 1px solid var(--neutral-color-700);
-
-      &:last-child {
-        border-bottom: none;
-      }
-      &:hover {
-        background: var(--primary-color-950);
-      }
-    }
-
-    td {
-      color: var(--neutral-color-300);
-    }
-  }
-}
-
 @media (--tablet-viewport) {
   .header-slot,
   footer {

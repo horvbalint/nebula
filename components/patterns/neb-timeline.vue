@@ -100,17 +100,9 @@ export default defineNuxtComponent({
 
   h6 {
     font-size: var(--text-md);
-    color: var(--neutral-color-900);
+    color: var(--neb-text);
     font-weight: 500;
     margin-bottom: var(--space-2);
-  }
-}
-
-.dark-mode {
-  .timeline-groups {
-    h6 {
-      color: var(--neutral-color-300);
-    }
   }
 }
 </style>

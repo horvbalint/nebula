@@ -38,15 +38,15 @@ export default defineComponent({
   justify-content: center;
   flex-shrink: 0;
   flex-grow: 0;
-  background: var(--neutral-color-100);
+  background: var(--neb-bg-muted);
   border-radius: 50%;
-  border: 1px solid var(--neutral-color-200);
-  color: var(--neutral-color-600);
+  border: 1px solid var(--neb-border-subtle);
+  color: var(--neb-text-muted);
   transition: all var(--duration-fast);
-  outline: 0px solid var(--neutral-color-300);
+  outline: 0px solid var(--neb-border);
 
   &:focus {
-    outline: 4px solid var(--neutral-color-200);
+    outline: 4px solid var(--neb-border-subtle);
   }
   img {
     width: 100%;
@@ -63,6 +63,7 @@ export default defineComponent({
   span {
     font-size: var(--text-sm);
     font-weight: 600;
+    color: var(--neb-text-muted);
   }
 }
 .badge {
@@ -71,32 +72,11 @@ export default defineComponent({
   right: -6%;
   width: 35%;
   height: 35%;
-  background: var(--neutral-color-100);
+  background: var(--neb-bg-muted);
   border-radius: 50%;
-  border: 2px solid #fff;
+  border: 2px solid var(--neb-bg-page);
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.dark-mode {
-  .neb-avatar {
-    background: var(--neutral-color-800);
-    border: 1px solid var(--neutral-color-700);
-    color: var(--neutral-color-300);
-    outline: 0px solid var(--neutral-color-600);
-
-    &:focus {
-      outline: 4px solid var(--neutral-color-700);
-    }
-
-    span {
-      color: var(--neutral-color-300);
-    }
-  }
-  .badge {
-    background: var(--neutral-color-800);
-    border: 2px solid var(--neutral-color-950);
-  }
 }
 </style>

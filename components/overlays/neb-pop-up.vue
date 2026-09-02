@@ -18,6 +18,9 @@ const popup = ref<null | HTMLElement>(null)
 let oldOverflowValue = ''
 
 watch(() => props.modelValue, (newValue) => {
+  if (import.meta.server)
+    return
+
   if (newValue) {
     oldOverflowValue = document.body.style.overflow
     document.body.style.overflow = 'hidden'
@@ -28,7 +31,8 @@ watch(() => props.modelValue, (newValue) => {
 }, { immediate: true })
 
 onBeforeUnmount(() => {
-  document.body.style.overflow = oldOverflowValue
+  if (import.meta.client)
+    document.body.style.overflow = oldOverflowValue
 })
 
 function handleClick(event: MouseEvent) {
@@ -74,14 +78,8 @@ function handleClick(event: MouseEvent) {
     justify-content: center;
   }
   &:last-child {
-    background: rgba(var(--neutral-color-component), 0.7);
+    background: var(--neb-bg-backdrop);
     backdrop-filter: blur(6px);
-  }
-}
-
-.dark-mode {
-  .neb-pop-up {
-    background: rgba(var(--neutral-color-component-800), 0.7);
   }
 }
 

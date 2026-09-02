@@ -90,6 +90,18 @@ const iconByType = computed(() => {
 
 <style scoped>
 .neb-toast {
+  --toast-border: var(--neb-border-primary-alert);
+  --toast-bg: var(--neb-bg-primary);
+  --toast-icon: var(--neb-text-primary);
+  --toast-icon-ring1: var(--neb-border-primary-strong);
+  --toast-icon-ring2: var(--neb-border-primary);
+  --toast-close: var(--neb-text-primary);
+  --toast-close-hover: var(--neb-text-primary-hover);
+  --toast-button: var(--neb-text-primary);
+  --toast-timer: var(--neb-bg-primary-solid);
+  --toast-title: var(--neb-text-primary);
+  --toast-body: var(--neb-text-primary);
+
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
@@ -97,121 +109,74 @@ const iconByType = computed(() => {
   position: relative;
   border-radius: var(--radius-large);
   overflow: hidden;
-  box-shadow: var(--shadow-md);
-  border: 2px solid var(--neutral-color-200);
+  box-shadow: var(--neb-shadow-md);
+  border: var(--toast-border);
+  background: var(--toast-bg);
   animation: bottom-left var(--duration-default) forwards;
   min-width: 250px;
 
-  &.info {
-    border: 2px solid var(--primary-color);
-    background: var(--primary-color-100);
-
-    .toast-type-icon {
-      color: var(--primary-color-600);
-
-      &:before {
-        border-color: var(--primary-color-300);
-      }
-      &:after {
-        border-color: var(--primary-color-200);
-      }
-    }
-    .close-icon {
-      color: var(--primary-color-400);
-
-      &:hover {
-        color: var(--primary-color-600);
-      }
-    }
-    .toast-button {
-      color: var(--primary-color-700);
-    }
-    .timer-line {
-      background: var(--primary-color-600);
-    }
-  }
   &.error {
-    border: 2px solid var(--error-color);
-    background: var(--error-color-100);
-
-    .toast-type-icon {
-      color: var(--error-color-600);
-
-      &:before {
-        border-color: var(--error-color-300);
-      }
-      &:after {
-        border-color: var(--error-color-200);
-      }
-    }
-    .close-icon {
-      color: var(--error-color-400);
-
-      &:hover {
-        color: var(--error-color-600);
-      }
-    }
-    .toast-button {
-      color: var(--error-color-700);
-    }
-    .timer-line {
-      background: var(--error-color-600);
-    }
+    --toast-border: var(--neb-border-error-alert);
+    --toast-bg: var(--neb-bg-error);
+    --toast-icon: var(--neb-text-error);
+    --toast-icon-ring1: var(--neb-border-error-strong);
+    --toast-icon-ring2: var(--neb-border-error);
+    --toast-close: var(--neb-text-error);
+    --toast-close-hover: var(--neb-text-error-hover);
+    --toast-button: var(--neb-text-error);
+    --toast-timer: var(--neb-bg-error-solid);
+    --toast-title: var(--neb-text-error);
+    --toast-body: var(--neb-text-error);
   }
   &.success {
-    border: 2px solid var(--success-color);
-    background: var(--success-color-100);
-
-    .toast-type-icon {
-      color: var(--success-color-500);
-
-      &:before {
-        border-color: var(--success-color-300);
-      }
-      &:after {
-        border-color: var(--success-color-200);
-      }
-    }
-    .close-icon {
-      color: var(--success-color-400);
-
-      &:hover {
-        color: var(--success-color-600);
-      }
-    }
-    .toast-button {
-      color: var(--success-color-600);
-    }
-    .timer-line {
-      background: var(--success-color-600);
-    }
+    --toast-border: var(--neb-border-success-alert);
+    --toast-bg: var(--neb-bg-success);
+    --toast-icon: var(--neb-text-success);
+    --toast-icon-ring1: var(--neb-border-success-strong);
+    --toast-icon-ring2: var(--neb-border-success);
+    --toast-close: var(--neb-text-success);
+    --toast-close-hover: var(--neb-text-success-hover);
+    --toast-button: var(--neb-text-success);
+    --toast-timer: var(--neb-bg-success-solid);
+    --toast-title: var(--neb-text-success);
+    --toast-body: var(--neb-text-success);
   }
   &.warning {
-    border: 2px solid var(--warning-color);
-    background: var(--warning-color-100);
+    --toast-border: var(--neb-border-warning-alert);
+    --toast-bg: var(--neb-bg-warning);
+    --toast-icon: var(--neb-text-warning);
+    --toast-icon-ring1: var(--neb-border-warning-strong);
+    --toast-icon-ring2: var(--neb-border-warning);
+    --toast-close: var(--neb-text-warning);
+    --toast-close-hover: var(--neb-text-warning-hover);
+    --toast-button: var(--neb-text-warning);
+    --toast-timer: var(--neb-bg-warning-solid);
+    --toast-title: var(--neb-text-warning);
+    --toast-body: var(--neb-text-warning);
+  }
 
-    .toast-type-icon {
-      color: var(--warning-color-500);
+  .toast-type-icon {
+    color: var(--toast-icon);
+  }
+  .close-icon {
+    color: var(--toast-close);
 
-      &:before {
-        border-color: var(--warning-color-300);
-      }
-      &:after {
-        border-color: var(--warning-color-200);
-      }
+    &:hover {
+      color: var(--toast-close-hover);
     }
-    .close-icon {
-      color: var(--warning-color-400);
-
-      &:hover {
-        color: var(--warning-color-600);
-      }
+  }
+  .toast-button {
+    color: var(--toast-button);
+  }
+  .timer-line {
+    background: var(--toast-timer);
+  }
+  .toast-content-text {
+    h6 {
+      color: var(--toast-title);
     }
-    .toast-button {
-      color: var(--warning-color-600);
-    }
-    .timer-line {
-      background: var(--warning-color-600);
+    p {
+      color: var(--toast-body);
     }
   }
 }
@@ -236,12 +201,10 @@ const iconByType = computed(() => {
   h6 {
     font-size: var(--text-sm);
     font-weight: 700;
-    color: var(--neutral-color-900);
   }
   p {
     font-size: var(--text-sm);
     font-weight: 400;
-    color: var(--neutral-color-800);
     line-height: 1.5;
   }
 }
@@ -250,7 +213,6 @@ const iconByType = computed(() => {
   margin-top: var(--space-1);
   position: relative;
   height: 24px;
-  color: var(--neutral-color-500);
   width: 24px;
 
   &:before {
@@ -262,7 +224,7 @@ const iconByType = computed(() => {
     right: 0px;
     bottom: 0px;
     left: 0px;
-    border: 2px solid var(--neutral-color-200);
+    border: 2px solid var(--toast-icon-ring1);
     border-radius: 50%;
   }
   &:after {
@@ -274,7 +236,7 @@ const iconByType = computed(() => {
     right: 0px;
     bottom: 0px;
     left: 0px;
-    border: 1px solid var(--neutral-color-100);
+    border: 1px solid var(--toast-icon-ring2);
     border-radius: 50%;
   }
 }
@@ -295,152 +257,5 @@ footer {
   position: absolute;
   bottom: 0;
   left: 0;
-}
-
-.dark-mode {
-  .info {
-    border: 1px solid var(--primary-color-800);
-    background: var(--primary-color-950);
-
-    .toast-type-icon {
-      color: var(--primary-color-600);
-
-      &:before {
-        border-color: var(--primary-color-800);
-      }
-      &:after {
-        border-color: var(--primary-color-900);
-      }
-    }
-    .toast-content {
-      h6 {
-        color: var(--primary-color-200);
-      }
-      p {
-        color: var(--primary-color-300);
-      }
-    }
-    .close-icon {
-      color: var(--primary-color-200);
-
-      &:hover {
-        color: var(--primary-color-400);
-      }
-    }
-    .toast-button {
-      color: var(--primary-color-500);
-    }
-    .timer-line {
-      background: var(--primary-color-500);
-    }
-  }
-  .success {
-    border: 1px solid var(--success-color-700);
-    background: var(--success-color-950);
-
-    .toast-type-icon {
-      color: var(--success-color-600);
-
-      &:before {
-        border-color: var(--success-color-800);
-      }
-      &:after {
-        border-color: var(--success-color-900);
-      }
-    }
-    .toast-content {
-      h6 {
-        color: var(--success-color-200);
-      }
-      p {
-        color: var(--success-color-300);
-      }
-    }
-    .close-icon {
-      color: var(--success-color-200);
-
-      &:hover {
-        color: var(--success-color-400);
-      }
-    }
-    .toast-button {
-      color: var(--success-color-500);
-    }
-    .timer-line {
-      background: var(--success-color-500);
-    }
-  }
-  .warning {
-    border: 1px solid var(--warning-color-800);
-    background: var(--warning-color-950);
-
-    .toast-type-icon {
-      color: var(--warning-color-600);
-
-      &:before {
-        border-color: var(--warning-color-800);
-      }
-      &:after {
-        border-color: var(--warning-color-900);
-      }
-    }
-    .toast-content {
-      h6 {
-        color: var(--warning-color-200);
-      }
-      p {
-        color: var(--warning-color-300);
-      }
-    }
-    .close-icon {
-      color: var(--warning-color-200);
-
-      &:hover {
-        color: var(--warning-color-400);
-      }
-    }
-    .toast-button {
-      color: var(--warning-color-500);
-    }
-    .timer-line {
-      background: var(--warning-color-500);
-    }
-  }
-  .error {
-    border: 1px solid var(--error-color-800);
-    background: var(--error-color-950);
-
-    .toast-type-icon {
-      color: var(--error-color-700);
-
-      &:before {
-        border-color: var(--error-color-800);
-      }
-      &:after {
-        border-color: var(--error-color-900);
-      }
-    }
-    .toast-content {
-      h6 {
-        color: var(--error-color-200);
-      }
-      p {
-        color: var(--error-color-300);
-      }
-    }
-    .close-icon {
-      color: var(--error-color-200);
-
-      &:hover {
-        color: var(--error-color-400);
-      }
-    }
-    .toast-button {
-      color: var(--error-color-500);
-    }
-    .timer-line {
-      background: var(--error-color-500);
-    }
-  }
 }
 </style>

@@ -27,24 +27,14 @@ defineProps<{
     gap: var(--space-2);
   }
   h6 {
-    font-size: var(--text-sm);
-    font-weight: 500;
-    color: var(--neutral-color-600);
+    font: var(--neb-font-label);
+    color: var(--neb-text-muted);
   }
 }
 hr {
   flex: 1;
   height: 1px;
-  background: var(--neutral-color-200);
+  background: var(--neb-border-subtle);
   border: none;
-}
-
-.dark-mode {
-  .neb-content-separator h6 {
-    color: var(--neutral-color-400);
-  }
-  hr {
-    background: var(--neutral-color-800);
-  }
 }
 </style>

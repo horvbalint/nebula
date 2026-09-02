@@ -53,7 +53,7 @@ withDefaults(defineProps<{
   padding: 0;
 
   &.has-separator {
-    border-bottom: 1px solid var(--neutral-color-200);
+    border-bottom: 1px solid var(--neb-border-subtle);
     padding-bottom: var(--space-4);
   }
 }
@@ -81,7 +81,7 @@ withDefaults(defineProps<{
       & h1 {
         font-size: var(--text-sm);
         font-weight: 600;
-        color: var(--neutral-color-600);
+        color: var(--neb-text-muted);
       }
     }
   }
@@ -90,7 +90,7 @@ withDefaults(defineProps<{
       & h1 {
         font-size: var(--text-xs);
         font-weight: 600;
-        color: var(--neutral-color-400);
+        color: var(--neb-text-subtle);
       }
     }
   }
@@ -103,12 +103,12 @@ withDefaults(defineProps<{
   & h1 {
     font-size: var(--title-sm);
     font-weight: 600;
-    color: var(--neutral-color-900);
+    color: var(--neb-text);
   }
   & p {
     font-size: var(--text-md);
     font-weight: 400;
-    color: var(--neutral-color-600);
+    color: var(--neb-text-muted);
     line-height: 1.5;
   }
 }
@@ -125,7 +125,7 @@ withDefaults(defineProps<{
   align-self: stretch;
 }
 .header-icon {
-  background: #fff;
+  background: var(--neb-bg-muted);
   align-self: stretch;
   display: flex;
   align-items: center;
@@ -133,12 +133,12 @@ withDefaults(defineProps<{
   flex-shrink: 0;
   height: 48px;
   width: 48px;
-  border: 1px solid var(--neutral-color-200);
-  box-shadow: var(--shadow-xs);
+  border: 1px solid var(--neb-border-subtle);
+  box-shadow: var(--neb-shadow-xs);
   border-radius: var(--radius-default);
 
   .icon {
-    color: var(--neutral-color-700);
+    color: var(--neb-text);
   }
 }
 
@@ -150,41 +150,6 @@ withDefaults(defineProps<{
           font-size: var(--text-lg);
         }
       }
-    }
-  }
-}
-
-.dark-mode {
-  .neb-content-header {
-    &.has-separator {
-      border-bottom: 1px solid var(--neutral-color-700);
-    }
-  }
-
-  .neb-content-wrapper {
-    &.paragraph {
-      .content-text {
-        & h1 {
-          color: var(--neutral-color-300);
-        }
-      }
-    }
-  }
-  .content-text {
-    & h1 {
-      color: var(--neutral-color-300);
-    }
-    & p {
-      color: var(--neutral-color-400);
-    }
-  }
-
-  .header-icon {
-    background: var(--neutral-color-800);
-    border: 1px solid var(--neutral-color-700);
-
-    .icon {
-      color: var(--neutral-color-300);
     }
   }
 }

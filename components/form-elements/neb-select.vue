@@ -401,51 +401,50 @@ watch(searchTerm, orderOptions)
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  font-size: var(--text-sm);
-  font-weight: 500;
+  font: var(--neb-font-label);
   width: 100%;
-  color: var(--neutral-color-800);
+  color: var(--neb-text);
   outline: none;
 
   &:focus .neb-select-input {
-    border-color: var(--primary-color-300);
-    box-shadow: var(--primary-focus-shadow-light);
+    border-color: var(--neb-border-focus);
+    box-shadow: var(--neb-ring-primary);
   }
 }
 .neb-select-input {
-  background: #fff;
+  background: var(--neb-bg);
   display: flex;
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-2) var(--space-3);
   height: 40px;
   border-radius: var(--radius-default);
-  border: 1px solid var(--neutral-color-300);
+  border: 1px solid var(--neb-border);
   transition: all var(--duration-default);
   cursor: pointer;
   user-select: none;
 
   &.disabled {
-    background: var(--neutral-color-50);
+    background: var(--neb-bg-disabled);
 
     .icon {
-      color: var(--neutral-color-400);
+      color: var(--neb-text-disabled);
     }
     & input {
-      color: var(--neutral-color-500);
+      color: var(--neb-text-subtle);
     }
   }
   &.has-error {
-    border-color: var(--error-color-300);
+    border-color: var(--neb-border-error);
 
     &.opened {
-      box-shadow: var(--error-focus-shadow-light);
-      border-color: var(--error-color-300);
+      box-shadow: var(--neb-ring-error);
+      border-color: var(--neb-border-error);
     }
   }
   &.opened {
-    border-color: var(--primary-color-300);
-    box-shadow: var(--primary-focus-shadow-light);
+    border-color: var(--neb-border-focus);
+    box-shadow: var(--neb-ring-primary);
 
     .chevron {
       transform: rotate(180deg);
@@ -458,15 +457,16 @@ watch(searchTerm, orderOptions)
     height: 100%;
     font-size: var(--text-sm);
     outline: none;
-    color: var(--neutral-color-900);
+    color: var(--neb-text);
 
     &:-webkit-autofill,
     &:-webkit-autofill:focus {
-      -webkit-box-shadow: 0 0 0 50px white inset; /* Change the color to your own background color */
+      -webkit-box-shadow: 0 0 0 50px var(--neb-bg) inset; /* Change the color to your own background color */
+      -webkit-text-fill-color: var(--neb-text);
     }
   }
   .icon {
-    color: var(--neutral-color-500);
+    color: var(--neb-text-muted);
     transition: transform var(--duration-default);
   }
 }
@@ -475,7 +475,7 @@ watch(searchTerm, orderOptions)
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: var(--neutral-color-400);
+  color: var(--neb-text-subtle);
 }
 .selection {
   flex: 1;
@@ -486,12 +486,11 @@ watch(searchTerm, orderOptions)
   text-overflow: ellipsis;
 }
 .required-star {
-  color: var(--error-color-500);
+  color: var(--neb-text-error);
 }
 .hint {
-  font-size: var(--text-xs);
-  color: var(--neutral-color-600);
-  font-weight: 400;
+  font: var(--neb-font-hint);
+  color: var(--neb-text-muted);
 }
 .select-options {
   position: relative;
@@ -500,10 +499,10 @@ watch(searchTerm, orderOptions)
   width: 100%;
   max-height: 350px;
 
-  border: 1px solid var(--neutral-color-200);
+  border: 1px solid var(--neb-border-subtle);
   border-radius: var(--radius-default);
-  box-shadow: var(--shadow-lg);
-  background: #fff;
+  box-shadow: var(--neb-shadow-lg);
+  background: var(--neb-bg-raised);
   overflow: auto;
 }
 .select-search {
@@ -514,8 +513,8 @@ watch(searchTerm, orderOptions)
   justify-content: space-between;
   align-items: center;
   padding: var(--space-3) var(--space-4);
-  border-bottom: 1px solid var(--neutral-color-200);
-  background: #fff;
+  border-bottom: 1px solid var(--neb-border-subtle);
+  background: var(--neb-bg-raised);
 
   input {
     width: 100%;
@@ -525,14 +524,14 @@ watch(searchTerm, orderOptions)
     background: transparent;
 
     &::placeholder {
-      color: var(--neutral-color-400);
+      color: var(--neb-text-subtle);
     }
   }
   .icon {
     width: 18px;
     height: 18px;
     cursor: pointer;
-    color: var(--neutral-color-500);
+    color: var(--neb-text-muted);
   }
 }
 ul {
@@ -550,7 +549,7 @@ li {
     margin: var(--space-1) 0;
     border: none;
     height: 1px;
-    background: var(--neutral-color-200);
+    background: var(--neb-border-subtle);
     display: none;
   }
 }
@@ -572,42 +571,41 @@ li {
   border-radius: var(--radius-small);
 
   &:hover {
-    background: var(--neutral-color-50);
+    background: var(--neb-bg-hover);
   }
   &.focus {
-    background: var(--neutral-color-100);
+    background: var(--neb-bg-active);
   }
   &:active {
-    background: var(--neutral-color-200);
+    background: var(--neb-bg-active);
   }
   &.selected {
-    background: var(--neutral-color-50);
+    background: var(--neb-bg-hover);
 
     &:hover {
-      background: var(--neutral-color-100);
+      background: var(--neb-bg-active);
     }
     &.focus {
-      background: var(--primary-color-100);
+      background: var(--neb-bg-selected);
     }
     &:active {
-      background: var(--neutral-color-200);
+      background: var(--neb-bg-active);
     }
   }
   .icon {
     width: var(--space-5);
     height: var(--space-5);
-    color: var(--neutral-color-600);
+    color: var(--neb-text-muted);
   }
   .success-icon {
-    color: var(--primary-color-600);
+    color: var(--neb-text-primary);
     width: 20px;
     height: 20px;
   }
 }
 .menu-text-wrapper {
-  font-weight: 500;
-  font-size: var(--text-sm);
-  color: var(--neutral-color-800);
+  font: var(--neb-font-label);
+  color: var(--neb-text);
   flex: 1;
   white-space: nowrap;
   overflow: hidden;
@@ -633,106 +631,12 @@ li {
   display: flex;
   align-items: center;
   padding: var(--space-2) var(--space-3);
-  border-top: 1px solid var(--neutral-color-200);
-  background: #fff;
+  border-top: 1px solid var(--neb-border-subtle);
+  background: var(--neb-bg-raised);
   cursor: pointer;
 
   &:hover {
-    background: var(--neutral-color-50);
-  }
-}
-
-.dark-mode {
-  .neb-input {
-    &.disabled .input {
-      background: var(--neutral-color-900);
-
-      .icon {
-        color: var(--neutral-color-600);
-      }
-      & input {
-        color: var(--neutral-color-500);
-      }
-    }
-  }
-  & .neb-select-input-wrapper {
-    color: var(--neutral-color-300);
-  }
-  .neb-select-input {
-    background: var(--neutral-color-950);
-    border: 1px solid var(--neutral-color-700);
-
-    &.has-error {
-      border-color: var(--error-color-700);
-
-      &.opened {
-        box-shadow: var(--error-focus-shadow-dark);
-        border-color: var(--error-color-700);
-      }
-    }
-    &.opened {
-      border-color: var(--primary-color-700);
-      box-shadow: var(--primary-focus-shadow-dark);
-    }
-    & input {
-      color: var(--neutral-color-300);
-    }
-    & input:-webkit-autofill,
-    & input:-webkit-autofill:focus {
-      -webkit-box-shadow: 0 0 0 50px var(--neutral-color-950) inset; /* Change the color to your own background color */
-    }
-    .icon {
-      color: var(--neutral-color-400);
-    }
-  }
-  .hint {
-    color: var(--neutral-color-300);
-  }
-  .select-search {
-    background: var(--neutral-color-950);
-    border-color: var(--neutral-color-800);
-  }
-  .select-options {
-    background: var(--neutral-color-950);
-    border: 1px solid var(--neutral-color-800);
-  }
-  li {
-    hr {
-      background: var(--neutral-color-800);
-    }
-  }
-  .menu-row-content {
-    &:hover {
-      background: var(--neutral-color-900);
-    }
-    &.focus {
-      background: var(--neutral-color-800);
-    }
-    &:active {
-      background: var(--neutral-color-800);
-    }
-    &.selected {
-      background: var(--neutral-color-900);
-
-      &:hover {
-        background: var(--neutral-color-800);
-      }
-      &:active {
-        background: var(--neutral-color-900);
-      }
-    }
-    p {
-      color: var(--neutral-color-300);
-    }
-    .icon {
-      color: var(--neutral-color-400);
-    }
-    .success-icon {
-      color: var(--primary-color-500);
-    }
-  }
-  .menu-text-wrapper {
-    color: var(--neutral-color-300);
+    background: var(--neb-bg-hover);
   }
 }
 
@@ -748,15 +652,7 @@ li {
       top: unset;
       bottom: 0;
       border-bottom: none;
-      border-top: 1px solid var(--neutral-color-200);
-    }
-  }
-
-  .dark-mode {
-    .select-options.top {
-      .select-search {
-        border-top: 1px solid var(--neutral-color-800);
-      }
+      border-top: 1px solid var(--neb-border-subtle);
     }
   }
 }

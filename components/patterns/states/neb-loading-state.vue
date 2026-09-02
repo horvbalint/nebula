@@ -48,7 +48,7 @@ withDefaults(defineProps<{
   .icon {
     width: 56px;
     height: 56px;
-    color: var(--primary-color);
+    color: var(--neb-text-primary);
   }
 }
 .loading-state-text {
@@ -59,36 +59,17 @@ withDefaults(defineProps<{
   max-width: 350px;
 
   h6 {
-    font-size: var(--text-md);
-    font-weight: 500;
-    color: var(--neutral-color-900);
+    font: var(--neb-font-heading);
+    color: var(--neb-text);
   }
   p {
-    font-size: var(--text-sm);
-    font-weight: 400;
-    color: var(--neutral-color-600);
-    line-height: 20px;
+    font: var(--neb-font-body-sm);
+    color: var(--neb-text-muted);
   }
 }
 .call-to-action {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-}
-
-.dark-mode {
-  .loading-icon {
-    .icon {
-      color: var(--primary-color-400);
-    }
-  }
-  .loading-state-text {
-    h6 {
-      color: var(--neutral-color-300);
-    }
-    p {
-      color: var(--neutral-color-400);
-    }
-  }
 }
 </style>

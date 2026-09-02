@@ -21,18 +21,9 @@ defineProps<{
   gap: var(--space-1);
 
   & li {
-    color: var(--error-color-500);
-    font-size: var(--text-xs);
-    font-weight: 400;
+    color: var(--neb-text-error);
+    font: var(--neb-font-hint);
     margin-left: var(--space-4);
-  }
-}
-
-.dark-mode {
-  .error-list {
-    & li {
-      color: var(--error-color-700);
-    }
   }
 }
 </style>

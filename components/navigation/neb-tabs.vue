@@ -125,8 +125,8 @@ li label {
     display: flex;
     align-items: center;
     gap: var(--space-2);
-    background: var(--neutral-color-50);
-    border: 1px solid var(--neutral-color-200);
+    background: var(--neb-bg-subtle);
+    border: 1px solid var(--neb-border-subtle);
     border-radius: var(--radius-default);
 
     &.full-width li {
@@ -156,24 +156,25 @@ li label {
       padding: 0 var(--space-3);
       font-size: var(--text-sm);
       font-weight: 600;
-      color: var(--neutral-color-500);
+      color: var(--neb-text-muted);
       transition: all var(--duration-default);
       border-radius: var(--radius-small);
 
       &:hover {
-        color: var(--neutral-color-700);
+        color: var(--neb-text);
       }
       &.active {
-        color: var(--neutral-color-700);
-        background: #fff;
-        box-shadow: var(--shadow-sm);
+        color: var(--neb-text);
+        background: var(--neb-bg);
+        box-shadow: var(--neb-shadow-sm);
 
         &.disabled {
-          color: var(--neutral-color-400);
+          color: var(--neb-text-disabled);
+          background: var(--neb-bg-muted);
         }
       }
       &.disabled {
-        color: var(--neutral-color-400);
+        color: var(--neb-text-disabled);
 
         input {
           cursor: not-allowed;
@@ -204,14 +205,14 @@ li label {
     display: flex;
     align-items: center;
     gap: var(--space-4);
-    border-bottom: 2px solid var(--neutral-color-200);
+    border-bottom: 2px solid var(--neb-border-subtle);
 
     &.vertical {
       flex-direction: column;
       width: fit-content;
       border-bottom: 0;
       gap: var(--space-1);
-      border-left: 3px solid var(--neutral-color-200);
+      border-left: 3px solid var(--neb-border-subtle);
 
       li {
         width: 100%;
@@ -231,11 +232,11 @@ li label {
               rgba(var(--primary-color-component), 0.15) 0%,
               rgba(var(--primary-color-component), 0) 90%
             );
-            color: var(--primary-color);
-            border-color: var(--primary-color);
+            color: var(--neb-text-primary);
+            border-color: var(--neb-text-primary);
 
             &.disabled {
-              color: var(--neutral-color-400);
+              color: var(--neb-text-disabled);
             }
           }
         }
@@ -271,24 +272,24 @@ li label {
       gap: var(--space-3);
       font-size: var(--text-sm);
       font-weight: 600;
-      color: var(--neutral-color-600);
+      color: var(--neb-text-muted);
       transition: all var(--duration-default);
-      border-bottom: 2px solid var(--neutral-color-200);
+      border-bottom: 2px solid var(--neb-border-subtle);
       margin-bottom: -2px;
 
       &:hover {
-        color: var(--neutral-color-700);
+        color: var(--neb-text);
       }
       &.active {
-        color: var(--primary-color);
-        border-color: var(--primary-color);
+        color: var(--neb-text-primary);
+        border-color: var(--neb-text-primary);
 
         &.disabled {
-          color: var(--neutral-color-400);
+          color: var(--neb-text-disabled);
         }
       }
       &.disabled {
-        color: var(--neutral-color-400);
+        color: var(--neb-text-disabled);
 
         input {
           cursor: not-allowed;
@@ -324,39 +325,12 @@ li label {
 }
 .count-badge {
   font-weight: 600;
-  color: var(--neutral-color-600);
+  color: var(--neb-text-muted);
 }
 .mobile-icon {
   font-size: 20px !important;
 }
 .option-text {
   margin-left: 28px;
-}
-.dark-mode {
-  .primary {
-    ul {
-      margin: 0;
-      background: var(--neutral-color-900);
-      border: 1px solid var(--neutral-color-800);
-    }
-    li {
-      label {
-        color: var(--neutral-color-400);
-
-        &.active {
-          color: var(--neutral-color-200);
-          background: var(--neutral-color-950);
-
-          &.disabled {
-            color: var(--neutral-color-500);
-            background: var(--neutral-color-800);
-          }
-        }
-        &.disabled {
-          color: var(--neutral-color-500);
-        }
-      }
-    }
-  }
 }
 </style>

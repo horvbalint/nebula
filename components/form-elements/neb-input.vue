@@ -120,26 +120,26 @@ defineExpose({ focus, blur, input })
 
   &.has-error {
     label {
-      color: var(--error-color);
+      color: var(--neb-text-error);
     }
     .input {
-      border-color: var(--error-color-300);
-      background: var(--error-color-50);
+      border-color: var(--neb-border-error);
+      background: var(--neb-bg-error-subtle);
 
       &:focus-within {
-        box-shadow: var(--error-focus-shadow-light);
-        border-color: var(--error-color-300);
+        box-shadow: var(--neb-ring-error);
+        border-color: var(--neb-border-error);
       }
     }
   }
   &.disabled .input {
-    background: var(--neutral-color-50);
+    background: var(--neb-bg-disabled);
 
     .icon {
-      color: var(--neutral-color-400);
+      color: var(--neb-text-disabled);
     }
     & input {
-      color: var(--neutral-color-500);
+      color: var(--neb-text-subtle);
     }
   }
 }
@@ -147,16 +147,15 @@ label {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  font-size: var(--text-sm);
-  font-weight: 500;
+  font: var(--neb-font-label);
   width: 100%;
-  color: var(--neutral-color-800);
+  color: var(--neb-text);
 }
 .required-star {
-  color: var(--error-color-500);
+  color: var(--neb-text-error);
 }
 .input {
-  background: #fff;
+  background: var(--neb-bg);
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -164,7 +163,7 @@ label {
   padding: var(--space-2) var(--space-3);
   height: 40px;
   border-radius: var(--radius-default);
-  border: 1px solid var(--neutral-color-300);
+  border: 1px solid var(--neb-border);
   transition: all var(--duration-default);
   min-width: 100px;
 
@@ -176,8 +175,8 @@ label {
     min-height: 40px;
   }
   &:focus-within {
-    border-color: var(--primary-color-300);
-    box-shadow: var(--primary-focus-shadow-light);
+    border-color: var(--neb-border-focus);
+    box-shadow: var(--neb-ring-primary);
   }
   & input {
     flex: 1;
@@ -187,80 +186,27 @@ label {
     height: 100%;
     font-size: var(--text-sm);
     outline: none;
-    color: var(--neutral-color-900);
+    color: var(--neb-text);
 
     &::placeholder {
-      color: var(--neutral-color-400);
+      color: var(--neb-text-subtle);
     }
     &:-webkit-autofill,
     &:-webkit-autofill:focus {
-      -webkit-box-shadow: 0 0 0 50px white inset; /* Change the color to your own background color */
+      -webkit-box-shadow: 0 0 0 50px var(--neb-bg) inset; /* Change the color to your own background color */
+      -webkit-text-fill-color: var(--neb-text);
     }
   }
   .icon {
-    color: var(--neutral-color-500);
+    color: var(--neb-text-muted);
 
     &.error-icon {
-      color: var(--error-color-500);
+      color: var(--neb-text-error);
     }
   }
 }
 .hint {
-  font-size: var(--text-xs);
-  color: var(--neutral-color-600);
-  font-weight: 400;
-}
-
-.dark-mode {
-  .neb-input {
-    &.has-error {
-      label {
-        color: var(--error-color);
-      }
-      .input {
-        border-color: var(--error-color-700);
-        background: var(--error-color-950);
-
-        &:focus-within {
-          box-shadow: var(--error-focus-shadow-light);
-          border-color: var(--error-color-700);
-        }
-      }
-    }
-    &.disabled .input {
-      background: var(--neutral-color-900);
-
-      .icon {
-        color: var(--neutral-color-600);
-      }
-      & input {
-        color: var(--neutral-color-500);
-      }
-    }
-  }
-  & label {
-    color: var(--neutral-color-300);
-  }
-  .input {
-    background: var(--neutral-color-950);
-    border: 1px solid var(--neutral-color-700);
-    &:focus-within {
-      border-color: var(--primary-color-700);
-      box-shadow: var(--primary-focus-shadow-dark);
-    }
-    & input {
-      color: var(--neutral-color-300);
-    }
-    & input:-webkit-autofill,
-    & input:-webkit-autofill:focus {
-      -webkit-box-shadow: 0 0 0 50px var(--neutral-color-950) inset; /* Change the color to your own background color */
-    }
-    .icon {
-      color: var(--neutral-color-400);
-    }
-  }
-  .hint {
-    color: var(--neutral-color-300);
-  }
+  font: var(--neb-font-hint);
+  color: var(--neb-text-muted);
 }
 </style>
