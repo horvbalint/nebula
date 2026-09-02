@@ -435,11 +435,11 @@ watch(searchTerm, orderOptions)
     }
   }
   &.has-error {
-    border-color: var(--neb-border-error);
+    border-color: var(--neb-border-invalid);
 
     &.opened {
       box-shadow: var(--neb-ring-error);
-      border-color: var(--neb-border-error);
+      border-color: var(--neb-border-invalid);
     }
   }
   &.opened {

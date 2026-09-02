@@ -121,11 +121,11 @@ label {
   transition: all var(--duration-default);
 
   &.has-error {
-    border-color: var(--neb-border-error);
+    border-color: var(--neb-border-invalid);
 
     &:focus-within {
       box-shadow: var(--neb-ring-error);
-      border-color: var(--neb-border-error);
+      border-color: var(--neb-border-invalid);
     }
   }
   &:focus-within {

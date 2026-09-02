@@ -162,7 +162,7 @@ dark mode. Use a `--neb-border-*` token for actual box borders.
 | `--neb-border-strong` | Emphasised — hover on an input, a deliberately boxed region. |
 | `--neb-border-disabled` | Disabled controls. |
 | `--neb-border-focus` | A control while focused — pair with `box-shadow: var(--neb-ring-primary)`. |
-| `--neb-border-error` | A field in an error state — pair with `var(--neb-ring-error)`. |
+| `--neb-border-invalid` | A field in an invalid state — pair with `var(--neb-ring-error)`. Named for the field state, not the `error` intent, so `--neb-border-error` stays free for the intent grid. |
 
 **Intent**:
 
@@ -177,7 +177,7 @@ dark mode. Use a `--neb-border-*` token for actual box borders.
 `--neb-ring-primary`, `--neb-ring-error`, `--neb-ring-neutral`. Each is a
 **`box-shadow` value** (a 4px spread ring + a 1px drop), not a colour — drop it
 into `box-shadow` on `:focus-visible`. Resolves light/dark automatically. Pair
-with the matching `--neb-border-focus` / `--neb-border-error`.
+with the matching `--neb-border-focus` / `--neb-border-invalid`.
 
 ### Elevation — `--neb-shadow-*`
 
@@ -255,4 +255,4 @@ hint under an invalid field, and so on. Notes on the `font` shorthand:
 | an inline "Retry" / error link | `--neb-text-error` / `--neb-text-error-hover` |
 | a checked checkbox / active-tab indicator | `--neb-text-primary` (thin accent line) |
 | a focused input | `--neb-border-focus` + `box-shadow: var(--neb-ring-primary)` |
-| an invalid input | `--neb-border-error` + `box-shadow: var(--neb-ring-error)` |
+| an invalid input | `--neb-border-invalid` + `box-shadow: var(--neb-ring-error)` |

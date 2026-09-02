@@ -123,12 +123,12 @@ defineExpose({ focus, blur, input })
       color: var(--neb-text-error);
     }
     .input {
-      border-color: var(--neb-border-error);
+      border-color: var(--neb-border-invalid);
       background: var(--neb-bg-error-subtle);
 
       &:focus-within {
         box-shadow: var(--neb-ring-error);
-        border-color: var(--neb-border-error);
+        border-color: var(--neb-border-invalid);
       }
     }
   }

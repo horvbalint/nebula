@@ -103,7 +103,7 @@
   --neb-border-strong: var(--neutral-color-400);
   --neb-border-disabled: var(--neutral-color-200);
   --neb-border-focus: var(--primary-color-300);
-  --neb-border-error: var(--error-color-300);
+  --neb-border-invalid: var(--error-color-300);
 
   /* BORDERS — intent */
   --neb-border-primary: var(--primary-color-200);
@@ -112,6 +112,7 @@
   --neb-border-success: var(--success-color-200);
   --neb-border-success-strong: var(--success-color-300);
   --neb-border-success-alert: 2px solid var(--success-color);
+  --neb-border-error: var(--error-color-200);
   --neb-border-error-strong: var(--error-color-300);
   --neb-border-error-alert: 2px solid var(--error-color);
   --neb-border-warning: var(--warning-color-200);
@@ -230,7 +231,7 @@
   --neb-border-strong: var(--neutral-color-600);
   --neb-border-disabled: var(--neutral-color-800);
   --neb-border-focus: var(--primary-color-700);
-  --neb-border-error: var(--error-color-700);
+  --neb-border-invalid: var(--error-color-700);
 
   /* BORDERS — intent */
   --neb-border-primary: var(--primary-color-800);
@@ -239,6 +240,7 @@
   --neb-border-success: var(--success-color-800);
   --neb-border-success-strong: var(--success-color-800);
   --neb-border-success-alert: 1px solid var(--success-color-800);
+  --neb-border-error: var(--error-color-800);
   --neb-border-error-strong: var(--error-color-800);
   --neb-border-error-alert: 1px solid var(--error-color-800);
   --neb-border-warning: var(--warning-color-800);
