@@ -48,14 +48,8 @@ export function calcColorPalette(sources: ColorPaletteSources): NebColorPalette 
   const colorComponents: Record<string, string> = {}
   const diagnostics: string[] = []
 
-  // The neutral ramp is built first: intent steps 300 / 900 / 950 have contrast
-  // floors measured against `neutral-color-950`. Pass one has no dark floors of
-  // its own (nothing to measure against yet) and only exists to produce that
-  // dark ground; pass two rebuilds it with its floors applied.
   const neutral = deriveNeutral(sources.primaryColor, sources.neutralTint, sources.neutralHue)
-  const neutralPass1 = buildNebRamp(neutral.seedHex, { neutral: true, hue: neutral.hue, tint: neutral.tint, label: 'neutralColor' })
-  const darkGround = neutralPass1.steps[950].hex
-  const neutralRamp = buildNebRamp(neutral.seedHex, { neutral: true, hue: neutral.hue, tint: neutral.tint, darkGround, label: 'neutralColor' })
+  const neutralRamp = buildNebRamp(neutral.seedHex, { neutral: true, hue: neutral.hue, tint: neutral.tint, label: 'neutralColor' })
 
   const intents: [name: string, seed: `#${string}`, label: string][] = [
     ['primary-color', sources.primaryColor, 'primaryColor'],
@@ -67,7 +61,7 @@ export function calcColorPalette(sources: ColorPaletteSources): NebColorPalette 
   ]
 
   for (const [name, seed, label] of intents) {
-    const ramp = buildNebRamp(seed, { darkGround, label })
+    const ramp = buildNebRamp(seed, { label })
     writeRamp(colorPalette, colorComponents, name, ramp)
     diagnostics.push(...ramp.diagnostics)
   }

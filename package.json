@@ -33,6 +33,7 @@
     "@tiptap/pm": "3.11.0",
     "@tiptap/starter-kit": "3.11.0",
     "@tiptap/vue-3": "3.11.0",
+    "@types/culori": "^4.0.1",
     "@vueuse/components": "14.0.0",
     "@vueuse/core": "14.0.0",
     "@vueuse/nuxt": "14.0.0",

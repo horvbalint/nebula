@@ -94,6 +94,14 @@ function reportRamp(name: string, ramp: ReturnType<typeof buildNebRamp>, darkGro
     )
   }
 
+  // Dark-page border advisory for intent step 800 — the module can't check this
+  // (it doesn't know the neutral ramp); here we do.
+  if (kind === 'intent') {
+    const got = nebContrast(ramp.steps[800].hex, darkGround)
+    if (got < 1.8)
+      console.log(`     ${YELLOW}! step 800: ${got.toFixed(2)}:1 vs ${darkGround}, want ≥ 1.8 (dark --neb-border-{intent} visibility)${RESET}`)
+  }
+
   for (const d of ramp.diagnostics)
     console.log(`     ${YELLOW}! ${d}${RESET}`)
 }
@@ -102,14 +110,11 @@ for (const seed of list) {
   console.log(`\n${'━'.repeat(74)}\nSEED  ${seed}`)
 
   const spec = deriveNeutral(seed)
-  const neutralPass1 = buildNebRamp(spec.seedHex, { neutral: true, hue: spec.hue, tint: spec.tint, label: 'neutral' })
-  const darkGround = neutralPass1.steps[950].hex
+  const neutral = buildNebRamp(spec.seedHex, { neutral: true, hue: spec.hue, tint: spec.tint, label: 'neutral' })
+  const darkGround = neutral.steps[950].hex
 
-  const neutral = buildNebRamp(spec.seedHex, { neutral: true, hue: spec.hue, tint: spec.tint, darkGround, label: 'neutral' })
   reportRamp('NEUTRAL', neutral, darkGround, 'neutral')
-
-  const primary = buildNebRamp(seed, { darkGround, label: 'primary' })
-  reportRamp('PRIMARY', primary, darkGround, 'intent')
+  reportRamp('PRIMARY', buildNebRamp(seed, { label: 'primary' }), darkGround, 'intent')
 }
 
 console.log(`\n${'━'.repeat(74)}`)

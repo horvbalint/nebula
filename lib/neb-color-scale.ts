@@ -2,25 +2,29 @@
  * Perceptual (OKLCH) colour-scale generator.
  *
  * Every step of a ramp is anchored to a target OKLCH lightness, with WCAG
- * contrast floors applied to the steps that carry text or solid fills. This
- * replaces the old sRGB byte-mixing (`theme-colors`), which produced uneven
- * lightness steps, chroma that collapsed at the dark end, and wildly different
- * ramp quality per hue.
+ * contrast floors applied to the steps that carry text or a solid fill on a
+ * light ground. This replaces the old sRGB byte-mixing (`theme-colors`), which
+ * produced uneven lightness steps, chroma that collapsed at the dark end, and
+ * wildly different ramp quality per hue.
  *
  * The public API in `@nebula/composables/neb-color` is unchanged — this module
- * only changes the values that come out. See
- * `docs/semantic-tokens.md` for how the semantic layer consumes these steps, and
- * `plan-the-new-theme-*.md` for the derivation of every number below.
+ * only decides the values that come out. See `docs/semantic-tokens.md` for how
+ * the semantic layer consumes these steps and `docs/migrating-to-oklch-colors.md`
+ * for the old → new value tables.
  *
  * Isomorphic: imported by the build-time Nuxt module (`modules/color.ts`) and
- * bundled into the client for `setNebColorPalette()` live theming. `culori/fn`
- * is the only dependency; everything else is hand-rolled to keep the surface
- * small and version-stable.
+ * bundled into the client for `setNebColorPalette()` live theming. Colour maths
+ * comes from `culori/fn` (tree-shakeable); the tuning tables below are the
+ * design contract and the only thing worth reviewing here.
  */
-import { modeOklch, modeRgb, useMode } from 'culori/fn'
+import { converter, formatHex, modeLrgb, modeOklch, modeRgb, parse, useMode, wcagContrast } from 'culori/fn'
 
-const toOklch = useMode(modeOklch)
-const toRgb = useMode(modeRgb)
+useMode(modeOklch)
+useMode(modeRgb)
+useMode(modeLrgb) // wcagContrast converts through linear-sRGB
+
+const toOklch = converter('oklch')
+const toRgb = converter('rgb')
 
 export const NEB_COLOR_STEPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950] as const
 export type NebColorStep = typeof NEB_COLOR_STEPS[number]
@@ -98,6 +102,26 @@ export const NEB_NEUTRAL_C_SHAPE: Record<NebColorStep, number> = {
 }
 
 /**
+ * White-ground contrast floors — the solver darkens the step until the ratio is
+ * met. Only steps that carry text or a solid fill on the light page appear here;
+ * the dark-page floors the previous generator also tracked are, for every seed
+ * in the sRGB gamut, already satisfied by the lightness tables above, so they
+ * were dropped. `scripts/neb-color-report.mts` re-checks the full contract
+ * (both grounds) against the shipped ramps.
+ */
+const NEB_INTENT_WHITE_FLOOR: Partial<Record<NebColorStep, number>> = {
+  600: 4.5, // light --neb-text-{intent}
+  700: 4.5, // light --neb-text-{intent}-hover; dark -solid under white
+}
+
+const NEB_NEUTRAL_WHITE_FLOOR: Partial<Record<NebColorStep, number>> = {
+  400: 3.0, // light --neb-text-subtle / -disabled
+  600: 4.5, // light --neb-text-muted
+  700: 4.5, // dark --neb-bg-neutral-solid under white
+  900: 7.0, // light --neb-text (body)
+}
+
+/**
  * OKLCH lightness where "peak chroma" is measured when projecting the seed's
  * gamut-relative saturation onto the ramp.
  */
@@ -108,8 +132,7 @@ export const NEB_NEUTRAL_TINT_DEFAULT = 0.008
 
 /**
  * OKLCH lightness of the bare `--neutral-color` token (the light-mode
- * `--neb-bg-neutral-solid` fill, under white text). Darker than step 600 so its
- * hover (→ step 600) brightens, consistent with the solid-hover rule below.
+ * `--neb-bg-neutral-solid` fill, under white text).
  */
 export const NEB_NEUTRAL_BARE_L = 0.470
 
@@ -120,99 +143,58 @@ export const NEB_NEUTRAL_BARE_L = 0.470
 export const NEB_ACHROMATIC_C = 0.01
 
 /**
- * Set to a value up to ~0.05 to shift the 600/700 pair down so light-mode
- * solid buttons darken on hover again. 0 = solid buttons brighten on hover in
- * both modes (dark mode already does: 700 → 600). Keeping this at 0 is what
- * holds step 700 at ~5.5–6.5:1 vs white — the dim-dark-button fix.
- */
-export const NEB_SOLID_HOVER_SHIFT_MAX = 0
-
-/**
  * Smallest lightness gap between adjacent steps that survives 8-bit
  * quantisation (~3 sRGB levels).
  */
 const MIN_STEP_DL = 0.012
 
-/* ------------------------------------------------------------------ */
-/* Contrast floors                                                     */
-/* ------------------------------------------------------------------ */
-
-type Ground = 'light' | 'dark'
-interface Floor { ground: Ground, ratio: number }
-interface Advisory { ground: Ground, ratio: number, note: string }
-
 /**
- * Hard floors — the solver nudges lightness until these are met.
- * A `light`-ground floor is an upper bound on L; a `dark`-ground floor a lower
- * bound. Derived from the step→job contract in `assets/semantic.css`.
+ * Advisory (reported, never acted on): step 300 doubles as a visible border on
+ * the light page and should clear ~1.8:1 against white. Its dark-page
+ * counterpart (step 800 vs `neutral-color-950`) needs the real neutral ramp, so
+ * `scripts/neb-color-report.mts` checks that one.
  */
-const INTENT_FLOORS: Partial<Record<NebColorStep, Floor[]>> = {
-  200: [{ ground: 'dark', ratio: 4.5 }], // dark --neb-text-{intent}-hover
-  300: [{ ground: 'dark', ratio: 4.5 }], // dark --neb-text-{intent}
-  600: [{ ground: 'light', ratio: 4.5 }], // light --neb-text-{intent}
-  700: [{ ground: 'light', ratio: 4.5 }], // light text-hover; dark -solid under white
-}
-
-const NEUTRAL_FLOORS: Partial<Record<NebColorStep, Floor[]>> = {
-  300: [{ ground: 'dark', ratio: 7.0 }], // dark --neb-text (body)
-  400: [{ ground: 'light', ratio: 3.0 }, { ground: 'dark', ratio: 4.5 }], // light subtle/disabled; dark muted
-  500: [{ ground: 'dark', ratio: 3.0 }], // dark --neb-text-subtle/-disabled
-  600: [{ ground: 'light', ratio: 4.5 }], // light --neb-text-muted
-  700: [{ ground: 'light', ratio: 4.5 }], // dark --neb-bg-neutral-solid under white
-  900: [{ ground: 'light', ratio: 7.0 }], // light --neb-text (body)
-}
-
-/** Advisory only — reported, never acted on. */
-const INTENT_ADVISORIES: Partial<Record<NebColorStep, Advisory[]>> = {
-  300: [{ ground: 'light', ratio: 1.8, note: 'light --neb-border-{intent}-strong/-focus/-invalid visibility' }],
-  800: [{ ground: 'dark', ratio: 1.8, note: 'dark --neb-border-{intent} visibility' }],
-}
+const STEP_300_BORDER_ADVISORY = 1.8
 
 /* ------------------------------------------------------------------ */
-/* Colour maths (hand-rolled, so culori's surface stays tiny)          */
+/* Colour helpers                                                      */
 /* ------------------------------------------------------------------ */
 
-const HEX_RE = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i
-
-interface Rgb { mode: 'rgb', r: number, g: number, b: number }
-
-export function parseHexSeed(hex: string): Rgb {
-  const m = HEX_RE.exec(hex.trim())
-  const group = m?.[1]
-  if (!group)
-    throw new Error(`[nebula] not a hex colour: ${JSON.stringify(hex)}`)
-
-  const full = group.length === 3 ? group.replace(/./g, ch => ch + ch) : group
-  const int = Number.parseInt(full, 16)
-
-  return {
-    mode: 'rgb',
-    r: ((int >> 16) & 0xFF) / 255,
-    g: ((int >> 8) & 0xFF) / 255,
-    b: (int & 0xFF) / 255,
-  }
-}
-
+const HEX_RE = /^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i
 const GAMUT_EPS = 1e-4
 
-function inSrgb(rgb: Rgb): boolean {
-  return rgb.r >= -GAMUT_EPS && rgb.r <= 1 + GAMUT_EPS
-    && rgb.g >= -GAMUT_EPS && rgb.g <= 1 + GAMUT_EPS
-    && rgb.b >= -GAMUT_EPS && rgb.b <= 1 + GAMUT_EPS
+interface SeedOklch { l: number, c: number, h: number, hex: string }
+
+function parseHexSeed(hex: string): SeedOklch {
+  const trimmed = hex.trim()
+  if (!HEX_RE.test(trimmed))
+    throw new Error(`[nebula] not a hex colour: ${JSON.stringify(hex)}`)
+
+  const rgb = parse(trimmed)
+  const o = toOklch(rgb) as { l: number, c?: number, h?: number }
+  return { l: o.l, c: o.c ?? 0, h: o.h ?? 0, hex: (formatHex(rgb) as string).toUpperCase() }
+}
+
+/** Is this OKLCH coordinate inside sRGB, with the epsilon 8-bit output needs? */
+function inSrgb(l: number, c: number, h: number): boolean {
+  const { r, g, b } = toRgb({ mode: 'oklch', l, c, h }) as { r: number, g: number, b: number }
+  return r >= -GAMUT_EPS && r <= 1 + GAMUT_EPS
+    && g >= -GAMUT_EPS && g <= 1 + GAMUT_EPS
+    && b >= -GAMUT_EPS && b <= 1 + GAMUT_EPS
 }
 
 /** Largest chroma ≤ `want` that is in sRGB at this lightness and hue. */
 function fitChroma(l: number, want: number, h: number): number {
   if (want <= 0)
     return 0
-  if (inSrgb(toRgb({ mode: 'oklch', l, c: want, h })))
+  if (inSrgb(l, want, h))
     return want
 
   let lo = 0
   let hi = want
   for (let i = 0; i < 20; i++) {
     const mid = (lo + hi) / 2
-    if (inSrgb(toRgb({ mode: 'oklch', l, c: mid, h })))
+    if (inSrgb(l, mid, h))
       lo = mid
     else
       hi = mid
@@ -220,57 +202,26 @@ function fitChroma(l: number, want: number, h: number): number {
   return lo
 }
 
-function maxChroma(l: number, h: number): number {
-  return fitChroma(l, 0.4, h)
-}
-
-type Ints = readonly [number, number, number]
-
-function clampByte(x: number): number {
-  return x < 0 ? 0 : x > 255 ? 255 : Math.round(x)
-}
-
-function quantise(rgb: Rgb): Ints {
-  return [clampByte(rgb.r * 255), clampByte(rgb.g * 255), clampByte(rgb.b * 255)]
-}
-
 /**
- * The 0–255 triple that actually ships for an OKLCH coordinate. Every contrast
- * probe measures this, not the ideal float — otherwise a step reads 4.49:1 in
- * production.
+ * The 6-digit hex that actually ships for an OKLCH coordinate — chroma fitted to
+ * gamut, then 8-bit quantised by `formatHex`. Every contrast probe measures
+ * this, not the ideal float, so a step never reads 4.49:1 in production.
  */
-function stepInts(l: number, c: number, h: number): Ints {
-  return quantise(toRgb({ mode: 'oklch', l, c, h }))
+function shippedHex(l: number, c: number, h: number): string {
+  return (formatHex(toRgb({ mode: 'oklch', l, c: fitChroma(l, c, h), h })) as string).toUpperCase()
 }
 
-export function hexOf(ints: Ints): string {
-  return `#${ints.map(n => n.toString(16).padStart(2, '0')).join('')}`.toUpperCase()
+function componentsOf(hex: string): string {
+  const { r, g, b } = parse(hex) as { r: number, g: number, b: number }
+  return [r, g, b].map(n => Math.round(n * 255)).join(', ')
 }
 
-function componentsOf(ints: Ints): string {
-  return ints.join(', ')
+/** WCAG 2.x contrast ratio between two colours (hex or any culori-parseable string). */
+export function nebContrast(a: string, b: string): number {
+  return wcagContrast(a, b)
 }
 
-function channelLum(n: number): number {
-  const c = n / 255
-  return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4
-}
-
-function relativeLuminance(ints: Ints): number {
-  return 0.2126 * channelLum(ints[0]) + 0.7152 * channelLum(ints[1]) + 0.0722 * channelLum(ints[2])
-}
-
-function contrast(a: Ints, b: Ints): number {
-  const la = relativeLuminance(a)
-  const lb = relativeLuminance(b)
-  return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05)
-}
-
-export function nebContrast(hexA: string, hexB: string): number {
-  return contrast(quantise(parseHexSeed(hexA)), quantise(parseHexSeed(hexB)))
-}
-
-const WHITE: Ints = [255, 255, 255]
+const WHITE = '#FFFFFF'
 
 /* ------------------------------------------------------------------ */
 /* Ramp builder                                                        */
@@ -300,100 +251,38 @@ export interface BuildNebRampOptions {
   hue?: number
   /** Neutral only: absolute peak chroma. */
   tint?: number
-  /**
-   * Dark-ground hex for dark-mode contrast floors. Omit on the first neutral
-   * pass (there is nothing to measure against yet).
-   */
-  darkGround?: string
   /** Name used in diagnostic messages, e.g. `warningColor`. */
   label?: string
 }
 
-interface SolveResult {
-  l: number
-  conflict: boolean
-  unsatisfiable: boolean
-}
+/** Largest L ≤ `target` whose shipped hex clears `ratio` against white. */
+function solveWhiteFloor(target: number, c: number, h: number, ratio: number): { l: number, unmet: boolean } {
+  if (nebContrast(shippedHex(target, c, h), WHITE) >= ratio)
+    return { l: target, unmet: false }
+  if (nebContrast(shippedHex(0, c, h), WHITE) < ratio)
+    return { l: 0, unmet: true }
 
-function solveStepL(targetL: number, cTarget: number, h: number, floors: Floor[], darkGround: Ints | null): SolveResult {
   let lo = 0
-  let hi = 1
-  let conflict = false
-  let unsatisfiable = false
-
-  const cAt = (l: number): number => fitChroma(l, cTarget, h)
-  const ratioAt = (l: number, ground: Ints): number => contrast(stepInts(l, cAt(l), h), ground)
-
-  for (const f of floors) {
-    const ground = f.ground === 'light' ? WHITE : darkGround
-    if (!ground)
-      continue
-
-    if (ratioAt(targetL, ground) >= f.ratio)
-      continue
-
-    if (f.ground === 'light') {
-      // white contrast rises as L falls — find the largest L ≤ target that passes
-      if (ratioAt(0, ground) < f.ratio) {
-        unsatisfiable = true
-        hi = 0
-        continue
-      }
-      let a = 0
-      let b = targetL
-      for (let i = 0; i < 22; i++) {
-        const mid = (a + b) / 2
-        if (ratioAt(mid, ground) >= f.ratio)
-          a = mid
-        else
-          b = mid
-      }
-      hi = Math.min(hi, a)
-    }
-    else {
-      // dark-ground contrast rises as L rises — find the smallest L ≥ target that passes
-      if (ratioAt(1, ground) < f.ratio) {
-        unsatisfiable = true
-        lo = 1
-        continue
-      }
-      let a = targetL
-      let b = 1
-      for (let i = 0; i < 22; i++) {
-        const mid = (a + b) / 2
-        if (ratioAt(mid, ground) >= f.ratio)
-          b = mid
-        else
-          a = mid
-      }
-      lo = Math.max(lo, b)
-    }
+  let hi = target
+  for (let i = 0; i < 22; i++) {
+    const mid = (lo + hi) / 2
+    if (nebContrast(shippedHex(mid, c, h), WHITE) >= ratio)
+      lo = mid
+    else
+      hi = mid
   }
-
-  let l: number
-  if (lo > hi) {
-    l = hi // light-ground readability wins the tie
-    conflict = true
-  }
-  else {
-    l = Math.min(Math.max(targetL, lo), hi)
-  }
-  return { l, conflict, unsatisfiable }
+  return { l: lo, unmet: false }
 }
 
 export function buildNebRamp(seedHex: string, opts: BuildNebRampOptions = {}): NebRamp {
-  const { neutral = false, darkGround: darkGroundHex, label = 'colour' } = opts
+  const { neutral = false, label = 'colour' } = opts
   const diagnostics: string[] = []
 
-  const seed = toOklch(parseHexSeed(seedHex))
+  const seed = parseHexSeed(seedHex)
   const lTable = neutral ? NEB_NEUTRAL_L : NEB_INTENT_L
   const cShape = neutral ? NEB_NEUTRAL_C_SHAPE : NEB_INTENT_C_SHAPE
-  const floorTable = neutral ? NEUTRAL_FLOORS : INTENT_FLOORS
-
-  const hue = neutral ? (opts.hue ?? 0) : (seed.h ?? 0)
-  const cSeed = seed.c ?? 0
-
-  const darkGround: Ints | null = darkGroundHex ? quantise(parseHexSeed(darkGroundHex)) : null
+  const floors = neutral ? NEB_NEUTRAL_WHITE_FLOOR : NEB_INTENT_WHITE_FLOOR
+  const hue = neutral ? (opts.hue ?? 0) : seed.h
 
   // Peak chroma
   let peak: number
@@ -401,27 +290,25 @@ export function buildNebRamp(seedHex: string, opts: BuildNebRampOptions = {}): N
     peak = opts.tint ?? NEB_NEUTRAL_TINT_DEFAULT
   }
   else {
-    const sat = cSeed < 1e-4 ? 0 : cSeed / maxChroma(seed.l, hue)
-    peak = sat * maxChroma(NEB_CHROMA_ANCHOR_L, hue)
+    const sat = seed.c < 1e-4 ? 0 : seed.c / fitChroma(seed.l, 0.4, hue)
+    peak = sat * fitChroma(NEB_CHROMA_ANCHOR_L, 0.4, hue)
   }
 
-  // Solve each step's lightness
+  // Solve each step's lightness against its white-ground contrast floor.
   const solvedL = {} as Record<NebColorStep, number>
   for (const step of NEB_COLOR_STEPS) {
-    const cTarget = peak * cShape[step]
-    // The 600/700 pair carries the light-mode solid fill's hover; shifting it
-    // darker restores darken-on-hover at the cost of step 700's vividness. 0 by
-    // default — see NEB_SOLID_HOVER_SHIFT_MAX.
-    const solidHoverShift = !neutral && (step === 600 || step === 700) ? NEB_SOLID_HOVER_SHIFT_MAX : 0
-    const res = solveStepL(lTable[step] - solidHoverShift, cTarget, hue, floorTable[step] ?? [], darkGround)
-    solvedL[step] = res.l
-    if (res.unsatisfiable)
+    const ratio = floors[step]
+    if (ratio == null) {
+      solvedL[step] = lTable[step]
+      continue
+    }
+    const { l, unmet } = solveWhiteFloor(lTable[step], peak * cShape[step], hue, ratio)
+    solvedL[step] = l
+    if (unmet)
       diagnostics.push(`${label} step ${step}: contrast floor cannot be met by lightness alone`)
-    else if (res.conflict)
-      diagnostics.push(`${label} step ${step}: light- and dark-ground floors conflict; kept the light-ground value`)
   }
 
-  // Monotonic post-pass — keep the ramp strictly darkening with a quantisable gap
+  // Monotonic post-pass — keep the ramp strictly darkening with a quantisable gap.
   let prevStep: NebColorStep | null = null
   for (const step of NEB_COLOR_STEPS) {
     if (prevStep !== null) {
@@ -438,44 +325,38 @@ export function buildNebRamp(seedHex: string, opts: BuildNebRampOptions = {}): N
   const steps = {} as Record<NebColorStep, NebRampStep>
   for (const step of NEB_COLOR_STEPS) {
     const l = solvedL[step]
-    const c = fitChroma(l, peak * cShape[step], hue)
-    const ints = stepInts(l, c, hue)
-    steps[step] = { hex: hexOf(ints), components: componentsOf(ints), l, c }
+    const want = peak * cShape[step]
+    const hex = shippedHex(l, want, hue)
+    steps[step] = { hex, components: componentsOf(hex), l, c: fitChroma(l, want, hue) }
   }
 
-  // Advisory checks — never move lightness
-  if (!neutral) {
-    for (const step of NEB_COLOR_STEPS) {
-      for (const adv of INTENT_ADVISORIES[step] ?? []) {
-        const ground = adv.ground === 'light' ? WHITE : darkGround
-        if (!ground)
-          continue
-        const r = contrast(quantise(parseHexSeed(steps[step].hex)), ground)
-        if (r < adv.ratio)
-          diagnostics.push(`${label} step ${step}: ${r.toFixed(2)}:1 vs ${adv.ground} ground, want ≥ ${adv.ratio} (${adv.note})`)
-      }
-    }
+  // Advisory — never moves lightness
+  if (!neutral && nebContrast(steps[300].hex, WHITE) < STEP_300_BORDER_ADVISORY) {
+    diagnostics.push(
+      `${label} step 300: ${nebContrast(steps[300].hex, WHITE).toFixed(2)}:1 vs light ground, `
+      + `want ≥ ${STEP_300_BORDER_ADVISORY} (light --neb-border-{intent}-strong/-focus/-invalid visibility)`,
+    )
   }
 
   // Bare token
   let bare: NebRampStep
   if (neutral) {
     const l = NEB_NEUTRAL_BARE_L
-    const c = fitChroma(l, peak, hue)
-    const ints = stepInts(l, c, hue)
-    bare = { hex: hexOf(ints), components: componentsOf(ints), l, c }
+    const hex = shippedHex(l, peak, hue)
+    bare = { hex, components: componentsOf(hex), l, c: fitChroma(l, peak, hue) }
   }
   else {
-    const ints = quantise(parseHexSeed(seedHex))
-    bare = { hex: hexOf(ints), components: componentsOf(ints), l: seed.l, c: cSeed }
+    // The bare `--{intent}-color` is the seed itself (8-bit quantised).
+    const hex = seed.hex
+    bare = { hex, components: componentsOf(hex), l: seed.l, c: seed.c }
     // The solid button fill is step 600 (contrast-floored), so a pale seed no
     // longer breaks it — but the raw `--{intent}-color` still shows through in
     // `--neb-border-{intent}-alert`, so flag a seed that would be a faint stripe.
-    const r = contrast(ints, WHITE)
+    const r = nebContrast(hex, WHITE)
     if (r < 3) {
       diagnostics.push(
-        `${label} ${hexOf(ints)} is very light — ${r.toFixed(2)}:1 on white — so --neb-border-${label.replace('Color', '')}-alert `
-        + `will read as a faint stripe. A darker seed (e.g. ${steps[600].hex}, ${contrast(quantise(parseHexSeed(steps[600].hex)), WHITE).toFixed(2)}:1) reads cleaner.`,
+        `${label} ${hex} is very light — ${r.toFixed(2)}:1 on white — so --neb-border-${label.replace('Color', '')}-alert `
+        + `will read as a faint stripe. A darker seed (e.g. ${steps[600].hex}, ${nebContrast(steps[600].hex, WHITE).toFixed(2)}:1) reads cleaner.`,
       )
     }
   }
@@ -502,12 +383,9 @@ export interface NebNeutralSpec {
  * hue-dependent 5%) and drops the tint entirely for an achromatic primary.
  */
 export function deriveNeutral(primaryHex: string, tint = NEB_NEUTRAL_TINT_DEFAULT, hue?: number): NebNeutralSpec {
-  const seed = toOklch(parseHexSeed(primaryHex))
-  const cSeed = seed.c ?? 0
-  const effTint = cSeed < NEB_ACHROMATIC_C ? 0 : tint
-  const effHue = hue ?? seed.h ?? 0
+  const seed = parseHexSeed(primaryHex)
+  const effTint = seed.c < NEB_ACHROMATIC_C ? 0 : tint
+  const effHue = hue ?? seed.h
 
-  const c = fitChroma(NEB_NEUTRAL_BARE_L, effTint, effHue)
-  const seedHex = hexOf(stepInts(NEB_NEUTRAL_BARE_L, c, effHue))
-  return { seedHex, hue: effHue, tint: effTint }
+  return { seedHex: shippedHex(NEB_NEUTRAL_BARE_L, effTint, effHue), hue: effHue, tint: effTint }
 }
