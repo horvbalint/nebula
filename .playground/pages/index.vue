@@ -1851,7 +1851,6 @@ function openViewer(index: number) {
   place-items: center;
   font-size: 10px;
   font-variant-numeric: tabular-nums;
-  opacity: 0.85;
 }
 
 .audit-summary {
