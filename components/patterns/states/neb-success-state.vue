@@ -98,7 +98,7 @@ withDefaults(defineProps<{
   }
   p {
     font: var(--neb-font-body-sm);
-    color: var(--neb-text-muted);
+    color: var(--neb-text-subtle);
   }
 }
 .call-to-action {

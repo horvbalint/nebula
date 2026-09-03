@@ -25,7 +25,7 @@ const props = withDefaults(defineProps<{
 
 <style scoped>
 .neb-badge {
-  --badge-bg: var(--neb-bg-muted);
+  --badge-bg: var(--neb-bg-subtle);
   --badge-border: var(--neb-border-subtle);
   --badge-text: var(--neb-text);
 

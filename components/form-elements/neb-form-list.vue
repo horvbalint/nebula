@@ -85,7 +85,7 @@ label {
 }
 
 .empty-list-text {
-  color: var(--neb-text-muted);
+  color: var(--neb-text-subtle);
   font-size: var(--text-sm);
 }
 
@@ -95,7 +95,7 @@ label {
   gap: var(--space-3);
 
   .delete-button {
-    background: var(--neb-bg-muted);
+    background: var(--neb-bg-subtle);
     border-radius: var(--radius-small);
     display: flex;
     align-items: center;

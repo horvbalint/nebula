@@ -116,7 +116,7 @@ export default defineComponent({
     --btn-bg-soft: var(--neb-bg);
     --btn-bg-soft-hover: var(--neb-bg-hover);
     --btn-border: var(--neb-border);
-    --btn-text: var(--neb-text-muted);
+    --btn-text: var(--neb-text-subtle);
     --btn-text-hover: var(--neb-text);
     --btn-ring: var(--neb-ring-neutral);
   }

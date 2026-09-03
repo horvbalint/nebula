@@ -81,7 +81,7 @@ withDefaults(defineProps<{
       & h1 {
         font-size: var(--text-sm);
         font-weight: 600;
-        color: var(--neb-text-muted);
+        color: var(--neb-text-subtle);
       }
     }
   }
@@ -108,7 +108,7 @@ withDefaults(defineProps<{
   & p {
     font-size: var(--text-md);
     font-weight: 400;
-    color: var(--neb-text-muted);
+    color: var(--neb-text-subtle);
     line-height: 1.5;
   }
 }
@@ -125,7 +125,7 @@ withDefaults(defineProps<{
   align-self: stretch;
 }
 .header-icon {
-  background: var(--neb-bg-muted);
+  background: var(--neb-bg-subtle);
   align-self: stretch;
   display: flex;
   align-items: center;

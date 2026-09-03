@@ -156,7 +156,7 @@ const formattedMaxSize = computed(() => {
   }
   span {
     font-size: var(--text-sm);
-    color: var(--neb-text-muted);
+    color: var(--neb-text-subtle);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -164,7 +164,7 @@ const formattedMaxSize = computed(() => {
 }
 .hint {
   font-size: var(--text-xs);
-  color: var(--neb-text-muted);
+  color: var(--neb-text-subtle);
   font-weight: 400;
 }
 </style>

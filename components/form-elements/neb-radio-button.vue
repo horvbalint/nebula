@@ -52,7 +52,7 @@ input[type='radio'] {
 
   &:disabled {
     cursor: not-allowed;
-    background: var(--neb-bg-muted);
+    background: var(--neb-bg-disabled);
 
     + p {
       color: var(--neb-text-subtle);

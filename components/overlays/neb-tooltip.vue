@@ -71,7 +71,7 @@ const floatingOptions: UseFloatingOptions = {
   }
   p {
     font-weight: 500;
-    color: var(--neb-text-muted);
+    color: var(--neb-text-subtle);
     font-size: var(--text-xs);
   }
 }

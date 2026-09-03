@@ -38,10 +38,10 @@ export default defineComponent({
   justify-content: center;
   flex-shrink: 0;
   flex-grow: 0;
-  background: var(--neb-bg-muted);
+  background: var(--neb-bg-subtle);
   border-radius: 50%;
   border: 1px solid var(--neb-border-subtle);
-  color: var(--neb-text-muted);
+  color: var(--neb-text-subtle);
   transition: all var(--duration-fast);
   outline: 0px solid var(--neb-border);
 
@@ -63,7 +63,7 @@ export default defineComponent({
   span {
     font-size: var(--text-sm);
     font-weight: 600;
-    color: var(--neb-text-muted);
+    color: var(--neb-text-subtle);
   }
 }
 .badge {
@@ -72,7 +72,7 @@ export default defineComponent({
   right: -6%;
   width: 35%;
   height: 35%;
-  background: var(--neb-bg-muted);
+  background: var(--neb-bg-raised);
   border-radius: 50%;
   border: 2px solid var(--neb-bg-page);
   display: flex;

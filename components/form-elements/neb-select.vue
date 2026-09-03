@@ -466,7 +466,7 @@ watch(searchTerm, orderOptions)
     }
   }
   .icon {
-    color: var(--neb-text-muted);
+    color: var(--neb-text-subtle);
     transition: transform var(--duration-default);
   }
 }
@@ -490,7 +490,7 @@ watch(searchTerm, orderOptions)
 }
 .hint {
   font: var(--neb-font-hint);
-  color: var(--neb-text-muted);
+  color: var(--neb-text-subtle);
 }
 .select-options {
   position: relative;
@@ -531,7 +531,7 @@ watch(searchTerm, orderOptions)
     width: 18px;
     height: 18px;
     cursor: pointer;
-    color: var(--neb-text-muted);
+    color: var(--neb-text-subtle);
   }
 }
 ul {
@@ -595,7 +595,7 @@ li {
   .icon {
     width: var(--space-5);
     height: var(--space-5);
-    color: var(--neb-text-muted);
+    color: var(--neb-text-subtle);
   }
   .success-icon {
     color: var(--neb-text-primary);

@@ -152,7 +152,7 @@ li {
   .icon {
     width: var(--space-5);
     height: var(--space-5);
-    color: var(--neb-text-muted);
+    color: var(--neb-text-subtle);
   }
 }
 </style>

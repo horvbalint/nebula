@@ -240,7 +240,7 @@ th {
   flex: 1;
   padding: var(--space-3) var(--space-6);
   text-align: left;
-  color: var(--neb-text-muted);
+  color: var(--neb-text-subtle);
   font-size: var(--text-xs);
   font-weight: 500;
   white-space: nowrap;
@@ -298,7 +298,7 @@ tbody {
     padding: var(--space-3) var(--space-6);
     font-size: var(--text-sm);
     font-weight: 400;
-    color: var(--neb-text-muted);
+    color: var(--neb-text-subtle);
     text-align: left;
     white-space: nowrap;
 

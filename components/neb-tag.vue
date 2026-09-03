@@ -39,7 +39,7 @@ defineEmits<{
   .icon {
     width: 16px;
     height: 16px;
-    color: var(--neb-text-muted);
+    color: var(--neb-text-subtle);
     cursor: pointer;
     transition: color var(--duration-default);
 

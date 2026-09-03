@@ -150,7 +150,7 @@ label {
   flex-direction: column;
   gap: var(--space-1);
   text-align: center;
-  color: var(--neb-text-muted);
+  color: var(--neb-text-subtle);
   font-size: var(--text-sm);
 }
 .description {

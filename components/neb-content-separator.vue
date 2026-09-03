@@ -28,7 +28,7 @@ defineProps<{
   }
   h6 {
     font: var(--neb-font-label);
-    color: var(--neb-text-muted);
+    color: var(--neb-text-subtle);
   }
 }
 hr {

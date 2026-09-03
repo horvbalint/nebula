@@ -38,8 +38,11 @@ default seeds. This guide is about getting back to the old look where you want i
 - **Light-mode solid buttons** are now `--{intent}-color-600` instead of the raw
   seed, and hover is `-700` (a clear darken). The resting button is very close to
   your brand colour but not the exact hex — see §3b to pin it.
-- **`--neb-text-subtle`** (light) is one step darker (`neutral-400 → neutral-500`)
-  so captions/timestamps clear AA. Slightly less faint.
+- **De-emphasised text is now one token.** `--neb-text-muted` was renamed to
+  `--neb-text-subtle` (value unchanged: `neutral-600` light / `neutral-400` dark),
+  and the old faint `--neb-text-subtle` tier (`neutral-400`/`-500`) was dropped —
+  its callers (captions, placeholders, separators) now sit on the `-600` value and
+  gain contrast. See §2c to restore a faint tier.
 - **Neutral surfaces and text barely move** — the neutral ramp is within ~2 sRGB
   levels of the old one at most steps.
 - Ramps are smoother: no more tiny 500→600 step followed by a 600→700 cliff.
@@ -113,15 +116,25 @@ Trade-off you're taking back on: with a light or mid-lightness brand seed the
 hover barely changes, and white text on a pale seed can drop below AA. That's
 exactly why the default moved to 600.
 
-### 2c. Keep the old, fainter subtle text
+### 2c. Restore the old two-tier de-emphasised text
+
+The layer now ships a single de-emphasised tier, `--neb-text-subtle`
+(`neutral-600` / `neutral-400`). If your app relied on the old split — a `-600`
+tier for secondary copy and a fainter `-400` tier for captions/placeholders —
+add your own token for the faint one and point the affected rules at it:
 
 ```css
 :root {
-  --neb-text-subtle: var(--neutral-color-400);
+  --app-text-faint: var(--neutral-color-400);
+}
+.dark-mode {
+  --app-text-faint: var(--neutral-color-500);
 }
 ```
 
-(`--neb-text-subtle` in dark mode is unchanged.)
+Overriding `--neb-text-subtle` itself to `-400` is **not** equivalent — it would
+drag all secondary body copy below a comfortable contrast, which is why the tiers
+were merged upward rather than downward.
 
 ### 2d. `--{family}-color-500` was your brand colour
 
@@ -204,10 +217,13 @@ those `:root` overrides too for a full pixel-match.
 
 ## Reference — default `#7c4ddb` palette, old → new
 
-Light end is close; the dark half moved the most.
+Light end is close; the dark half moved the most. Step `25` is new — it was
+added later (for `--neb-bg-page` and `--neb-bg-{intent}-subtle`) and has no old
+equivalent.
 
 | step | primary old | primary new | neutral old | neutral new |
 | --- | --- | --- | --- | --- |
+| 25  | —         | `#FAF9FF` | —         | `#FCFBFE` |
 | 50  | `#F8F6FD` | `#F5F3FF` | `#F8F8F8` | `#F7F6F9` |
 | 100 | `#F2EDFB` | `#ECE8FF` | `#F1F0F2` | `#EEEEF1` |
 | 200 | `#DED3F6` | `#DCD4FF` | `#DCDBDD` | `#DEDDE2` |

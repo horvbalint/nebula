@@ -98,7 +98,7 @@ const { isMobile } = useAppBreakpoints()
   height: 40px;
   line-height: 40px;
   font-weight: 600;
-  color: var(--neb-text-muted);
+  color: var(--neb-text-subtle);
   background: inherit;
   transition: all var(--duration-default);
   cursor: pointer;

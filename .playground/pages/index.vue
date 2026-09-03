@@ -66,19 +66,19 @@ const sections = [
 ]
 
 const colorScales = ['primary', 'neutral', 'success', 'error', 'warning', 'info']
-const shades = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]
+const shades = [25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]
 const textStyles = [
   { name: 'title-lg', fg: 'text' },
   { name: 'title', fg: 'text' },
   { name: 'heading', fg: 'text' },
   { name: 'label-strong', fg: 'text' },
   { name: 'label', fg: 'text' },
-  { name: 'body', fg: 'text-muted' },
-  { name: 'body-sm', fg: 'text-muted' },
+  { name: 'body', fg: 'text-subtle' },
+  { name: 'body-sm', fg: 'text-subtle' },
   { name: 'caption', fg: 'text-subtle' },
-  { name: 'hint', fg: 'text-muted' },
+  { name: 'hint', fg: 'text-subtle' },
 ]
-const backgrounds = ['page', 'base', 'raised', 'subtle', 'muted', 'hover', 'active', 'selected', 'disabled']
+const backgrounds = ['page', 'base', 'raised', 'subtle', 'hover', 'active', 'selected', 'disabled']
 const intents = ['primary', 'success', 'error', 'warning', 'info']
 const spaces = [1, 2, 3, 4, 6, 8, 12, 16]
 const shadows = ['xs', 'sm', 'md', 'lg', 'xl', '2xl']
@@ -97,7 +97,6 @@ function readVar(name: string) {
 }
 
 function runColorAudit() {
-  const dark = isDark.value
   const checks: Omit<AuditRow, 'ratio' | 'ok'>[] = []
 
   // Every row resolves *semantic* tokens for the current theme, so this checks
@@ -113,8 +112,7 @@ function runColorAudit() {
 
   checks.push(
     { label: 'body text', token: '--neb-text', ground: '--neb-bg-page', floor: 7 },
-    { label: 'muted text', token: '--neb-text-muted', ground: '--neb-bg-page', floor: 4.5 },
-    { label: 'subtle text', token: '--neb-text-subtle', ground: '--neb-bg-page', floor: dark ? 3 : 4.5 },
+    { label: 'subtle text', token: '--neb-text-subtle', ground: '--neb-bg-page', floor: 4.5 },
     { label: 'disabled text', token: '--neb-text-disabled', ground: '--neb-bg-page', floor: 3 },
     { label: 'neutral on-solid', token: '--neb-text-on-solid', ground: '--neb-bg-neutral-solid', floor: 4.5 },
     { label: 'neutral on-solid-hover', token: '--neb-text-on-solid', ground: '--neb-bg-neutral-solid-hover', floor: 4.5 },
@@ -1733,7 +1731,7 @@ function openViewer(index: number) {
     padding: var(--space-2) var(--space-3);
     border-radius: var(--radius-default);
     font: var(--neb-font-label);
-    color: var(--neb-text-muted);
+    color: var(--neb-text-subtle);
     text-decoration: none;
 
     &:hover {
@@ -1773,7 +1771,7 @@ function openViewer(index: number) {
 }
 .demo-title {
   font: var(--neb-font-hint);
-  color: var(--neb-text-muted);
+  color: var(--neb-text-subtle);
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -1888,7 +1886,7 @@ function openViewer(index: number) {
 .audit-token {
   font-family: ui-monospace, monospace;
   font-size: var(--text-xs);
-  color: var(--neb-text-muted);
+  color: var(--neb-text-subtle);
 }
 .audit-row.fail .audit-token {
   color: var(--neb-text-error);
@@ -1917,7 +1915,7 @@ function openViewer(index: number) {
   border: 1px solid var(--neb-border-subtle);
   border-radius: var(--radius-default);
   font: var(--neb-font-caption);
-  color: var(--neb-text-muted);
+  color: var(--neb-text-subtle);
 }
 .type-list {
   display: flex;
@@ -1945,7 +1943,7 @@ function openViewer(index: number) {
   border-radius: var(--radius-default);
   background: var(--neb-bg-raised);
   font: var(--neb-font-caption);
-  color: var(--neb-text-muted);
+  color: var(--neb-text-subtle);
 }
 
 /* ---------------------------------- pieces --------------------------------- */
@@ -1970,7 +1968,7 @@ function openViewer(index: number) {
 .menu-header {
   padding: var(--space-2) var(--space-3);
   font: var(--neb-font-hint);
-  color: var(--neb-text-muted);
+  color: var(--neb-text-subtle);
 }
 .toast-preview {
   max-width: 420px;
@@ -2008,7 +2006,7 @@ function openViewer(index: number) {
     border-radius: var(--radius-default);
     background: var(--neb-bg-subtle);
     font: var(--neb-font-body-sm);
-    color: var(--neb-text-muted);
+    color: var(--neb-text-subtle);
   }
 }
 .group {
@@ -2034,7 +2032,7 @@ function openViewer(index: number) {
   border-radius: var(--radius-default);
   background: var(--neb-bg-subtle);
   font: var(--neb-font-body-sm);
-  color: var(--neb-text-muted);
+  color: var(--neb-text-subtle);
 }
 .resizable {
   overflow: auto;

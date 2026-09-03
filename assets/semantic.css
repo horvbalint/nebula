@@ -28,11 +28,10 @@
 
 :root {
   /* BACKGROUNDS — neutral */
-  --neb-bg-page: var(--white);
+  --neb-bg-page: var(--neutral-color-25); /* experiment: faint neutral tint, one step below 50 */
   --neb-bg: var(--white);
   --neb-bg-raised: var(--white);
   --neb-bg-subtle: var(--neutral-color-50);
-  --neb-bg-muted: var(--neutral-color-100);
   --neb-bg-hover: var(--neutral-color-50);
   --neb-bg-active: var(--neutral-color-100);
   --neb-bg-selected: var(--primary-color-50);
@@ -48,45 +47,46 @@
    * 600 to a 4.5:1 floor on white, so the solid button stays AA for any brand
    * seed, and its hover (700) visibly darkens. The raw brand hex is still exact
    * in `--neb-border-{intent}-alert`. */
-  --neb-bg-primary: var(--primary-color-100);
-  --neb-bg-primary-subtle: var(--primary-color-50);
-  --neb-bg-primary-hover: var(--primary-color-200);
+  --neb-bg-primary: var(--primary-color-50); /* experiment: one step lighter (was 100) */
+  --neb-bg-primary-subtle: var(--primary-color-25); /* experiment: one step lighter (was 50) */
+  --neb-bg-primary-hover: var(--primary-color-100); /* experiment: one step lighter (was 200) */
   --neb-bg-primary-solid: var(--primary-color-600);
   --neb-bg-primary-solid-hover: var(--primary-color-700);
   --neb-bg-primary-solid-disabled: var(--primary-color-200);
 
-  --neb-bg-success: var(--success-color-100);
-  --neb-bg-success-subtle: var(--success-color-50);
-  --neb-bg-success-hover: var(--success-color-200);
+  --neb-bg-success: var(--success-color-50); /* experiment: one step lighter (was 100) */
+  --neb-bg-success-subtle: var(--success-color-25); /* experiment: one step lighter (was 50) */
+  --neb-bg-success-hover: var(--success-color-100); /* experiment: one step lighter (was 200) */
   --neb-bg-success-solid: var(--success-color-600);
   --neb-bg-success-solid-hover: var(--success-color-700);
   --neb-bg-success-solid-disabled: var(--success-color-200);
 
-  --neb-bg-error: var(--error-color-100);
-  --neb-bg-error-subtle: var(--error-color-50);
-  --neb-bg-error-hover: var(--error-color-200);
+  --neb-bg-error: var(--error-color-50); /* experiment: one step lighter (was 100) */
+  --neb-bg-error-subtle: var(--error-color-25); /* experiment: one step lighter (was 50) */
+  --neb-bg-error-hover: var(--error-color-100); /* experiment: one step lighter (was 200) */
   --neb-bg-error-solid: var(--error-color-600);
   --neb-bg-error-solid-hover: var(--error-color-700);
   --neb-bg-error-solid-disabled: var(--error-color-200);
 
-  --neb-bg-warning: var(--warning-color-100);
-  --neb-bg-warning-subtle: var(--warning-color-50);
-  --neb-bg-warning-hover: var(--warning-color-200);
+  --neb-bg-warning: var(--warning-color-50); /* experiment: one step lighter (was 100) */
+  --neb-bg-warning-subtle: var(--warning-color-25); /* experiment: one step lighter (was 50) */
+  --neb-bg-warning-hover: var(--warning-color-100); /* experiment: one step lighter (was 200) */
   --neb-bg-warning-solid: var(--warning-color-600);
   --neb-bg-warning-solid-hover: var(--warning-color-700);
   --neb-bg-warning-solid-disabled: var(--warning-color-200);
 
-  --neb-bg-info: var(--info-color-100);
-  --neb-bg-info-subtle: var(--info-color-50);
-  --neb-bg-info-hover: var(--info-color-200);
+  --neb-bg-info: var(--info-color-50); /* experiment: one step lighter (was 100) */
+  --neb-bg-info-subtle: var(--info-color-25); /* experiment: one step lighter (was 50) */
+  --neb-bg-info-hover: var(--info-color-100); /* experiment: one step lighter (was 200) */
   --neb-bg-info-solid: var(--info-color-600);
   --neb-bg-info-solid-hover: var(--info-color-700);
   --neb-bg-info-solid-disabled: var(--info-color-200);
 
   /* TEXT — neutral */
   --neb-text: var(--neutral-color-900);
-  --neb-text-muted: var(--neutral-color-600);
-  --neb-text-subtle: var(--neutral-color-500); /* 500, not 400: keeps captions/timestamps at AA (4.5:1) on white */
+  /* the one de-emphasis tier — secondary copy, help text, captions, placeholders.
+   * 600, not 500: AA (4.5:1) on white with headroom. */
+  --neb-text-subtle: var(--neutral-color-600);
   --neb-text-disabled: var(--neutral-color-400);
   --neb-text-on-solid: var(--white);
 
@@ -165,7 +165,6 @@
   --neb-bg: var(--neutral-color-950);
   --neb-bg-raised: var(--neutral-color-900);
   --neb-bg-subtle: var(--neutral-color-900);
-  --neb-bg-muted: var(--neutral-color-800);
   --neb-bg-hover: var(--neutral-color-900);
   --neb-bg-active: var(--neutral-color-800);
   --neb-bg-selected: var(--primary-color-950);
@@ -180,45 +179,44 @@
    * `-solid` is 700 / hover 600 here — one step *lighter* on hover, mirroring the
    * light block's one-step-darker. Both move the fill toward the foreground; the
    * asymmetry is intentional, not a bug to "fix". */
-  --neb-bg-primary: var(--primary-color-950);
+  --neb-bg-primary: var(--primary-color-900); /* experiment: one step lighter (was 950) */
   --neb-bg-primary-subtle: var(--primary-color-950);
-  --neb-bg-primary-hover: var(--primary-color-900);
+  --neb-bg-primary-hover: var(--primary-color-800); /* experiment: one step lighter (was 900) */
   --neb-bg-primary-solid: var(--primary-color-700);
   --neb-bg-primary-solid-hover: var(--primary-color-600);
   --neb-bg-primary-solid-disabled: var(--primary-color-800);
 
-  --neb-bg-success: var(--success-color-950);
+  --neb-bg-success: var(--success-color-900); /* experiment: one step lighter (was 950) */
   --neb-bg-success-subtle: var(--success-color-950);
-  --neb-bg-success-hover: var(--success-color-900);
+  --neb-bg-success-hover: var(--success-color-800); /* experiment: one step lighter (was 900) */
   --neb-bg-success-solid: var(--success-color-700);
   --neb-bg-success-solid-hover: var(--success-color-600);
   --neb-bg-success-solid-disabled: var(--success-color-800);
 
-  --neb-bg-error: var(--error-color-950);
+  --neb-bg-error: var(--error-color-900); /* experiment: one step lighter (was 950) */
   --neb-bg-error-subtle: var(--error-color-950);
-  --neb-bg-error-hover: var(--error-color-900);
+  --neb-bg-error-hover: var(--error-color-800); /* experiment: one step lighter (was 900) */
   --neb-bg-error-solid: var(--error-color-700);
   --neb-bg-error-solid-hover: var(--error-color-600);
   --neb-bg-error-solid-disabled: var(--error-color-800);
 
-  --neb-bg-warning: var(--warning-color-950);
+  --neb-bg-warning: var(--warning-color-900); /* experiment: one step lighter (was 950) */
   --neb-bg-warning-subtle: var(--warning-color-950);
-  --neb-bg-warning-hover: var(--warning-color-900);
+  --neb-bg-warning-hover: var(--warning-color-800); /* experiment: one step lighter (was 900) */
   --neb-bg-warning-solid: var(--warning-color-700);
   --neb-bg-warning-solid-hover: var(--warning-color-600);
   --neb-bg-warning-solid-disabled: var(--warning-color-800);
 
-  --neb-bg-info: var(--info-color-950);
+  --neb-bg-info: var(--info-color-900); /* experiment: one step lighter (was 950) */
   --neb-bg-info-subtle: var(--info-color-950);
-  --neb-bg-info-hover: var(--info-color-900);
+  --neb-bg-info-hover: var(--info-color-800); /* experiment: one step lighter (was 900) */
   --neb-bg-info-solid: var(--info-color-700);
   --neb-bg-info-solid-hover: var(--info-color-600);
   --neb-bg-info-solid-disabled: var(--info-color-800);
 
   /* TEXT — neutral */
   --neb-text: var(--neutral-color-300);
-  --neb-text-muted: var(--neutral-color-400);
-  --neb-text-subtle: var(--neutral-color-500);
+  --neb-text-subtle: var(--neutral-color-400);
   --neb-text-disabled: var(--neutral-color-500);
   --neb-text-on-solid: var(--white);
 

@@ -3,6 +3,10 @@ import type { ValidityKey } from '@nebula/composables/neb-validate'
 
 type Item = string | number
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 const props = withDefaults(defineProps<{
   modelValue?: Item[]
   label: string

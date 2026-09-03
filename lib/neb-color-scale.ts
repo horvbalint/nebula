@@ -26,7 +26,7 @@ useMode(modeLrgb) // wcagContrast converts through linear-sRGB
 const toOklch = converter('oklch')
 const toRgb = converter('rgb')
 
-export const NEB_COLOR_STEPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950] as const
+export const NEB_COLOR_STEPS = [25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950] as const
 export type NebColorStep = typeof NEB_COLOR_STEPS[number]
 
 /* ------------------------------------------------------------------ */
@@ -40,6 +40,7 @@ export type NebColorStep = typeof NEB_COLOR_STEPS[number]
  * the intent families don't have.
  */
 export const NEB_INTENT_L: Record<NebColorStep, number> = {
+  25: 0.985,
   50: 0.970,
   100: 0.940,
   200: 0.890,
@@ -54,6 +55,7 @@ export const NEB_INTENT_L: Record<NebColorStep, number> = {
 }
 
 export const NEB_NEUTRAL_L: Record<NebColorStep, number> = {
+  25: 0.990,
   50: 0.975,
   100: 0.950,
   200: 0.900,
@@ -73,6 +75,7 @@ export const NEB_NEUTRAL_L: Record<NebColorStep, number> = {
  * tint needs proportionally more of it to read as tinted rather than dirty.
  */
 export const NEB_INTENT_C_SHAPE: Record<NebColorStep, number> = {
+  25: 0.10,
   50: 0.16,
   100: 0.30,
   200: 0.52,
@@ -88,6 +91,7 @@ export const NEB_INTENT_C_SHAPE: Record<NebColorStep, number> = {
 
 /** Neutral chroma is absolute (`neutralTint` × shape), not seed-scaled. */
 export const NEB_NEUTRAL_C_SHAPE: Record<NebColorStep, number> = {
+  25: 0.40,
   50: 0.50,
   100: 0.60,
   200: 0.75,
@@ -115,8 +119,8 @@ const NEB_INTENT_WHITE_FLOOR: Partial<Record<NebColorStep, number>> = {
 }
 
 const NEB_NEUTRAL_WHITE_FLOOR: Partial<Record<NebColorStep, number>> = {
-  400: 3.0, // light --neb-text-subtle / -disabled
-  600: 4.5, // light --neb-text-muted
+  400: 3.0, // light --neb-text-disabled
+  600: 4.5, // light --neb-text-subtle
   700: 4.5, // dark --neb-bg-neutral-solid under white
   900: 7.0, // light --neb-text (body)
 }

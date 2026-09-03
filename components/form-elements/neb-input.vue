@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+defineOptions({
+  inheritAttrs: false,
+})
+
 const props = withDefaults(defineProps<{
   modelValue: string | number | undefined
   leadingIcon?: string
@@ -198,7 +202,7 @@ label {
     }
   }
   .icon {
-    color: var(--neb-text-muted);
+    color: var(--neb-text-subtle);
 
     &.error-icon {
       color: var(--neb-text-error);
@@ -207,6 +211,6 @@ label {
 }
 .hint {
   font: var(--neb-font-hint);
-  color: var(--neb-text-muted);
+  color: var(--neb-text-subtle);
 }
 </style>

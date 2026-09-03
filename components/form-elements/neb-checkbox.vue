@@ -1,4 +1,8 @@
 <script lang="ts" setup generic="T">
+defineOptions({
+  inheritAttrs: false,
+})
+
 withDefaults(defineProps<{
   value?: T
   label?: string

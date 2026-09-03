@@ -354,7 +354,7 @@ header {
     border: none;
     width: 3px;
     height: 20px;
-    background: var(--neb-bg-muted);
+    background: var(--neb-border-subtle);
 
     &:last-child {
       display: none;

@@ -204,7 +204,7 @@ const { isMobile } = useAppBreakpoints()
     justify-content: flex-start;
 
     span {
-      color: var(--neb-text-muted);
+      color: var(--neb-text-subtle);
     }
   }
 }

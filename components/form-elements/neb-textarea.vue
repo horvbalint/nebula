@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+defineOptions({
+  inheritAttrs: false,
+})
+
 const props = withDefaults(defineProps<{
   modelValue: string | number | undefined
   label?: string
@@ -150,12 +154,12 @@ label {
     }
   }
   .icon {
-    color: var(--neb-text-muted);
+    color: var(--neb-text-subtle);
   }
 }
 .hint {
   font: var(--neb-font-hint);
-  color: var(--neb-text-muted);
+  color: var(--neb-text-subtle);
 }
 footer {
   display: flex;
@@ -163,7 +167,7 @@ footer {
 
   span {
     font-size: var(--text-sm);
-    color: var(--neb-text-muted);
+    color: var(--neb-text-subtle);
     font-weight: 500;
   }
 }

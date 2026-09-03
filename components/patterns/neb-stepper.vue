@@ -184,7 +184,7 @@ watch(() => props.modelValue, () => {
   .icon {
     width: 20px;
     height: 20px;
-    color: var(--neb-text-muted);
+    color: var(--neb-text-subtle);
   }
 }
 .step-text {
@@ -211,7 +211,7 @@ watch(() => props.modelValue, () => {
   p {
     font-size: var(--text-sm);
     font-weight: 400;
-    color: var(--neb-text-muted);
+    color: var(--neb-text-subtle);
     transition: all var(--duration-slow);
   }
 }

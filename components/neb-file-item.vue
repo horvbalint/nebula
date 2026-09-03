@@ -95,7 +95,7 @@ const imageUrl = computed(() => {
   }
   span {
     font-size: var(--text-sm);
-    color: var(--neb-text-muted);
+    color: var(--neb-text-subtle);
   }
 }
 .actions {

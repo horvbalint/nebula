@@ -156,7 +156,7 @@ li label {
       padding: 0 var(--space-3);
       font-size: var(--text-sm);
       font-weight: 600;
-      color: var(--neb-text-muted);
+      color: var(--neb-text-subtle);
       transition: all var(--duration-default);
       border-radius: var(--radius-small);
 
@@ -170,7 +170,7 @@ li label {
 
         &.disabled {
           color: var(--neb-text-disabled);
-          background: var(--neb-bg-muted);
+          background: var(--neb-bg-disabled);
         }
       }
       &.disabled {
@@ -272,7 +272,7 @@ li label {
       gap: var(--space-3);
       font-size: var(--text-sm);
       font-weight: 600;
-      color: var(--neb-text-muted);
+      color: var(--neb-text-subtle);
       transition: all var(--duration-default);
       border-bottom: 2px solid var(--neb-border-subtle);
       margin-bottom: -2px;
@@ -325,7 +325,7 @@ li label {
 }
 .count-badge {
   font-weight: 600;
-  color: var(--neb-text-muted);
+  color: var(--neb-text-subtle);
 }
 .mobile-icon {
   font-size: 20px !important;

@@ -89,7 +89,7 @@ header {
   z-index: 2;
 }
 .close-icon {
-  color: var(--neb-text-muted);
+  color: var(--neb-text-subtle);
 }
 .header {
   height: 100%;
@@ -125,7 +125,7 @@ header {
   }
   p {
     font: var(--neb-font-body-sm);
-    color: var(--neb-text-muted);
+    color: var(--neb-text-subtle);
   }
 }
 .body {

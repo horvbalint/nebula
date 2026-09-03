@@ -236,7 +236,7 @@ function next() {
 
     .shown-range {
       font-size: var(--text-sm);
-      color: var(--neb-text-muted);
+      color: var(--neb-text-subtle);
       font-weight: 500;
     }
     b {

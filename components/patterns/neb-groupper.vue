@@ -173,7 +173,7 @@ export default defineNuxtComponent({
   color: var(--neb-text);
 }
 .neb-groupper-group-chevron {
-  color: var(--neb-text-muted);
+  color: var(--neb-text-subtle);
   transition: transform var(--duration-fast);
 
   &.open {

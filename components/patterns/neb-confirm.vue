@@ -135,7 +135,7 @@ main {
 
   p {
     font-size: var(--text-sm);
-    color: var(--neb-text-muted);
+    color: var(--neb-text-subtle);
     line-height: 1.4;
     white-space: pre-wrap;
   }

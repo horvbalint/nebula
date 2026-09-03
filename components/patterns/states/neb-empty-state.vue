@@ -44,7 +44,7 @@ withDefaults(defineProps<{
   gap: var(--space-6);
 }
 .empty-icon {
-  background: var(--neb-bg-muted);
+  background: var(--neb-bg-subtle);
   padding: var(--space-3);
   border-radius: 50%;
   position: relative;
@@ -80,7 +80,7 @@ withDefaults(defineProps<{
   .icon {
     width: 32px;
     height: 32px;
-    color: var(--neb-text-muted);
+    color: var(--neb-text-subtle);
   }
 }
 .empty-state-text {
@@ -96,7 +96,7 @@ withDefaults(defineProps<{
   }
   p {
     font: var(--neb-font-body-sm);
-    color: var(--neb-text-muted);
+    color: var(--neb-text-subtle);
   }
 }
 .call-to-action {

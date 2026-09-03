@@ -11,7 +11,7 @@ and how a component consumes them.
 | Prefix | Property | Example |
 | --- | --- | --- |
 | `--neb-bg-*` | `background` | `background: var(--neb-bg-raised)` |
-| `--neb-text-*` | `color` | `color: var(--neb-text-muted)` |
+| `--neb-text-*` | `color` | `color: var(--neb-text-subtle)` |
 | `--neb-border-*` | `border` / `border-color` | `border: 1px solid var(--neb-border-subtle)` |
 | `--neb-font-*` | `font` (pair with a `--neb-text-*` colour) | `font: var(--neb-font-label)` |
 | `--neb-shadow-*` | `box-shadow` | `box-shadow: var(--neb-shadow-md)` |
@@ -22,7 +22,7 @@ segment** opts into a hue:
 
 ```css
 color: var(--neb-text); /* default body text */
-color: var(--neb-text-muted); /* de-emphasised, still neutral */
+color: var(--neb-text-subtle); /* de-emphasised, still neutral */
 color: var(--neb-text-error); /* error intent */
 
 background: var(--neb-bg); /* default surface */
@@ -67,7 +67,7 @@ blocks in `components/` — dark mode is entirely a re-resolution of these token
 ### One place to retune, names that carry intent
 
 Contrast, hover deltas, border strength, elevation on dark — tuned once here.
-And `--neb-text-muted` tells a reviewer "deliberately de-emphasised" where
+And `--neb-text-subtle` tells a reviewer "deliberately de-emphasised" where
 `--neutral-color-600` told them nothing.
 
 ## How resolution works (`:root` vs `.dark-mode`)
@@ -97,8 +97,7 @@ light-only alias would leak its frozen light value into a nested dark subtree.)
 | `--neb-bg-page` | The page/body background — bottom of the stack. |
 | `--neb-bg` | Default component background (cards, inputs, panels). |
 | `--neb-bg-raised` | Lifted above the page — menus, popovers, sticky headers. Light: same as `page`, separated by shadow. Dark: a step *lighter*. |
-| `--neb-bg-subtle` | The faintest neutral fill — table headers, inset wells, code blocks. The neutral counterpart of `--neb-bg-{intent}-subtle`. |
-| `--neb-bg-muted` | One step more — a quiet filled area. |
+| `--neb-bg-subtle` | The faintest neutral fill — icon chips, table headers, inset wells, code blocks, neutral badges. |
 | `--neb-bg-hover` / `--neb-bg-active` | Interaction states for otherwise-transparent rows / list items / ghost buttons. `active` is one step stronger. |
 | `--neb-bg-selected` | Persistent "this row is selected" fill — tinted with the **primary** hue, so selection reads as a brand action. |
 | `--neb-bg-disabled` | Fill for disabled controls. |
@@ -122,9 +121,8 @@ The neutral and intent background sets don't have identical shapes, on purpose:
 neutral backgrounds carry an **elevation** story (`page` → `raised` → `subtle`)
 that a red alert box simply doesn't have, so neutral names its levels by
 structural role while intent names them by tint strength. The levels that *do*
-correspond: `--neb-bg-subtle` ↔ `--neb-bg-{intent}-subtle`, `--neb-bg-muted` ↔
-`--neb-bg-{intent}`, `--neb-bg-hover` ↔ `--neb-bg-{intent}-hover`,
-`--neb-bg-neutral-solid` ↔ `--neb-bg-{intent}-solid`.
+correspond: `--neb-bg-subtle` ↔ `--neb-bg-{intent}`, `--neb-bg-active` ↔
+`--neb-bg-{intent}-hover`, `--neb-bg-neutral-solid` ↔ `--neb-bg-{intent}-solid`.
 
 ### Text — `--neb-text-*`
 
@@ -133,8 +131,7 @@ correspond: `--neb-bg-subtle` ↔ `--neb-bg-{intent}-subtle`, `--neb-bg-muted` �
 | Token | Job |
 | --- | --- |
 | `--neb-text` | Body text, headings, labels — the default. |
-| `--neb-text-muted` | De-emphasised — secondary copy, help text, table cells, standalone icons. |
-| `--neb-text-subtle` | Faint but still AA (4.5:1 on white) — placeholders, timestamps, captions. |
+| `--neb-text-subtle` | The one de-emphasis tier — secondary copy, help text, table cells, standalone icons, placeholders, timestamps, captions. Still AA (4.5:1 on white) with headroom. |
 | `--neb-text-disabled` | Text/icons in disabled controls — the only text tier below AA (WCAG-exempt). |
 | `--neb-text-on-solid` | Text/icons on a saturated `--neb-bg-*-solid` fill. White in both themes. |
 
@@ -198,7 +195,7 @@ the colour from the text ladder alongside it:
 }
 .hint {
   font: var(--neb-font-hint);
-  color: var(--neb-text-muted);
+  color: var(--neb-text-subtle);
 }
 ```
 
@@ -207,11 +204,11 @@ the colour from the text ladder alongside it:
 | `--neb-font-title-lg` | Page title | semibold / 30px / tight | `--neb-text` |
 | `--neb-font-title` | Section title | semibold / 18px / normal | `--neb-text` |
 | `--neb-font-heading` | Sub-heading, card header | semibold / 16px / normal | `--neb-text` |
-| `--neb-font-body` | Paragraph copy | regular / 16px / relaxed | `--neb-text-muted` |
-| `--neb-font-body-sm` | Dense copy, table cells | regular / 14px / normal | `--neb-text-muted` |
+| `--neb-font-body` | Paragraph copy | regular / 16px / relaxed | `--neb-text-subtle` |
+| `--neb-font-body-sm` | Dense copy, table cells | regular / 14px / normal | `--neb-text-subtle` |
 | `--neb-font-label` | Form labels, control text | medium / 14px / normal | `--neb-text` |
 | `--neb-font-label-strong` | Emphasised label | semibold / 14px / normal | `--neb-text` |
-| `--neb-font-hint` | Field help text | regular / 12px / normal | `--neb-text-muted` |
+| `--neb-font-hint` | Field help text | regular / 12px / normal | `--neb-text-subtle` |
 | `--neb-font-caption` | Smallest — metadata, overline | medium / 12px / normal | `--neb-text-subtle` |
 
 The "usual colour" column is guidance, not a rule — use `--neb-text-error` on a
@@ -245,10 +242,10 @@ hint under an invalid field, and so on. Notes on the `font` shorthand:
 | a divider line | `--neb-border-subtle` |
 | an input border at rest | `--neb-border` |
 | a heading / label | `--neb-font-heading` (or `-label`) + `--neb-text` |
-| paragraph copy | `--neb-font-body` + `--neb-text-muted` |
-| secondary / helper text | `--neb-text-muted` |
+| paragraph copy | `--neb-font-body` + `--neb-text-subtle` |
+| secondary / helper text | `--neb-text-subtle` |
 | a placeholder | `--neb-text-subtle` |
-| a standalone icon | `--neb-text-muted` |
+| a standalone icon | `--neb-text-subtle` |
 | a faint inset area (table header, well) | `--neb-bg-subtle` |
 | a primary button | `--neb-bg-primary-solid` + `--neb-text-on-solid` + `--neb-bg-primary-solid-hover` |
 | a subtle success alert | `--neb-bg-success-subtle` + `--neb-border-success` + `--neb-text-success` |
