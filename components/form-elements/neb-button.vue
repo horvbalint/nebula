@@ -84,7 +84,6 @@ export default defineComponent({
     padding: var(--space-1);
     border-radius: var(--radius-small);
   }
-
   /* INTENT SLOTS */
   &.destructive {
     --btn-bg-solid: var(--neb-bg-error-solid);

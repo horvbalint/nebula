@@ -63,7 +63,7 @@ Native-constraint based, no schema library. Inputs call `useNebValidateNative(in
 
 ### Runtime configuration
 
-[app.config.ts](app.config.ts) holds the app-overridable knobs under `nebula` (`nebCompact.debounce`, `nebSelect.emptyValue`, `homePath`) plus `icon` defaults; read them with `useAppConfig().nebula`. Build-time-only options (colors) go through `nuxt.config.ts` instead.
+[app.config.ts](app.config.ts) holds the app-overridable knobs under `nebula` (`nebCompact.debounce`, `nebSelect.emptyValue`, `nebSaveRestore.storage`, `homePath`) plus `icon` defaults; read them with `useAppConfig().nebula`. Build-time-only options (colors) go through `nuxt.config.ts` instead.
 
 ### Navigation metadata
 

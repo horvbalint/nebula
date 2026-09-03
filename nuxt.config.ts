@@ -26,8 +26,8 @@ export default defineNuxtConfig({
   ],
   nebula: {
     primaryColor: '#7c4ddb',
-    errorColor: '#F04438',
-    warningColor: '#F79009',
+    errorColor: '#D92D20',
+    warningColor: '#A96000',
     successColor: '#198754',
   },
 
@@ -47,6 +47,7 @@ export default defineNuxtConfig({
         'dayjs/plugin/relativeTime',
         'fuse.js',
         '@floating-ui/vue',
+        'culori/fn',
       ],
     },
     css: {
@@ -91,6 +92,14 @@ export default defineNuxtConfig({
   // typescript: {
   //   typeCheck: true,
   // },
+
+  // `scripts/` holds standalone dev tools run via `node --experimental-strip-types`,
+  // which requires explicit `.ts` import extensions the Nuxt tsconfig rejects.
+  typescript: {
+    tsConfig: {
+      exclude: ['../scripts', '../../scripts'],
+    },
+  },
   i18n: {
     locales: [
       {

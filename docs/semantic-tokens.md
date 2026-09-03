@@ -112,7 +112,7 @@ light-only alias would leak its frozen light value into a nested dark subtree.)
 | `--neb-bg-{intent}` | Tinted fill for a badge / alert body. |
 | `--neb-bg-{intent}-subtle` | The lightest tint — large fill areas, row highlight. Same shade level as neutral `--neb-bg-subtle`. |
 | `--neb-bg-{intent}-hover` | Hover state for a `-{intent}` / `-subtle` element. |
-| `--neb-bg-{intent}-solid` | Saturated, full-strength fill — a primary button at rest. |
+| `--neb-bg-{intent}-solid` | Saturated brand fill — a primary button at rest. Contrast-anchored (≈ scale step 600), so white `--neb-text-on-solid` on it is always AA; for the exact configured hex use `--neb-border-{intent}-alert`. |
 | `--neb-bg-{intent}-solid-hover` | Hover for `-solid`. |
 | `--neb-bg-{intent}-solid-disabled` | Disabled state for a `-solid` element. |
 
@@ -134,8 +134,8 @@ correspond: `--neb-bg-subtle` ↔ `--neb-bg-{intent}-subtle`, `--neb-bg-muted` �
 | --- | --- |
 | `--neb-text` | Body text, headings, labels — the default. |
 | `--neb-text-muted` | De-emphasised — secondary copy, help text, table cells, standalone icons. |
-| `--neb-text-subtle` | Barely-there — placeholders, timestamps, captions. |
-| `--neb-text-disabled` | Text/icons in disabled controls. |
+| `--neb-text-subtle` | Faint but still AA (4.5:1 on white) — placeholders, timestamps, captions. |
+| `--neb-text-disabled` | Text/icons in disabled controls — the only text tier below AA (WCAG-exempt). |
 | `--neb-text-on-solid` | Text/icons on a saturated `--neb-bg-*-solid` fill. White in both themes. |
 
 **Intent** — one token per hue, plus a hover:
