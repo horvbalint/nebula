@@ -1,6 +1,16 @@
+export type NebSaveRestoreStorage = 'local' | 'session'
+
 export interface NebSaveRestoreProps {
   enableSaveRestore?: boolean
   saveKey?: string
+  /**
+   * Where to persist the saved state.
+   * - `'local'` (default): survives browser restarts (localStorage)
+   * - `'session'`: cleared when the browser/tab is closed (sessionStorage)
+   *
+   * Falls back to `useAppConfig().nebula.nebSaveRestore.storage` when omitted.
+   */
+  saveRestoreStorage?: NebSaveRestoreStorage
 }
 
 type Validators<T extends Record<string, Ref<any>>> = {
@@ -16,10 +26,16 @@ export function useNebSaveRestore<T extends Record<string, Ref<any>>>(
   if (!props.enableSaveRestore || !props.saveKey)
     return
 
+  const configStorage = useAppConfig().nebula?.nebSaveRestore?.storage as NebSaveRestoreStorage | undefined
+  const storageMode = props.saveRestoreStorage ?? configStorage
+  const storage: Storage = storageMode === 'session'
+    ? sessionStorage
+    : localStorage
+
   const fullSaveKey = `${props.saveKey}-${name}`
 
-  // Load saved state from localStorage
-  const savedState = localStorage.getItem(fullSaveKey)
+  // Load saved state from storage
+  const savedState = storage.getItem(fullSaveKey)
   if (savedState) {
     try {
       const parsedState = JSON.parse(savedState)
@@ -37,7 +53,7 @@ export function useNebSaveRestore<T extends Record<string, Ref<any>>>(
     }
   }
 
-  // Watch for changes and save to localStorage
+  // Watch for changes and save to storage
   watch(
     () => refsObject,
     () => {
@@ -46,7 +62,7 @@ export function useNebSaveRestore<T extends Record<string, Ref<any>>>(
         stateToSave[key] = refsObject[key]!.value
       }
       try {
-        localStorage.setItem(fullSaveKey, JSON.stringify(stateToSave))
+        storage.setItem(fullSaveKey, JSON.stringify(stateToSave))
       }
       catch (e) {
         console.error('Failed to save state:', e)

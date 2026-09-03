@@ -9,6 +9,9 @@ export default defineAppConfig({
     nebSelect: {
       emptyValue: null,
     },
+    nebSaveRestore: {
+      storage: 'local' as NebSaveRestoreStorage,
+    },
     homePath: '/',
   },
   icon: {

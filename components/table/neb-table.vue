@@ -220,6 +220,7 @@ useNebSaveRestore('neb-table', props, {
         :data="sortedRows"
         :enable-save-restore="props.enableSaveRestore"
         :save-key="props.saveKey"
+        :save-restore-storage="props.saveRestoreStorage"
         :status="props.status"
       />
       <slot name="footer-end" />
