@@ -1,5 +1,5 @@
-import Color from 'color'
-import { getColors } from 'theme-colors'
+import type { NebRamp } from '../lib/neb-color-scale'
+import { buildNebRamp, deriveNeutral, NEB_COLOR_STEPS } from '../lib/neb-color-scale'
 
 export interface ColorPaletteSources {
   primaryColor: `#${string}`
@@ -8,50 +8,75 @@ export interface ColorPaletteSources {
   errorColor: `#${string}`
   warningColor: `#${string}`
   infoColor: `#${string}`
+  /** Absolute OKLCH chroma of the derived neutral ramp. 0 = pure grey. Default 0.008. */
+  neutralTint?: number
+  /** OKLCH hue (deg) for the neutral ramp. Defaults to the primary colour's hue. */
+  neutralHue?: number
 }
 
 export const nebDefaultColorPalette: ColorPaletteSources = {
   primaryColor: '#7c4ddb',
   secondaryColor: '#7c4ddb',
   successColor: '#198754',
-  errorColor: '#F04438',
-  warningColor: '#F79009',
+  errorColor: '#D92D20',
+  warningColor: '#A96000',
   infoColor: '#756b8a',
 }
 
-// saturation: 80-90
+export interface NebColorPalette {
+  colorPalette: Record<string, string>
+  colorComponents: Record<string, string>
+  /**
+   * Human-readable warnings — a seed that fails contrast as a solid fill, a
+   * step whose floor could not be met, etc. Surfaced by `modules/color.ts`.
+   */
+  diagnostics: string[]
+}
 
-export function calcColorPalette(sources: ColorPaletteSources) {
-  const colorPalette: Record<string, string> = {}
-  const colorComponents: Record<string, string> = {}
+function writeRamp(colorPalette: Record<string, string>, colorComponents: Record<string, string>, name: string, ramp: NebRamp) {
+  colorPalette[name] = ramp.bare.hex
+  colorComponents[`${name}-component`] = ramp.bare.components
 
-  createColorShades(colorPalette, colorComponents, 'primary-color', sources.primaryColor)
-  createColorShades(colorPalette, colorComponents, 'secondary-color', sources.secondaryColor)
-  createColorShades(colorPalette, colorComponents, 'success-color', sources.successColor)
-  createColorShades(colorPalette, colorComponents, 'error-color', sources.errorColor)
-  createColorShades(colorPalette, colorComponents, 'warning-color', sources.warningColor)
-  createColorShades(colorPalette, colorComponents, 'info-color', sources.infoColor)
-  const neutralColor = new Color(sources.primaryColor).saturationl(5).lightness(45)
-  createColorShades(colorPalette, colorComponents, 'neutral-color', neutralColor.hex())
-
-  return {
-    colorPalette,
-    colorComponents,
+  for (const step of NEB_COLOR_STEPS) {
+    colorPalette[`${name}-${step}`] = ramp.steps[step].hex
+    colorComponents[`${name}-component-${step}`] = ramp.steps[step].components
   }
 }
 
-function createColorShades(colorPalette: Record<string, string>, colorComponents: Record<string, string>, name: string, color: string) {
-  const colorShades = getColors(color)
+export function calcColorPalette(sources: ColorPaletteSources): NebColorPalette {
+  const colorPalette: Record<string, string> = {}
+  const colorComponents: Record<string, string> = {}
+  const diagnostics: string[] = []
 
-  const baseColor = new Color(color)
-  colorPalette[name] = baseColor.hex()
-  colorComponents[`${name}-component`] = baseColor.rgb().array().join(', ')
+  // The neutral ramp is built first: intent steps 300 / 900 / 950 have contrast
+  // floors measured against `neutral-color-950`. Pass one has no dark floors of
+  // its own (nothing to measure against yet) and only exists to produce that
+  // dark ground; pass two rebuilds it with its floors applied.
+  const neutral = deriveNeutral(sources.primaryColor, sources.neutralTint, sources.neutralHue)
+  const neutralPass1 = buildNebRamp(neutral.seedHex, { neutral: true, hue: neutral.hue, tint: neutral.tint, label: 'neutralColor' })
+  const darkGround = neutralPass1.steps[950].hex
+  const neutralRamp = buildNebRamp(neutral.seedHex, { neutral: true, hue: neutral.hue, tint: neutral.tint, darkGround, label: 'neutralColor' })
 
-  for (const shade in colorShades) {
-    const color = new Color(colorShades[shade])
-    colorPalette[`${name}-${shade}`] = color.hex()
-    colorComponents[`${name}-component-${shade}`] = color.rgb().array().join(', ')
+  const intents: [name: string, seed: `#${string}`, label: string][] = [
+    ['primary-color', sources.primaryColor, 'primaryColor'],
+    ['secondary-color', sources.secondaryColor, 'secondaryColor'],
+    ['success-color', sources.successColor, 'successColor'],
+    ['error-color', sources.errorColor, 'errorColor'],
+    ['warning-color', sources.warningColor, 'warningColor'],
+    ['info-color', sources.infoColor, 'infoColor'],
+  ]
+
+  for (const [name, seed, label] of intents) {
+    const ramp = buildNebRamp(seed, { darkGround, label })
+    writeRamp(colorPalette, colorComponents, name, ramp)
+    diagnostics.push(...ramp.diagnostics)
   }
+
+  // Emitted last, matching the previous generator's output order.
+  writeRamp(colorPalette, colorComponents, 'neutral-color', neutralRamp)
+  diagnostics.push(...neutralRamp.diagnostics)
+
+  return { colorPalette, colorComponents, diagnostics }
 }
 
 export function setNebColorPalette(sources: Partial<ColorPaletteSources>) {

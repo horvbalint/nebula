@@ -16,7 +16,10 @@ export default defineNuxtModule({
     const colorsFileLines = []
     const colorComponentsFileLines = []
 
-    const { colorPalette, colorComponents } = calcColorPalette(options)
+    const { colorPalette, colorComponents, diagnostics } = calcColorPalette(options)
+
+    for (const message of diagnostics)
+      console.warn(`[nebula] ${message}`)
 
     colorsFileLines.push(':root {')
     for (const name in colorPalette)

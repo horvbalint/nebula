@@ -6,6 +6,7 @@ import type { Menu } from '@nebula/components/overlays/neb-menu.vue'
 import type { Step } from '@nebula/components/patterns/neb-stepper.vue'
 import type { Columns, FormattedRow } from '@nebula/components/table/neb-table-frame.vue'
 import type { MaybeFile } from '@nebula/composables/neb-file'
+import { nebContrast } from '@nebula/lib/neb-color-scale'
 
 definePageMeta({
   nebula: {
@@ -26,7 +27,18 @@ useHead({
 })
 
 const primaryColor = ref('#7c4ddb')
-const presetColors = ['#7c4ddb', '#2563eb', '#0f766e', '#c2410c', '#be123c', '#334155']
+const presetColors = [
+  '#7c4ddb',
+  '#2563eb',
+  '#0f766e',
+  '#c2410c',
+  '#be123c',
+  '#334155',
+  // adversarial seeds — pale, near-black, achromatic
+  '#eab308',
+  '#111827',
+  '#808080',
+]
 watch(primaryColor, color => setNebColorPalette({ primaryColor: color as `#${string}` }))
 
 const { locale, setLocale } = useI18n()
@@ -70,6 +82,65 @@ const backgrounds = ['page', 'base', 'raised', 'subtle', 'muted', 'hover', 'acti
 const intents = ['primary', 'success', 'error', 'warning', 'info']
 const spaces = [1, 2, 3, 4, 6, 8, 12, 16]
 const shadows = ['xs', 'sm', 'md', 'lg', 'xl', '2xl']
+
+/* ------------------------------------------------------------------ */
+/* Contrast audit — reads the *shipped* variables back off the DOM, so */
+/* it validates generator -> module -> CSS -> cascade, not just maths. */
+/* ------------------------------------------------------------------ */
+
+interface AuditRow { label: string, token: string, ground: string, ratio: number, floor: number, ok: boolean }
+const auditRows = ref<AuditRow[]>([])
+const swatchInk = ref<Record<string, string>>({})
+
+function readVar(name: string) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim()
+}
+
+function runColorAudit() {
+  const dark = isDark.value
+  const checks: Omit<AuditRow, 'ratio' | 'ok'>[] = []
+
+  // Every row resolves *semantic* tokens for the current theme, so this checks
+  // the semantic.css mapping, not just the generated ramp.
+  for (const intent of intents) {
+    checks.push(
+      { label: `${intent} text`, token: `--neb-text-${intent}`, ground: '--neb-bg-page', floor: 4.5 },
+      { label: `${intent} text-hover`, token: `--neb-text-${intent}-hover`, ground: '--neb-bg-page', floor: 4.5 },
+      { label: `${intent} on-solid`, token: '--neb-text-on-solid', ground: `--neb-bg-${intent}-solid`, floor: 4.5 },
+      { label: `${intent} on-solid-hover`, token: '--neb-text-on-solid', ground: `--neb-bg-${intent}-solid-hover`, floor: 4.5 },
+    )
+  }
+
+  checks.push(
+    { label: 'body text', token: '--neb-text', ground: '--neb-bg-page', floor: 7 },
+    { label: 'muted text', token: '--neb-text-muted', ground: '--neb-bg-page', floor: 4.5 },
+    { label: 'subtle text', token: '--neb-text-subtle', ground: '--neb-bg-page', floor: dark ? 3 : 4.5 },
+    { label: 'disabled text', token: '--neb-text-disabled', ground: '--neb-bg-page', floor: 3 },
+    { label: 'neutral on-solid', token: '--neb-text-on-solid', ground: '--neb-bg-neutral-solid', floor: 4.5 },
+    { label: 'neutral on-solid-hover', token: '--neb-text-on-solid', ground: '--neb-bg-neutral-solid-hover', floor: 4.5 },
+  )
+
+  auditRows.value = checks.map((c) => {
+    const fg = readVar(c.token)
+    const bg = readVar(c.ground)
+    const ratio = fg && bg ? nebContrast(fg, bg) : 0
+    return { ...c, ratio, ok: ratio >= c.floor }
+  })
+
+  const ink: Record<string, string> = {}
+  for (const scale of colorScales) {
+    for (const shade of shades) {
+      const hex = readVar(`--${scale}-color-${shade}`)
+      ink[`${scale}-${shade}`] = hex && nebContrast(hex, '#000000') >= nebContrast(hex, '#ffffff') ? '#000' : '#fff'
+    }
+  }
+  swatchInk.value = ink
+}
+
+const auditFailures = computed(() => auditRows.value.filter(r => !r.ok).length)
+
+onMounted(runColorAudit)
+watch([primaryColor, isDark], () => nextTick(runColorAudit))
 
 /* ------------------------------------------------------------------ */
 /* Buttons                                                             */
@@ -415,10 +486,33 @@ function openViewer(index: number) {
                     v-for="shade in shades"
                     :key="shade"
                     class="swatch"
-                    :style="{ background: `var(--${scale}-color-${shade})` }"
+                    :style="{ background: `var(--${scale}-color-${shade})`, color: swatchInk[`${scale}-${shade}`] }"
                     :title="`--${scale}-color-${shade}`"
-                  />
+                  >
+                    {{ shade }}
+                  </div>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="demo">
+            <p class="demo-title">
+              Contrast audit
+              <span class="audit-summary" :class="{ fail: auditFailures > 0 }">
+                {{ auditFailures > 0 ? `${auditFailures} failing` : 'all pass' }}
+                · {{ isDark ? 'dark' : 'light' }}
+              </span>
+            </p>
+            <p class="demo-note">
+              WCAG ratios read back from the shipped custom properties for the current primary and theme.
+            </p>
+            <div class="audit-grid">
+              <div v-for="row in auditRows" :key="row.label + row.token" class="audit-row" :class="{ fail: !row.ok }">
+                <span class="audit-label">{{ row.label }}</span>
+                <code class="audit-token">{{ row.token }}</code>
+                <span class="audit-ratio">{{ row.ratio.toFixed(2) }}<span class="audit-floor">/ {{ row.floor.toFixed(1) }}</span></span>
+                <span class="audit-badge">{{ row.ok ? '✓' : '✗' }}</span>
               </div>
             </div>
           </div>
@@ -1753,6 +1847,67 @@ function openViewer(index: number) {
   flex: 1;
   height: 32px;
   border-radius: var(--radius-sm, 4px);
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.85;
+}
+
+.audit-summary {
+  margin-left: var(--space-2);
+  padding: 2px 8px;
+  border-radius: var(--radius-small);
+  font: var(--neb-font-caption);
+  background: var(--neb-bg-success-subtle);
+  color: var(--neb-text-success);
+}
+.audit-summary.fail {
+  background: var(--neb-bg-error-subtle);
+  color: var(--neb-text-error);
+}
+.audit-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: var(--space-3);
+}
+.audit-row {
+  display: grid;
+  grid-template-columns: 1fr auto 88px 20px;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-small);
+  background: var(--neb-bg-subtle);
+  font: var(--neb-font-body-sm);
+}
+.audit-row.fail {
+  background: var(--neb-bg-error-subtle);
+  color: var(--neb-text-error);
+}
+.audit-token {
+  font-family: ui-monospace, monospace;
+  font-size: var(--text-xs);
+  color: var(--neb-text-muted);
+}
+.audit-row.fail .audit-token {
+  color: var(--neb-text-error);
+}
+.audit-ratio {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.audit-floor {
+  margin-left: 4px;
+  color: var(--neb-text-subtle);
+}
+.audit-badge {
+  text-align: center;
+  color: var(--neb-text-success);
+}
+.audit-row.fail .audit-badge {
+  color: var(--neb-text-error);
 }
 .surface-chip {
   display: grid;
