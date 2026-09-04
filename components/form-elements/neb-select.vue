@@ -14,7 +14,7 @@ import NebDropdown from '../overlays/neb-dropdown.vue'
 export type ObjectOption<TrackByKey extends PropertyKey, LabelKey extends PropertyKey> = {
   [K in TrackByKey]: any;
 } & {
-  [K in LabelKey]: PropertyKey;
+  [K in LabelKey]?: PropertyKey | null;
 }
 
 type TrackValue = T extends PropertyKey ? PropertyKey : T extends ObjectOption<TrackByKey, LabelKey> ? T[TrackByKey] : never
@@ -38,7 +38,7 @@ const props = withDefaults(defineProps<{
   disabled?: boolean
   allowEmpty?: boolean
   emptyValue?: null | undefined
-  customLabel?: (option: T) => PropertyKey
+  customLabel?: (option: T) => PropertyKey | null | undefined
   transformFun?: (a: TrackValue) => PropertyKey
   onNew?: (searchTerm: string) => unknown
 }>(), {
@@ -93,7 +93,7 @@ const processedOptions = computed<ProcessedOption[]>(() => {
     return (props.options as ObjectOption<TrackByKey, LabelKey>[]).map(option => ({
       transformedTrackValue: transformTrackValueFun(option[props.trackByKey!]),
       trackValue: option[props.trackByKey!],
-      labelValue: props.customLabel ? props.customLabel(option as T) : option[props.labelKey!],
+      labelValue: (props.customLabel ? props.customLabel(option as T) : option[props.labelKey!]) ?? '',
       option: option as T,
     }))
   }
@@ -101,7 +101,7 @@ const processedOptions = computed<ProcessedOption[]>(() => {
     return (props.options as PropertyKey[]).map(option => ({
       transformedTrackValue: transformTrackValueFun(option as TrackValue),
       trackValue: option as TrackValue,
-      labelValue: props.customLabel ? props.customLabel(option as T) : option,
+      labelValue: (props.customLabel ? props.customLabel(option as T) : option) ?? '',
       option: option as T,
     }))
   }

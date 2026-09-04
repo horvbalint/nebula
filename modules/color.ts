@@ -1,6 +1,6 @@
 import fs from 'node:fs'
-import { calcColorPalette, nebDefaultColorPalette } from '@nebula/composables/neb-color'
 import { createResolver, defineNuxtModule } from '@nuxt/kit'
+import { calcColorPalette, nebDefaultColorPalette } from '../composables/neb-color'
 
 const { resolve } = createResolver(import.meta.url)
 

@@ -1,4 +1,6 @@
-export type NebSaveRestoreStorage = 'local' | 'session'
+import type { NebSaveRestoreStorage } from '@nebula/global'
+
+export type { NebSaveRestoreStorage }
 
 export interface NebSaveRestoreProps {
   enableSaveRestore?: boolean

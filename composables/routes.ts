@@ -1,4 +1,5 @@
 import type { Route } from '@nebula/components/navigation/header-nav/neb-header-nav.vue'
+import type { NebulaNavSettings } from '@nebula/global'
 import { computed } from 'vue'
 
 export function generateNavTree() {
@@ -6,11 +7,11 @@ export function generateNavTree() {
 
   return router.getRoutes()
     .filter((route) => {
-      const navSettings = route.meta.nebula || {}
+      const navSettings: NebulaNavSettings = route.meta.nebula || {}
       return !!route.name && !navSettings.skipFromMenu
     })
     .map((route) => {
-      const navSettings = route.meta.nebula || {}
+      const navSettings: NebulaNavSettings = route.meta.nebula || {}
 
       return {
         path: route.path,

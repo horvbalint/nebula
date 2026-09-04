@@ -1,3 +1,5 @@
+import type { NebSaveRestoreStorage } from './global'
+
 export default defineAppConfig({
   nebula: {
     nebCompact: {
