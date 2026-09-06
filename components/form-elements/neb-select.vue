@@ -55,15 +55,7 @@ const emit = defineEmits<{
   'new': [searchTerm: string]
 }>()
 
-// `undefined` cannot be written directly in `app.config.ts` (defu drops undefined
-// keys while merging), so consumers pass a factory returning it instead.
-const computedEmptyValue = computed(() => {
-  const emptyValue = props.emptyValue ?? useAppConfig().nebula.nebSelect.emptyValue
-
-  return typeof emptyValue === 'function'
-    ? (emptyValue as () => null | undefined)()
-    : emptyValue
-})
+const computedEmptyValue = computed(() => props.emptyValue ?? useAppConfig().nebula.nebSelect.emptyValue)
 
 const search = useTemplateRef('search')
 const dropdown = useTemplateRef('dropdown')

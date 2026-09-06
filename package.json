@@ -15,11 +15,11 @@
     "typecheck": "nuxt prepare .playground && vue-tsc --noEmit"
   },
   "dependencies": {
-    "@antfu/eslint-config": "7.2.0",
+    "@antfu/eslint-config": "9.5.1",
     "@csstools/postcss-global-data": "4.0.0",
     "@floating-ui/vue": "1.1.9",
     "@iconify-json/material-symbols": "1.2.48",
-    "@nuxt/fonts": "0.13.0",
+    "@nuxt/fonts": "0.14.0",
     "@nuxt/icon": "2.2.1",
     "@nuxtjs/i18n": "10.2.1",
     "@panzoom/panzoom": "^4.6.2",
@@ -41,18 +41,18 @@
     "@vueuse/nuxt": "14.0.0",
     "culori": "4.0.2",
     "dayjs": "1.11.19",
-    "eslint": "9.39.1",
-    "eslint-plugin-format": "1.0.2",
+    "eslint": "10.10.0",
+    "eslint-plugin-format": "2.0.1",
     "fuse.js": "7.1.0",
     "nuxt-typed-router": "4.0.2",
-    "postcss": "8.5.6",
     "postcss-preset-env": "11.1.1",
-    "typescript": "5.9.3",
-    "vue": "3.5.41",
-    "vue-tsc": "3.3.9"
+    "typescript": "6.0.3",
+    "vue": "3.5.42",
+    "vue-tsc": "3.3.11"
   },
   "devDependencies": {
-    "nuxt": "4.3.1"
+    "nuxt": "4.5.2",
+    "vue-router": "5.3.1"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
