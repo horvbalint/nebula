@@ -30,13 +30,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # Generates .playground/.nuxt, which tsconfig.json extends. Both lint and
-      # typecheck need it, so it runs once here rather than inside each script.
-      - name: Prepare Nuxt
-        run: pnpm dev:prepare
-
       - name: Lint
         run: pnpm lint
 
+      # the typecheck script runs `nuxt prepare .playground` first, which
+      # generates the .playground/.nuxt tsconfig that tsconfig.json extends
       - name: Typecheck
-        run: pnpm exec vue-tsc --noEmit
+        run: pnpm typecheck
