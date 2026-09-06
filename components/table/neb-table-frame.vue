@@ -13,6 +13,8 @@ export type Columns<T> = Partial<{
   [K in keyof T]: Column<T, K>
 }>
 
+export type ColumnEntry<T> = { [K in keyof T]-?: { key: K, column: Column<T, K> } }[keyof T]
+
 export interface FormattedRow<T> {
   formatted: Record<keyof T, string>
   original: T
@@ -75,6 +77,12 @@ const sortIcon = computed(() => {
     return 'carbon:sort-descending'
 })
 
+// `v-for` over an object widens the key to `string | number` and the value to `{}`,
+// which erases the `keyof T` relationship the typed th-*/td-* slots depend on.
+const columnEntries = computed(() => Object.entries(props.columns)
+  .filter(([, column]) => !!column)
+  .map(([key, column]) => ({ key, column })) as ColumnEntry<T>[])
+
 function handleHeaderClick(key: keyof T) {
   if (props.columns[key]?.notSortable)
     return
@@ -128,11 +136,11 @@ const isAnyChecked = computed({
                 <neb-checkbox v-model="isAnyChecked" icon="material-symbols:remove-rounded" />
               </th>
 
-              <th v-for="(column, key) in props.columns" :key="`th-${key as string}`" :class="column!.align || 'left'" @click="handleHeaderClick(key)">
+              <th v-for="{ key, column } in columnEntries" :key="`th-${String(key)}`" :class="column.align || 'left'" @click="handleHeaderClick(key)">
                 <div class="th-wrapper">
                   <div class="th-slot-wrapper">
-                    <slot :name="`th-${key as keyof Column<T>}`" :column="column!">
-                      {{ column!.text }}
+                    <slot :name="`th-${String(key)}` as keyof ThSlots<T>" :column="column">
+                      {{ column.text }}
                     </slot>
                   </div>
 
@@ -152,9 +160,9 @@ const isAnyChecked = computed({
                 <neb-checkbox v-model="modelValue" :value="row.original" @click.stop="" />
               </td>
 
-              <td v-for="(column, key) in props.columns" :key="`td-${key as string}`" :class="column!.align || 'left'">
+              <td v-for="{ key, column } in columnEntries" :key="`td-${String(key)}`" :class="column.align || 'left'">
                 <div class="td-wrapper">
-                  <slot :name="`td-${key as keyof Column<T>}`" :data="row" :original="row.original[key as string]" :formatted="row.formatted[key]" :column="column!">
+                  <slot :name="`td-${String(key)}` as keyof TdSlots<T>" :data="row" :original="row.original[key]" :formatted="row.formatted[key]" :column="column">
                     {{ row.formatted[key] }}
                   </slot>
                 </div>

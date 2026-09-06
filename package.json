@@ -10,7 +10,8 @@
     "generate": "nuxt generate .playground",
     "preview": "nuxt preview .playground",
     "lint": "eslint .",
-    "color:report": "node --experimental-strip-types scripts/neb-color-report.mts"
+    "color:report": "node --experimental-strip-types scripts/neb-color-report.mts",
+    "typecheck": "nuxt prepare .playground && vue-tsc --noEmit"
   },
   "dependencies": {
     "@antfu/eslint-config": "7.2.0",
@@ -46,8 +47,8 @@
     "postcss": "8.5.6",
     "postcss-preset-env": "11.1.1",
     "typescript": "5.9.3",
-    "vue": "3.5.29",
-    "vue-tsc": "3.1.5"
+    "vue": "3.5.41",
+    "vue-tsc": "3.3.9"
   },
   "devDependencies": {
     "nuxt": "4.3.1"
