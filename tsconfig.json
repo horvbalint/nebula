@@ -1,3 +1,8 @@
 {
-  "extends": "./.playground/.nuxt/tsconfig.json"
+  "extends": "./.playground/.nuxt/tsconfig.json",
+  "compilerOptions": {
+    // scripts/*.mts are run with `node --experimental-strip-types`, which requires
+    // the explicit `.ts` extension on relative imports.
+    "allowImportingTsExtensions": true
+  }
 }

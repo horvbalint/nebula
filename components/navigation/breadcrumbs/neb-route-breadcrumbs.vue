@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { NebulaNavSettings } from '@nebula/global'
 import type { Breadcrumb } from './neb-breadcrumbs.vue'
 
 const props = withDefaults(defineProps<{
@@ -11,7 +12,7 @@ const routeCrumbs = computed(() => {
   const routes = useRoute().matched
 
   return routes.map((route) => {
-    const config = route.meta.nebula || {}
+    const config: NebulaNavSettings = route.meta.nebula || {}
 
     const crumb: Breadcrumb = { text: config.name!, id: route.path }
 

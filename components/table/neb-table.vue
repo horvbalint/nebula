@@ -178,6 +178,10 @@ const tableSlots = computed<Slots<T>>(() => {
   return tableSlots
 })
 
+// Iterating the object directly widens the slot name to `string | number`, which
+// no longer indexes `Slots<T>`.
+const tableSlotNames = computed(() => Object.keys(tableSlots.value) as (keyof Slots<T>)[])
+
 useNebSaveRestore('neb-table', props, {
   searchTerm, // order of the keys is important because of the 'sync' flushed watcher
   sortColumn,
@@ -207,7 +211,7 @@ useNebSaveRestore('neb-table', props, {
       </div>
     </template>
 
-    <template v-for="(_, slot) of tableSlots" #[slot]="scope">
+    <template v-for="slot of tableSlotNames" :key="slot" #[slot]="scope">
       <slot :name="slot" v-bind="scope" />
     </template>
 

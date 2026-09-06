@@ -17,11 +17,11 @@ const modelValue = defineModel<T[]>({
   required: false,
 })
 
-const page = defineModel('page', {
+const page = defineModel<number>('page', {
   default: 0,
 })
 
-const itemsPerPage = defineModel('itemsPerPage', {
+const itemsPerPage = defineModel<number>('itemsPerPage', {
   default: 10,
 })
 

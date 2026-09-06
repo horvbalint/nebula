@@ -1,6 +1,8 @@
 import 'vue-router'
 
-interface NebulaNavSettings {
+export type NebSaveRestoreStorage = 'local' | 'session'
+
+export interface NebulaNavSettings {
   name?: string
   skipFromMenu?: boolean
   icon?: string
