@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { Dayjs } from 'dayjs'
-import { NebInput } from '#components'
 import dayjs from 'dayjs'
 import localeData from 'dayjs/plugin/localeData'
 import timezone from 'dayjs/plugin/timezone.js'
 import utc from 'dayjs/plugin/utc.js'
+import { NebInput } from '#components'
 import 'dayjs/locale/hu'
 
 const props = withDefaults(defineProps<{

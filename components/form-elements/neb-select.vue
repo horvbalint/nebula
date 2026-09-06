@@ -146,7 +146,7 @@ function isSelected(option: ProcessedOption): boolean {
     if (props.useOnlyTrackedKey)
       return (props.modelValue as PropertyKey[]).some(value => transformTrackValueFun(value as TrackValue) === option.transformedTrackValue)
     else if (props.trackByKey)
-      return !!(props.modelValue as ObjectOption<TrackByKey, LabelKey>[]).find(o => transformTrackValueFun(o[props.trackByKey!]) === option.transformedTrackValue)
+      return (props.modelValue as ObjectOption<TrackByKey, LabelKey>[]).some(o => transformTrackValueFun(o[props.trackByKey!]) === option.transformedTrackValue)
     else
       return (props.modelValue as PropertyKey[]).some(value => transformTrackValueFun(value as TrackValue) === option.transformedTrackValue)
   }
