@@ -80,7 +80,8 @@ const iconByType = computed(() => {
       <neb-button
         v-if="!hideActionRow"
         class="toast-close"
-        type="link"
+        type="tertiary"
+        :intent="props.type"
         small
         square
         :aria-label="$t('nebula.toast.close')"
