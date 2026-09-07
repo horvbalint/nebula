@@ -39,6 +39,8 @@ const arrayTabs = computed(() => {
   return Object.entries(computedTabs.value)
     .map(([key, props]) => ({ key, ...props }))
 })
+
+const anchorUniqueId = `--neb-tabs-${useId()}`
 </script>
 
 <template>
@@ -118,12 +120,52 @@ li label {
   height: 100%;
 }
 
+.tab-texts {
+  p {
+    font-size: var(--text-sm);
+    font-weight: 400;
+  }
+}
+
+ul {
+  position: relative;
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    position-anchor: v-bind(anchorUniqueId);
+    transition: inset 0.5s;
+    transition-timing-function: linear(
+      0,
+      0.029 1.3%,
+      0.119 2.8%,
+      0.659 8.7%,
+      0.871 11.6%,
+      1.009 14.6%,
+      1.052 16.2%,
+      1.078 17.9%,
+      1.088 19.7%,
+      1.085 21.7%,
+      1.014 31.4%,
+      0.993 38%,
+      1.001 57.6%,
+      1
+    );
+  }
+}
+
+li {
+  .active {
+    anchor-name: v-bind(anchorUniqueId);
+  }
+}
+
 .primary {
   ul {
     margin: 0;
     padding: var(--space-1);
     display: flex;
-    align-items: center;
     gap: var(--space-2);
     background: var(--neb-bg-subtle);
     border: 1px solid var(--neb-border-subtle);
@@ -138,12 +180,23 @@ li label {
 
       li {
         width: 100%;
+      }
+      label {
         min-height: 36px;
       }
     }
+    &::before {
+      top: anchor(top);
+      left: anchor(left);
+      right: anchor(right);
+      bottom: anchor(bottom);
+      background: var(--neb-bg);
+      box-shadow: var(--neb-shadow-sm);
+      border-radius: var(--radius-small);
+    }
   }
   li {
-    height: 36px;
+    min-height: 36px;
 
     label {
       justify-content: center;
@@ -153,7 +206,7 @@ li label {
       text-wrap: nowrap;
       align-items: center;
       gap: var(--space-2);
-      padding: 0 var(--space-3);
+      padding: var(--space-1) var(--space-3);
       font-size: var(--text-sm);
       font-weight: 600;
       color: var(--neb-text-muted);
@@ -165,8 +218,6 @@ li label {
       }
       &.active {
         color: var(--neb-text);
-        background: var(--neb-bg);
-        box-shadow: var(--neb-shadow-sm);
 
         &.disabled {
           color: var(--neb-text-disabled);
@@ -203,7 +254,6 @@ li label {
 .tertiary {
   ul {
     display: flex;
-    align-items: center;
     gap: var(--space-4);
     border-bottom: 2px solid var(--neb-border-subtle);
 
@@ -214,27 +264,32 @@ li label {
       gap: var(--space-1);
       border-left: 3px solid var(--neb-border-subtle);
 
+      &::before {
+        top: anchor(top);
+        left: calc(anchor(left) - 2px);
+        right: anchor(right);
+        bottom: anchor(bottom);
+        background: var(--neb-text-primary);
+        border-left: 2px solid var(--neb-text-primary);
+
+        background: linear-gradient(
+          90deg,
+          rgba(var(--primary-color-component), 0.15) 0%,
+          rgba(var(--primary-color-component), 0) 90%
+        );
+        color: var(--neb-text-primary);
+        border-color: var(--neb-text-primary);
+      }
+
       li {
         width: 100%;
 
         label {
           padding: var(--space-2) var(--space-3);
-          border-left: 3px solid transparent;
-          margin-left: -3px;
-          border-bottom: none;
-          margin-bottom: 0;
           justify-content: flex-start;
           align-items: flex-start;
 
           &.active {
-            background: linear-gradient(
-              90deg,
-              rgba(var(--primary-color-component), 0.15) 0%,
-              rgba(var(--primary-color-component), 0) 90%
-            );
-            color: var(--neb-text-primary);
-            border-color: var(--neb-text-primary);
-
             &.disabled {
               color: var(--neb-text-disabled);
             }
@@ -258,6 +313,14 @@ li label {
         flex: 1;
       }
     }
+
+    &::before {
+      top: calc(anchor(bottom));
+      left: anchor(left);
+      right: anchor(right);
+      bottom: calc(anchor(bottom) - 2px);
+      background: var(--neb-text-primary);
+    }
   }
   li {
     label {
@@ -274,15 +337,12 @@ li label {
       font-weight: 600;
       color: var(--neb-text-muted);
       transition: all var(--duration-default);
-      border-bottom: 2px solid var(--neb-border-subtle);
-      margin-bottom: -2px;
 
       &:hover {
         color: var(--neb-text);
       }
       &.active {
         color: var(--neb-text-primary);
-        border-color: var(--neb-text-primary);
 
         &.disabled {
           color: var(--neb-text-disabled);
@@ -316,11 +376,6 @@ li label {
   .tab-texts {
     display: flex;
     flex-direction: column;
-
-    p {
-      font-size: var(--text-sm);
-      font-weight: 400;
-    }
   }
 }
 .count-badge {

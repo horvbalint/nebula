@@ -312,8 +312,14 @@ const navRoutes: Route[] = [
 const tabs: Record<string, Tab | string> = {
   overview: { text: 'Overview', icon: 'material-symbols:dashboard-outline-rounded' },
   members: { text: 'Members', icon: 'material-symbols:group-outline-rounded', count: 12 },
-  billing: { text: 'Billing', description: 'Plans and invoices', icon: 'material-symbols:credit-card-outline' },
+  billing: { text: 'Billing', icon: 'material-symbols:credit-card-outline' },
   archived: { text: 'Archived', disabled: true },
+}
+const tabsWithDescription: Record<string, Tab | string> = {
+  overview: { text: 'Overview', icon: 'material-symbols:dashboard-outline-rounded', description: 'Plans and invoices' },
+  members: { text: 'Members', icon: 'material-symbols:group-outline-rounded', count: 12, description: 'Plans and invoices' },
+  billing: { text: 'Billing', description: 'Plans and invoices', icon: 'material-symbols:credit-card-outline' },
+  archived: { text: 'Archived', disabled: true, description: 'Plans and invoices' },
 }
 const activeTab = ref('overview')
 const verticalTab = ref('overview')
@@ -1333,14 +1339,11 @@ function openViewer(index: number) {
               Tabs
             </p>
             <neb-tabs v-model="activeTab" :tabs="tabs" />
-            <neb-tabs v-model="activeTab" :tabs="tabs" hierarchy="tertiary" />
+            <neb-tabs v-model="activeTab" :tabs="tabsWithDescription" />
             <neb-tabs v-model="activeTab" :tabs="{ one: 'One', two: 'Two', three: 'Three' }" full-width />
-            <div class="tabs-vertical">
-              <neb-tabs v-model="verticalTab" vertical :tabs="tabs" />
-              <p class="demo-note">
-                active: {{ verticalTab }}
-              </p>
-            </div>
+            <neb-tabs v-model="verticalTab" vertical :tabs="tabs" />
+            <neb-tabs v-model="activeTab" :tabs="tabs" hierarchy="tertiary" />
+            <neb-tabs v-model="activeTab" :tabs="tabs" hierarchy="tertiary" vertical />
           </div>
 
           <div class="demo">
