@@ -135,23 +135,8 @@ ul {
     display: block;
     position: absolute;
     position-anchor: v-bind(anchorUniqueId);
-    transition: inset 0.5s;
-    transition-timing-function: linear(
-      0,
-      0.029 1.3%,
-      0.119 2.8%,
-      0.659 8.7%,
-      0.871 11.6%,
-      1.009 14.6%,
-      1.052 16.2%,
-      1.078 17.9%,
-      1.088 19.7%,
-      1.085 21.7%,
-      1.014 31.4%,
-      0.993 38%,
-      1.001 57.6%,
-      1
-    );
+    transition: inset var(--duration-slow);
+    transition-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
   }
 }
 
