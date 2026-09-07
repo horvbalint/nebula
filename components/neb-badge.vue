@@ -25,7 +25,7 @@ const props = withDefaults(defineProps<{
 
 <style scoped>
 .neb-badge {
-  --badge-bg: var(--neb-bg-muted);
+  --badge-bg: var(--neb-bg-subtle);
   --badge-border: var(--neb-border-subtle);
   --badge-text: var(--neb-text);
 
@@ -45,27 +45,27 @@ const props = withDefaults(defineProps<{
     font-size: var(--text-xs);
   }
   &.error {
-    --badge-bg: var(--neb-bg-error);
+    --badge-bg: var(--neb-bg-error-subtle);
     --badge-border: var(--neb-border-error);
     --badge-text: var(--neb-text-error);
   }
   &.warning {
-    --badge-bg: var(--neb-bg-warning);
+    --badge-bg: var(--neb-bg-warning-subtle);
     --badge-border: var(--neb-border-warning);
     --badge-text: var(--neb-text-warning);
   }
   &.success {
-    --badge-bg: var(--neb-bg-success);
+    --badge-bg: var(--neb-bg-success-subtle);
     --badge-border: var(--neb-border-success);
     --badge-text: var(--neb-text-success);
   }
   &.info {
-    --badge-bg: var(--neb-bg-info);
+    --badge-bg: var(--neb-bg-info-subtle);
     --badge-border: var(--neb-border-info);
     --badge-text: var(--neb-text-info);
   }
   &.primary {
-    --badge-bg: var(--neb-bg-primary);
+    --badge-bg: var(--neb-bg-primary-subtle);
     --badge-border: var(--neb-border-primary);
     --badge-text: var(--neb-text-primary);
   }

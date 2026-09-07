@@ -125,7 +125,7 @@ withDefaults(defineProps<{
   align-self: stretch;
 }
 .header-icon {
-  background: var(--neb-bg-muted);
+  background: var(--neb-bg-subtle);
   align-self: stretch;
   display: flex;
   align-items: center;

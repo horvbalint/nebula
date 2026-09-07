@@ -38,7 +38,7 @@ export default defineComponent({
   justify-content: center;
   flex-shrink: 0;
   flex-grow: 0;
-  background: var(--neb-bg-muted);
+  background: var(--neb-bg-subtle);
   border-radius: 50%;
   border: 1px solid var(--neb-border-subtle);
   color: var(--neb-text-muted);

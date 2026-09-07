@@ -44,7 +44,7 @@ withDefaults(defineProps<{
   gap: var(--space-6);
 }
 .empty-icon {
-  background: var(--neb-bg-muted);
+  background: var(--neb-bg-subtle);
   padding: var(--space-3);
   border-radius: 50%;
   position: relative;

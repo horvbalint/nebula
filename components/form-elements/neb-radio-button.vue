@@ -52,7 +52,7 @@ input[type='radio'] {
 
   &:disabled {
     cursor: not-allowed;
-    background: var(--neb-bg-muted);
+    background: var(--neb-bg-disabled);
 
     + p {
       color: var(--neb-text-subtle);
@@ -73,7 +73,7 @@ input[type='radio']::before {
 
 input[type='radio']:checked {
   border-color: var(--neb-text-primary);
-  background: var(--neb-bg-primary);
+  background: var(--neb-bg-primary-subtle);
 
   &::before {
     transform: scale(0.4);

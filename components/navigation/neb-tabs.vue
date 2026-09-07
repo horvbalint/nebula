@@ -170,7 +170,7 @@ li label {
 
         &.disabled {
           color: var(--neb-text-disabled);
-          background: var(--neb-bg-muted);
+          background: var(--neb-bg-disabled);
         }
       }
       &.disabled {

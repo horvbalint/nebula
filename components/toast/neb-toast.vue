@@ -91,7 +91,7 @@ const iconByType = computed(() => {
 <style scoped>
 .neb-toast {
   --toast-border: var(--neb-border-primary-alert);
-  --toast-bg: var(--neb-bg-primary);
+  --toast-bg: var(--neb-bg-primary-subtle);
   --toast-icon: var(--neb-text-primary);
   --toast-icon-ring1: var(--neb-border-primary-strong);
   --toast-icon-ring2: var(--neb-border-primary);
@@ -117,7 +117,7 @@ const iconByType = computed(() => {
 
   &.error {
     --toast-border: var(--neb-border-error-alert);
-    --toast-bg: var(--neb-bg-error);
+    --toast-bg: var(--neb-bg-error-subtle);
     --toast-icon: var(--neb-text-error);
     --toast-icon-ring1: var(--neb-border-error-strong);
     --toast-icon-ring2: var(--neb-border-error);
@@ -130,7 +130,7 @@ const iconByType = computed(() => {
   }
   &.success {
     --toast-border: var(--neb-border-success-alert);
-    --toast-bg: var(--neb-bg-success);
+    --toast-bg: var(--neb-bg-success-subtle);
     --toast-icon: var(--neb-text-success);
     --toast-icon-ring1: var(--neb-border-success-strong);
     --toast-icon-ring2: var(--neb-border-success);
@@ -143,7 +143,7 @@ const iconByType = computed(() => {
   }
   &.warning {
     --toast-border: var(--neb-border-warning-alert);
-    --toast-bg: var(--neb-bg-warning);
+    --toast-bg: var(--neb-bg-warning-subtle);
     --toast-icon: var(--neb-text-warning);
     --toast-icon-ring1: var(--neb-border-warning-strong);
     --toast-icon-ring2: var(--neb-border-warning);
