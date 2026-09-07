@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ButtonType } from '@nebula/components/form-elements/neb-button.vue'
+import type { ButtonIntent, ButtonType } from '@nebula/components/form-elements/neb-button.vue'
 import type { Route } from '@nebula/components/navigation/header-nav/neb-header-nav.vue'
 import type { Tab } from '@nebula/components/navigation/neb-tabs.vue'
 import type { Menu } from '@nebula/components/overlays/neb-menu.vue'
@@ -146,7 +146,8 @@ watch([primaryColor, isDark], () => nextTick(runColorAudit))
 /* Buttons                                                             */
 /* ------------------------------------------------------------------ */
 
-const buttonTypes: ButtonType[] = ['primary', 'secondary', 'secondary-neutral', 'tertiary', 'tertiary-neutral', 'link', 'link-neutral']
+const buttonTypes: ButtonType[] = ['primary', 'secondary', 'tertiary', 'link']
+const buttonIntents: ButtonIntent[] = ['primary', 'neutral', 'success', 'error', 'warning', 'info']
 
 /* ------------------------------------------------------------------ */
 /* Badges & tags                                                       */
@@ -447,7 +448,7 @@ function openViewer(index: number) {
         </div>
 
         <neb-button
-          type="secondary-neutral"
+          type="secondary" intent="neutral"
           :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
           @click="isDark = !isDark"
         >
@@ -612,11 +613,21 @@ function openViewer(index: number) {
 
           <div class="demo">
             <p class="demo-title">
-              Destructive
+              Intent
             </p>
             <div class="row">
-              <neb-button v-for="type in buttonTypes" :key="type" :type="type" destructive>
-                {{ type }}
+              <neb-button v-for="intent in buttonIntents" :key="intent" :intent="intent">
+                {{ intent }}
+              </neb-button>
+            </div>
+            <div class="row">
+              <neb-button v-for="intent in buttonIntents" :key="intent" type="secondary" :intent="intent">
+                {{ intent }}
+              </neb-button>
+            </div>
+            <div class="row">
+              <neb-button v-for="intent in buttonIntents" :key="intent" type="tertiary" :intent="intent">
+                {{ intent }}
               </neb-button>
             </div>
           </div>
@@ -637,7 +648,7 @@ function openViewer(index: number) {
               Loading
             </p>
             <div class="row">
-              <neb-button v-for="type in ['primary', 'secondary', 'tertiary-neutral'] as ButtonType[]" :key="type" :type="type" loading>
+              <neb-button v-for="type in ['primary', 'secondary', 'tertiary'] as ButtonType[]" :key="type" :type="type" loading>
                 {{ type }}
               </neb-button>
             </div>
@@ -657,11 +668,11 @@ function openViewer(index: number) {
               <neb-button square>
                 <icon name="material-symbols:add-rounded" />
               </neb-button>
-              <neb-button small square type="secondary-neutral">
+              <neb-button small square type="secondary" intent="neutral">
                 <icon name="material-symbols:more-horiz" />
               </neb-button>
-              <neb-button type="tertiary-neutral" adjective>
-                adjective
+              <neb-button type="tertiary" intent="success">
+                success
               </neb-button>
               <neb-button type="secondary">
                 <icon name="material-symbols:download-rounded" /> with icon
@@ -1115,7 +1126,7 @@ function openViewer(index: number) {
             <div class="row">
               <neb-dropdown>
                 <template #trigger="{ toggle, isOpen }">
-                  <neb-button type="secondary-neutral" @click="toggle()">
+                  <neb-button type="secondary" intent="neutral" @click="toggle()">
                     Dropdown
                     <icon :name="isOpen ? 'material-symbols:expand-less-rounded' : 'material-symbols:expand-more-rounded'" />
                   </neb-button>
@@ -1132,7 +1143,7 @@ function openViewer(index: number) {
 
               <neb-menu :menus="menus">
                 <template #trigger="{ toggle }">
-                  <neb-button type="secondary-neutral" square @click="toggle()">
+                  <neb-button type="secondary" intent="neutral" square @click="toggle()">
                     <icon name="material-symbols:more-vert" />
                   </neb-button>
                 </template>
@@ -1145,7 +1156,7 @@ function openViewer(index: number) {
                   </p>
                 </template>
                 <template #trigger="{ toggle }">
-                  <neb-button small type="tertiary-neutral" @click="toggle()">
+                  <neb-button small type="tertiary" intent="neutral" @click="toggle()">
                     Small menu with header
                   </neb-button>
                 </template>
@@ -1159,7 +1170,7 @@ function openViewer(index: number) {
             </p>
             <div class="row">
               <neb-tooltip title="Tooltip title" text="A longer description that explains what this control does." :timing="200">
-                <neb-button type="secondary-neutral">
+                <neb-button type="secondary" intent="neutral">
                   Hover me
                 </neb-button>
               </neb-tooltip>
@@ -1178,7 +1189,7 @@ function openViewer(index: number) {
               <neb-button @click="modalOpen = true">
                 Open modal
               </neb-button>
-              <neb-button type="secondary-neutral" @click="popUpOpen = true">
+              <neb-button type="secondary" intent="neutral" @click="popUpOpen = true">
                 Open pop-up
               </neb-button>
             </div>
@@ -1199,12 +1210,26 @@ function openViewer(index: number) {
               Toasts
             </p>
             <div class="row">
-              <neb-button v-for="type in toastTypes" :key="type" small type="secondary-neutral" @click="showToast(type)">
+              <neb-button v-for="type in toastTypes" :key="type" small type="secondary" intent="neutral" @click="showToast(type)">
                 {{ type }}
               </neb-button>
             </div>
-            <div class="constrained toast-preview">
-              <neb-toast type="success" title="Static toast" description="Rendered inline, outside of the toast stack." :progress="0.4" />
+            <div class="toast-preview">
+              <neb-toast
+                v-for="type in toastTypes"
+                :key="type"
+                :type="type"
+                :title="`${type[0]!.toUpperCase()}${type.slice(1)} toast`"
+                description="Rendered inline, outside of the toast stack."
+              />
+              <neb-toast
+                type="info"
+                title="With a timer and an action"
+                description="The hairline along the bottom edge tracks the elapsed timeout."
+                :progress="0.4"
+                :actions="[{ text: 'View details', callback: () => {} }]"
+              />
+              <neb-toast type="warning" title="Page-level notice, no dismiss" description="hide-action-row drops the close button and the action row." hide-action-row />
             </div>
           </div>
 
@@ -1213,7 +1238,7 @@ function openViewer(index: number) {
               Confirm
             </p>
             <div class="row">
-              <neb-button destructive @click="askConfirm()">
+              <neb-button intent="error" @click="askConfirm()">
                 Delete project
               </neb-button>
               <neb-badge v-if="confirmResult !== null" :color="confirmResult ? 'success' : 'warning'">
@@ -1251,7 +1276,8 @@ function openViewer(index: number) {
                 v-for="status in statuses"
                 :key="status"
                 small
-                :type="contentStatus === status ? 'primary' : 'secondary-neutral'"
+                :type="contentStatus === status ? 'primary' : 'secondary'"
+                :intent="contentStatus === status ? 'primary' : 'neutral'"
                 @click="contentStatus = status"
               >
                 {{ status }}
@@ -1323,7 +1349,7 @@ function openViewer(index: number) {
             </p>
             <neb-stepper v-model="stepperValue" :steps="steps" skippable />
             <div class="row">
-              <neb-button small type="secondary-neutral" @click="stepperValue--">
+              <neb-button small type="secondary" intent="neutral" @click="stepperValue--">
                 Back
               </neb-button>
               <neb-button small @click="stepperValue++">
@@ -1366,7 +1392,8 @@ function openViewer(index: number) {
                 v-for="status in statuses"
                 :key="status"
                 small
-                :type="tableStatus === status ? 'primary' : 'secondary-neutral'"
+                :type="tableStatus === status ? 'primary' : 'secondary'"
+                :intent="tableStatus === status ? 'primary' : 'neutral'"
                 @click="tableStatus = status"
               >
                 {{ status }}
@@ -1395,7 +1422,7 @@ function openViewer(index: number) {
               <template #row-actions="{ data }">
                 <neb-menu :menus="menus" small>
                   <template #trigger="{ toggle }">
-                    <neb-button small square type="tertiary-neutral" :aria-label="`Actions for ${data.original.name}`" @click.stop="toggle()">
+                    <neb-button small square type="tertiary" intent="neutral" :aria-label="`Actions for ${data.original.name}`" @click.stop="toggle()">
                       <icon name="material-symbols:more-vert" />
                     </neb-button>
                   </template>
@@ -1508,10 +1535,10 @@ function openViewer(index: number) {
               Expand — component & directive
             </p>
             <div class="row">
-              <neb-button small type="secondary-neutral" @click="isExpanded = !isExpanded">
+              <neb-button small type="secondary" intent="neutral" @click="isExpanded = !isExpanded">
                 Toggle neb-expand
               </neb-button>
-              <neb-button small type="secondary-neutral" @click="isDirectiveExpanded = !isDirectiveExpanded">
+              <neb-button small type="secondary" intent="neutral" @click="isDirectiveExpanded = !isDirectiveExpanded">
                 Toggle v-neb-expand
               </neb-button>
             </div>
@@ -1535,16 +1562,16 @@ function openViewer(index: number) {
               <neb-compact>
                 <template #normal-mode="{ setNormalModeRef }">
                   <div :ref="setNormalModeRef" class="compact-row">
-                    <neb-button small type="secondary-neutral">
+                    <neb-button small type="secondary" intent="neutral">
                       Overview
                     </neb-button>
-                    <neb-button small type="secondary-neutral">
+                    <neb-button small type="secondary" intent="neutral">
                       Members
                     </neb-button>
-                    <neb-button small type="secondary-neutral">
+                    <neb-button small type="secondary" intent="neutral">
                       Billing
                     </neb-button>
-                    <neb-button small type="secondary-neutral">
+                    <neb-button small type="secondary" intent="neutral">
                       Integrations
                     </neb-button>
                   </div>
@@ -1578,7 +1605,7 @@ function openViewer(index: number) {
 
           <div class="demo">
             <div class="row">
-              <neb-button type="secondary-neutral" @click="openViewer(0)">
+              <neb-button type="secondary" intent="neutral" @click="openViewer(0)">
                 Open image viewer
               </neb-button>
             </div>
@@ -1603,7 +1630,7 @@ function openViewer(index: number) {
         </div>
       </template>
       <template #actions>
-        <neb-button type="secondary-neutral" small @click="modalOpen = false">
+        <neb-button type="secondary" intent="neutral" small @click="modalOpen = false">
           Cancel
         </neb-button>
         <neb-button small @click="modalOpen = false">
@@ -1973,7 +2000,10 @@ function openViewer(index: number) {
   color: var(--neb-text-muted);
 }
 .toast-preview {
-  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: 480px;
 }
 .state-box {
   display: grid;

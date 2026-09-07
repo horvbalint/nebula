@@ -169,7 +169,7 @@ function next() {
         </section>
 
         <section>
-          <neb-button type="secondary-neutral" :disabled="page === 0" small @click="previous()">
+          <neb-button type="secondary" intent="neutral" :disabled="page === 0" small @click="previous()">
             <icon name="material-symbols:arrow-left-alt-rounded" />
             {{ $t('nebula.pagination.previous') }}
           </neb-button>
@@ -183,7 +183,8 @@ function next() {
               <neb-button
                 v-else
                 class="page-number"
-                :type="button - 1 === page ? 'secondary-neutral' : 'tertiary-neutral'"
+                :type="button - 1 === page ? 'secondary' : 'tertiary'"
+                intent="neutral"
                 small
                 @click="handlePageClick(button - 1)"
               >
@@ -192,7 +193,7 @@ function next() {
             </template>
           </div>
 
-          <neb-button type="secondary-neutral" :disabled="page >= pageCount - 1" small @click="next()">
+          <neb-button type="secondary" intent="neutral" :disabled="page >= pageCount - 1" small @click="next()">
             {{ $t('nebula.pagination.next') }}
             <icon name="material-symbols:arrow-right-alt-rounded" />
           </neb-button>
@@ -202,7 +203,7 @@ function next() {
 
     <template #compact-mode>
       <div class="neb-pagination">
-        <neb-button type="secondary-neutral" :disabled="page === 0" @click="previous()">
+        <neb-button type="secondary" intent="neutral" :disabled="page === 0" @click="previous()">
           <icon name="material-symbols:arrow-left-alt-rounded" />
         </neb-button>
 
@@ -210,7 +211,7 @@ function next() {
           {{ page! + 1 }}/{{ pageCount }} {{ $t('nebula.pagination.page') }}
         </div>
 
-        <neb-button type="secondary-neutral" :disabled="page >= pageCount - 1" @click="next()">
+        <neb-button type="secondary" intent="neutral" :disabled="page >= pageCount - 1" @click="next()">
           <icon name="material-symbols:arrow-right-alt-rounded" />
         </neb-button>
       </div>

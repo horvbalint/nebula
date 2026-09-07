@@ -30,19 +30,23 @@ body {
   }
 }
 
-.toast-move,
-.toast-list-enter-active,
-.toast-list-leave-active {
-  transition: all var(--duration-slow) ease;
-}
-.toast-list-enter-from {
-  opacity: 0;
-  transform: translateX(-20%);
-}
-.toast-list-leave-to {
-  opacity: 0;
-  transform: translateX(10%);
+/* Toasts enter and leave through the left edge, matching the bottom-left origin
+ * of the stack, and reflow with `.toast-list-move` when one is removed from the
+ * middle. The leave is quicker than the enter so dismissing feels immediate. */
+.toast-list-move,
+.toast-list-enter-active {
+  transition:
+    transform var(--duration-slow) var(--ease-out),
+    opacity var(--duration-slow) var(--ease-out);
 }
 .toast-list-leave-active {
   position: absolute;
+  transition:
+    transform var(--duration-default) var(--ease-in),
+    opacity var(--duration-default) var(--ease-in);
+}
+.toast-list-enter-from,
+.toast-list-leave-to {
+  opacity: 0;
+  transform: translateX(-24px) scale(0.96);
 }

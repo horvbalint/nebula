@@ -52,7 +52,7 @@ const { isMobile } = useAppBreakpoints()
 
               <div class="secondary-actions">
                 <slot name="secondary-actions">
-                  <neb-button type="tertiary-neutral" class="log-out" @click="$emit('logout')">
+                  <neb-button type="tertiary" intent="neutral" class="log-out" @click="$emit('logout')">
                     <icon name="material-symbols:logout-rounded" /> <span>{{ $t('nebula.header-nav.logout') }}</span>
                   </neb-button>
                 </slot>
@@ -75,7 +75,7 @@ const { isMobile } = useAppBreakpoints()
                   <div class="mobile-logo-flex">
                     <slot name="logo" />
 
-                    <neb-button v-if="showMobileMenu" type="tertiary-neutral" @click="showMobileMenu = false">
+                    <neb-button v-if="showMobileMenu" type="tertiary" intent="neutral" @click="showMobileMenu = false">
                       <icon name="material-symbols:close-rounded" />
                     </neb-button>
                   </div>
@@ -93,7 +93,7 @@ const { isMobile } = useAppBreakpoints()
 
               <div class="secondary-actions">
                 <slot name="secondary-actions">
-                  <neb-button class="log-out" type="tertiary-neutral" destructive :full-width="isMobile" @click="$emit('logout')">
+                  <neb-button class="log-out" type="tertiary" intent="error" :full-width="isMobile" @click="$emit('logout')">
                     <icon name="material-symbols:logout-rounded" /> <span v-if="isMobile">{{ $t('nebula.header-nav.logout') }}</span>
                   </neb-button>
                 </slot>
@@ -102,7 +102,7 @@ const { isMobile } = useAppBreakpoints()
           </transition>
 
           <div v-if="!showMobileMenu" class="open-mobile-menu">
-            <neb-button type="tertiary-neutral" @click="showMobileMenu = true">
+            <neb-button type="tertiary" intent="neutral" @click="showMobileMenu = true">
               <icon name="material-symbols:menu-rounded" />
             </neb-button>
           </div>

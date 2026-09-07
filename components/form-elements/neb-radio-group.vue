@@ -13,11 +13,11 @@ const modelValue = defineModel<unknown>({
   required: true,
 })
 
-function getButtonType(option: Option) {
+function getButtonIntent(option: Option) {
   if (option.value === modelValue.value)
-    return 'secondary'
+    return 'primary'
   else
-    return 'secondary-neutral'
+    return 'neutral'
 }
 
 const radioNode = ref<HTMLInputElement[]>([])
@@ -29,7 +29,8 @@ const radioNode = ref<HTMLInputElement[]>([])
       v-for="(option, index) in options"
       :key="index"
       class="button"
-      :type="getButtonType(option)"
+      type="secondary"
+      :intent="getButtonIntent(option)"
       @click="radioNode[index]!.click()"
     >
       <input ref="radioNode" v-model="modelValue" tabindex="-1" :value="option.value" type="radio" class="radio">

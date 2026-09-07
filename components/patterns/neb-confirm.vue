@@ -24,7 +24,7 @@ function answer(result: boolean) {
           <header>
             <h1>{{ modal.config.title }}</h1>
 
-            <neb-button type="link-neutral" @click="answer(false)">
+            <neb-button type="link" intent="neutral" @click="answer(false)">
               <icon name="material-symbols:close-rounded" />
             </neb-button>
           </header>
@@ -35,11 +35,11 @@ function answer(result: boolean) {
     </template>
 
     <template #actions>
-      <neb-button type="secondary-neutral" @click="answer(false)">
+      <neb-button type="secondary" intent="neutral" @click="answer(false)">
         {{ modal.config.cancelText || 'Cancel' }}
       </neb-button>
 
-      <neb-button :destructive="modal.config.type !== 'info'" @click="answer(true)">
+      <neb-button :intent="modal.config.type !== 'info' ? 'error' : 'primary'" @click="answer(true)">
         {{ modal.config.okText || 'Ok' }}
       </neb-button>
     </template>

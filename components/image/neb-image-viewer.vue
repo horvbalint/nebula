@@ -135,7 +135,7 @@ onUnmounted(() => {
 
       <header>
         <div class="title-container">
-          <neb-button type="link-neutral" class="close-button" @click="modelValue = false">
+          <neb-button type="link" intent="neutral" class="close-button" @click="modelValue = false">
             <icon name="material-symbols:close-rounded" />
           </neb-button>
 
@@ -147,7 +147,7 @@ onUnmounted(() => {
 
         <div class="zoom-controls">
           <neb-tooltip :title="$t('nebula.imageViewer.zoomOut')">
-            <neb-button type="link-neutral" small :disabled="zoomLevel <= minZoom" @click="zoomOut">
+            <neb-button type="link" intent="neutral" small :disabled="zoomLevel <= minZoom" @click="zoomOut">
               <icon name="material-symbols:do-not-disturb-on-outline-rounded" />
             </neb-button>
           </neb-tooltip>
@@ -165,13 +165,13 @@ onUnmounted(() => {
           </div>
 
           <neb-tooltip :title="$t('nebula.imageViewer.zoomIn')">
-            <neb-button type="link-neutral" small :disabled="zoomLevel >= maxZoom" @click="zoomIn">
+            <neb-button type="link" intent="neutral" small :disabled="zoomLevel >= maxZoom" @click="zoomIn">
               <icon name="material-symbols:add-circle-outline-rounded" />
             </neb-button>
           </neb-tooltip>
 
           <neb-tooltip :title="$t('nebula.imageViewer.resetZoom')">
-            <neb-button type="link-neutral" small @click="resetView">
+            <neb-button type="link" intent="neutral" small @click="resetView">
               <icon name="material-symbols:fit-screen-rounded" />
             </neb-button>
           </neb-tooltip>
@@ -179,7 +179,7 @@ onUnmounted(() => {
       </header>
 
       <main>
-        <neb-button type="link-neutral" class="controll-button desktop" @click="currentSourceIndex = prevSourceIndex">
+        <neb-button type="link" intent="neutral" class="controll-button desktop" @click="currentSourceIndex = prevSourceIndex">
           <icon name="material-symbols:chevron-left-rounded" />
         </neb-button>
 
@@ -192,16 +192,16 @@ onUnmounted(() => {
           </div>
         </div>
 
-        <neb-button type="link-neutral" class="controll-button desktop" @click="currentSourceIndex = nextSourceIndex">
+        <neb-button type="link" intent="neutral" class="controll-button desktop" @click="currentSourceIndex = nextSourceIndex">
           <icon name="material-symbols:chevron-right-rounded" />
         </neb-button>
 
         <div class="mobile-arrows">
-          <neb-button type="link-neutral" class="controll-button" @click="currentSourceIndex = prevSourceIndex">
+          <neb-button type="link" intent="neutral" class="controll-button" @click="currentSourceIndex = prevSourceIndex">
             <icon name="material-symbols:chevron-left-rounded" />
           </neb-button>
 
-          <neb-button type="link-neutral" class="controll-button" @click="currentSourceIndex = nextSourceIndex">
+          <neb-button type="link" intent="neutral" class="controll-button" @click="currentSourceIndex = nextSourceIndex">
             <icon name="material-symbols:chevron-right-rounded" />
           </neb-button>
         </div>

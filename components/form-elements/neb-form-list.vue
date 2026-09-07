@@ -62,7 +62,7 @@ if (!modelValue.value.length && props.withInitialItem)
     </template>
 
     <div class="actions">
-      <neb-button small type="secondary-neutral" @click="addItem()">
+      <neb-button small type="secondary" intent="neutral" @click="addItem()">
         <icon name="material-symbols:add-rounded" />{{ $t('nebula.neb-form-list.add') }}
       </neb-button>
 

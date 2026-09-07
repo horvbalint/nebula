@@ -1,21 +1,20 @@
 <script lang="ts" setup>
-export type ButtonType = 'primary' | 'secondary' | 'secondary-neutral' | 'tertiary' | 'tertiary-neutral' | 'link' | 'link-neutral'
+export type ButtonType = 'primary' | 'secondary' | 'tertiary' | 'link'
+export type ButtonIntent = 'primary' | 'neutral' | 'success' | 'error' | 'warning' | 'info'
 
 withDefaults(defineProps<{
   loading?: boolean
   type?: ButtonType
+  intent?: ButtonIntent
   small?: boolean
   square?: boolean
-  destructive?: boolean
   fullWidth?: boolean
-  adjective?: boolean
 }>(), {
   loading: false,
   type: 'primary',
+  intent: 'primary',
   small: false,
   square: false,
-  destructive: false,
-  adjective: false,
 })
 </script>
 
@@ -26,7 +25,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <button class="neb-button" :class="{ [type]: true, small, square, destructive, adjective, 'full-width': fullWidth }">
+  <button class="neb-button" :class="{ [type]: true, [`intent-${intent}`]: true, small, square, 'full-width': fullWidth }">
     <slot v-if="!loading" />
 
     <icon v-else name="eos-icons:loading" />
@@ -34,10 +33,10 @@ export default defineComponent({
 </template>
 
 <style scoped>
-/* Every variant below reads the `--btn-*` intent slots, so `.destructive` and
- * `.adjective` only have to remap the slots instead of restating each state.
- * The slots themselves resolve through the semantic layer, which is what makes
- * this component work in dark mode without a `.dark-mode` block. */
+/* Every variant below reads the `--btn-*` intent slots, so `.intent-*` only has
+ * to remap the slots instead of restating each state. The slots themselves
+ * resolve through the semantic layer, which is what makes this component work
+ * in dark mode without a `.dark-mode` block. */
 .neb-button {
   --btn-bg-solid: var(--neb-bg-primary-solid);
   --btn-bg-solid-hover: var(--neb-bg-primary-solid-hover);
@@ -85,31 +84,7 @@ export default defineComponent({
     border-radius: var(--radius-small);
   }
   /* INTENT SLOTS */
-  &.destructive {
-    --btn-bg-solid: var(--neb-bg-error-solid);
-    --btn-bg-solid-hover: var(--neb-bg-error-solid-hover);
-    --btn-bg-solid-disabled: var(--neb-bg-error-solid-disabled);
-    --btn-bg-soft: var(--neb-bg-error-subtle);
-    --btn-bg-soft-hover: var(--neb-bg-error-hover);
-    --btn-border: var(--neb-border-error-strong);
-    --btn-text: var(--neb-text-error);
-    --btn-text-hover: var(--neb-text-error-hover);
-    --btn-ring: var(--neb-ring-error);
-  }
-  &.adjective {
-    --btn-bg-solid: var(--neb-bg-success-solid);
-    --btn-bg-solid-hover: var(--neb-bg-success-solid-hover);
-    --btn-bg-solid-disabled: var(--neb-bg-success-solid-disabled);
-    --btn-bg-soft: var(--neb-bg-success-subtle);
-    --btn-bg-soft-hover: var(--neb-bg-success-hover);
-    --btn-border: var(--neb-border-success-strong);
-    --btn-text: var(--neb-text-success);
-    --btn-text-hover: var(--neb-text-success-hover);
-    --btn-ring: var(--neb-ring-primary);
-  }
-  &.secondary-neutral,
-  &.tertiary-neutral,
-  &.link-neutral {
+  &.intent-neutral {
     --btn-bg-solid: var(--neb-bg-neutral-solid);
     --btn-bg-solid-hover: var(--neb-bg-neutral-solid-hover);
     --btn-bg-solid-disabled: var(--neb-bg-neutral-solid-disabled);
@@ -120,18 +95,49 @@ export default defineComponent({
     --btn-text-hover: var(--neb-text);
     --btn-ring: var(--neb-ring-neutral);
   }
-  /* `.destructive` / `.adjective` are written after the neutral group so they
-   * still win when combined with a `*-neutral` variant. */
-  &.tertiary-neutral.destructive,
-  &.link-neutral.destructive {
-    --btn-bg-soft-hover: var(--neb-bg-error-subtle);
+  &.intent-error {
+    --btn-bg-solid: var(--neb-bg-error-solid);
+    --btn-bg-solid-hover: var(--neb-bg-error-solid-hover);
+    --btn-bg-solid-disabled: var(--neb-bg-error-solid-disabled);
+    --btn-bg-soft: var(--neb-bg-error-subtle);
+    --btn-bg-soft-hover: var(--neb-bg-error-hover);
+    --btn-border: var(--neb-border-error-strong);
     --btn-text: var(--neb-text-error);
     --btn-text-hover: var(--neb-text-error-hover);
+    --btn-ring: var(--neb-ring-error);
   }
-  &.tertiary-neutral.adjective {
-    --btn-bg-soft-hover: var(--neb-bg-success-subtle);
+  &.intent-success {
+    --btn-bg-solid: var(--neb-bg-success-solid);
+    --btn-bg-solid-hover: var(--neb-bg-success-solid-hover);
+    --btn-bg-solid-disabled: var(--neb-bg-success-solid-disabled);
+    --btn-bg-soft: var(--neb-bg-success-subtle);
+    --btn-bg-soft-hover: var(--neb-bg-success-hover);
+    --btn-border: var(--neb-border-success-strong);
     --btn-text: var(--neb-text-success);
     --btn-text-hover: var(--neb-text-success-hover);
+    --btn-ring: var(--neb-ring-primary);
+  }
+  &.intent-warning {
+    --btn-bg-solid: var(--neb-bg-warning-solid);
+    --btn-bg-solid-hover: var(--neb-bg-warning-solid-hover);
+    --btn-bg-solid-disabled: var(--neb-bg-warning-solid-disabled);
+    --btn-bg-soft: var(--neb-bg-warning-subtle);
+    --btn-bg-soft-hover: var(--neb-bg-warning-hover);
+    --btn-border: var(--neb-border-warning-strong);
+    --btn-text: var(--neb-text-warning);
+    --btn-text-hover: var(--neb-text-warning-hover);
+    --btn-ring: var(--neb-ring-primary);
+  }
+  &.intent-info {
+    --btn-bg-solid: var(--neb-bg-info-solid);
+    --btn-bg-solid-hover: var(--neb-bg-info-solid-hover);
+    --btn-bg-solid-disabled: var(--neb-bg-info-solid-disabled);
+    --btn-bg-soft: var(--neb-bg-info-subtle);
+    --btn-bg-soft-hover: var(--neb-bg-info-hover);
+    --btn-border: var(--neb-border-info-strong);
+    --btn-text: var(--neb-text-info);
+    --btn-text-hover: var(--neb-text-info-hover);
+    --btn-ring: var(--neb-ring-primary);
   }
 }
 
@@ -153,8 +159,7 @@ export default defineComponent({
 }
 
 /* SECONDARY STYLES */
-.neb-button.secondary,
-.neb-button.secondary-neutral {
+.neb-button.secondary {
   background: var(--btn-bg-soft);
   border: 1px solid var(--btn-border);
   color: var(--btn-text);
@@ -176,8 +181,7 @@ export default defineComponent({
 }
 
 /* TERTIARY STYLES */
-.neb-button.tertiary,
-.neb-button.tertiary-neutral {
+.neb-button.tertiary {
   color: var(--btn-text);
   background: none;
   box-shadow: none;
@@ -196,8 +200,7 @@ export default defineComponent({
 }
 
 /* LINK STYLES */
-.neb-button.link,
-.neb-button.link-neutral {
+.neb-button.link {
   font: var(--neb-font-label);
   color: var(--btn-text);
   background: none;

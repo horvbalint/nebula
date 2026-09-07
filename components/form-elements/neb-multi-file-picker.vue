@@ -69,7 +69,7 @@ const fileLists = computed(() => ({
       @dragleave.prevent="isDraging = false"
       @drop.prevent="handleDrop($event)"
     >
-      <neb-button type="secondary-neutral" square :disabled="disabled" @click="open()">
+      <neb-button type="secondary" intent="neutral" square :disabled="disabled" @click="open()">
         <icon name="material-symbols:upload-rounded" />
       </neb-button>
 

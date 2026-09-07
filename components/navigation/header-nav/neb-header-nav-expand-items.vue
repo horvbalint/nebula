@@ -10,7 +10,7 @@ const { isMobile } = useAppBreakpoints()
 
 <template>
   <div class="neb-header-nav-expand-items">
-    <neb-button class="trigger" :type="active ? 'tertiary' : 'tertiary-neutral'" :full-width="isMobile" @click="isExpanded = !isExpanded">
+    <neb-button class="trigger" type="tertiary" :intent="active ? 'primary' : 'neutral'" :full-width="isMobile" @click="isExpanded = !isExpanded">
       <icon name="material-symbols:keyboard-arrow-down-rounded" />
 
       {{ triggerText }}

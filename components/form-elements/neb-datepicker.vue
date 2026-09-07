@@ -151,21 +151,21 @@ function getDayButtonType(day: Dayjs) {
     return 'primary'
 
   if (day.date() === dayjs().tz().date() && day.month() === viewDay.value.month())
-    return 'secondary-neutral'
+    return 'secondary'
 
-  return 'tertiary-neutral'
+  return 'tertiary'
 }
 function getMonthButtonType(month: Dayjs) {
   if (month.month() === dayjs().tz().month())
-    return 'secondary-neutral'
+    return 'secondary'
   else
-    return 'tertiary-neutral'
+    return 'tertiary'
 }
 function getYearButtonType(year: Dayjs) {
   if (year.year() === dayjs().tz().year())
-    return 'secondary-neutral'
+    return 'secondary'
   else
-    return 'tertiary-neutral'
+    return 'tertiary'
 }
 
 function isOutOfRange(day: Dayjs, granularity: 'day' | 'month' | 'year') {
@@ -223,21 +223,21 @@ const formattedDate = computed(() => {
     <template #content>
       <div class="dropdown" @mousedown.prevent="input!.focus()">
         <header>
-          <neb-button :disabled="disabled || calendarView === 'month'" type="tertiary-neutral" square @click="handleSubtract()">
+          <neb-button :disabled="disabled || calendarView === 'month'" type="tertiary" intent="neutral" square @click="handleSubtract()">
             <icon name="material-symbols:chevron-left-rounded" />
           </neb-button>
 
           <div class="current-date">
-            <neb-button :disabled="disabled" type="tertiary-neutral" small @click="calendarView = 'year'">
+            <neb-button :disabled="disabled" type="tertiary" intent="neutral" small @click="calendarView = 'year'">
               {{ calendarView === 'year' ? $t('nebula.datepicker.selectYear') : viewDay.year() }}
             </neb-button>
 
-            <neb-button v-if="calendarView === 'day'" :disabled="disabled" type="tertiary-neutral" small @click="calendarView = 'month'">
+            <neb-button v-if="calendarView === 'day'" :disabled="disabled" type="tertiary" intent="neutral" small @click="calendarView = 'month'">
               {{ viewDay.format('MMMM') }}
             </neb-button>
           </div>
 
-          <neb-button :disabled="disabled || calendarView === 'month'" type="tertiary-neutral" square @click="handleAdd()">
+          <neb-button :disabled="disabled || calendarView === 'month'" type="tertiary" intent="neutral" square @click="handleAdd()">
             <icon name="material-symbols:chevron-right-rounded" />
           </neb-button>
         </header>
@@ -249,6 +249,7 @@ const formattedDate = computed(() => {
             v-for="day in daysInView"
             :key="day.toString()"
             :type="getDayButtonType(day)"
+            :intent="getDayButtonType(day) === 'primary' ? 'primary' : 'neutral'"
             :disabled="disabled || isOutOfRange(day, 'day')"
             :class="{ 'not-curr-month': day.month() !== viewDay.month() }"
             square
@@ -263,6 +264,7 @@ const formattedDate = computed(() => {
             v-for="month in monthsInView"
             :key="month.toString()"
             :type="getMonthButtonType(month)"
+            intent="neutral"
             :disabled="disabled || isOutOfRange(month, 'month')"
             square
             @click="handleMonthClick(month)"
@@ -276,6 +278,7 @@ const formattedDate = computed(() => {
             v-for="year in yearInView"
             :key="year.toString()"
             :type="getYearButtonType(year)"
+            intent="neutral"
             :disabled="disabled || isOutOfRange(year, 'year')"
             square
             @click="handleYearClick(year)"

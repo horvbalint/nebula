@@ -30,7 +30,20 @@ const toasts = useNebToasts()
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--space-2);
+  gap: var(--space-3);
+  /* The stack spans more than the cards themselves once it stretches on
+   * mobile, so only the cards should swallow clicks. */
+  pointer-events: none;
+
+  /* `neb-toast` keeps a lower, inline-friendly elevation for its static
+   * page-element use; the floating stack needs to lift further off the page
+   * so it doesn't blend into whatever's rendered behind it. */
+  .neb-toast {
+    pointer-events: auto;
+    width: 380px;
+    max-width: 100%;
+    box-shadow: var(--neb-shadow-xl);
+  }
 }
 
 @media (--tablet-viewport) {
@@ -40,6 +53,16 @@ const toasts = useNebToasts()
     left: 0;
     right: 0;
     bottom: 0;
+
+    .neb-toast {
+      width: auto;
+    }
+    /* A leaving toast is taken out of flow by `.toast-list-leave-active`, which
+     * would collapse a stretched, auto-width card mid-animation. */
+    .neb-toast.toast-list-leave-active {
+      left: var(--space-2);
+      right: var(--space-2);
+    }
   }
 }
 </style>

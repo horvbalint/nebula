@@ -35,7 +35,7 @@ const { isMobile } = useAppBreakpoints()
 
   <neb-dropdown v-else-if="!isMobile">
     <template #trigger="{ toggle }">
-      <neb-button :type="isActive ? 'tertiary' : 'tertiary-neutral'" @click="toggle()">
+      <neb-button type="tertiary" :intent="isActive ? 'primary' : 'neutral'" @click="toggle()">
         <icon name="material-symbols:keyboard-arrow-down-rounded" />
         {{ $props.route.name }}
       </neb-button>

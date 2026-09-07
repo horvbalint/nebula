@@ -255,7 +255,8 @@ onBeforeUnmount(() => {
                 <template v-for="tool in group" :key="tool.name">
                   <neb-tooltip v-show="!tool.isVisible || tool.isVisible.value" :title="tool.name">
                     <neb-button
-                      :type="tool.isActive?.value ? 'tertiary' : 'tertiary-neutral'"
+                      type="tertiary"
+                      :intent="tool.isActive?.value ? 'primary' : 'neutral'"
                       :disabled="tool.isDisabled?.value"
                       small
                       @click="tool.onClick()"
@@ -292,7 +293,7 @@ onBeforeUnmount(() => {
     </template>
 
     <template #actions>
-      <neb-button type="secondary-neutral" @click="unsetLink()">
+      <neb-button type="secondary" intent="neutral" @click="unsetLink()">
         {{ t('tiptap.link-modal.cancel') }}
       </neb-button>
 

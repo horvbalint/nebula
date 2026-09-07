@@ -27,7 +27,7 @@ function goHome() {
       </div>
 
       <footer>
-        <neb-button type="secondary-neutral" @click="goBack()">
+        <neb-button type="secondary" intent="neutral" @click="goBack()">
           <icon name="material-symbols:arrow-back-rounded" />
           Go back
         </neb-button>

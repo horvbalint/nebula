@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import type { ButtonType } from './neb-button.vue'
+import type { ButtonIntent, ButtonType } from './neb-button.vue'
 import { h } from 'vue'
 
 const props = withDefaults(defineProps<{
   type?: ButtonType
+  intent?: ButtonIntent
 }>(), {
-  type: 'secondary-neutral',
+  type: 'secondary',
+  intent: 'neutral',
 })
 
 const slots = defineSlots<{
@@ -31,6 +33,8 @@ function render() {
 
     if (!node.props.type)
       node.props.type = props.type
+    if (!node.props.intent)
+      node.props.intent = props.intent
   }
 
   return h('div', { class: 'neb-button-group' }, buttonNodes)

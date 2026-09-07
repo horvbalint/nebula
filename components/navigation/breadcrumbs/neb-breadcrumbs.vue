@@ -23,11 +23,11 @@ const computedCrumbs = computed<Breadcrumb[]>(() => {
   return (props.crumbs as string[]).map(crumb => ({ id: crumb, text: crumb }))
 })
 
-function getButtonType(index: number) {
+function getButtonIntent(index: number) {
   if (index === computedCrumbs.value.length - 1)
-    return 'tertiary'
+    return 'primary'
   else
-    return 'tertiary-neutral'
+    return 'neutral'
 }
 </script>
 
@@ -36,7 +36,8 @@ function getButtonType(index: number) {
     <ul>
       <li v-for="(crumb, index) in computedCrumbs" :key="crumb.id">
         <neb-button
-          :type="getButtonType(index)"
+          type="tertiary"
+          :intent="getButtonIntent(index)"
           small
           @click="$emit('click', crumb.id)"
         >

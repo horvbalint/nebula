@@ -36,11 +36,11 @@ const imageUrl = computed(() => {
       <div class="actions">
         <slot name="actions" />
 
-        <neb-button v-if="props.onDownload" type="tertiary-neutral" small square @click="props.onDownload(file)">
+        <neb-button v-if="props.onDownload" type="tertiary" intent="neutral" small square @click="props.onDownload(file)">
           <icon name="material-symbols:download-rounded" />
         </neb-button>
 
-        <neb-button v-if="props.onRemove" type="tertiary-neutral" small square @click="props.onRemove(file)">
+        <neb-button v-if="props.onRemove" type="tertiary" intent="neutral" small square @click="props.onRemove(file)">
           <icon name="material-symbols:delete-outline-rounded" />
         </neb-button>
       </div>

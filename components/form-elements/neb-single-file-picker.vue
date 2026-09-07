@@ -73,7 +73,7 @@ const formattedMaxSize = computed(() => {
         </div>
       </div>
 
-      <neb-button type="tertiary-neutral" small square>
+      <neb-button type="tertiary" intent="neutral" small square>
         <icon name="material-symbols:upload-rounded" />
       </neb-button>
     </div>
@@ -81,7 +81,7 @@ const formattedMaxSize = computed(() => {
     <neb-file-item v-else :file="modelValue" @remove="emitValue(null)">
       <template #actions>
         <neb-button
-          type="tertiary-neutral"
+          type="tertiary" intent="neutral"
           small
           square
           @click="open()"

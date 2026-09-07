@@ -17,12 +17,7 @@ defineEmits<{
   close: []
 }>()
 
-const computedProgress = computed(() => {
-  if (!props.progress)
-    return 0
-
-  return `${props.progress * 100}%`
-})
+const computedProgress = computed(() => `${(props.progress ?? 0) * 100}%`)
 
 const computedClasses = computed(() => {
   const classes = [props.type] as string[]
@@ -36,11 +31,11 @@ const computedClasses = computed(() => {
 const iconByType = computed(() => {
   switch (props.type) {
     case 'error':
-      return 'material-symbols:report-outline-rounded'
+      return 'material-symbols:error-outline-rounded'
+    case 'warning':
+      return 'material-symbols:warning-outline-rounded'
     case 'success':
       return 'material-symbols:check-circle-outline-rounded'
-    case 'warning':
-      return 'material-symbols:report-outline-rounded'
     default:
       return 'material-symbols:info-outline-rounded'
   }
@@ -48,31 +43,32 @@ const iconByType = computed(() => {
 </script>
 
 <template>
-  <div class="neb-toast hide-action" :class="computedClasses">
-    <div class="toast-wrapper">
-      <div class="toast-type-icon">
-        <icon :name="iconByType" />
-      </div>
+  <div
+    class="neb-toast"
+    :class="computedClasses"
+    :role="props.type === 'error' ? 'alert' : 'status'"
+    :aria-live="props.type === 'error' ? 'assertive' : 'polite'"
+  >
+    <div class="toast-main">
+      <icon class="toast-icon" :name="iconByType" />
 
       <div class="toast-content">
-        <div class="toast-content-text">
-          <h6>{{ props.title }}</h6>
-          <p>{{ props.description }}</p>
-        </div>
+        <p class="toast-title">
+          {{ props.title }}
+        </p>
+        <p v-if="props.description" class="toast-description">
+          {{ props.description }}
+        </p>
 
         <footer v-if="$slots.footer">
           <slot name="footer" />
         </footer>
 
-        <footer v-else-if="!hideActionRow">
-          <neb-button class="toast-button" type="link" color @click="$emit('close')">
-            {{ $t('nebula.toast.close') }}
-          </neb-button>
-
+        <footer v-else-if="!hideActionRow && props.actions.length">
           <neb-button
             v-for="action in props.actions"
             :key="action.text"
-            class="toast-button"
+            class="toast-action"
             type="link"
             @click="action.callback()"
           >
@@ -81,181 +77,181 @@ const iconByType = computed(() => {
         </footer>
       </div>
 
-      <icon v-if="!hideActionRow" class="close-icon" name="material-symbols:close-rounded" @click="$emit('close')" />
+      <neb-button
+        v-if="!hideActionRow"
+        class="toast-close"
+        type="link"
+        small
+        square
+        :aria-label="$t('nebula.toast.close')"
+        @click="$emit('close')"
+      >
+        <icon class="close-icon" name="material-symbols:close-rounded" />
+      </neb-button>
     </div>
 
-    <hr class="timer-line">
+    <span v-if="props.progress !== undefined" class="toast-timer" aria-hidden="true" />
   </div>
 </template>
 
 <style scoped>
+/* Still no rail, no icon chip. What earns the extra presence over the first
+ * flat pass is a one-step-deeper tint (the plain `--neb-bg-*` token instead of
+ * `-subtle`), a hairline intent-coloured edge, and a filled icon glyph instead
+ * of an outline. Title and body copy stay on neutral tokens (never the intent
+ * hue) so they stay legible on every tint at any brand seed; hue otherwise
+ * only shows up in the icon, the border, the action link and the timer. */
 .neb-toast {
-  --toast-border: var(--neb-border-primary-alert);
   --toast-bg: var(--neb-bg-primary-subtle);
+  --toast-border: var(--neb-border-primary);
   --toast-icon: var(--neb-text-primary);
-  --toast-icon-ring1: var(--neb-border-primary-strong);
-  --toast-icon-ring2: var(--neb-border-primary);
-  --toast-close: var(--neb-text-primary);
-  --toast-close-hover: var(--neb-text-primary-hover);
-  --toast-button: var(--neb-text-primary);
-  --toast-timer: var(--neb-bg-primary-solid);
-  --toast-title: var(--neb-text-primary);
-  --toast-body: var(--neb-text-primary);
+  --toast-link: var(--neb-text-primary);
+  --toast-link-hover: var(--neb-text-primary-hover);
+  --toast-accent: var(--neb-bg-primary-solid);
 
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-2);
   padding: var(--space-4);
-  position: relative;
-  border-radius: var(--radius-large);
-  overflow: hidden;
-  box-shadow: var(--neb-shadow-md);
-  border: var(--toast-border);
+  border-radius: var(--radius-default);
+  border: 1px solid var(--toast-border);
   background: var(--toast-bg);
-  animation: bottom-left var(--duration-default) forwards;
-  min-width: 250px;
+  box-shadow: var(--neb-shadow-md);
+  overflow: hidden;
+  min-width: 240px;
 
-  &.error {
-    --toast-border: var(--neb-border-error-alert);
-    --toast-bg: var(--neb-bg-error-subtle);
-    --toast-icon: var(--neb-text-error);
-    --toast-icon-ring1: var(--neb-border-error-strong);
-    --toast-icon-ring2: var(--neb-border-error);
-    --toast-close: var(--neb-text-error);
-    --toast-close-hover: var(--neb-text-error-hover);
-    --toast-button: var(--neb-text-error);
-    --toast-timer: var(--neb-bg-error-solid);
-    --toast-title: var(--neb-text-error);
-    --toast-body: var(--neb-text-error);
+  &.neutral {
+    --toast-bg: var(--neb-bg-subtle);
+    --toast-border: var(--neb-border);
+    --toast-icon: var(--neb-text-muted);
+    --toast-link: var(--neb-text);
+    --toast-link-hover: var(--neb-text-muted);
+    --toast-accent: var(--neb-bg-neutral-solid);
+  }
+  &.info {
+    --toast-bg: var(--neb-bg-primary-subtle);
+    --toast-border: var(--neb-border-primary-strong);
+    --toast-icon: var(--neb-text-primary);
+    --toast-link: var(--neb-text-primary);
+    --toast-link-hover: var(--neb-text-primary-hover);
+    --toast-accent: var(--neb-bg-primary-solid);
   }
   &.success {
-    --toast-border: var(--neb-border-success-alert);
     --toast-bg: var(--neb-bg-success-subtle);
+    --toast-border: var(--neb-border-success-strong);
     --toast-icon: var(--neb-text-success);
-    --toast-icon-ring1: var(--neb-border-success-strong);
-    --toast-icon-ring2: var(--neb-border-success);
-    --toast-close: var(--neb-text-success);
-    --toast-close-hover: var(--neb-text-success-hover);
-    --toast-button: var(--neb-text-success);
-    --toast-timer: var(--neb-bg-success-solid);
-    --toast-title: var(--neb-text-success);
-    --toast-body: var(--neb-text-success);
+    --toast-link: var(--neb-text-success);
+    --toast-link-hover: var(--neb-text-success-hover);
+    --toast-accent: var(--neb-bg-success-solid);
   }
   &.warning {
-    --toast-border: var(--neb-border-warning-alert);
     --toast-bg: var(--neb-bg-warning-subtle);
+    --toast-border: var(--neb-border-warning-strong);
     --toast-icon: var(--neb-text-warning);
-    --toast-icon-ring1: var(--neb-border-warning-strong);
-    --toast-icon-ring2: var(--neb-border-warning);
-    --toast-close: var(--neb-text-warning);
-    --toast-close-hover: var(--neb-text-warning-hover);
-    --toast-button: var(--neb-text-warning);
-    --toast-timer: var(--neb-bg-warning-solid);
-    --toast-title: var(--neb-text-warning);
-    --toast-body: var(--neb-text-warning);
+    --toast-link: var(--neb-text-warning);
+    --toast-link-hover: var(--neb-text-warning-hover);
+    --toast-accent: var(--neb-bg-warning-solid);
   }
-
-  .toast-type-icon {
-    color: var(--toast-icon);
-  }
-  .close-icon {
-    color: var(--toast-close);
-
-    &:hover {
-      color: var(--toast-close-hover);
-    }
-  }
-  .toast-button {
-    color: var(--toast-button);
-  }
-  .timer-line {
-    background: var(--toast-timer);
-  }
-  .toast-content-text {
-    h6 {
-      color: var(--toast-title);
-    }
-    p {
-      color: var(--toast-body);
-    }
+  &.error {
+    --toast-bg: var(--neb-bg-error-subtle);
+    --toast-border: var(--neb-border-error-strong);
+    --toast-icon: var(--neb-text-error);
+    --toast-link: var(--neb-text-error);
+    --toast-link-hover: var(--neb-text-error-hover);
+    --toast-accent: var(--neb-bg-error-solid);
   }
 }
 
-.toast-wrapper {
+.toast-main {
   display: flex;
-  flex-wrap: wrap;
   align-items: flex-start;
-  gap: var(--space-4);
+  gap: var(--space-3);
 }
+
+.toast-icon {
+  flex: none;
+  width: var(--icon-md);
+  height: var(--icon-md);
+  margin-top: 2px;
+  color: var(--toast-icon);
+}
+
 .toast-content {
   display: flex;
   flex-direction: column;
-  flex: 1;
-  gap: var(--space-3);
-}
-.toast-content-text {
-  display: flex;
-  flex-direction: column;
   gap: var(--space-1);
-
-  h6 {
-    font-size: var(--text-sm);
-    font-weight: 700;
-  }
-  p {
-    font-size: var(--text-sm);
-    font-weight: 400;
-    line-height: 1.5;
-  }
+  flex: 1;
+  min-width: 0;
+}
+.toast-title {
+  font: var(--neb-font-label-strong);
+  color: var(--neb-text);
+}
+.toast-description {
+  font: var(--neb-font-body-sm);
+  color: var(--neb-text-muted);
+  overflow-wrap: anywhere;
 }
 
-.toast-type-icon {
-  margin-top: var(--space-1);
-  position: relative;
-  height: 24px;
-  width: 24px;
-
-  &:before {
-    content: '';
-    display: block;
-    position: absolute;
-    transform: scale(1.3);
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-    border: 2px solid var(--toast-icon-ring1);
-    border-radius: 50%;
-  }
-  &:after {
-    content: '';
-    display: block;
-    position: absolute;
-    transform: scale(1.7);
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-    border: 1px solid var(--toast-icon-ring2);
-    border-radius: 50%;
-  }
-}
 footer {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
+  gap: var(--space-4);
+  margin-top: var(--space-1);
 }
-.close-icon {
+
+/* Actions take the toast's own hue instead of the button's default primary, so
+ * a "Retry" inside an error toast doesn't read as an unrelated brand link. The
+ * `.neb-toast` prefix is load-bearing: it outweighs the `--btn-*` defaults
+ * `neb-button` sets on this same element. */
+.neb-toast .toast-action {
+  --btn-text: var(--toast-link);
+  --btn-text-hover: var(--toast-link-hover);
+
+  font: var(--neb-font-label-strong);
+}
+
+.toast-close {
+  /* display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  padding: var(--space-1); */
+  margin: -4px -4px 0 0;
+  /* border: none;
+  border-radius: var(--radius-small);
+  background: none;
+  color: var(--neb-text-muted);
   cursor: pointer;
-  height: 20px;
-  width: 20px;
+  outline: 0;
+  transition:
+    background var(--duration-fast),
+    color var(--duration-fast); */
+
+  .icon {
+    width: var(--icon-sm);
+    height: var(--icon-sm);
+  }
+  /* &:hover {
+    background: var(--neb-bg-raised);
+    color: var(--neb-text);
+  }
+  &:focus-visible {
+    color: var(--neb-text);
+    box-shadow: var(--neb-ring-neutral);
+  } */
 }
-.timer-line {
-  border: none;
-  height: 2px;
-  width: v-bind(computedProgress);
+
+/* Elapsed-time hairline, clipped by the card's own radius so it reads as part
+ * of the surface rather than a bar bolted under it. */
+.toast-timer {
   position: absolute;
   bottom: 0;
   left: 0;
+  height: 2px;
+  width: v-bind(computedProgress);
+  background: var(--toast-accent);
+  opacity: 0.8;
 }
 </style>

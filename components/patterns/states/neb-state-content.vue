@@ -40,7 +40,7 @@ watch(() => props.error, () => {
     :description="props.errorDescription"
   >
     <slot name="error">
-      <neb-button v-if="props.refresh" destructive @click="props.refresh()">
+      <neb-button v-if="props.refresh" intent="error" @click="props.refresh()">
         <icon name="material-symbols:refresh-rounded" />
         {{ $t('nebula.state-content.error.refresh') }}
       </neb-button>
