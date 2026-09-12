@@ -5,6 +5,10 @@
   font-family: 'Inter';
 }
 
+html {
+  scrollbar-gutter: stable
+}
+
 body {
   background: var(--neb-bg-page);
   color: var(--neb-text);
