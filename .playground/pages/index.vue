@@ -956,6 +956,8 @@ function openViewer(index: number) {
               <neb-checkbox v-model="checkboxList" value="b" label="Array: b" />
               <neb-checkbox v-model="checkboxValue" label="Custom icon" icon="material-symbols:star-rounded" />
               <neb-checkbox v-model="checkboxValue" label="Top aligned with a much longer label that wraps onto more lines" align="top" />
+              <neb-checkbox :model-value="true" label="Disabled" disabled />
+              <neb-checkbox :model-value="false" label="Disabled unchecked" disabled />
             </div>
             <p class="demo-note">
               selected: {{ checkboxList.join(', ') || '—' }}

@@ -1,33 +1,18 @@
 <script lang="ts" setup generic="T">
-defineOptions({
-  inheritAttrs: false,
-})
-
 withDefaults(defineProps<{
   value?: T
   label?: string
   icon?: string
   align?: 'top' | 'center' | 'bottom'
+  disabled?: boolean
 }>(), {
   icon: 'material-symbols:done-rounded',
   align: 'center',
+  disabled: false,
 })
 
 const modelValue = defineModel<T[] | Set<T> | boolean>()
 const input = useTemplateRef('input')
-
-const attrs = useAttrs()
-const rootAttrs = computed(() => {
-  const { class: className, style, ...rest } = attrs
-  const listeners = Object.fromEntries(Object.entries(rest).filter(([key]) => /^on[A-Z]/.test(key)))
-
-  return { class: className, style, ...listeners }
-})
-const inputAttrs = computed(() => {
-  const { class: _class, style: _style, ...rest } = attrs
-
-  return Object.fromEntries(Object.entries(rest).filter(([key]) => !/^on[A-Z]/.test(key)))
-})
 
 function handleClick() {
   input.value!.click()
@@ -39,13 +24,13 @@ defineExpose({
 </script>
 
 <template>
-  <div v-bind="rootAttrs" class="neb-checkbox" :class="$props.align">
+  <div class="neb-checkbox" :class="[$props.align, { disabled: $props.disabled }]">
     <input
-      v-bind="inputAttrs"
       ref="input"
       v-model="modelValue"
       type="checkbox"
       :value="$props.value"
+      :disabled="$props.disabled"
     >
     <div class="checkmark" @click="handleClick()">
       <Icon :name="$props.icon!" />
@@ -136,5 +121,20 @@ defineExpose({
 }
 .label-wrapper {
   cursor: pointer;
+}
+.neb-checkbox.disabled {
+  .checkmark,
+  .label-wrapper {
+    cursor: not-allowed;
+  }
+  input ~ .checkmark {
+    background: var(--neb-bg-disabled);
+    border-color: var(--neb-border-disabled);
+    box-shadow: none;
+  }
+  .checkmark .icon,
+  p {
+    color: var(--neb-text-disabled);
+  }
 }
 </style>
