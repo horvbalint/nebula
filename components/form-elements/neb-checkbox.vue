@@ -16,6 +16,19 @@ withDefaults(defineProps<{
 const modelValue = defineModel<T[] | Set<T> | boolean>()
 const input = useTemplateRef('input')
 
+const attrs = useAttrs()
+const rootAttrs = computed(() => {
+  const { class: className, style, ...rest } = attrs
+  const listeners = Object.fromEntries(Object.entries(rest).filter(([key]) => /^on[A-Z]/.test(key)))
+
+  return { class: className, style, ...listeners }
+})
+const inputAttrs = computed(() => {
+  const { class: _class, style: _style, ...rest } = attrs
+
+  return Object.fromEntries(Object.entries(rest).filter(([key]) => !/^on[A-Z]/.test(key)))
+})
+
 function handleClick() {
   input.value!.click()
 }
@@ -26,9 +39,9 @@ defineExpose({
 </script>
 
 <template>
-  <div class="neb-checkbox" :class="$props.align">
+  <div v-bind="rootAttrs" class="neb-checkbox" :class="$props.align">
     <input
-      v-bind="$attrs"
+      v-bind="inputAttrs"
       ref="input"
       v-model="modelValue"
       type="checkbox"
