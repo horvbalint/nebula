@@ -1,16 +1,14 @@
 <script lang="ts" setup generic="T">
-defineOptions({
-  inheritAttrs: false,
-})
-
 withDefaults(defineProps<{
   value?: T
   label?: string
   icon?: string
   align?: 'top' | 'center' | 'bottom'
+  disabled?: boolean
 }>(), {
   icon: 'material-symbols:done-rounded',
   align: 'center',
+  disabled: false,
 })
 
 const modelValue = defineModel<T[] | Set<T> | boolean>()
@@ -26,13 +24,13 @@ defineExpose({
 </script>
 
 <template>
-  <div class="neb-checkbox" :class="$props.align">
+  <div class="neb-checkbox" :class="[$props.align, { disabled: $props.disabled }]">
     <input
-      v-bind="$attrs"
       ref="input"
       v-model="modelValue"
       type="checkbox"
       :value="$props.value"
+      :disabled="$props.disabled"
     >
     <div class="checkmark" @click="handleClick()">
       <Icon :name="$props.icon!" />
@@ -123,5 +121,20 @@ defineExpose({
 }
 .label-wrapper {
   cursor: pointer;
+}
+.neb-checkbox.disabled {
+  .checkmark,
+  .label-wrapper {
+    cursor: not-allowed;
+  }
+  input ~ .checkmark {
+    background: var(--neb-bg-disabled);
+    border-color: var(--neb-border-disabled);
+    box-shadow: none;
+  }
+  .checkmark .icon,
+  p {
+    color: var(--neb-text-disabled);
+  }
 }
 </style>
