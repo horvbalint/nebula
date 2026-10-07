@@ -58,7 +58,8 @@ const emit = defineEmits<{
 const computedEmptyValue = computed(() => props.emptyValue ?? useAppConfig().nebula.nebSelect.emptyValue)
 
 const search = useTemplateRef('search')
-const dropdown = useTemplateRef('dropdown')
+// explicit type: inferring it from the template is circular, because the template reads `errorsToShow`, which useNebValidate derives from this ref
+const dropdown = useTemplateRef<InstanceType<typeof NebDropdown>>('dropdown')
 
 const { errorsToShow, collectErrors } = useNebValidate(dropdown, () => {
   if (props.required) {
