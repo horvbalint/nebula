@@ -27,10 +27,12 @@ const emit = defineEmits<{
 const input = useTemplateRef('input')
 const { errorsToShow, collectErrors } = useNebValidateNative(input)
 
+// class and style size the component from the outside, so they belong on the root; everything else (listeners, native attributes) goes to the <input>
 const attrs = useAttrs()
 const computedAttrs = computed(() => {
+  const { class: _class, style: _style, ...inputAttrs } = attrs
   const computedAttrs = {
-    ...attrs,
+    ...inputAttrs,
     placeholder: attrs.placeholder || props.label,
   } as any
 
@@ -82,7 +84,7 @@ defineExpose({ focus, blur, input })
 </script>
 
 <template>
-  <div class="neb-input" :class="{ 'disabled': $props.disabled, 'has-error': errorsToShow.length }" tabindex="-1" @focus="input?.focus()">
+  <div class="neb-input" :class="[$attrs.class, { 'disabled': $props.disabled, 'has-error': errorsToShow.length }]" :style="$attrs.style" tabindex="-1" @focus="input?.focus()">
     <label>
       <span v-if="label">{{ label }} <span v-if="$props.required" class="required-star">*</span></span>
 

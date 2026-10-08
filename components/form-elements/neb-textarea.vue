@@ -27,9 +27,11 @@ const emit = defineEmits<{
 const textarea = useTemplateRef('textarea')
 const { errorsToShow, collectErrors } = useNebValidateNative(textarea)
 
+// class and style size the component from the outside, so they belong on the root; everything else (listeners, native attributes) goes to the <textarea>
 const attrs = useAttrs()
 const computedAttrs = computed(() => {
-  const computedAttrs = { ...attrs } as any
+  const { class: _class, style: _style, ...textareaAttrs } = attrs
+  const computedAttrs = { ...textareaAttrs } as any
 
   if (!props.lazy)
     computedAttrs.onInput = emitValue
@@ -60,7 +62,7 @@ defineExpose({
 </script>
 
 <template>
-  <div class="neb-textarea" :class="{ disabled: $props.disabled }">
+  <div class="neb-textarea" :class="[$attrs.class, { disabled: $props.disabled }]" :style="$attrs.style">
     <label>
       <span v-if="label">{{ label }} <span v-if="$props.required" class="required-star">*</span></span>
 

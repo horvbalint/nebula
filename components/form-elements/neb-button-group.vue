@@ -17,6 +17,8 @@ const slots = defineSlots<{
 if (!slots || !slots.default)
   throw new Error('"neb-button-group" default slot can not be empty!')
 
+const attrs = useAttrs()
+
 function render() {
   const slotNodes = getSlotsChildren(slots)
   const buttonNodes = slotNodes
@@ -29,7 +31,9 @@ function render() {
     if (!node.props)
       node.props = {}
 
-    node.props = { ...node.props, ...useAttrs() }
+    // class and style already land on the group's root through attr inheritance; the rest (small, disabled, …) is shared by every button
+    const { class: _class, style: _style, ...buttonAttrs } = attrs
+    node.props = { ...node.props, ...buttonAttrs }
 
     if (!node.props.type)
       node.props.type = props.type
