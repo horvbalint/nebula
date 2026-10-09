@@ -34,6 +34,7 @@ const computedAttrs = computed(() => {
   const computedAttrs = {
     ...inputAttrs,
     placeholder: attrs.placeholder || props.label,
+    step: attrs.step ?? 'any',
   } as any
 
   if (!props.lazy)
@@ -99,7 +100,6 @@ defineExpose({ focus, blur, input })
           :required="$props.required"
           :disabled="$props.disabled"
           :value="$props.modelValue"
-          step="any"
         >
 
         <slot name="trailing">
