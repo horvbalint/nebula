@@ -111,11 +111,10 @@ const yearInView = computed(() => {
 })
 
 const weekdays = computed(() => {
-  const days = dayjs.weekdaysMin()
-  const sunday = days.shift()
-  days.push(sunday!)
+  // weekdaysMin() returns the locale's own array (e.g. for 'hu'), mutating it would shift the header of every later datepicker
+  const [sunday, ...rest] = dayjs.weekdaysMin()
 
-  return days
+  return [...rest, sunday!]
 })
 
 function handleDayClick(day: Dayjs) {
