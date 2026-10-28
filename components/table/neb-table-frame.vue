@@ -246,7 +246,7 @@ thead {
 }
 th {
   flex: 1;
-  padding: var(--space-3) var(--space-6);
+  padding: var(--space-3);
   text-align: left;
   color: var(--neb-text-muted);
   font-size: var(--text-xs);
@@ -303,7 +303,7 @@ tbody {
   }
 
   td {
-    padding: var(--space-3) var(--space-6);
+    padding: var(--space-3);
     font-size: var(--text-sm);
     font-weight: 400;
     color: var(--neb-text-muted);

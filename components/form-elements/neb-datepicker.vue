@@ -111,7 +111,6 @@ const yearInView = computed(() => {
 })
 
 const weekdays = computed(() => {
-  // weekdaysMin() returns the locale's own array (e.g. for 'hu'), mutating it would shift the header of every later datepicker
   const [sunday, ...rest] = dayjs.weekdaysMin()
 
   return [...rest, sunday!]
