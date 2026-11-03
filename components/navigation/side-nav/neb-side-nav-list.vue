@@ -30,7 +30,7 @@ const groupedRoutes = useRouteGrouping(() => props.routes)
 
     <li v-for="groupName in groupedRoutes.groupNames" :key="groupName" class="group">
       <p class="group-label">
-        <span>{{ groupName }}</span>
+        <span :title="groupName">{{ groupName }}</span>
       </p>
 
       <ul class="group-items">
