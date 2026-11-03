@@ -144,8 +144,10 @@ const [definePanel, reusePanel] = createReusableTemplate<{ rail: boolean }>()
 
   position: sticky;
   top: 0;
-  /* Keeps the toggle, which hangs over the border, above the page content. */
-  z-index: 1;
+  /* The nav is a stacking context, so this caps its tooltips, flyouts and the
+   * border toggle too: above in-page layers (sticky table headers, dropdowns),
+   * below the overlays at 100+ (pop-ups, modals, toasts). */
+  z-index: 50;
   flex-shrink: 0;
   width: var(--side-nav-width);
   height: 100vh;
