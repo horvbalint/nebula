@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { ButtonIntent, ButtonType } from '@nebula/components/form-elements/neb-button.vue'
-import type { Route } from '@nebula/components/navigation/header-nav/neb-header-nav.vue'
 import type { Tab } from '@nebula/components/navigation/neb-tabs.vue'
 import type { Menu } from '@nebula/components/overlays/neb-menu.vue'
 import type { Step } from '@nebula/components/patterns/neb-stepper.vue'
 import type { Columns, FormattedRow } from '@nebula/components/table/neb-table-frame.vue'
 import type { MaybeFile } from '@nebula/composables/neb-file'
+import type { Route } from '@nebula/composables/routes'
 import { nebContrast } from '@nebula/lib/neb-color-scale'
 
 definePageMeta({
@@ -308,6 +308,33 @@ const navRoutes: Route[] = [
   },
   { name: 'Settings', path: '/#layout', icon: 'material-symbols:settings-outline-rounded' },
 ]
+
+const sideNavRoutes: Route[] = [
+  { name: 'Showcase', path: '/', icon: 'material-symbols:palette-outline' },
+  { name: 'Inbox', path: '/inbox', icon: 'material-symbols:inbox-outline-rounded' },
+  {
+    name: 'Catalogue',
+    path: '/catalogue',
+    icon: 'material-symbols:widgets-outline-rounded',
+    subRoutes: [
+      { name: 'Products', path: '/catalogue/products', icon: 'material-symbols:inventory-2-outline-rounded' },
+      {
+        name: 'Pricing',
+        path: '/catalogue/pricing',
+        icon: 'material-symbols:sell-outline',
+        subRoutes: [
+          { name: 'Price lists', path: '/catalogue/pricing/lists' },
+          { name: 'Discounts', path: '/catalogue/pricing/discounts' },
+        ],
+      },
+      { name: 'Topics', path: '/catalogue/topics', icon: 'material-symbols:title-rounded', group: 'Presentation' },
+      { name: 'Types', path: '/catalogue/types', icon: 'material-symbols:record-voice-over-outline-rounded', group: 'Presentation' },
+    ],
+  },
+  { name: 'Reports', path: '/reports', icon: 'material-symbols:bar-chart-rounded', group: 'Insights' },
+  { name: 'Audit log', path: '/audit', icon: 'material-symbols:history-rounded', group: 'Insights' },
+]
+const isSideNavCollapsed = ref(false)
 
 const tabs: Record<string, Tab | string> = {
   overview: { text: 'Overview', icon: 'material-symbols:dashboard-outline-rounded' },
@@ -1303,7 +1330,7 @@ function openViewer(index: number) {
         <section id="navigation" class="section">
           <neb-content-header
             title="Navigation"
-            description="neb-header-nav, neb-breadcrumbs, neb-route-breadcrumbs, neb-tabs, neb-stepper, neb-pagination"
+            description="neb-header-nav, neb-side-nav, neb-breadcrumbs, neb-route-breadcrumbs, neb-tabs, neb-stepper, neb-pagination"
             icon="material-symbols:menu-rounded"
             has-separator
           />
@@ -1321,6 +1348,36 @@ function openViewer(index: number) {
                   </div>
                 </template>
               </neb-header-nav>
+            </div>
+          </div>
+
+          <div class="demo">
+            <p class="demo-title">
+              Side nav
+            </p>
+            <p class="demo-note">
+              Nested routes expand in place; collapse it to an icon rail (nested items open as a flyout). Below the tablet breakpoint it becomes a top bar with a drawer.
+            </p>
+            <div class="framed side-nav-demo">
+              <neb-side-nav v-model:collapsed="isSideNavCollapsed" :from-router="false" :routes="sideNavRoutes">
+                <template #logo>
+                  <div class="logo">
+                    <icon name="material-symbols:blur-on" />
+                    <strong>Nebula</strong>
+                  </div>
+                </template>
+
+                <template #footer>
+                  <neb-side-nav-action icon="material-symbols:settings-outline-rounded" text="Settings" to="/settings" />
+                  <neb-side-nav-action icon="material-symbols:logout-rounded" text="Log out" intent="error" @click="useNebToast({ type: 'info', title: 'Logout clicked' })" />
+                </template>
+              </neb-side-nav>
+
+              <div class="side-nav-demo-content">
+                <p class="demo-note">
+                  Current path: <code>{{ $route.path }}</code>
+                </p>
+              </div>
             </div>
           </div>
 
@@ -2023,6 +2080,25 @@ function openViewer(index: number) {
   align-items: center;
   gap: var(--space-2);
   color: var(--neb-text-primary);
+}
+.side-nav-demo {
+  display: flex;
+  height: 520px;
+
+  :deep(.neb-side-nav) {
+    height: 100%;
+  }
+}
+.side-nav-demo-content {
+  flex: 1;
+  padding: var(--space-6);
+  background: var(--neb-bg-page);
+}
+@media (--tablet-viewport) {
+  .side-nav-demo {
+    flex-direction: column;
+    height: auto;
+  }
 }
 .tabs-vertical {
   display: flex;

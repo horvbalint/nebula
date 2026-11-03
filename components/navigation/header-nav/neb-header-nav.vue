@@ -1,11 +1,5 @@
 <script lang="ts" setup>
-export interface Route {
-  name: string
-  path: string
-  subRoutes?: Route[]
-  icon?: string
-  group?: string
-}
+import type { Route } from '@nebula/composables/routes'
 
 const props = withDefaults(defineProps<{
   fromRouter?: boolean

@@ -21,6 +21,13 @@
     "header-nav": {
       "logout": "Logout"
     },
+    "side-nav": {
+      "label": "Main navigation",
+      "collapse": "Collapse sidebar",
+      "expand": "Expand sidebar",
+      "openMenu": "Open menu",
+      "closeMenu": "Close menu"
+    },
     "imageViewer": {
       "resetZoom": "Reset zoom",
       "rotateLeft": "Rotate left",

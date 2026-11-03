@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { Route } from './neb-header-nav.vue'
+import type { Route } from '@nebula/composables/routes'
 import { useRouteGrouping } from '@nebula/composables/routes'
 
 const props = defineProps<{

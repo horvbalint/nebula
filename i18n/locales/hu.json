@@ -21,6 +21,13 @@
     "header-nav": {
       "logout": "Kijelentkezés"
     },
+    "side-nav": {
+      "label": "Fő navigáció",
+      "collapse": "Oldalsáv összecsukása",
+      "expand": "Oldalsáv kinyitása",
+      "openMenu": "Menü megnyitása",
+      "closeMenu": "Menü bezárása"
+    },
     "imageViewer": {
       "resetZoom": "Nagyítás visszaállítása",
       "rotateLeft": "Forgatás balra",
